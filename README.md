@@ -1,12 +1,51 @@
-# React + Vite
+# MotoSwift E-Commerce Project
+Welcome to the MotoSwift project! This guide will help you get started.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## What’s Inside?
+| Category | Technology |
+| ------ | ------ |
+| Frontend | React.js with React Router |
+| Backend | Express.js |
+| Database | MySQL (managed in phpmyadmin) |
 
-Currently, two official plugins are available:
+## How to Run the Project
+### 1. Install Everything
+Open a terminal and run:
+```sh
+npm install
+```
+### 2. Start the Project
+Run this command to start both the frontend and backend:
+```sh
+npm run dev
+```
+- Frontend: http://localhost:5173
+- Backend: http://localhost:3000
+### 3. Done!
+Open your browser and start exploring.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Commands You’ll Use
+Start Frontend Only:
+```sh
+npm run client
+```
 
-## Expanding the ESLint configuration
+Start Backend Only:
+```sh
+npm run server
+```
 
-If you are developing a production application, we recommend using TypeScript and enable type-aware lint rules. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+Check Code Quality:
+```sh
+npm run lint
+```
+
+Build for Production:
+```sh
+npm run build
+```
+
+## Notes
+- **Frontend Code:** Located in the client folder.
+- **Backend Code:** Located in the server folder.
+- **Database:** Configure MySQL in config.
