@@ -1,0 +1,1 @@
+// An example Home component .jsx file
