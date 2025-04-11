@@ -1,1 +1,0 @@
-// An example Header component .jsx file
