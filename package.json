@@ -4,10 +4,10 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "concurrently \"vite\" \"nodemon server/index.js\"",
+    "dev": "concurrently \"cd client && npx vite\" \"nodemon server/index.js\"",
     "build": "cd client && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "cd client && vite preview"
   },
   "dependencies": {
     "bcrypt": "^5.1.1",
