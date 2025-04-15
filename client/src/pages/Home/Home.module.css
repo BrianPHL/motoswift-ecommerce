@@ -1,1 +1,4 @@
-/* An example Home component .css file */
+.home {
+    background-color: var(--bg-primary);
+    height: 100vh;
+}

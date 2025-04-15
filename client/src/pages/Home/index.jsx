@@ -8,7 +8,9 @@ const Home = () => {
     const { theme, setTheme } = useTheme();
 
     return (
-        <Header></Header>
+        <div className={ styles.home }>
+            <Header></Header>
+        </div>
     );
 
 }
