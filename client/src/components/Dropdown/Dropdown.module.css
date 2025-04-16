@@ -1,0 +1,38 @@
+@import url('../../index.css');
+
+.dropdown {
+    background-color: var(--bg-secondary);
+    transform-origin: top;
+    list-style-type: none;
+    border-radius: 0.25rem;
+    margin-top: 0.5rem;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    min-width: 10rem;
+    position: absolute;
+    z-index: 1000;
+    opacity: 0;
+    border: 1px solid var(--bg-outline);
+    left: 0;
+    top: 100%;
+}
+
+.dropdownActive {
+    pointer-events: auto;
+    transform: scaleY(1);
+    opacity: 1;
+}
+
+.dropdownInactive {
+    pointer-events: none;
+    transform: scaleY(0);
+    opacity: 0;
+}
+
+.item {
+    transition: 0.2s ease all;
+    padding: 1rem;
+    &:hover {
+        background-color: var(--bg-outline);
+        cursor: pointer;
+    }
+}
