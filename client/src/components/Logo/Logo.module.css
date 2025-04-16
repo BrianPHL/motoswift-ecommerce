@@ -23,5 +23,6 @@
     font-weight: 700;
     font-size: 1rem;
     padding: 0.2rem 0.5rem;
+    border: 2px solid var(--accent-base);
     color: var(--accent-base);
 }
