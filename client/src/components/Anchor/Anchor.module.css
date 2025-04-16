@@ -1,0 +1,35 @@
+@import url('../../index.css');
+
+.wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+.anchor {
+    text-decoration: none;
+    font-weight: 600;
+    transition: 0.2s ease all;
+    font-size: 0.875rem;
+    color: var(--tg-primary);
+    &:hover {
+        cursor: pointer;
+        color: var(--accent-base);
+    }
+}
+
+.dropdownToggle {
+    align-items: center;
+    background: 0;
+    display: flex;
+    border: 0;
+    gap: 0.5rem;
+}
+
+.chevron {
+    transition: transform 0.2s ease;
+}
+
+.chevronActive {
+    transition: transform 0.2s ease;
+    transform: rotate(180deg);
+}
