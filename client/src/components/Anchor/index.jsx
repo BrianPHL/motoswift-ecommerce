@@ -2,13 +2,24 @@ import { useState } from "react";
 import Dropdown from "../Dropdown";
 import styles from "./Anchor.module.css";
 
-const Anchor = ({ label, href, dropdownOptions }) => {
+let globalOpenDropdown = null;
+
+const Anchor = ({ id, label, href, dropdownOptions }) => {
 
     if (!label) return null;
 
     const [ isOpen, setIsOpen ] = useState(false);
     const hasDropdown = dropdownOptions && dropdownOptions.length > 0;
-    const toggleDropdown = () => setIsOpen(!isOpen);
+    const handleToggle = () => {
+        if (globalOpenDropdown?.id !== id) {
+            globalOpenDropdown?.setIsOpen(false);
+            globalOpenDropdown = { id, setIsOpen };
+            setIsOpen(true);
+        } else {
+            globalOpenDropdown = null;
+            setIsOpen(false);
+        };
+    };
     const renderComponent = () => {
         if (href && !hasDropdown) {
             return(
@@ -23,7 +34,7 @@ const Anchor = ({ label, href, dropdownOptions }) => {
                 <div className={ styles.wrapper }>
                     <button
                         className={ `${ styles.anchor } ${ styles.dropdownToggle }` }
-                        onClick={ toggleDropdown }
+                        onClick={ handleToggle }
                     >
                         { label }
                         <i className={ `fa-solid fa-chevron-down ${ isOpen ? styles.chevronActive : styles.chevron }` }></i>
