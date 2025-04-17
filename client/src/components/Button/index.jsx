@@ -11,24 +11,28 @@ const Button = ({ label, type, action, icon, iconPosition, dropdownOptions }) =>
     const toggleDropdown = () => setIsOpen(!isOpen);
     const renderComponent = () => {
         if (hasDropdown) return (
-            <>
-                <button className={ styles[type] }>
-                    { label }
-                    <i className='fa-solid fa-chevron-down'></i>
-                </button>  
-            </>
+            <button className={ styles[type] }>
+                { label }
+                <i className='fa-solid fa-chevron-down'></i>
+            </button>  
         );
 
-        if (icon && iconPosition) return (
-            <>
-               iconPosition === 'left' ? (
-                    <i className={ `${ icon }` }></i>
-                    { label }
-                ) : iconPosition === 'right' ? (
-                    { label }
-                    <i className={ `${ icon }` }></i>
-                );
-            </>
+        if (action && type !== 'icon' && icon && iconPosition) {
+            return iconPosition === 'left' ? (
+                <>
+                    <i className={`${icon}`}></i>
+                    {label}
+                </>
+            ) : (
+                <>
+                    {label}
+                    <i className={`${icon}`}></i>
+                </>
+            );
+        };
+
+        if (action && type === 'icon' && icon) return (
+            <i className={ `${ icon }` }></i>
         );
 
         return label;
