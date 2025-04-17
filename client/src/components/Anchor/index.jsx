@@ -6,9 +6,10 @@ let globalOpenDropdown = null;
 
 const Anchor = ({ id, label, href, dropdownOptions }) => {
 
+    const [ isOpen, setIsOpen ] = useState(false);
+    
     if (!label) return null;
 
-    const [ isOpen, setIsOpen ] = useState(false);
     const hasDropdown = dropdownOptions && dropdownOptions.length > 0;
     const handleToggle = () => {
         if (globalOpenDropdown?.id !== id) {

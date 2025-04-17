@@ -3,9 +3,10 @@ import styles from './Button.module.css';
 
 const Button = ({ label, type, action, icon, iconPosition, dropdownOptions }) => {
 
-    if (!label || !type) return null;
-
     const [ isOpen, setIsOpen ] = useState(false);
+    
+    if (!label && !icon && !type) return null;
+
     const hasDropdown = dropdownOptions && dropdownOptions.length > 0;
     const toggleDropdown = () => setIsOpen(!isOpen);
     const renderComponent = () => {
