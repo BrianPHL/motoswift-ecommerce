@@ -1,5 +1,5 @@
+import { Anchor } from '@components';
 import styles from './Dropdown.module.css';
-import Anchor from '../Anchor';
 
 const Dropdown = ({ options, isOpen }) => {
 

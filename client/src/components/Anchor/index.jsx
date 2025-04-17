@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Dropdown from "../Dropdown";
+import { Dropdown } from "@components";
 import styles from "./Anchor.module.css";
 
 let globalOpenDropdown = null;

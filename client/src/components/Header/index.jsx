@@ -1,6 +1,4 @@
-import Logo from "../Logo";
-import Anchor from "../Anchor";
-import Button from "../Button";
+import { Logo, Anchor, Button } from '@components';
 import styles from "./Header.module.css";
 import { useNavigate } from 'react-router';
 import { useTheme } from "@context/Theme";
