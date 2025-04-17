@@ -1,5 +1,28 @@
 @import url('../../index.css');
 
-.test {
-    color: red;
+.header {
+    background-color: var(--bg-secondary);
+    justify-content: space-between;
+    border-bottom: 1px solid var(--bg-outline);
+    align-items: center;
+    padding: 2rem 8rem;
+    display: flex;
+}
+
+.left {
+    align-items: center;
+    display: flex;
+    gap: 2rem;
+}
+
+.right {
+    align-items: center;
+    display: flex;
+    gap: 2rem;
+}
+
+.nav {
+    align-items: center;
+    display: flex;
+    gap: 2rem;
 }
