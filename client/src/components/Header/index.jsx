@@ -25,6 +25,7 @@ const Header = () => {
                         <Anchor
                             label="Home"
                             href="/"
+                            isNested={ false }
                         />
                         <Anchor
                             id="motorcycleDropdown"
