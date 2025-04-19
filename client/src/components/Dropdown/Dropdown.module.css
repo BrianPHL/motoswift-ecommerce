@@ -6,7 +6,7 @@
     list-style-type: none;
     border-radius: 0.25rem;
     margin-top: 0.5rem;
-    transition: opacity 0.2s ease, transform 0.2s ease;
+    transition: opacity 0.25s ease, transform 0.25s ease;
     min-width: 10rem;
     position: absolute;
     z-index: 1000;
@@ -26,13 +26,4 @@
     pointer-events: none;
     transform: scaleY(0);
     opacity: 0;
-}
-
-.item {
-    transition: 0.2s ease all;
-    padding: 1rem;
-    &:hover {
-        background-color: var(--bg-outline);
-        cursor: pointer;
-    }
 }

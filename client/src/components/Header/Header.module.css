@@ -21,7 +21,6 @@
 .mobile-nav {
     flex-direction: column;
     display: flex;
-    padding: 2rem;
     height: 100%;
 }
 

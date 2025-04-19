@@ -38,7 +38,7 @@ const Anchor = ({ id, label, href, dropdownOptions }) => {
                         onClick={ handleToggle }
                     >
                         { label }
-                        <i className={ `fa-solid fa-chevron-down ${ isOpen ? styles.chevronActive : styles.chevron }` }></i>
+                        <i className={ `fa-solid fa-chevron-down ${ isOpen ? styles['chevron-active'] : styles['chevron'] }` }></i>
                     </button>
                     <Dropdown
                         options={ dropdownOptions } 

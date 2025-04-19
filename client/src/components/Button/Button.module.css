@@ -6,7 +6,7 @@
     border-radius: 0.25rem;
     align-items: center;
     font-weight: 600;
-    transition: 0.2s ease all;
+    transition: 0.25s ease all;
     font-size: 0.875rem;
     padding: 0.5rem 1rem;
     display: flex;
@@ -25,7 +25,7 @@
     border-radius: 0.25rem;
     align-items: center;
     font-weight: 600;
-    transition: 0.2s ease all;
+    transition: 0.25s ease all;
     font-size: 0.875rem;
     padding: 0.5rem 1rem;
     display: flex;
@@ -41,7 +41,7 @@
 .icon {
     background-color: transparent;
     place-content: center;
-    transition: 0.2s ease all;
+    transition: 0.25s ease all;
     font-size: 1.2rem;
     display: grid;
     height: 2rem;

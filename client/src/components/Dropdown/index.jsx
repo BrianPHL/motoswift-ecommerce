@@ -8,7 +8,7 @@ const Dropdown = ({ options, isOpen }) => {
     return (
         <ul className={ `${ styles.dropdown } ${ isOpen ? styles.dropdownActive : styles.dropdownInactive }` }>
             { options.map((option, index) => (
-                <li key={ index } className={ styles.item }>
+                <li key={ index }>
                     <Anchor
                         label={ option.label }
                         href={ option.href }
