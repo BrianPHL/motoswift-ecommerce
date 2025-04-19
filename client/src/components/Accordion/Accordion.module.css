@@ -1,0 +1,54 @@
+@import url('../../index.css');
+
+.header {
+    background-color: transparent;
+    justify-content: space-between;
+    text-decoration: none;
+    font-weight: 600;
+    transition: 0.25s ease all;
+    font-size: 0.875rem;
+    display: flex;
+    border: 0;
+    width: 100%;
+    color: var(--tg-primary);
+    &:hover {
+        background-color: var(--bg-outline);
+        cursor: pointer;
+        color: var(--accent-base);
+    }
+}
+
+.header-active {
+    background-color: var(--bg-outline);
+    color: var(--accent-base);
+}
+
+.content {
+    list-style: none;
+    overflow: hidden;
+    padding: 0;
+    margin: 0;
+    transition: max-height 0.3s ease, opacity 0.3s ease;
+    & > li > * { padding: 1.5rem 2rem; }
+}
+
+.content-active {
+    max-height: 1000px; /* Temporary, probably will be there forever though. */
+    overflow: hidden;
+    opacity: 1;
+}
+
+.content-inactive {
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+}
+
+.chevron {
+    transition: transform 0.25s ease;
+}
+
+.chevron-active {
+    transition: transform 0.25s ease;
+    transform: rotate(180deg);
+}
