@@ -11,10 +11,10 @@ const Button = ({ label, type, action, icon, isOutlined, iconPosition, dropdownO
     const toggleDropdown = () => setIsOpen(!isOpen);
     const renderComponent = () => {
         if (hasDropdown) return (
-            <button className={ styles[type] }>
+            <>
                 { label }
                 <i className='fa-solid fa-chevron-down'></i>
-            </button>  
+            </>
         );
 
         if (action && type !== 'icon' && icon && iconPosition) {
