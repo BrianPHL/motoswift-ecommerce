@@ -75,11 +75,13 @@ const Header = () => {
                         type="icon"
                         action={ () => navigate('/cart') }
                         icon="fa-solid fa-cart-shopping"
+                        isOutlined={ false }
                     />
                     <Button
                         type="icon"
                         action={ () => toggleTheme()  }
                         icon={ theme === 'light' ? 'fa-solid fa-moon' : 'fa-solid fa-sun' }
+                        isOutlined={ false }
                     />
                 </div>
             </div>
@@ -89,6 +91,7 @@ const Header = () => {
                         type="icon"
                         action={ () => setDrawerOpen(true) }
                         icon="fa-solid fa-bars"
+                        isOutlined={ false }
                     />
                     <Logo />
                 </div>
@@ -97,11 +100,13 @@ const Header = () => {
                         type="icon"
                         action={ () => navigate('/cart') }
                         icon="fa-solid fa-cart-shopping"
+                        isOutlined={ false }
                     />
                     <Button
                         type="icon"
                         action={ () => toggleTheme()  }
                         icon={ theme === 'light' ? 'fa-solid fa-moon' : 'fa-solid fa-sun' }
+                        isOutlined={ false }
                     />
                 </div>
             </div>
@@ -112,6 +117,7 @@ const Header = () => {
                             type="icon"
                             action={ () => setDrawerOpen(false) }
                             icon="fa-solid fa-close"
+                            isOutlined={ false }
                         />
                         <Logo />
                     </div>
@@ -119,6 +125,7 @@ const Header = () => {
                         type="icon"
                         action={ () => toggleTheme()  }
                         icon={ theme === 'light' ? 'fa-solid fa-moon' : 'fa-solid fa-sun' }
+                        isOutlined={ false }
                     />
                 </div>
                 <nav className={ styles['mobile-nav'] }>

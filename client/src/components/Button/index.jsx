@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import styles from './Button.module.css';
 
-const Button = ({ label, type, action, icon, iconPosition, dropdownOptions }) => {
+const Button = ({ label, type, action, icon, isOutlined, iconPosition, dropdownOptions }) => {
 
     const [ isOpen, setIsOpen ] = useState(false);
     
@@ -31,8 +31,8 @@ const Button = ({ label, type, action, icon, iconPosition, dropdownOptions }) =>
             );
         };
 
-        if (action && type === 'icon' && icon) return (
-            <i className={ `${ icon }` }></i>
+        if (action && type === 'icon' && icon && isOutlined !== undefined) return (
+            <i className={ `${ icon } ${ isOutlined ? styles['icon-outlined'] : '' }` }></i>
         );
 
         return label;
