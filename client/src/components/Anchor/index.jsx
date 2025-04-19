@@ -32,16 +32,16 @@ const Anchor = ({ id, label, href, isNested, options }) => {
 
         if (!href && hasDropdown) {
             return (
-                <div className={ styles.wrapper }>
+                <div className={ styles['wrapper'] }>
                     <button
-                        className={ `${ styles.anchor } ${ styles.dropdownToggle }` }
+                        className={ `${ styles['anchor'] } ${ styles['dropdown-toggle'] }` }
                         onClick={ handleToggle }
                     >
                         { label }
                         <i className={ `fa-solid fa-chevron-down ${ isOpen ? styles['chevron-active'] : styles['chevron'] }` }></i>
                     </button>
                     <Dropdown
-                        options={ dropdownOptions } 
+                        options={ options } 
                         isOpen={ isOpen }
                     />
                 </div>
