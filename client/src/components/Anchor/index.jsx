@@ -4,13 +4,13 @@ import styles from "./Anchor.module.css";
 
 let globalOpenDropdown = null;
 
-const Anchor = ({ id, label, href, dropdownOptions }) => {
+const Anchor = ({ id, label, href, isNested, options }) => {
 
     const [ isOpen, setIsOpen ] = useState(false);
     
-    if (!label) return null;
+    if (!label || isNested === undefined) return null;
 
-    const hasDropdown = dropdownOptions && dropdownOptions.length > 0;
+    const hasDropdown = options && options.length > 0;
     const handleToggle = () => {
         if (globalOpenDropdown?.id !== id) {
             globalOpenDropdown?.setIsOpen(false);
@@ -24,7 +24,7 @@ const Anchor = ({ id, label, href, dropdownOptions }) => {
     const renderComponent = () => {
         if (href && !hasDropdown) {
             return(
-                <a href={ href } className={ styles.anchor }>
+                <a href={ href } className={ isNested ? styles['anchor-nested'] : styles['anchor'] }>
                     { label }
                 </a>
             );

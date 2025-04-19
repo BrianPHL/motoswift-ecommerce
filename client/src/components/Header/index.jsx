@@ -29,6 +29,7 @@ const Header = () => {
                             id="motorcycleDropdown"
                             label="Motorcycles"
                             dropdownOptions={[
+                            isNested={ false }
                                 {
                                     label: "Brand #1",
                                     href: "#",
@@ -47,6 +48,7 @@ const Header = () => {
                             id="partsDropdown"
                             label="Parts & Accessories"
                             dropdownOptions={[
+                            isNested={ false }
                                 {
                                     label: "Brand #1",
                                     href: "#",

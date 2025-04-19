@@ -12,7 +12,8 @@ const Dropdown = ({ options, isOpen }) => {
                     <Anchor
                         label={ option.label }
                         href={ option.href }
-                    ></Anchor>       
+                        isNested={ true }
+                    ></Anchor>    
                 </li>
             ))}
         </ul>
