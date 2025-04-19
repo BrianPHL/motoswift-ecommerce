@@ -105,93 +105,93 @@ const Header = () => {
                     />
                 </div>
             </div>
-                <div className={ `${ styles['drawer'] } ${ drawerOpen ? styles['drawer-open'] : '' }` }>
-                    <div className={ styles['drawer-header'] }>
-                        <div className={ styles['left'] }>
-                            <Button
-                                type="icon"
-                                action={ () => setDrawerOpen(false) }
-                                icon="fa-solid fa-close"
-                            />
-                            <Logo />
-                        </div>
+            <div className={ `${ styles['drawer'] } ${ drawerOpen ? styles['drawer-open'] : '' }` }>
+                <div className={ styles['drawer-header'] }>
+                    <div className={ styles['left'] }>
                         <Button
                             type="icon"
-                            action={ () => toggleTheme()  }
-                            icon={ theme === 'light' ? 'fa-solid fa-moon' : 'fa-solid fa-sun' }
+                            action={ () => setDrawerOpen(false) }
+                            icon="fa-solid fa-close"
                         />
+                        <Logo />
                     </div>
-                    <nav className={ styles['mobile-nav'] }>
-                        <Anchor
-                            className={ styles['drawer-item'] }
-                            label="Home"
-                            href="/"
-                            isNested={ true }
-                        />
-                        <Anchor
-                            className={ styles['drawer-item'] }
-                            label="About us"
-                            href="/about-us"
-                            isNested={ true }
-                        />
-                        <Accordion
-                            className={ styles['drawer-item'] }
-                            label="Motorcycles"
-                            type="href"
-                            options={[
-                                {
-                                    label: "Brand #1",
-                                    href: "/"
-                                },
-                                {
-                                    label: "Brand #2",
-                                    href: "/"
-                                },
-                                {
-                                    label: "Brand #3",
-                                    href: "/"
-                                }
-                            ]}
-                        />
-                        <Accordion
-                            className={ styles['drawer-item'] }
-                            label="Parts & Accessories"
-                            type="href"
-                            options={[
-                                {
-                                    label: "Brand #1",
-                                    href: "/"
-                                },
-                                {
-                                    label: "Brand #2",
-                                    href: "/"
-                                },
-                                {
-                                    label: "Brand #3",
-                                    href: "/"
-                                }
-                            ]}
-                        />
-                    </nav>
-                    <div className={ styles['mobile-cta'] }>
-                        <Button
-                            label="Sign in"
-                            type="primary"
-                            action={() => {
-                                setDrawerOpen(false);
-                                navigate('/sign-in');
-                            }}
-                        />
-                        <Button
-                            label="Sign up"
-                            type="secondary"
-                            action={() => {
-                                setDrawerOpen(false);
-                                navigate('/sign-up');
-                            }}
-                        />
-                    </div>
+                    <Button
+                        type="icon"
+                        action={ () => toggleTheme()  }
+                        icon={ theme === 'light' ? 'fa-solid fa-moon' : 'fa-solid fa-sun' }
+                    />
                 </div>
+                <nav className={ styles['mobile-nav'] }>
+                    <Anchor
+                        className={ styles['drawer-item'] }
+                        label="Home"
+                        href="/"
+                        isNested={ true }
+                    />
+                    <Anchor
+                        className={ styles['drawer-item'] }
+                        label="About us"
+                        href="/about-us"
+                        isNested={ true }
+                    />
+                    <Accordion
+                        className={ styles['drawer-item'] }
+                        label="Motorcycles"
+                        type="href"
+                        options={[
+                            {
+                                label: "Brand #1",
+                                href: "/"
+                            },
+                            {
+                                label: "Brand #2",
+                                href: "/"
+                            },
+                            {
+                                label: "Brand #3",
+                                href: "/"
+                            }
+                        ]}
+                    />
+                    <Accordion
+                        className={ styles['drawer-item'] }
+                        label="Parts & Accessories"
+                        type="href"
+                        options={[
+                            {
+                                label: "Brand #1",
+                                href: "/"
+                            },
+                            {
+                                label: "Brand #2",
+                                href: "/"
+                            },
+                            {
+                                label: "Brand #3",
+                                href: "/"
+                            }
+                        ]}
+                    />
+                </nav>
+                <div className={ styles['mobile-cta'] }>
+                    <Button
+                        label="Sign in"
+                        type="primary"
+                        action={() => {
+                            setDrawerOpen(false);
+                            navigate('/sign-in');
+                        }}
+                    />
+                    <Button
+                        label="Sign up"
+                        type="secondary"
+                        action={() => {
+                            setDrawerOpen(false);
+                            navigate('/sign-up');
+                        }}
+                    />
+                </div>
+            </div>
         </>
     );
 };
