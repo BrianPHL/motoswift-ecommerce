@@ -8,13 +8,13 @@ const InputField = ({ hint, icon }) => {
 
     return (
         <div className={ styles['wrapper'] }>
-            <input className={ icon ? styles['input-icon'] : styles['icon'] } type="text" placeholder={ hint }/>
+            <input className={ icon ? styles['input-icon'] : styles['input'] } type="text" placeholder={ hint }/>
             { icon ? (
                 <Button
                     type='icon'
                     icon={ icon }
                     action={ () => { console.log("test") } }
-                    isOutlined={ false }
+                    isOutlined={ true }
                 />
             ) : (
                 <Button
