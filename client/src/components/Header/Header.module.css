@@ -72,30 +72,28 @@
     gap: 2rem;
 }
 
-
-@media only screen and (max-width: 1164px) {
+@media only screen and (max-width: 1200px) {
 
     .desktop-header { padding: 2rem 4rem; }
 
 }
 
-@media only screen and (max-width: 1440px) {
+@media only screen and (max-width: 1080px) {
 
     .desktop-header { padding: 2rem 2rem; }
 
 }
 
-
-@media only screen and (min-width: 972px) {
-
-    .desktop-header { display: flex; }
-    .mobile-header { display: none; }
-
-}
-
-@media only screen and (max-width: 972px) {
+@media only screen and (max-width: 850px) {
 
     .desktop-header { display: none; }
     .mobile-header { display: flex; }
+
+}
+
+@media only screen and (min-width: 850px) {
+
+    .desktop-header { display: flex; }
+    .mobile-header { display: none; }
 
 }
