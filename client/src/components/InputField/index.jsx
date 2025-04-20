@@ -2,7 +2,6 @@ import { Button } from '@components';
 import styles from './InputField.module.css';
 
 const InputField = ({ hint, icon }) => {
-    console.log(hint)
 
     if (!hint) return null;
 
@@ -13,14 +12,14 @@ const InputField = ({ hint, icon }) => {
                 <Button
                     type='icon'
                     icon={ icon }
-                    action={ () => { console.log("test") } }
+                    action={ () => {} }
                     isOutlined={ true }
                 />
             ) : (
                 <Button
                     label="Submit"
                     type="primary"
-                    action={ () => console.log("Submit") }
+                    action={ () => {} }
                 />
             )}
         </div>
