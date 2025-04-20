@@ -2,6 +2,19 @@ import { Logo, Button, InputField, Anchor } from '@components';
 import { useNavigate } from 'react-router';
 import styles from './Footer.module.css';
 
+/**
+ * Renders the site footer section.
+ * Includes quick links, company info, legal links (using Anchor), a newsletter signup (using InputField),
+ * social media links (using Button), copyright info, and the Logo.
+ * Layout adjusts responsively based on screen size via CSS media queries.
+ *
+ * @component
+ * @returns {JSX.Element} The rendered footer element.
+ *
+ * @example
+ * <Footer />
+ */
+
 const Footer = () => {
 
     const navigate = useNavigate();

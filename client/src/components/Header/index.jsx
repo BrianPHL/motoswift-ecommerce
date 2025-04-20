@@ -4,6 +4,19 @@ import styles from "./Header.module.css";
 import { useNavigate } from 'react-router';
 import { useTheme } from "@context/Theme";
 
+/**
+ * Renders the main site header.
+ * Includes the Logo, navigation links (using Anchor), action buttons (Sign in, Cart, Theme toggle),
+ * and handles responsive behavior by switching between a desktop layout and a mobile layout with a drawer.
+ * Uses ThemeContext via useTheme hook.
+ *
+ * @component
+ * @returns {JSX.Element} The rendered header component, containing both desktop and mobile structures.
+ *
+ * @example
+ * <Header />
+ */
+
 const Header = () => {
 
     const navigate = useNavigate();
