@@ -166,7 +166,7 @@
 
 }
 
-@media only screen and (max-width: 675px) {
+@media only screen and (max-width: 640px) {
 
     .top-right {
         align-items: center;
@@ -196,14 +196,11 @@
         align-self: stretch;
     }
 
-}
-
-@media only screen and (max-width: 560px) {
-
     .top-left {
-        align-self: stretch;
-        display: flex;
+        justify-content: stretch;
+        align-self: flex-start;
         flex-wrap: wrap;
+        display: flex;
     }
 
 }
