@@ -1,4 +1,4 @@
-import { Logo, Button, InputField } from '@components';
+import { Logo, Button, InputField, Anchor } from '@components';
 import { useNavigate } from 'react-router';
 import styles from './Footer.module.css';
 
@@ -10,7 +10,61 @@ const Footer = () => {
         <div className={ styles['wrapper'] }>
             <div className={ styles['top'] }>
                 <div className={ styles['top-left'] }>
-                    
+                    <div className={ styles['top-left-links'] }>
+                        <h3>Quick Links</h3>
+                        <nav>
+                            <Anchor
+                                label="Home"
+                                href="/"
+                                isNested={ false }
+                            />
+                            <Anchor
+                                label="Motorcycles"
+                                href="/motorcycles"
+                                isNested={ false }
+                            />
+                            <Anchor
+                                label="Parts & Accessories"
+                                href="/parts-and-accessories"
+                                isNested={ false }
+                            />
+                            <Anchor
+                                label="My Account"
+                                href="/my-account"
+                                isNested={ false }
+                            />
+                        </nav>
+                    </div>
+                    <div className={ styles['top-left-links'] }>
+                        <h3>Company</h3>
+                        <nav>
+                            <Anchor
+                                label="About us"
+                                href="/about-us"
+                                isNested={ false }
+                            />
+                            <Anchor
+                                label="contact@motoswift.com"
+                                href="#"
+                                isNested={ false }
+                            />
+                        </nav>
+                    </div>
+                    <div className={ styles['top-left-links'] }>
+                        <h3>Legal</h3>
+                        <nav>
+                            <Anchor
+                                label="Terms & Conditions"
+                                href="/terms-and-conditions"
+                                isNested={ false }
+                            />
+                            <Anchor
+                                label="Privacy Policy"
+                                href="privacy-policy"
+                                isNested={ false }
+                            />
+                        </nav>
+                    </div>    
                 </div>
                 <div className={ styles['top-right'] }>
                     <div className={ styles['newsletter'] }>

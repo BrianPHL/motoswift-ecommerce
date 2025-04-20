@@ -26,6 +26,28 @@
     gap: 4rem;
 }
 
+.top-left-links {
+    flex-direction: column;
+    display: flex;
+    gap: 2rem;
+    & > h3 {
+        font-weight: 600;
+        font-size: 0.875rem;
+        color: var(--tg-primary);
+    }
+    & > nav {
+        flex-direction: column;
+        display: flex;
+        gap: 1rem;
+        & > * {
+            font-weight: 400;
+            align-self: flex-start;
+            font-size: 0.875rem;
+            color: var(--tg-primary);
+        }
+    }
+}
+
 .newsletter {
     flex-direction: column;
     display: flex;
