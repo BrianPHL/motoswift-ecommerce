@@ -44,9 +44,7 @@
     transition: 0.25s ease all;
     font-size: 1rem;
     display: grid;
-    height: 2rem;
     border: 0;
-    width: 2rem;
     color: var(--tg-primary);
     &:hover {
         cursor: pointer;
@@ -61,9 +59,9 @@
     transition: 0.25s ease all;
     font-size: 1rem;
     display: grid;
-    height: 2rem;
+    height: 2.5rem;
     border: 1px solid var(--bg-outline);
-    width: 2rem;
+    width: 2.5rem;
     color: var(--tg-primary);
     &:hover {
         background-color: var(--bg-outline);
