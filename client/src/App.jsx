@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router';
 import { Header, Footer } from '@components';
-import { Home } from '@pages';
+import { Home, SignIn, SignUp, AboutUs, MotorcycleStore, PartsAndAccessoriesStore, Reservation, Cart } from '@pages';
 
 const App = () => {
 
@@ -15,8 +15,8 @@ const App = () => {
         <Route path="/sign-in" element={ <SignIn /> } />
         <Route path="/sign-up" element={ <SignUp /> } />
         <Route path="/about-us" element={ <AboutUs /> } />
-        <Route path="/motorcycles" element={ <Motorcycles /> } />
-        <Route path="/parts-and-accessories" element={<PartsAndAccessories />} />
+        <Route path="/motorcycles" element={ <MotorcycleStore /> } />
+        <Route path="/parts-and-accessories" element={ <PartsAndAccessoriesStore /> } />
         <Route path="/reservation" element={ <Reservation /> } />
         <Route path="/cart" element={ <Cart /> } />
       </Routes>
