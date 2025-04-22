@@ -1,4 +1,6 @@
-.home {
+@import url('../../index.css');
+
+.wrapper {
     background-color: var(--bg-primary);
     height: 100vh;
 }
