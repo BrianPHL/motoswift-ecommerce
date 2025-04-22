@@ -1,6 +1,6 @@
 import styles from './SignUp.module.css';
 
-const Home = () => {
+const SignUp = () => {
     return (
         <div className={ styles['wrapper'] }>
             <h1>This is the Sign Up page.</h1>
