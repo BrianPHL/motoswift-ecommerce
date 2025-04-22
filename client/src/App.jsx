@@ -1,12 +1,27 @@
-import { Routes, Route } from 'react-router';
-import Header from './components/Header';
-import Home from '@pages/Home';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router';
+import { Header, Footer } from '@components';
+import { Home } from '@pages';
 
 const App = () => {
+
+  const { pathname } = useLocation();
+  const hideLayout = pathname === '/signin' || pathname === '/signup';
+
   return (
-    <Routes>
-      <Route path="/" element={ <Home /> } />
-    </Routes>
+    <>
+      { !hideLayout && <Header /> }
+      <Routes>
+        <Route path="/" element={ <Home /> } />
+        <Route path="/sign-in" element={ <SignIn /> } />
+        <Route path="/sign-up" element={ <SignUp /> } />
+        <Route path="/about-us" element={ <AboutUs /> } />
+        <Route path="/motorcycles" element={ <Motorcycles /> } />
+        <Route path="/parts-and-accessories" element={<PartsAndAccessories />} />
+        <Route path="/reservation" element={ <Reservation /> } />
+        <Route path="/cart" element={ <Cart /> } />
+      </Routes>
+      { !hideLayout && <Footer /> }
+    </>
   );
 };
 
