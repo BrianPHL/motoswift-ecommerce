@@ -9,6 +9,10 @@
     margin: 0;
 }
 
+:root {
+	background-color: var(--bg-primary);
+}
+
 html[data-theme="light"] {
   --bg-primary: #E0E0E0;
   --bg-secondary: #F8F9FA;
