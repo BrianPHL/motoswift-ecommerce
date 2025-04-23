@@ -9,11 +9,11 @@ import styles from './Button.module.css';
  * @param {object} props - The component props.
  * @param {string} [props.label] - The text label displayed on the button. Required for 'primary' and 'secondary' types unless an icon is also provided.
  * @param {'primary' | 'secondary' | 'icon'} props.type - The visual style and type of the button.
- * @param {function} [props.action] - The function to execute when the button is clicked. Not used if `dropdownOptions` are provided.
+ * @param {function} [props.action] - The function to execute when the button is clicked. Not used if `options` are provided.
  * @param {string} [props.icon] - A Font Awesome icon class string (e.g., 'fa-solid fa-plus'). Used for 'icon' type or alongside labels.
  * @param {boolean} [props.isOutlined] - If true, applies an outlined style. Primarily used visually with `type='icon'` based on CSS ([`Button.module.css`](client/src/components/Button/Button.module.css)).
  * @param {'left' | 'right'} [props.iconPosition] - If both `label` and `icon` are provided (and not `type='icon'`), specifies the icon's position relative to the label.
- * @param {Array<object>} [props.dropdownOptions] - If provided, turns the button into a dropdown toggle (implementation seems incomplete/missing Dropdown component usage).
+ * @param {Array<object>} [props.options] - If provided, turns the button into a dropdown toggle (implementation seems incomplete/missing Dropdown component usage).
  * @returns {JSX.Element | null} The rendered button element, or null if essential props like `type` are missing.
  *
  * @example Primary Button
@@ -32,13 +32,13 @@ import styles from './Button.module.css';
  * <Button label="Add" type="primary" action={() => {}} icon="fa-solid fa-plus" iconPosition="left" />
  */
 
-const Button = ({ label, type, action, icon, isOutlined, iconPosition, dropdownOptions }) => {
+const Button = ({ label, type, action, icon, isOutlined, iconPosition, options }) => {
 
     const [ isOpen, setIsOpen ] = useState(false);
     
     if (!label && !icon && !type) return null;
 
-    const hasDropdown = dropdownOptions && dropdownOptions.length > 0;
+    const hasDropdown = options && options.length > 0;
     const toggleDropdown = () => setIsOpen(!isOpen);
     const renderComponent = () => {
         if (hasDropdown) return (
