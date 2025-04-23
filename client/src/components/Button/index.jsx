@@ -46,6 +46,7 @@ const Button = ({ label, type, action, icon, isOutlined, iconPosition, options }
                 { label }
                 <i className='fa-solid fa-chevron-down'></i>
             </>
+                <i className={ `fa-solid fa-chevron-down ${ isOpen ? styles['chevron-active'] : styles['chevron'] }` }></i>
         );
 
         if (action && type !== 'icon' && icon && iconPosition) {
