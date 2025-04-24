@@ -32,6 +32,11 @@
     }
 }
 
+.dropdown-active {
+    background-color: var(--bg-outline);
+    color: var(--accent-base);
+}
+
 .dropdown-toggle {
     align-items: center;
     background: 0;

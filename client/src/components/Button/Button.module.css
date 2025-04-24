@@ -75,6 +75,11 @@
     }
 }
 
+.dropdown-active {
+    background-color: var(--bg-outline);
+    color: var(--accent-base);
+}
+
 .has-dropdown {
     gap: 1rem;
 }

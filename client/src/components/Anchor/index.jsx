@@ -72,7 +72,7 @@ const Anchor = ({ id, label, href, isNested, options }) => {
             return (
                 <div className={ styles['wrapper'] }>
                     <button
-                        className={ `${ styles['anchor'] } ${ styles['dropdown-toggle'] }` }
+                        className={ `${ styles['anchor'] } ${ styles['dropdown-toggle'] } ${ isOpen ? styles['dropdown-active'] : '' }` }
                         onClick={ handleToggle }
                         onMouseDown={ event => event.stopPropagation() }
                     >
