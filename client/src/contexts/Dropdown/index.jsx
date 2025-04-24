@@ -9,7 +9,6 @@ export const DropdownProvider = ({ children }) => {
     useEffect(() => {
         
         const handleClick = (event) => {
-            console.log("meow")
             const isInside = Object.values(dropdownRefs.current).some(ref => ref?.contains(event.target));
             if (!isInside) setOpenDropdownId(null);
         };
