@@ -14,6 +14,24 @@
     border: 1px solid var(--bg-outline);
     left: 0;
     top: 100%;
+    & > li > a {
+        font-weight: 500;
+    }
+    & > li > button {
+        background-color: transparent;
+        font-weight: 500;
+        transition: 0.25s ease all;
+        text-align: left;
+        padding: 1rem;
+        border: 0;
+        width: 100%;
+        color: var(--tg-primary);
+        &:hover {
+            background-color: var(--bg-outline);
+            cursor: pointer;
+            color: var(--accent-base);
+        }
+    }
 }
 
 .dropdownActive {

@@ -1,4 +1,4 @@
-import { Anchor } from '@components';
+import { Button, Anchor } from '@components';
 import styles from './Dropdown.module.css';
 
 /**
@@ -36,11 +36,18 @@ const Dropdown = ({ options, isOpen }) => {
         <ul className={ `${ styles['dropdown'] } ${ isOpen ? styles['dropdown-active'] : styles['dropdown-inactive'] }` }>
             { options.map((option, index) => (
                 <li key={ index }>
-                    <Anchor
-                        label={ option.label }
-                        href={ option.href }
-                        isNested={ true }
-                    ></Anchor>    
+                    { option.href ? (
+                        <Anchor
+                            label={ option.label }
+                            href={ option.href }
+                            isNested={ true }
+                        />
+                    ) : (
+                        <Button
+                            label={ option.label }
+                            action={ option.action }
+                        />
+                    )}
                 </li>
             ))}
         </ul>
