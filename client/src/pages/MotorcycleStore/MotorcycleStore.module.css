@@ -1,5 +1,8 @@
 @import url('../../index.css');
 
 .wrapper {
-
+    flex-direction: column;
+    padding: 8rem;
+    display: flex;
+    gap: 4rem;
 }
