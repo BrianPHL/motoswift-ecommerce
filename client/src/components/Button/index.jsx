@@ -91,6 +91,7 @@ const Button = ({ id, label, type, action, icon, isOutlined, iconPosition, optio
                     <button
                         className={ `${ styles[type] } ${ styles['has-dropdown'] }` }
                         onClick={ hasDropdown ? handleToggle : action }
+                        onMouseDown={ event => event.stopPropagation() }
                     >
                         { renderComponent() }
                     </button>
