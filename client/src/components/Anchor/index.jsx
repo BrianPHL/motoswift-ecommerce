@@ -1,5 +1,6 @@
-import { useState } from "react";
-import { Dropdown } from "@components";
+import { Dropdown } from '@components';
+import { useEffect, useRef } from 'react';
+import { useDropdown } from '@contexts';
 import styles from "./Anchor.module.css";
 
 /**
@@ -43,21 +44,21 @@ let globalOpenDropdown = null;
 
 const Anchor = ({ id, label, href, isNested, options }) => {
 
-    const [ isOpen, setIsOpen ] = useState(false);
+    const dropdownRef = useRef(null);
+    const { openDropdownId, setOpenDropdownId, registerDropdown } = useDropdown();
+    const hasDropdown = options && options.length > 0;
+    const isOpen = openDropdownId === id;
     
+    useEffect(() => {
+        if (id) registerDropdown(id, dropdownRef.current);
+    }, [id, registerDropdown]);
+
     if (!label || isNested === undefined) return null;
 
-    const hasDropdown = options && options.length > 0;
     const handleToggle = () => {
-        if (globalOpenDropdown?.id !== id) {
-            globalOpenDropdown?.setIsOpen(false);
-            globalOpenDropdown = { id, setIsOpen };
-            setIsOpen(true);
-        } else {
-            globalOpenDropdown = null;
-            setIsOpen(false);
-        };
+        setOpenDropdownId(isOpen ? null : id);
     };
+
     const renderComponent = () => {
         if (href && !hasDropdown) {
             return(
