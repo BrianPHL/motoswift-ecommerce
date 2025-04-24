@@ -2,11 +2,10 @@
 
 .wrapper {
     border-radius: 0.25rem;
-    align-items: center;
-    align-self: flex-end;
     display: flex;
     border: 1px solid var(--bg-outline);
     width: 100%;
+    flex: 1;
     & > button {
         border-radius: 0 0.2rem 0.2rem 0;
     }
