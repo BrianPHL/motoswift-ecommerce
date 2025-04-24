@@ -34,13 +34,13 @@
     }
 }
 
-.dropdownActive {
+.dropdown-active {
     pointer-events: auto;
     transform: scaleY(1);
     opacity: 1;
 }
 
-.dropdownInactive {
+.dropdown-inactive {
     pointer-events: none;
     transform: scaleY(0);
     opacity: 0;
