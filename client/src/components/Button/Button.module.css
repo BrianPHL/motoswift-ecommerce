@@ -1,5 +1,10 @@
 @import url('../../index.css');
 
+.wrapper {
+    display: inline-block;
+    position: relative;
+}
+
 .primary {
     background-color: var(--accent-base);
     justify-content: center;
@@ -68,4 +73,17 @@
         cursor: pointer;
         color: var(--accent-base);
     }
+}
+
+.has-dropdown {
+    gap: 1rem;
+}
+
+.chevron {
+    transition: transform 0.25s ease;
+}
+
+.chevron-active {
+    transition: transform 0.25s ease;
+    transform: rotate(180deg);
 }
