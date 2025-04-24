@@ -58,7 +58,7 @@ const Button = ({ id, label, type, action, icon, isOutlined, iconPosition, optio
         if (hasDropdown) return (
             <>
                 { label }
-                <i className={ `fa-solid fa-chevron down ${ isOpen ? styles['chevron-active'] : styles['chevron'] }` }></i>
+                <i className={ `fa-solid fa-chevron-down ${ isOpen ? styles['chevron-active'] : styles['chevron'] }` }></i>
             </>
         );
 
@@ -89,7 +89,7 @@ const Button = ({ id, label, type, action, icon, isOutlined, iconPosition, optio
             { hasDropdown ? (
                 <div className={ styles['wrapper'] }>
                     <button
-                        className={ styles[type]  }
+                        className={ `${ styles[type] } ${ styles['has-dropdown'] }` }
                         onClick={ hasDropdown ? handleToggle : action }
                     >
                         { renderComponent() }
