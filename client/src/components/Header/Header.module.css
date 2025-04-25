@@ -5,8 +5,10 @@
     justify-content: space-between;
     border-bottom: 1px solid var(--bg-outline);
     align-items: center;
+    position: fixed;
     padding: 2rem 8rem;
     display: flex;
+    width: 100%;
 }
 
 .mobile-header, .drawer-header {
@@ -14,11 +16,14 @@
     justify-content: space-between;
     border-bottom: 1px solid var(--bg-outline);
     align-items: center;
+    position: fixed;
     padding: 2rem 2rem;
     display: flex;
+    width: 100%;
 }
 
 .mobile-nav {
+    margin-top: 6rem;
     flex-direction: column;
     display: flex;
     height: 100%;
@@ -84,14 +89,14 @@
 
 }
 
-@media only screen and (max-width: 850px) {
+@media only screen and (max-width: 902px) {
 
     .desktop-header { display: none; }
     .mobile-header { display: flex; }
 
 }
 
-@media only screen and (min-width: 850px) {
+@media only screen and (min-width: 902px) {
 
     .desktop-header { display: flex; }
     .mobile-header { display: none; }
