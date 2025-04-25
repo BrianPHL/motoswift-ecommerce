@@ -33,6 +33,7 @@ const Header = () => {
                     <Anchor
                         label="About us"
                         href="/about-us"
+                        isNested={ false }
                         isActive={ pathname === '/about-us' }
                     />
                 </div>
