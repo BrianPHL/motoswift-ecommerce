@@ -41,42 +41,12 @@ const Header = () => {
                             isNested={ false }
                         />
                         <Anchor
-                            id="motorcycleDropdown"
                             label="Motorcycles"
                             isNested={ false }
-                            options={[
-                                {
-                                    label: "Brand #1",
-                                    href: "#",
-                                },
-                                {
-                                    label: "Brand #2",
-                                    href: "#",
-                                },
-                                {
-                                    label: "Brand #3",
-                                    href: "#",
-                                }
-                            ]}
                         />
                         <Anchor
-                            id="partsDropdown"
                             label="Parts & Accessories"
                             isNested={ false }
-                            options={[
-                                {
-                                    label: "Brand #1",
-                                    href: "#",
-                                },
-                                {
-                                    label: "Brand #2",
-                                    href: "#",
-                                },
-                                {
-                                    label: "Brand #3",
-                                    href: "#",
-                                }
-                            ]}
                         />
                     </div>
                     <Button
@@ -154,43 +124,9 @@ const Header = () => {
                         href="/about-us"
                         isNested={ true }
                     />
-                    <Accordion
-                        className={ styles['drawer-item'] }
                         label="Motorcycles"
-                        type="href"
-                        options={[
-                            {
-                                label: "Brand #1",
-                                href: "/"
-                            },
-                            {
-                                label: "Brand #2",
-                                href: "/"
-                            },
-                            {
-                                label: "Brand #3",
-                                href: "/"
-                            }
-                        ]}
                     />
-                    <Accordion
-                        className={ styles['drawer-item'] }
                         label="Parts & Accessories"
-                        type="href"
-                        options={[
-                            {
-                                label: "Brand #1",
-                                href: "/"
-                            },
-                            {
-                                label: "Brand #2",
-                                href: "/"
-                            },
-                            {
-                                label: "Brand #3",
-                                href: "/"
-                            }
-                        ]}
                     />
                 </nav>
                 <div className={ styles['mobile-cta'] }>
