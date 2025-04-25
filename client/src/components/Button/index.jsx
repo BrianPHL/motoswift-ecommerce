@@ -34,7 +34,7 @@ import styles from './Button.module.css';
  * <Button label="Add" type="primary" action={() => {}} icon="fa-solid fa-plus" iconPosition="left" />
  */
 
-const Button = ({ id, label, type, action, icon, isOutlined, iconPosition, options }) => {
+const Button = ({ id, label, type, action, icon, iconPosition, isOutlined, isActive, options }) => {
     
     const dropdownRef = useRef(null);
     const { openDropdownId, setOpenDropdownId, registerDropdown } = useDropdown();
@@ -87,7 +87,7 @@ const Button = ({ id, label, type, action, icon, isOutlined, iconPosition, optio
             { hasDropdown ? (
                 <div className={ styles['wrapper'] }>
                     <button
-                        className={ `${ styles[type] } ${ styles['has-dropdown'] } ${ isOpen ? styles['dropdown-active'] : '' }` }
+                        className={ `${ styles[type] } ${ styles['has-dropdown'] } ${ isOpen ? styles['button-active'] : '' }` }
                         onClick={ hasDropdown ? handleToggle : action }
                         onMouseDown={ event => event.stopPropagation() }
                     >
@@ -100,7 +100,7 @@ const Button = ({ id, label, type, action, icon, isOutlined, iconPosition, optio
                 </div>
             ) : (
                 <button
-                    className={ styles[type]  }
+                    className={ `${ styles[type] } ${ isActive ? styles['button-active'] : '' }`  }
                     onClick={ hasDropdown ? handleToggle : action }
                 >
                     { renderComponent() }

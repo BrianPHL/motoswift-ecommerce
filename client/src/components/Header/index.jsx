@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Logo, Anchor, Button, Accordion } from '@components';
 import styles from "./Header.module.css";
-import { useNavigate } from 'react-router';
+import { useNavigate, useLocation } from 'react-router';
 import { useTheme } from "@contexts";
 
 /**
@@ -20,6 +20,8 @@ import { useTheme } from "@contexts";
 const Header = () => {
 
     const navigate = useNavigate();
+    const location = useLocation();
+    const { pathname } = location;
     const { theme, toggleTheme } = useTheme();
     const [ drawerOpen, setDrawerOpen ] = useState(false);
 
@@ -31,6 +33,7 @@ const Header = () => {
                     <Anchor
                         label="About us"
                         href="/about-us"
+                        isActive={ pathname === '/about-us' }
                     />
                 </div>
                 <div className={ styles['right'] }>
@@ -39,20 +42,26 @@ const Header = () => {
                             label="Home"
                             href="/"
                             isNested={ false }
+                            isActive={ pathname === '/' }
                         />
                         <Anchor
                             label="Motorcycles"
+                            href="/motorcycles"
                             isNested={ false }
+                            isActive={ pathname === '/motorcycles' }
                         />
                         <Anchor
                             label="Parts & Accessories"
+                            href="/parts-and-accessories"
                             isNested={ false }
+                            isActive={ pathname === '/parts-and-accessories' }
                         />
                     </div>
                     <Button
                         label="Sign in"
                         type="secondary"
                         action={ () => navigate('/sign-in') }
+                        isActive={ pathname === '/sign-in' }
                     />
                     <Button
                         type="icon"
@@ -113,20 +122,28 @@ const Header = () => {
                 </div>
                 <nav className={ styles['mobile-nav'] }>
                     <Anchor
-                        className={ styles['drawer-item'] }
                         label="Home"
                         href="/"
                         isNested={ true }
+                        isActive={ pathname === '/' }
                     />
                     <Anchor
-                        className={ styles['drawer-item'] }
                         label="About us"
                         href="/about-us"
                         isNested={ true }
+                        isActive={ pathname === '/about-us' }
                     />
+                    <Anchor
                         label="Motorcycles"
+                        href="/motorcycles"
+                        isNested={ true }
+                        isActive={ pathname === '/motorcycles' }
                     />
+                    <Anchor
                         label="Parts & Accessories"
+                        href="/parts-and-accessories"
+                        isNested={ true }
+                        isActive={ pathname === '/parts-and-accessories' }
                     />
                 </nav>
                 <div className={ styles['mobile-cta'] }>

@@ -40,7 +40,7 @@ import styles from "./Anchor.module.css";
  * />
 */
 
-const Anchor = ({ id, label, href, isNested, options }) => {
+const Anchor = ({ id, label, href, isNested, isActive, options }) => {
 
     const dropdownRef = useRef(null);
     const { openDropdownId, setOpenDropdownId, registerDropdown } = useDropdown();
@@ -60,7 +60,7 @@ const Anchor = ({ id, label, href, isNested, options }) => {
     const renderComponent = () => {
         if (href && !hasDropdown) {
             return(
-                <a href={ href } className={ isNested ? styles['anchor-nested'] : styles['anchor'] }>
+                <a href={ href } className={ `${ isNested ? styles['anchor-nested'] : styles['anchor'] } ${ isActive ? styles['anchor-active'] : '' }` }>
                     { label }
                 </a>
             );

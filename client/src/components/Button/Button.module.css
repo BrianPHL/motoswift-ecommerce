@@ -76,7 +76,7 @@
     }
 }
 
-.dropdown-active {
+.button-active {
     background-color: var(--bg-outline);
     color: var(--accent-base);
 }

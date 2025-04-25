@@ -32,6 +32,10 @@
     }
 }
 
+.anchor-active {
+    color: var(--accent-base);
+}
+
 .dropdown-active {
     background-color: var(--bg-outline);
     color: var(--accent-base);
