@@ -2,21 +2,30 @@ import { Button } from '@components';
 import styles from './InputField.module.css';
 
 /**
- * Renders an input field, optionally paired with an adjacent button.
- * The button displayed depends on the presence of the `icon` prop.
- * If `icon` is provided, an icon button is shown; otherwise, a default "Submit" button is shown.
+ * InputField component.
+ * Renders an input with three possible variants:
+ * 1. Input only (no button) if neither `icon` nor `isSubmittable` is provided.
+ * 2. Input with an icon button if `icon` is provided and `isSubmittable` is false.
+ * 3. Input with a submit button if `isSubmittable` is true.
  *
  * @component
  * @param {object} props - The component props.
- * @param {string} props.hint - The placeholder text for the input field.
- * @param {string} [props.icon] - If provided, displays an icon Button (using the value as the Font Awesome class) instead of the default "Submit" Button.
- * @returns {JSX.Element | null} The rendered input field with its corresponding button, or null if `hint` is not provided.
+ * @param {string} props.hint - Placeholder text for the input.
+ * @param {string} [props.icon] - Font Awesome icon class for the icon button.
+ * @param {boolean} [props.isSubmittable] - If true, shows a submit button.
+ * @returns {JSX.Element|null} The rendered input field and optional button, or null if `hint` is not provided.
  *
- * @example Input with default "Submit" Button
+ * @example
+ * // Input only
  * <InputField hint="Enter your email" />
  *
- * @example Input with Icon Button (e.g., for Newsletter)
- * <InputField hint="Your email address..." icon="fa-solid fa-paper-plane" />
+ * @example
+ * // Input with icon button
+ * <InputField hint="Your email..." icon="fa-solid fa-paper-plane" />
+ *
+ * @example
+ * // Input with submit button
+ * <InputField hint="Search..." isSubmittable={true} />
  */
 
 const InputField = ({ hint, icon, isSubmittable, ...props }) => {
