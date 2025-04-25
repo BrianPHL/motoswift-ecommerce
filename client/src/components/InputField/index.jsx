@@ -19,29 +19,53 @@ import styles from './InputField.module.css';
  * <InputField hint="Your email address..." icon="fa-solid fa-paper-plane" />
  */
 
-const InputField = ({ hint, icon }) => {
+const InputField = ({ hint, icon, isSubmittable, ...props }) => {
 
-    if (!hint) return null;
+    if (!hint || isSubmittable === undefined) return null;
 
-    return (
-        <div className={ styles['wrapper'] }>
-            <input className={ icon ? styles['input-icon'] : styles['input'] } type="text" placeholder={ hint }/>
-            { icon ? (
+    if (!icon && !isSubmittable) {
+        return (
+            <input
+                className={ styles['input-unnested'] }
+                placeholder={ hint }
+                { ...props }
+            />
+        );
+    };
+
+    if (icon && !isSubmittable) {
+        return (
+            <div className={ styles['wrapper'] }>
+                <input
+                    className={ styles['input-icon'] }
+                    placeholder={ hint }
+                    { ...props }
+                />
                 <Button
                     type='icon'
                     icon={ icon }
                     action={ () => {} }
                     isOutlined={ true }
                 />
-            ) : (
-                <Button
-                    label="Submit"
-                    type="primary"
-                    action={ () => {} }
-                />
-            )}
+            </div>
+        );
+    };
+
+    return (
+        <div className={ styles['wrapper'] }>
+            <input
+                className={ styles['input-icon'] }
+                placeholder={ hint }
+                { ...props }
+            />
+            <Button
+                label='Search'
+                type='primary'
+                action={ () => {} }
+            />
         </div>
     );
+
 };
 
 export default InputField;

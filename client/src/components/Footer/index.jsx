@@ -82,7 +82,12 @@ const Footer = () => {
                             <h2>Stay Updated</h2>
                             <h3>Get the latest MotoSwift updates delivered to your inbox.</h3>
                         </div>
-                        <InputField hint="Your email address..." icon="fa-solid fa-paper-plane" />
+                        <InputField
+                            hint="Your email address..."
+                            type="email"
+                            icon="fa-solid fa-paper-plane"
+                            isSubmittable={ false }
+                        />
                     </div>
                     <div className={ styles['socials'] }>
                         <Button

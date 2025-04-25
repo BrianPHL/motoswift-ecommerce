@@ -31,7 +31,11 @@ const TableHeader = ({ tableName }) => {
                         },
                     ]}
                 />
-                <InputField hint='Search for motorcycles...' />
+                <InputField
+                    hint='Search for motorcycles...'
+                    type='text'
+                    isSubmittable={ true }    
+                />
             </div>
             <div className={ styles['divider'] }></div>
             <div className={ styles['bottom'] }>
