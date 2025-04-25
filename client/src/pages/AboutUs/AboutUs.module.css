@@ -1,5 +1,20 @@
 @import url('../../index.css');
 
 .wrapper {
+    flex-direction: column;
+    padding: 8rem;
+    display: flex;
+    gap: 4rem;
+}
+
+@media only screen and (max-width: 1200px) {
+
+    .wrapper { padding: 2rem 4rem; }
+
+}
+
+@media only screen and (max-width: 1080px) {
+
+    .wrapper { padding: 2rem 2rem; }
 
 }
