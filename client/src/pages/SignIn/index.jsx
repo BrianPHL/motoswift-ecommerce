@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router';
-import { Button, InputField } from '@components';
+import { Anchor, Button, InputField } from '@components';
 import styles from './SignIn.module.css';
 
 const SignIn = () => {
@@ -49,7 +49,7 @@ const SignIn = () => {
                             label='Sign in'
                             action={ () => {} }
                         />
-                        <p>Don't have an account yet? <span className={ styles['sign-up'] }>Sign up</span>.</p>
+                        <p>Don't have an account yet? <Anchor label="Sign up" href="/sign-up" isNested={ false }/></p>
                     </div>
                 </form>
             </div>

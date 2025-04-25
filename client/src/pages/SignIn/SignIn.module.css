@@ -75,6 +75,16 @@
         font-weight: 400;
         font-size: 0.875rem;
         color: var(--tg-secondary);
+        & > a {
+            text-decoration: underline;
+            font-weight: 400;
+            transition: 0.25s ease all;
+            color: var(--tg-secondary);
+            &:hover {
+                cursor: pointer;
+                color: var(--accent-base);
+            }
+        }
     }
 }
 
@@ -89,15 +99,6 @@
         font-weight: 500;
         font-size: 0.75rem;
         color: var(--tg-primary);
-    }
-}
-
-.sign-up {
-    text-decoration: underline;
-    transition: 0.25s ease all;
-    &:hover {
-        cursor: pointer;
-        color: var(--accent-base);
     }
 }
 
