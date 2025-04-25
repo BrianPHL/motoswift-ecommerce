@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useRef, useEffect } from 'react';
+import { useContext, useState, useRef, useEffect } from 'react';
 import DropdownContext from './context';
 
 export const DropdownProvider = ({ children }) => {

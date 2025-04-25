@@ -34,8 +34,6 @@ import styles from './Button.module.css';
  * <Button label="Add" type="primary" action={() => {}} icon="fa-solid fa-plus" iconPosition="left" />
  */
 
-let globalOpenDropdown = null;
-
 const Button = ({ id, label, type, action, icon, isOutlined, iconPosition, options }) => {
     
     const dropdownRef = useRef(null);

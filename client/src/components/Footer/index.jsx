@@ -1,5 +1,4 @@
 import { Logo, Button, InputField, Anchor } from '@components';
-import { useNavigate } from 'react-router';
 import styles from './Footer.module.css';
 
 /**
@@ -16,8 +15,6 @@ import styles from './Footer.module.css';
  */
 
 const Footer = () => {
-
-    const navigate = useNavigate();
 
     return (
         <div className={ styles['wrapper'] }>

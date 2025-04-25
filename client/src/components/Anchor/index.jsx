@@ -40,8 +40,6 @@ import styles from "./Anchor.module.css";
  * />
 */
 
-let globalOpenDropdown = null;
-
 const Anchor = ({ id, label, href, isNested, options }) => {
 
     const dropdownRef = useRef(null);

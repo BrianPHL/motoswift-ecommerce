@@ -1,15 +1,12 @@
-import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router';
+import { BrowserRouter as Router, Routes, Route } from 'react-router';
 import { Header, Footer } from '@components';
 import { Home, SignIn, SignUp, AboutUs, MotorcycleStore, PartsAndAccessoriesStore, Reservation, Cart } from '@pages';
 
 const App = () => {
 
-  const { pathname } = useLocation();
-  const hideLayout = pathname === '/signin' || pathname === '/signup';
-
   return (
     <>
-      { !hideLayout && <Header /> }
+      <Header />
       <Routes>
         <Route path="/" element={ <Home /> } />
         <Route path="/sign-in" element={ <SignIn /> } />
@@ -20,7 +17,7 @@ const App = () => {
         <Route path="/reservation" element={ <Reservation /> } />
         <Route path="/cart" element={ <Cart /> } />
       </Routes>
-      { !hideLayout && <Footer /> }
+      <Footer />
     </>
   );
 };
