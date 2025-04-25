@@ -7,6 +7,101 @@
     gap: 4rem;
 }
 
+.header {
+    flex-direction: column;
+    align-self: flex-start;
+    display: flex;
+    gap: 1rem;
+    & > button {
+        align-self: flex-start;
+    }
+    & > h1 {
+        font-weight: 700;
+        font-size: 1.25rem;
+        color: var(--tg-primary);
+    }
+}
+
+.container {
+    align-items: flex-start;
+    align-self: stretch;
+    display: flex;
+    gap: 2rem;
+}
+
+.banner {
+    background-image: url('/Banners/sign-in-and-sign-up-banner.png');
+    background-position: center;
+    justify-content: center;
+    background-size: 100%;
+    border-radius: 0.5rem;
+    align-items: center;
+    align-self: stretch;
+    display: flex;
+    border: 1px solid var(--bg-outline);
+    flex: 1 0 0;
+}
+
+.form {
+    background-color: var(--bg-secondary);
+    justify-content: center;
+    flex-direction: column;
+    border-radius: 0.5rem;
+    align-items: center;
+    padding: 4rem 2rem;
+    display: flex;
+    width: 22.5rem;
+    gap: 4rem;
+}
+
+.inputs-container {
+    flex-direction: column;
+    align-self: stretch;
+    display: flex;
+    gap: 1rem;
+}
+
+.ctas-container {
+    flex-direction: column;
+    align-items: center;
+    align-self: stretch;
+    display: flex;
+    gap: 1rem;
+    & > button {
+        padding: 0.75rem 1.25rem;
+        align-self: stretch;
+    }
+    & > p {
+        font-weight: 400;
+        font-size: 0.875rem;
+        color: var(--tg-secondary);
+        & > a {
+            text-decoration: underline;
+            font-weight: 400;
+            transition: 0.25s ease all;
+            color: var(--tg-secondary);
+            &:hover {
+                cursor: pointer;
+                color: var(--accent-base);
+            }
+        }
+    }
+}
+
+.input-wrapper {
+    justify-content: center;
+    flex-direction: column;
+    align-items: flex-start;
+    align-self: stretch;
+    display: flex;
+    gap: 0.5rem;
+    & > label {
+        font-weight: 500;
+        font-size: 0.75rem;
+        color: var(--tg-primary);
+    }
+}
+
 @media only screen and (max-width: 1200px) {
 
     .wrapper { padding: 8rem 4rem 2rem 4rem; }
