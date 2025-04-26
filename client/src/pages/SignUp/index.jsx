@@ -18,7 +18,6 @@ const SignIn = () => {
                 <h1>Create your account</h1>
             </div>
             <div className={ styles['container'] }>
-                <div className={ styles['banner'] }></div>
                 <form className={ styles['form'] }>
                     <div className={ styles['inputs-container'] }>
                         <div className={ styles['input-wrapper'] }>
@@ -73,6 +72,7 @@ const SignIn = () => {
                         <p>Already have an account? <Anchor label="Sign in" href="/sign-in" isNested={ false }/></p>
                     </div>
                 </form>
+                <div className={ styles['banner'] }></div>
             </div>
         </div>
     );
