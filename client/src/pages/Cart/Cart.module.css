@@ -1,29 +1,10 @@
 @import url('../../index.css');
 
 .wrapper {
-<<<<<<< Updated upstream
-    flex-direction: column;
-    padding: 12rem 8rem 8rem 8rem;
-    display: flex;
-    gap: 4rem;
-}
-
-@media only screen and (max-width: 1200px) {
-
-    .wrapper { padding: 8rem 4rem 2rem 4rem; }
-
-}
-
-@media only screen and (max-width: 1080px) {
-
-    .wrapper { padding: 8rem 2rem 2rem 2rem; }
-
-=======
     padding: 20px;
     max-width: 800px;
     margin: 0 auto;
     font-family: Arial, sans-serif;
->>>>>>> Stashed changes
 }
 
 h1 {
