@@ -115,3 +115,13 @@
     .wrapper { padding: 8rem 2rem 2rem 2rem; }
 
 }
+
+@media only screen and (max-width: 860px) {
+
+    .container {
+        justify-content: center;
+    }
+
+    .banner { display: none; }
+
+}
