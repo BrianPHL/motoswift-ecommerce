@@ -60,6 +60,24 @@
     }
 }
 
+.disabled {
+    background-color: var(--bg-disabled);
+    justify-content: center;
+    border-radius: 0.25rem;
+    align-items: center;
+    font-weight: 600;
+    transition: 0.25s ease all;
+    font-size: 0.875rem;
+    padding: 0.5rem 1rem;
+    display: flex;
+    border: 0;
+    color: var(--tg-disabled);
+    gap: 0.5rem;
+    &:hover {
+        cursor: not-allowed;
+    }
+}
+
 .icon-outlined {
     background-color: transparent;
     border-radius: 0.25rem;
