@@ -1,64 +1,27 @@
 @import url('../../index.css');
 
 .wrapper {
-<<<<<<< Updated upstream
     flex-direction: column;
     padding: 12rem 8rem 8rem 8rem;
     display: flex;
     gap: 4rem;
 }
 
-@media only screen and (max-width: 1200px) {
-
-    .wrapper { padding: 8rem 4rem 2rem 4rem; }
-
-}
-
-@media only screen and (max-width: 1080px) {
-
-    .wrapper { padding: 8rem 2rem 2rem 2rem; }
-
-=======
-    background-color: var(--bg-primary);
-    height: 600vh;
->>>>>>> Stashed changes
-}
-
 .container {
     height: 500vh;
-    nav-right:  10vh;
     margin-left:  10vh;
     margin-right: 10vh;
     display: flex;
     flex-direction: column;
 }
 
-.navigation { 
-    height: 50vh;
-    margin-top: 5vh;
-    display: flex;
-    flex-direction: column;
-}
-
-.navigation img {
-    height: 15vh;
-    width: auto;
-    margin-bottom: 3vh;
-}
-
 .navigation h1{
-    color: var(--Typography-Primary, #E0E0E0);
+    color: var(--tg-primary);
     font-family: Montserrat;
     font-size: 2rem;
     font-style: normal;
     font-weight: 700;
     line-height: normal;
-}
-
-.navigation button {
-    height: 5vh;
-    width: 15vh;
-    margin-bottom: 2vh;
 }
 
 .search {
@@ -80,8 +43,8 @@
     height: 27.9rem;
     width: 21.3rem;
     border-radius: 0.5rem;
-    border: 1px solid var(--Background-Outline, #303030);
-    background: var(--Background-Secondary, #1A1A1A);
+    border: 1px solid var(--bg-outline);
+    background: var(--bg-secondary);
 }
 
 .tags{
@@ -99,10 +62,9 @@
     padding: 0.5rem;
     justify-content: center;
     align-items: center;
-
     border-radius: 0.25rem;
-    border: 1px solid var(--Background-Outline, #303030);
-    color: var(--Typography-Primary, #E0E0E0);
+    border: 1px solid var(--bg-outline);
+    color: var(--tg-primary);
     font-family: Montserrat;
     font-size: 0.75rem;
     font-style: normal;
@@ -138,7 +100,7 @@
 }
 
 .cardLabel p{
-    color: var(--Typography-Primary, #E0E0E0);
+    color: var(--tg-primary);
     font-family: Montserrat;
     font-size: 1rem;
     font-style: normal;
@@ -148,7 +110,7 @@
 
 .cardLabel .extraInfo {
     overflow: hidden;
-    color: var(--Typography-Secondary, #A5A5A5);
+    color: var(--tg-secondary);
     text-overflow: ellipsis;
     font-family: Montserrat;
     font-size: 0.875rem;
@@ -166,7 +128,7 @@
     align-self: stretch;
     height: 5rem;
     width: 21.3rem;
-    border-top: 1px solid var(--Background-Outline, #303030);
+    border-top: 1px solid var(--bg-outline);
 }
 
 .buttonCard Button {
@@ -177,26 +139,35 @@
     gap: 0.5rem;
     flex: 0 0 auto;
     border-radius: 0.25rem;
-    border: 1px solid var(--Background-Outline, #303030);
+    border: 1px solid var(--bg-outline);
     height: 2.5rem;
 
-    color: var(--Accent-Base, #FF9D00);
+    color: var(--accent-base);
     font-family: Montserrat;
     font-size: 0.875rem;
     font-weight: 700;
-    background-color: var(--Background-Secondary);
+    background-color: var(--bg-secondary);
     width: 15.3rem;
 }
 
 
 .buttonCard > :first-child button {
-    background-color: var(--Background-Secondary);
+    background-color: var(--bg-secondary);
     width: 15.3rem;
 } 
-
-
 
 .iconBox button {
     width: 2rem;
 }
 
+@media only screen and (max-width: 1200px) {
+
+    .wrapper { padding: 8rem 4rem 2rem 4rem; }
+
+}
+
+@media only screen and (max-width: 1080px) {
+
+    .wrapper { padding: 8rem 2rem 2rem 2rem; }
+
+}

@@ -1,7 +1,3 @@
-<<<<<<< Updated upstream
-
-=======
->>>>>>> Stashed changes
 import styles from './ProductCard.module.css';
 import { Button } from '@components';
 
@@ -50,8 +46,4 @@ const ProductCard = ({ tags = [], imageSrc, name, price, description, onReserve,
     );
 };
 
-<<<<<<< Updated upstream
 export default ProductCard;
-=======
-export default ProductCard;
->>>>>>> Stashed changes
