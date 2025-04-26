@@ -66,12 +66,6 @@ const Header = () => {
                     />
                     <Button
                         type="icon"
-                        action={ () => navigate('/cart') }
-                        icon="fa-solid fa-cart-shopping"
-                        isOutlined={ false }
-                    />
-                    <Button
-                        type="icon"
                         action={ () => toggleTheme()  }
                         icon={ theme === 'light' ? 'fa-solid fa-moon' : 'fa-solid fa-sun' }
                         isOutlined={ false }
@@ -89,12 +83,6 @@ const Header = () => {
                     <Logo />
                 </div>
                 <div className={ styles['right'] }>
-                    <Button
-                        type="icon"
-                        action={ () => navigate('/cart') }
-                        icon="fa-solid fa-cart-shopping"
-                        isOutlined={ false }
-                    />
                     <Button
                         type="icon"
                         action={ () => toggleTheme()  }
@@ -145,6 +133,24 @@ const Header = () => {
                         href="/parts-and-accessories"
                         isNested={ true }
                         isActive={ pathname === '/parts-and-accessories' }
+                    />
+                    <Accordion
+                        label='My account'
+                        type='href'
+                        options={[
+                            {
+                                label: 'My Profile',
+                                href: '#'
+                            },
+                            {
+                                label: 'My Reservation',
+                                href: '#'
+                            },
+                            {
+                                label: 'My Cart',
+                                href: '#'
+                            },
+                        ]}
                     />
                 </nav>
                 <div className={ styles['mobile-cta'] }>
