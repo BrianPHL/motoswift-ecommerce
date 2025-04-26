@@ -38,7 +38,7 @@
         align-self: flex-start ;
         transition: 0.25s ease all;
         font-weight: 700;
-        font-size: 2rem;
+        font-size: 3rem;
         color: var(--tg-primary);
         &:last-child { font-size: 1.75rem; }
 
