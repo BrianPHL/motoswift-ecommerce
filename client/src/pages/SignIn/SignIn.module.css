@@ -32,6 +32,7 @@
 .banner {
     background-image: url('/Banners/sign-in-and-sign-up-banner.png');
     background-position: center;
+    background-repeat: no-repeat;
     justify-content: center;
     background-size: 100%;
     border-radius: 0.5rem;
@@ -50,7 +51,7 @@
     align-items: center;
     padding: 4rem 2rem;
     display: flex;
-    width: 22.5rem;
+    width: 25rem;
     gap: 4rem;
 }
 
