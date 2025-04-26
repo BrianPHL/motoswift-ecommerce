@@ -35,8 +35,9 @@ const ProductCard = ({ tags = [], imageSrc, name, price, description, onReserve,
                 />
                 <div className={styles['iconBox']}>
                     <Button
-                        type="icon"
+                        type="primary"
                         icon="fa-solid fa-cart-shopping"
+                        iconPosition='center'
                         isOutlined={false}
                         action={onCart}
                     />

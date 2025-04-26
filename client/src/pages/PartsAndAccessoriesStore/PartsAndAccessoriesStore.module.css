@@ -47,23 +47,39 @@
 }
 
 .container {
-    height: 500vh;
-    margin-left:  10vh;
-    margin-right: 10vh;
-    display: flex;
-    flex-direction: column;
+    justify-content: center;
+        align-content: center;
+        align-items: center;
+        align-self: stretch;
+        flex-wrap: wrap;
+        display: flex;
 }
+
+    .products {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 32px;
+        margin: 0.5vh auto 0 auto;
+        padding: 0 42px;
+        max-width: 1200px;
+        align-self: stretch;
+        align-items: center;
+    }
 
 
 @media only screen and (max-width: 1200px) {
 
     .wrapper { padding: 8rem 4rem 2rem 4rem; }
 
+    .products { grid-template-columns: repeat(2, 1fr); }
+
 }
 
 @media only screen and (max-width: 1080px) {
 
     .wrapper { padding: 8rem 2rem 2rem 2rem; }
+
+    .products { grid-template-columns: repeat(1, 1fr); }
 
 }
 
