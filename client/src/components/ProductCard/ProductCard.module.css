@@ -1,12 +1,20 @@
 @import url('../../index.css');
 
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
 .ProductCard{
     height: 27.9rem;
     width: 21.3rem;
     border-radius: 0.5rem;
+<<<<<<< Updated upstream
     border: 1px solid var(--bg-outline, #303030);
     background: var(--bg-secondary, #1A1A1A);
+=======
+    border: 1px solid var(--Background-Outline, #303030);
+    background: var(--Background-Secondary, #1A1A1A);
+>>>>>>> Stashed changes
 }
 
 .tags {
@@ -25,8 +33,13 @@
     align-items: center;
 
     border-radius: 0.25rem;
+<<<<<<< Updated upstream
     border: 1px solid var(--bg-outline, #303030);
     color: var(--tg-primary, #E0E0E0);
+=======
+    border: 1px solid var(--Background-Outline, #303030);
+    color: var(--Typography-Primary, #E0E0E0);
+>>>>>>> Stashed changes
     font-family: Montserrat;
     font-size: 0.75rem;
     font-style: normal;
@@ -62,7 +75,11 @@
 }
 
 .cardLabel p{
+<<<<<<< Updated upstream
     color: var(--tg-primary, #E0E0E0);
+=======
+    color: var(--Typography-Primary, #E0E0E0);
+>>>>>>> Stashed changes
     font-family: Montserrat;
     font-size: 1rem;
     font-style: normal;
@@ -72,7 +89,11 @@
 
 .cardLabel .extraInfo {
     overflow: hidden;
+<<<<<<< Updated upstream
     color: var(--tg-secondary, #A5A5A5);
+=======
+    color: var(--Typography-Secondary, #A5A5A5);
+>>>>>>> Stashed changes
     text-overflow: ellipsis;
     font-family: Montserrat;
     font-size: 0.875rem;
@@ -90,7 +111,11 @@
     align-self: stretch;
     height: 5rem;
     width: 21.3rem;
+<<<<<<< Updated upstream
     border-top: 1px solid var(--bg-outline, #303030);
+=======
+    border-top: 1px solid var(--Background-Outline, #303030);
+>>>>>>> Stashed changes
 }
 
 .buttonCard Button {
@@ -101,20 +126,32 @@
     gap: 0.5rem;
     flex: 0 0 auto;
     border-radius: 0.25rem;
+<<<<<<< Updated upstream
     border: 1px solid var(--bg-outline, #303030);
+=======
+    border: 1px solid var(--Background-Outline, #303030);
+>>>>>>> Stashed changes
     height: 2.5rem;
 
     color: var(--Accent-Base, #FF9D00);
     font-family: Montserrat;
     font-size: 0.875rem;
     font-weight: 700;
+<<<<<<< Updated upstream
     background-color: var(--bg-secondary);
+=======
+    background-color: var(--Background-Secondary);
+>>>>>>> Stashed changes
     width: 15.3rem;
 }
 
 
 .buttonCard > :first-child button {
+<<<<<<< Updated upstream
     background-color: var(--bg-secondary);
+=======
+    background-color: var(--Background-Secondary);
+>>>>>>> Stashed changes
     width: 15.3rem;
 } 
 
@@ -136,3 +173,7 @@
     font-family: Montserrat;
     border: 1px dashed var(--Background-Outline, #303030);
 }
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
