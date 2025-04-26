@@ -22,9 +22,9 @@ html[data-theme="light"] {
   --tg-secondary: #555555;
   --tg-hovered: #E0E0E0;
   --tg-hint: #888888;
-  --tg-disabled: #D5D5D5;
+  --tg-disabled: #C0C0C0;
   --accent-base: #FF9D00;
-  --accent-hovered: #DB8700;
+  --accent-hovered: #DA8400;
   --error-background: #FFAEC1;
   --error-foreground: #E9204F;
   --error-hover: #86102C;
@@ -39,9 +39,9 @@ html[data-theme="dark"] {
   --tg-secondary: #A5A5A5;
   --tg-hovered: #121212;
   --tg-hint: #6C6C6C;
-  --tg-disabled: #202020;
+  --tg-disabled: #303030;
   --accent-base: #FF9D00;
-  --accent-hovered: #FFB032;
+  --accent-hovered: #FFAC2D;
   --error-background: #4C1824;
   --error-foreground: #E9204F;
   --error-hover: #86102C;
