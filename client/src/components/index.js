@@ -8,3 +8,4 @@ export { default as Footer } from "./Footer";
 export { default as InputField } from "./InputField";
 export { default as TableHeader } from "./TableHeader";
 export { default as ProductCard } from "./ProductCard";
+export { default as ReturnButton } from "./ReturnButton";

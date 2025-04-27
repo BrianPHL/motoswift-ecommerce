@@ -1,4 +1,4 @@
-import { Button } from '@components';
+import { Button, ReturnButton } from '@components';
 import { useNavigate } from 'react-router';
 import styles from './AboutUs.module.css';
 
@@ -10,13 +10,7 @@ const AboutUs = () => {
         <div className={ styles['wrapper'] }>
             <div className={ styles['banner'] }></div>
             <div className={ styles['header'] }>
-                <Button
-                    icon='fa-solid fa-angle-left'
-                    type='secondary'
-                    label='Go back'
-                    iconPosition='left'
-                    action={ () => { navigate(-1) } }
-                />
+                <ReturnButton />
                 <h1>About MotoSwift</h1>
             </div>
             <div className={ styles['about'] }>
