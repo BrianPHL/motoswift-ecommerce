@@ -62,9 +62,12 @@
 
 .cardContainer {
     display: grid;
-    grid-template-columns: repeat(4, 1fr); 
-    padding: 0 8rem 0rem 8rem;
-    gap: 2rem;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 5.813rem;
+    margin: 0.5vh auto 0 auto;
+    max-width: 1780px;
+    align-self: stretch;
+    align-items: center;
 }
 
 .paginationContainer {
