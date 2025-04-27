@@ -1,10 +1,7 @@
 import { Button, ReturnButton } from '@components';
-import { useNavigate } from 'react-router';
 import styles from './AboutUs.module.css';
 
 const AboutUs = () => {
-
-    const navigate = useNavigate();
 
     return (
         <div className={ styles['wrapper'] }>

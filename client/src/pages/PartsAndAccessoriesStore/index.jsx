@@ -1,41 +1,16 @@
-import { TableHeader, Button, ProductCard } from '@components';
+import { TableHeader, Button, ProductCard, ReturnButton } from '@components';
 import styles from './PartsAndAccessoriesStore.module.css';
-import { useNavigate } from 'react-router';
-
 
 const PartsAndAccessoriesStore = () => {
-    const navigate = useNavigate();
     return (
-
-        
-        
-        
-        <div className={styles['wrapper']}>
-            
-                
-                <div className={ styles['banner'] }>
+        <div className={styles['wrapper']}>    
+            <div className={ styles['banner'] }>
             </div>
-            
-            
-             <span className={styles['pagewrap']}>
-             
-            
-             <Button
-                        icon='fa-solid fa-angle-left'
-                        type='secondary'
-                        label='Parts and Accessories'
-                        action={ () => navigate (-1)}
-                        iconPosition='left' >
-                            
-                        </Button>
-              
-
-                </span>
-
-                
+            <span className={styles['pagewrap']}>
+            <ReturnButton />
+            </span>
                 <h1>Find The Perfect Parts For Your Ride</h1>
                 <TableHeader tableName='parts-and-accessories' />
-
                 <div className={styles['container']}>
                 <div className={styles['products']}>
                 <ProductCard
@@ -151,9 +126,7 @@ const PartsAndAccessoriesStore = () => {
                 onCart={() => console.log('Added to cart')}
                 />
                 </div>
-           
             </div>
-               
             <div className={styles['paginationContainer']}>
                 <div className={styles['info']}>
                     <h3>Showing 12 out of 20 results </h3>
@@ -177,13 +150,9 @@ const PartsAndAccessoriesStore = () => {
                     action={() => console.log('Clicked')}
                     isOutlined={true} 
                     />
-                    
-
-
                 </div>
-            
             </div>
-         </div>
+        </div>
         
     );
 };

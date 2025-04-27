@@ -1,5 +1,5 @@
 
-import { Button, ProductCard, TableHeader } from '@components';
+import { Button, ProductCard, TableHeader, ReturnButton } from '@components';
 import styles from './MotorcycleStore.module.css';
 
 const MotorcycleStore = () => {
@@ -7,13 +7,7 @@ const MotorcycleStore = () => {
         <div className={ styles['wrapper'] }>
             <div className={ styles['banner'] }></div>
             <span className={styles['pagewrap']}>
-                <Button
-                    icon='fa-solid fa-angle-left'
-                    type='secondary'
-                    label='Parts and Accessories'
-                    action={ () => navigate (-1)}
-                    iconPosition='left' >      
-                </Button>
+                <ReturnButton />
             </span>
 
             <h1>This is the Motorcycle Store page.</h1>

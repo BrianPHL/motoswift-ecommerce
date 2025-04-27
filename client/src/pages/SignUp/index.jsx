@@ -1,9 +1,7 @@
-import { useNavigate } from 'react-router';
 import { Anchor, Button, InputField, ReturnButton } from '@components';
 import styles from './SignUp.module.css';
 
 const SignIn = () => {
-    const navigate = useNavigate();
 
     return (
         <div className={ styles['wrapper'] }>
