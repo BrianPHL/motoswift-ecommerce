@@ -85,11 +85,10 @@ const Button = ({ id, label, type, action, icon, iconPosition, isOutlined, isAct
     return (
         <>
             { hasDropdown ? (
-                <div className={ `${ styles['wrapper'] } ${ externalStyles || '' }` }>
+                <div ref={ dropdownRef } className={ `${ styles['wrapper'] } ${ externalStyles || '' }` }>
                     <button
                         className={ `${ styles[type] } ${ styles['has-dropdown'] } ${ isOpen ? styles['button-active'] : '' }` }
                         onClick={ hasDropdown ? handleToggle : action }
-                        onMouseDown={ event => event.stopPropagation() }
                         { ...props }
                     >
                         { renderComponent() }

@@ -68,7 +68,7 @@ const Anchor = ({ id, label, href, isNested, isActive, options }) => {
 
         if (!href && hasDropdown) {
             return (
-                <div className={ styles['wrapper'] }>
+                <div ref={ dropdownRef } className={ styles['wrapper'] }>
                     <button
                         className={ `${ styles['anchor'] } ${ styles['dropdown-toggle'] } ${ isOpen ? styles['dropdown-active'] : '' }` }
                         onClick={ handleToggle }
