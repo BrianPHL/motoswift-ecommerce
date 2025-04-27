@@ -98,9 +98,10 @@ const Cart = () => {
                     <div className={ styles['divider'] }></div>
                     <div className={ styles['cta'] }>
                         <Button
-                            type='disabled'
+                            type='primary'
                             label='Proceed to Checkout'
                             action={ () => {} }
+                            disabled
                         />
                         <Button
                             type='primary'
