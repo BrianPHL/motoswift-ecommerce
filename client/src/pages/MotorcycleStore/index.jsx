@@ -19,129 +19,132 @@ const MotorcycleStore = () => {
             <h1>This is the Motorcycle Store page.</h1>
             <TableHeader tableName='motorcycles' />
             
-            <div className={styles['cardContainer']}>
-                <ProductCard
-                    tags={['Hot', 'Adventure']}
-                    name="Honda Beat (Premium)"
-                    price="PHP123,456.78"
-                    description="108cc 4-stroke single | 8.8hp | 9.21Nm"
-                    imageSrc="https://via.placeholder.com/186x174?text=Product" 
-                    onReserve={() => console.log('Reserved')}
-                    onCart={() => console.log('Added to cart')}
-                />
+            <div className={styles['container']}>
+                <div className={styles['cardContainer']}>
+                    <ProductCard
+                        tags={['Hot', 'Adventure']}
+                        name="Honda Beat (Premium)"
+                        price="PHP123,456.78"
+                        description="108cc 4-stroke single | 8.8hp | 9.21Nm"
+                        imageSrc="https://via.placeholder.com/186x174?text=Product" 
+                        onReserve={() => console.log('Reserved')}
+                        onCart={() => console.log('Added to cart')}
+                    />
 
-                <ProductCard
-                    tags={['Hot', 'Adventure']}
-                    name="Honda Beat (Premium)"
-                    price="PHP123,456.78"
-                    description="108cc 4-stroke single | 8.8hp | 9.21Nm"
-                    imageSrc="https://via.placeholder.com/186x174?text=Product" 
-                    onReserve={() => console.log('Reserved')}
-                    onCart={() => console.log('Added to cart')}
-                />
-                
-                <ProductCard
-                    tags={['Hot', 'Adventure']}
-                    name="Honda Beat (Premium)"
-                    price="PHP123,456.78"
-                    description="108cc 4-stroke single | 8.8hp | 9.21Nm"
-                    imageSrc="https://via.placeholder.com/186x174?text=Product" 
-                    onReserve={() => console.log('Reserved')}
-                    onCart={() => console.log('Added to cart')}
-                />
-                
-                <ProductCard
-                    tags={['Hot', 'Adventure']}
-                    name="Honda Beat (Premium)"
-                    price="PHP123,456.78"
-                    description="108cc 4-stroke single | 8.8hp | 9.21Nm"
-                    imageSrc="https://via.placeholder.com/186x174?text=Product" 
-                    onReserve={() => console.log('Reserved')}
-                    onCart={() => console.log('Added to cart')}
-                />
+                    <ProductCard
+                        tags={['Hot', 'Adventure']}
+                        name="Honda Beat (Premium)"
+                        price="PHP123,456.78"
+                        description="108cc 4-stroke single | 8.8hp | 9.21Nm"
+                        imageSrc="https://via.placeholder.com/186x174?text=Product" 
+                        onReserve={() => console.log('Reserved')}
+                        onCart={() => console.log('Added to cart')}
+                    />
+                    
+                    <ProductCard
+                        tags={['Hot', 'Adventure']}
+                        name="Honda Beat (Premium)"
+                        price="PHP123,456.78"
+                        description="108cc 4-stroke single | 8.8hp | 9.21Nm"
+                        imageSrc="https://via.placeholder.com/186x174?text=Product" 
+                        onReserve={() => console.log('Reserved')}
+                        onCart={() => console.log('Added to cart')}
+                    />
+                    
+                    <ProductCard
+                        tags={['Hot', 'Adventure']}
+                        name="Honda Beat (Premium)"
+                        price="PHP123,456.78"
+                        description="108cc 4-stroke single | 8.8hp | 9.21Nm"
+                        imageSrc="https://via.placeholder.com/186x174?text=Product" 
+                        onReserve={() => console.log('Reserved')}
+                        onCart={() => console.log('Added to cart')}
+                    />
 
-                <ProductCard
-                    tags={['Hot', 'Adventure']}
-                    name="Honda Beat (Premium)"
-                    price="PHP123,456.78"
-                    description="108cc 4-stroke single | 8.8hp | 9.21Nm"
-                    imageSrc="https://via.placeholder.com/186x174?text=Product"
-                    onReserve={() => console.log('Reserved')}
-                    onCart={() => console.log('Added to cart')}
-                />
+                    <ProductCard
+                        tags={['Hot', 'Adventure']}
+                        name="Honda Beat (Premium)"
+                        price="PHP123,456.78"
+                        description="108cc 4-stroke single | 8.8hp | 9.21Nm"
+                        imageSrc="https://via.placeholder.com/186x174?text=Product"
+                        onReserve={() => console.log('Reserved')}
+                        onCart={() => console.log('Added to cart')}
+                    />
 
-                <ProductCard
-                    tags={['Hot', 'Adventure']}
-                    name="Honda Beat (Premium)"
-                    price="PHP123,456.78"
-                    description="108cc 4-stroke single | 8.8hp | 9.21Nm"
-                    imageSrc="https://via.placeholder.com/186x174?text=Product" 
-                    onReserve={() => console.log('Reserved')}
-                    onCart={() => console.log('Added to cart')}
-                />
-
-
-                <ProductCard
-                    tags={['Hot', 'Adventure']}
-                    name="Honda Beat (Premium)"
-                    price="PHP123,456.78"
-                    description="108cc 4-stroke single | 8.8hp | 9.21Nm"
-                    imageSrc="https://via.placeholder.com/186x174?text=Product"
-                    onReserve={() => console.log('Reserved')}
-                    onCart={() => console.log('Added to cart')}
-                />
+                    <ProductCard
+                        tags={['Hot', 'Adventure']}
+                        name="Honda Beat (Premium)"
+                        price="PHP123,456.78"
+                        description="108cc 4-stroke single | 8.8hp | 9.21Nm"
+                        imageSrc="https://via.placeholder.com/186x174?text=Product" 
+                        onReserve={() => console.log('Reserved')}
+                        onCart={() => console.log('Added to cart')}
+                    />
 
 
-                <ProductCard
-                    tags={['Hot', 'Adventure']}
-                    name="Honda Beat (Premium)"
-                    price="PHP123,456.78"
-                    description="108cc 4-stroke single | 8.8hp | 9.21Nm"
-                    imageSrc="https://via.placeholder.com/186x174?text=Product"
-                    onReserve={() => console.log('Reserved')}
-                    onCart={() => console.log('Added to cart')}
-                />
+                    <ProductCard
+                        tags={['Hot', 'Adventure']}
+                        name="Honda Beat (Premium)"
+                        price="PHP123,456.78"
+                        description="108cc 4-stroke single | 8.8hp | 9.21Nm"
+                        imageSrc="https://via.placeholder.com/186x174?text=Product"
+                        onReserve={() => console.log('Reserved')}
+                        onCart={() => console.log('Added to cart')}
+                    />
 
-                <ProductCard
-                    tags={['Hot', 'Adventure']}
-                    name="Honda Beat (Premium)"
-                    price="PHP123,456.78"
-                    description="108cc 4-stroke single | 8.8hp | 9.21Nm"
-                    imageSrc="https://via.placeholder.com/186x174?text=Product" 
-                    onReserve={() => console.log('Reserved')}
-                    onCart={() => console.log('Added to cart')}
-                />
 
-                <ProductCard
-                    tags={['Hot', 'Adventure']}
-                    name="Honda Beat (Premium)"
-                    price="PHP123,456.78"
-                    description="108cc 4-stroke single | 8.8hp | 9.21Nm"
-                    imageSrc="https://via.placeholder.com/186x174?text=Product" 
-                    onReserve={() => console.log('Reserved')}
-                    onCart={() => console.log('Added to cart')}
-                />
+                    <ProductCard
+                        tags={['Hot', 'Adventure']}
+                        name="Honda Beat (Premium)"
+                        price="PHP123,456.78"
+                        description="108cc 4-stroke single | 8.8hp | 9.21Nm"
+                        imageSrc="https://via.placeholder.com/186x174?text=Product"
+                        onReserve={() => console.log('Reserved')}
+                        onCart={() => console.log('Added to cart')}
+                    />
 
-                <ProductCard
-                    tags={['Hot', 'Adventure']}
-                    name="Honda Beat (Premium)"
-                    price="PHP123,456.78"
-                    description="108cc 4-stroke single | 8.8hp | 9.21Nm"
-                    imageSrc="https://via.placeholder.com/186x174?text=Product" 
-                    onReserve={() => console.log('Reserved')}
-                    onCart={() => console.log('Added to cart')}
-                />
+                    <ProductCard
+                        tags={['Hot', 'Adventure']}
+                        name="Honda Beat (Premium)"
+                        price="PHP123,456.78"
+                        description="108cc 4-stroke single | 8.8hp | 9.21Nm"
+                        imageSrc="https://via.placeholder.com/186x174?text=Product" 
+                        onReserve={() => console.log('Reserved')}
+                        onCart={() => console.log('Added to cart')}
+                    />
 
-                <ProductCard
-                    tags={['Hot', 'Adventure']}
-                    name="Honda Beat (Premium)"
-                    price="PHP123,456.78"
-                    description="108cc 4-stroke single | 8.8hp | 9.21Nm"
-                    imageSrc="https://via.placeholder.com/186x174?text=Product" 
-                    onReserve={() => console.log('Reserved')}
-                    onCart={() => console.log('Added to cart')}
-                />
-        
+                    <ProductCard
+                        tags={['Hot', 'Adventure']}
+                        name="Honda Beat (Premium)"
+                        price="PHP123,456.78"
+                        description="108cc 4-stroke single | 8.8hp | 9.21Nm"
+                        imageSrc="https://via.placeholder.com/186x174?text=Product" 
+                        onReserve={() => console.log('Reserved')}
+                        onCart={() => console.log('Added to cart')}
+                    />
+
+                    <ProductCard
+                        tags={['Hot', 'Adventure']}
+                        name="Honda Beat (Premium)"
+                        price="PHP123,456.78"
+                        description="108cc 4-stroke single | 8.8hp | 9.21Nm"
+                        imageSrc="https://via.placeholder.com/186x174?text=Product" 
+                        onReserve={() => console.log('Reserved')}
+                        onCart={() => console.log('Added to cart')}
+                    />
+
+                    <ProductCard
+                        tags={['Hot', 'Adventure']}
+                        name="Honda Beat (Premium)"
+                        price="PHP123,456.78"
+                        description="108cc 4-stroke single | 8.8hp | 9.21Nm"
+                        imageSrc="https://via.placeholder.com/186x174?text=Product" 
+                        onReserve={() => console.log('Reserved')}
+                        onCart={() => console.log('Added to cart')}
+                    />
+            
+                </div>
+
             </div>
 
             <div className={styles['paginationContainer']}>

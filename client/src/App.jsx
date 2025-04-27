@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { useLocation, BrowserRouter as Router, Routes, Route } from 'react-router';
 import { Header, Footer } from '@components';
 import { Home, SignIn, SignUp, AboutUs, MotorcycleStore, PartsAndAccessoriesStore, Reservation, Cart } from '@pages';
+import { MotorcycleDetails, PartsAndAccessoriesDetails } from './pages';
 
 const PAGE_TITLES = {
   "/": "MotoSwift | Your Trusted Motorcycle Shop - Ride Fast, Ride Smart",
@@ -31,7 +32,9 @@ const App = () => {
         <Route path="/sign-up" element={ <SignUp /> } />
         <Route path="/about-us" element={ <AboutUs /> } />
         <Route path="/motorcycles" element={ <MotorcycleStore /> } />
+        <Route path="/motorcycle-details" element={ <MotorcycleDetails /> } />
         <Route path="/parts-and-accessories" element={ <PartsAndAccessoriesStore /> } />
+        <Route path="/parts-and-accessories-details" element={ <PartsAndAccessoriesDetails /> } />
         <Route path="/reservation" element={ <Reservation /> } />
         <Route path="/cart" element={ <Cart /> } />
       </Routes>

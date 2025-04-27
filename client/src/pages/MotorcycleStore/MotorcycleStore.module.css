@@ -6,6 +6,7 @@
     padding: 12rem 8rem 8rem 8rem;
     display: flex;
     gap: 4rem;
+    align-items: center;
     & > h1 {
         align-self: flex-start ;
         transition: 0.25s ease all;
@@ -62,13 +63,35 @@
 
 .cardContainer {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(4, 1fr); /* 4 cards per row */
     gap: 5.813rem;
     margin: 0.5vh auto 0 auto;
     max-width: 1780px;
     align-self: stretch;
     align-items: center;
+    width: 100%; 
+
 }
+
+@media only screen and (max-width: 1760px) {
+    .cardContainer {
+        grid-template-columns: repeat(3, 1fr); /* 3 cards per row for smaller screens */
+    }
+}
+
+@media only screen and (max-width: 1440px) {
+    .cardContainer {
+        grid-template-columns: repeat(2, 1fr); /* 2 cards per row for even smaller screens */
+    }
+}
+
+@media only screen and (max-width: 1080px) {
+    .cardContainer {
+        grid-template-columns: 1fr; /* 1 card per row for small screens */
+    }
+}
+
+
 
 .paginationContainer {
     display: flex;

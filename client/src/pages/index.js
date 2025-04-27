@@ -6,3 +6,5 @@ export { default as MotorcycleStore } from "./MotorcycleStore";
 export { default as PartsAndAccessoriesStore } from "./PartsAndAccessoriesStore";
 export { default as Reservation } from "./Reservation";
 export { default as Cart } from "./Cart";
+export { default as MotorcycleDetails } from "./MotorcycleDetails";
+export { default as PartsAndAccessoriesDetails } from "./PartsAndAccessoriesDetails";
