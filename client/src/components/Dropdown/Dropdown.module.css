@@ -9,7 +9,7 @@
     transition: opacity 0.25s ease, transform 0.25s ease;
     min-width: 10rem;
     position: absolute;
-    z-index: 1000;
+    z-index: 998;
     opacity: 0;
     border: 1px solid var(--bg-outline);
     left: 0;
