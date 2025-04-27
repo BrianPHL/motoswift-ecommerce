@@ -9,8 +9,6 @@ const Cart = () => {
         []
     ];
 
-    // TODO: Add a separate item list in cart.
-
     return (
         <div className={ styles['wrapper'] }>
             <div className={ styles['banner'] }></div>
