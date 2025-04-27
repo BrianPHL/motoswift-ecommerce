@@ -57,13 +57,13 @@
 
     .products {
         display: grid;
-        grid-template-columns: repeat(4, 2fr);
-        gap: 32px;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 5.813rem;
         margin: 0.5vh auto 0 auto;
-        padding: 0 42px;
-        max-width: 1580px;
+        max-width: 1780px;
         align-self: stretch;
         align-items: center;
+        
     }
 
     .paginationContainer {
@@ -97,16 +97,19 @@
     }
 
 
-@media only screen and (max-width: 1200px) {
+
+
+@media only screen and (max-width: 1760px) {
+    
+    .products { grid-template-columns: repeat(3, 1fr); } 
+}
+
+@media only screen and (max-width: 1440px) {
 
     .wrapper { padding: 8rem 4rem 2rem 4rem; }
 
     .products { grid-template-columns: repeat(2, 1fr); }
 
-}
-
-@media only screen and (max-width: 1500px) {
-    .products { grid-template-columns: repeat(2, 1fr); } 
 }
 
 @media only screen and (max-width: 1080px) {

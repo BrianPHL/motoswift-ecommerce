@@ -1,0 +1,54 @@
+@import url('../../index.css');
+
+.wrapper {
+    flex-direction: column;
+    padding: 12rem 8rem 3rem 8rem;
+    display: flex;
+    gap: 4rem;
+}
+
+.container {
+    display: flex;
+    flex-direction: row;
+    color: var(--tg-primary);
+}
+
+.imageContainer {
+    background-color: var(--bg-secondary);
+    width: 250rem;
+    height: 35rem;
+}
+
+.Details {
+    display: flex;
+    flex-direction: column;
+    margin: 0rem 2rem 5rem 2rem;
+    height: 35rem;
+}
+
+
+.productDescription {
+    padding: 1rem 0rem 2rem 0rem;
+    height: 25rem; 
+    flex-grow: 1;
+}
+
+.productDescription h2 {
+    margin-bottom: 1.5rem;
+    color: var(--bg-outline);
+}
+
+
+.productDescription p {
+    margin-bottom: 1.5rem;
+}
+
+.buttonContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.buttonContainer Button {
+    width: 100%;
+}
