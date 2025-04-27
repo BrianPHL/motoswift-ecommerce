@@ -1,3 +1,4 @@
+
 @import url('../../index.css');
 
 .wrapper {
@@ -5,6 +6,15 @@
     padding: 12rem 8rem 8rem 8rem;
     display: flex;
     gap: 4rem;
+    & > h1 {
+        align-self: flex-start ;
+        transition: 0.25s ease all;
+        font-weight: 700;
+        font-size: 2.875rem;
+        color: var(--tg-primary);
+        &:last-child { font-size: 1.75rem; }
+
+    }
 }
 
 @media only screen and (max-width: 1200px) {
@@ -17,4 +27,63 @@
 
     .wrapper { padding: 8rem 2rem 2rem 2rem; }
 
+
+}
+
+
+
+
+.banner {
+    background-image: url(../../../public/Banners/motorcycles-banner.png);
+    background-position: center;
+    background-repeat: no-repeat;
+    justify-content: center;
+    background-size: 100%;
+    border-radius: 0.5rem;
+    align-items: center;
+    align-self: stretch;
+    display: flex;
+    height: 8rem;
+    border: 1px solid var(--bg-outline);
+}
+
+.pagewrap {
+    flex-direction: column;
+    align-self: flex-start;
+    display: flex;
+    gap: 1rem;
+    margin-bottom: -3rem;
+    & > button {
+        align-self: flex-start;
+    }
+}
+
+
+
+.cardContainer {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); 
+    padding: 0 8rem 0rem 8rem;
+    gap: 2rem;
+}
+
+.paginationContainer {
+    display: flex;
+    justify-content: space-between; 
+    align-items: center;
+    width: 100%;
+    border-radius: 0.5rem;
+    border: 1px solid var(--bg-outline);
+    background: var(--bg-secondary);
+    padding: 1rem;
+}
+
+.results{
+    color: var(--tg-primary);
+}
+
+.pagination {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
 }
