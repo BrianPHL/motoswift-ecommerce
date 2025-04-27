@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router';
-import { Anchor, Button, InputField } from '@components';
+import { Anchor, Button, InputField, ReturnButton } from '@components';
 import styles from './SignIn.module.css';
 
 const SignIn = () => {
@@ -8,13 +8,7 @@ const SignIn = () => {
     return (
         <div className={ styles['wrapper'] }>
             <div className={ styles['header'] }>
-                <Button
-                    icon='fa-solid fa-angle-left'
-                    type='secondary'
-                    label='Go back'
-                    iconPosition='left'
-                    action={ () => { navigate(-1) } }
-                />
+                <ReturnButton />
                 <h1>Sign into your account</h1>
             </div>
             <div className={ styles['container'] }>

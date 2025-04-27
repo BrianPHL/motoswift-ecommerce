@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router';
-import { Button, Anchor, InputField } from '@components';
+import { Button, Anchor, InputField, ReturnButton } from '@components';
 import styles from './Cart.module.css';
 
 const Cart = () => {
@@ -15,13 +15,7 @@ const Cart = () => {
         <div className={ styles['wrapper'] }>
             <div className={ styles['banner'] }></div>
             <div className={ styles['header'] }>
-                <Button
-                    icon='fa-solid fa-angle-left'
-                    type='secondary'
-                    label='Go back'
-                    iconPosition='left'
-                    action={ () => { navigate(-1) } }
-                />
+                <ReturnButton />
                 <h1>Your Cart</h1>
             </div>
             <div className={ styles['container'] }>
