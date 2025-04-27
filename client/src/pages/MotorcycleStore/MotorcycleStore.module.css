@@ -1,3 +1,4 @@
+
 @import url('../../index.css');
 
 .wrapper {
@@ -19,6 +20,7 @@
 @media only screen and (max-width: 1200px) {
 
     .wrapper { padding: 8rem 4rem 2rem 4rem; }
+
 }
 
 @media only screen and (max-width: 1080px) {
@@ -61,6 +63,27 @@
 .cardContainer {
     display: grid;
     grid-template-columns: repeat(4, 1fr); 
-    padding: 0 8rem 8rem 8rem;
+    padding: 0 8rem 0rem 8rem;
     gap: 2rem;
+}
+
+.paginationContainer {
+    display: flex;
+    justify-content: space-between; 
+    align-items: center;
+    width: 100%;
+    border-radius: 0.5rem;
+    border: 1px solid var(--bg-outline);
+    background: var(--bg-secondary);
+    padding: 1rem;
+}
+
+.results{
+    color: var(--tg-primary);
+}
+
+.pagination {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
 }

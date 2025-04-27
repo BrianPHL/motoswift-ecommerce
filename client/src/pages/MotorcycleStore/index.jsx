@@ -1,3 +1,4 @@
+
 import { Button, ProductCard, TableHeader } from '@components';
 import styles from './MotorcycleStore.module.css';
 
@@ -155,6 +156,19 @@ const MotorcycleStore = () => {
                     action={() => console.log('Clicked')}
                     isOutlined={true} 
                     />
+
+                    <Button label="1" type="secondary" action={() => console.log('Submit')} />
+
+                    <Button label="2" type="secondary" action={() => console.log('Submit')} />
+
+                    <Button
+                    type="icon"
+                    icon="fa-solid fa-chevron-right"
+                    action={() => console.log('Clicked')}
+                    isOutlined={true} 
+                    />
+                    
+
 
                 </div>
             </div>
