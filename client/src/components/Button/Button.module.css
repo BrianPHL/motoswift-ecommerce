@@ -14,7 +14,7 @@
     font-weight: 600;
     transition: 0.25s ease all;
     font-size: 0.875rem;
-    padding: 0.5rem 1rem;
+    padding: 0.75rem 1.25rem;
     display: flex;
     border: 1px solid var(--bg-outline);
     color: var(--bg-primary);
@@ -60,16 +60,8 @@
     }
 }
 
-.disabled {
+.primary:disabled, .secondary:disabled, .icon:disabled {
     background-color: var(--bg-disabled);
-    justify-content: center;
-    border-radius: 0.25rem;
-    align-items: center;
-    font-weight: 600;
-    transition: 0.25s ease all;
-    font-size: 0.875rem;
-    padding: 0.5rem 1rem;
-    display: flex;
     border: 0;
     color: var(--tg-disabled);
     gap: 0.5rem;
