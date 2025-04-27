@@ -1,81 +1,124 @@
-import React, { useState } from 'react';
+import { useNavigate } from 'react-router';
+import { Button, Anchor, InputField } from '@components';
 import styles from './Cart.module.css';
 
 const Cart = () => {
-    // Sample cart items
-    const [cartItems, setCartItems] = useState([
-        { id: 1, name: 'Product 1', pricePerItem: 10, quantity: 2, image: 'https://via.placeholder.com/50' },
-        { id: 2, name: 'Product 2', pricePerItem: 20, quantity: 1, image: 'https://via.placeholder.com/50' },
-    ]);
 
-    // Update quantity of the cart item
-    const updateQuantity = (id, quantity) => {
-        const newCartItems = cartItems.map(item =>
-            item.id === id ? { ...item, quantity: Number(quantity) } : item
-        );
-        setCartItems(newCartItems);
-    };
+    const navigate = useNavigate();
+    const cartItems = [
+        []
+    ];
 
-    // Remove item from the cart
-    const removeItem = (id) => {
-        setCartItems(cartItems.filter(item => item.id !== id));
-    };
+    // TODO: Add a separate item list in cart.
 
     return (
-        <div className={styles['wrapper']}>
-            <h1>Your Cart</h1>
-
-            {/* Table for Cart Items */}
-            <table className={styles['cart-table']}>
-                <thead>
-                    <tr>
-                        <th>Image</th>
-                        <th>Name</th>
-                        <th>Price</th>
-                        <th>Quantity</th>
-                        <th>Remove</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {cartItems.map(item => (
-                        <tr key={item.id}>
-                            <td>
-                                <img src={item.image} alt={item.name} className={styles['product-image']} />
-                            </td>
-                            <td>{item.name}</td>
-                            <td>₱{item.pricePerItem * item.quantity}</td> {/* Updated price calculation */}
-                            <td>
-                                <input
-                                    type="number"
-                                    value={item.quantity}
-                                    onChange={(e) => updateQuantity(item.id, e.target.value)}
-                                    className={styles['quantity-input']}
-                                />
-                            </td>
-                            <td>
-                                <button
-                                    className={styles['remove-button']}
-                                    onClick={() => removeItem(item.id)}
-                                >
-                                    Remove
-                                </button>
-                            </td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
-
-            {/* Total Price */}
-            <div className={styles['total']}>
-                <h2>
-                    Total: ₱{cartItems.reduce((total, item) => total + item.pricePerItem * item.quantity, 0)}
-                </h2>
+        <div className={ styles['wrapper'] }>
+            <div className={ styles['banner'] }></div>
+            <div className={ styles['header'] }>
+                <Button
+                    icon='fa-solid fa-angle-left'
+                    type='secondary'
+                    label='Go back'
+                    iconPosition='left'
+                    action={ () => { navigate(-1) } }
+                />
+                <h1>Your Cart</h1>
             </div>
-
-            {/* Checkout Button */}
-            <button className={styles['checkout-button']}>Proceed to Reservation Room</button>
+            <div className={ styles['container'] }>
+                { cartItems.length === 0 ? (
+                    <div className={ styles['empty'] }>
+                        <h3>Your cart is empty!</h3>
+                        <p>Start browsing for items in <Anchor label="Motorcycles" href="/motorcycles" isNested={ false }/> or <Anchor label="Parts & Accessories" href="/parts-and-accessories" isNested={ false }/>.</p>
+                    </div>
+                ) : (
+                    <div className={ styles['cart'] }>
+                        <div className={ styles['cart-header'] }>
+                            <h3>Product</h3>
+                            <h3>Quantity</h3>
+                            <h3>Price</h3>
+                            <h3>Total</h3>
+                        </div>
+                        <div className={ styles['divider'] }></div>
+                        <div className={ styles['cart-item'] }>
+                            <div className={ styles['cart-item-product'] }>
+                                <img src="https://media.discordapp.net/attachments/1365762772272549988/1365762811644612752/2.jpeg?ex=680e7d3c&is=680d2bbc&hm=1b4a555b064c34f70a5bea42c2dc4f2115529f8031ba7b50e1bbc18d0ccae431&=" alt="" />
+                                <div className={ styles['cart-item-product-details'] }>
+                                    <div className={ styles['cart-item-product-details-info'] }>
+                                        <h3>Motor Parts (Mirror)</h3>
+                                        <h2>Krator Universal Black Motorcycle Mirror</h2>
+                                    </div>
+                                    <div className={ styles['cart-item-product-details-cta'] }>
+                                        <Button
+                                            type='secondary'
+                                            label='View item'
+                                            icon='fa-solid fa-square-up-right'
+                                            iconPosition='right'
+                                            action={ () => {} }
+                                        />
+                                        <Button
+                                            type='icon'
+                                            icon='fa-solid fa-trash-can'
+                                            action={ () => {} }
+                                            isOutlined={ true }
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                            <div className={ styles['cart-item-quantity'] }>
+                                <InputField
+                                    hint='Qty...'
+                                    isSubmittable={ false }
+                                    type='number'
+                                />
+                            </div>
+                            <div className={ styles['cart-item-price'] }>
+                                <h3>₱ 1,119.44</h3>
+                            </div>
+                            <div className={ styles['cart-item-total'] }>
+                                <h3>₱ 2,238.88</h3>
+                            </div>
+                        </div>
+                    </div>
+                )}
+                <div className={ styles['summary'] }>
+                    <h2>Summary</h2>
+                    <div className={ styles['divider'] }></div>
+                    <div className={ styles['summary-wrapper'] }>
+                        <div className={ styles['summary-item'] }>
+                            <h3>Sub-total</h3>
+                            <h3>₱ 357.99</h3>
+                        </div>
+                        <div className={ styles['summary-item'] }>
+                            <h3>Tax</h3>
+                            <h3>₱ 0.00</h3>
+                        </div>
+                        <div className={ styles['summary-item'] }>
+                            <h3>Deductions</h3>
+                            <h3>₱ 0.00</h3>
+                        </div>
+                        <div className={ styles['summary-item'] }>
+                            <h3>Total</h3>
+                            <h3>₱ 357.99</h3>
+                        </div>
+                    </div>
+                    <div className={ styles['divider'] }></div>
+                    <div className={ styles['cta'] }>
+                        <Button
+                            type='disabled'
+                            label='Proceed to Checkout'
+                            action={ () => {} }
+                        />
+                        <Button
+                            type='primary'
+                            label='Proceed to Reservation'
+                            action={ () => {} }
+                        />
+                    </div>
+                </div>
+            </div>
         </div>
     );
+
 };
 
 export default Cart;
