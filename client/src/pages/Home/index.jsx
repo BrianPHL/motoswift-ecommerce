@@ -2,6 +2,113 @@ import { Button, ProductCard } from '@components';
 import styles from './Home.module.css';
 
 const Home = () => {
+
+    const featured_motorcycles = [
+        {
+          id: '1',
+          category: 'motorcycles',
+          subcategory: 'big-bike',
+          img: '/Products/Motorcycles/Big_Bike/honda_nx500.png',
+          label: 'Honda NX500',
+          price: '₱409,000.00',
+          onReserve: () => console.log('Reserved!'),
+          onCart: () => console.log('Added to cart!'),
+        },
+        {
+          id: '2',
+          category: 'motorcycles',
+          subcategory: 'electrical',
+          img: '/Products/Motorcycles/Electrical/honda_em1-e.png',
+          label: 'Honda EM1 e',
+          price: '₱155,400.00',
+          onReserve: () => console.log('Reserved!'),
+          onCart: () => console.log('Added to cart!'),
+        },
+        {
+          id: '3',
+          category: 'motorcycles',
+          subcategory: 'big-bike',
+          img: '/Products/Motorcycles/Scooters/honda_click.png',
+          label: 'Honda Click125',
+          price: '₱81,900.00',
+          onReserve: () => console.log('Reserved!'),
+          onCart: () => console.log('Added to cart!'),
+        },
+        {
+          id: '4',
+          category: 'motorcycles',
+          subcategory: 'big-bike',
+          img: '/Products/Motorcycles/Sports/honda_cbr150r.png',
+          label: 'Honda CBR150R',
+          price: '₱183,900.00',
+          onReserve: () => console.log('Reserved!'),
+          onCart: () => console.log('Added to cart!'),
+        },
+        {
+          id: '5',
+          category: 'motorcycles',
+          subcategory: 'big-bike',
+          img: '/Products/Motorcycles/Underbone/honda_winner-x.png',
+          label: 'Honda Winner-X',
+          price: '₱123,900.00',
+          onReserve: () => console.log('Reserved!'),
+          onCart: () => console.log('Added to cart!'),
+        },
+    ];
+
+    const featured_parts = [
+        {
+          id: '1',
+          category: 'accessories',
+          subcategory: 'customization',
+          img: '/Products/Accessories/Customization/motoloot_sticker-gps-warning.png',
+          label: 'Motoloot GPS Warning Sticker',
+          price: '₱560.00',
+          onReserve: () => console.log('Reserved!'),
+          onCart: () => console.log('Added to cart!'),
+        },
+        {
+          id: '2',
+          category: 'accessories',
+          subcategory: 'customization',
+          img: '/Products/Accessories/Customization/polisport_crf250fr-front-fender.png',
+          label: 'Polisport CRF250FR Front Fender',
+          price: '₱1,360.00',
+          onReserve: () => console.log('Reserved!'),
+          onCart: () => console.log('Added to cart!'),
+        },
+        {
+          id: '3',
+          category: 'gear',
+          subcategory: 'bodywear',
+          img: '/Products/Gear/Bodywear/taichi_rsj347.png',
+          label: 'Taichi RSJ347 Overlap Mesh',
+          price: '₱9,080.00',
+          onReserve: () => console.log('Reserved!'),
+          onCart: () => console.log('Added to cart!'),
+        },
+        {
+          id: '4',
+          category: 'maintenance',
+          subcategory: 'electrical',
+          img: '/Products/Maintenance/Electrical/noco_gc004.png',
+          label: 'Noco GC004 X-Connect 10-foot Extension Cable',
+          price: '₱1,200.00',
+          onReserve: () => console.log('Reserved!'),
+          onCart: () => console.log('Added to cart!'),
+        },
+        {
+          id: '5',
+          category: 'parts',
+          subcategory: 'body',
+          img: '/Products/Parts/Body/acerbis_full-plastic-kit.png',
+          label: 'Acerbis Full Plastic Kit',
+          price: '₱12,652.84',
+          onReserve: () => console.log('Reserved!'),
+          onCart: () => console.log('Added to cart!'),
+        },
+    ];
+
     return (
         <div className={ styles['wrapper'] }>
             <div className={ styles['hero'] }>
