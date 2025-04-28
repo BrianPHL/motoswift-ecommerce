@@ -126,6 +126,12 @@
                 }
             }
         }
+        & > .motorcycles-container {
+            justify-content: center;
+            flex-wrap: wrap;
+            display: flex;
+            gap: 2rem;
+        }
     }
     & > .parts {
         flex-direction: column;
@@ -173,6 +179,12 @@
                     color: var(--tg-secondary);
                 }
             }
+        }
+        & > .parts-container {
+            justify-content: center;
+            flex-wrap: wrap;
+            display: flex;
+            gap: 2rem;
         }
     }
     & > .trust {
