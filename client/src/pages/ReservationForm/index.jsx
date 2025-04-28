@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import styles from './Reservation.module.css';
+import styles from './ReservationForm.module.css';
 
 const motorcycleImages = {
     "HONDA ADV160": "https://cms.hondaph.com/images/products/63d089a4674af.png",
