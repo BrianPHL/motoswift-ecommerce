@@ -20,7 +20,7 @@ const Home = () => {
                             />
                             <h5>or</h5>
                             <Button
-                                id='hero-browse-inventory'
+                                id='hero-browse-inventory-1'
                                 type='secondary'
                                 label='Browse our Inventory'
                                 options={[
@@ -169,7 +169,7 @@ const Home = () => {
                     />
                     <h5>or</h5>
                     <Button
-                        id='hero-browse-inventory'
+                        id='hero-browse-inventory-2'
                         type='secondary'
                         label='Browse our Inventory'
                         options={[
