@@ -2,7 +2,7 @@ export { default as Home } from "./Home";
 export { default as SignIn } from "./SignIn";
 export { default as SignUp } from "./SignUp";
 export { default as AboutUs } from "./AboutUs";
-export { default as MotorcycleStore } from "./MotorcyclesStore";
+export { default as MotorcyclesStore } from "./MotorcyclesStore";
 export { default as MotorcyclesDetails } from "./MotorcyclesDetails";
 export { default as PartsStore } from "./PartsStore";
 export { default as PartsDetails } from "./PartsDetails";

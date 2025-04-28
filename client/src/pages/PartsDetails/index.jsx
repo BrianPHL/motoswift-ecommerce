@@ -1,9 +1,7 @@
 import { Button } from '@components';
-import styles from './PartsAndAccessoriesDetails.module.css';
-import { useNavigate } from 'react-router';
+import styles from './PartsDetails.module.css';
 
-const PartsAndAccessoriesDetails = () => {
-    const navigate = useNavigate();
+const PartsDetails = () => {
     return (
         <div className={styles['wrapper']}>
             <div className={styles['container']}>
@@ -37,4 +35,4 @@ const PartsAndAccessoriesDetails = () => {
 
 };
   
-export default PartsAndAccessoriesDetails;
+export default PartsDetails;

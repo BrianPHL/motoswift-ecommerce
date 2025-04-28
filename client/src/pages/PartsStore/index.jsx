@@ -1,7 +1,7 @@
 import { TableHeader, Button, ProductCard, ReturnButton } from '@components';
-import styles from './PartsAndAccessoriesStore.module.css';
+import styles from './PartsStore.module.css';
 
-const PartsAndAccessoriesStore = () => {
+const PartsStore = () => {
     return (
         <div className={styles['wrapper']}>    
             <div className={ styles['banner'] }>
@@ -157,4 +157,4 @@ const PartsAndAccessoriesStore = () => {
     );
 };
 
-export default PartsAndAccessoriesStore;
+export default PartsStore;

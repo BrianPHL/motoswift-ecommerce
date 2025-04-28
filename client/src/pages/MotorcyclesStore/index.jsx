@@ -1,8 +1,8 @@
 
 import { Button, ProductCard, TableHeader, ReturnButton } from '@components';
-import styles from './MotorcycleStore.module.css';
+import styles from './MotorcyclesStore.module.css';
 
-const MotorcycleStore = () => {
+const MotorcyclesStore = () => {
     return (
         <div className={ styles['wrapper'] }>
             <div className={ styles['banner'] }></div>
@@ -181,4 +181,4 @@ const MotorcycleStore = () => {
     );
 };
 
-export default MotorcycleStore;
+export default MotorcyclesStore;

@@ -1,8 +1,7 @@
 import { useEffect } from 'react';
 import { useLocation, BrowserRouter as Router, Routes, Route } from 'react-router';
 import { Header, Footer } from '@components';
-import { Home, SignIn, SignUp, AboutUs, MotorcyclesStore, PartsDetails, Reservations, ReservationForm, Cart } from '@pages';
-import { MotorcycleDetails, PartsAndAccessoriesDetails } from './pages';
+import { Home, SignIn, SignUp, AboutUs, MotorcyclesStore, MotorcyclesDetails, PartsStore, PartsDetails, Reservations, ReservationForm, Cart } from '@pages';
 
 const PAGE_TITLES = {
   "/": "MotoSwift | Your Trusted Motorcycle Shop - Ride Fast, Ride Smart",

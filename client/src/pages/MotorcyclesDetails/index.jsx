@@ -1,8 +1,8 @@
 import { Button } from '@components';
-import styles from './MotorcycleDetails.module.css';
+import styles from './MotorcyclesDetails.module.css';
 import { useNavigate } from 'react-router';
 
-const MotorcycleDetails = () => {
+const MotorcyclesDetails = () => {
     const navigate = useNavigate();
     return (
         <div className={styles['wrapper']}>
@@ -40,4 +40,4 @@ const MotorcycleDetails = () => {
 
 };
   
-export default MotorcycleDetails;
+export default MotorcyclesDetails;
