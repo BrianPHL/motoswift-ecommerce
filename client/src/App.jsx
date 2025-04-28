@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { useLocation, BrowserRouter as Router, Routes, Route } from 'react-router';
 import { Header, Footer } from '@components';
+import { Home, SignIn, SignUp, AboutUs, MotorcyclesStore, PartsDetails, Reservations, ReservationForm, Cart } from '@pages';
 import { MotorcycleDetails, PartsAndAccessoriesDetails } from './pages';
 
 const PAGE_TITLES = {
