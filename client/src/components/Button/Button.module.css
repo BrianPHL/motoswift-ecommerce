@@ -1,8 +1,8 @@
 @import url('../../index.css');
 
 .wrapper {
-    display: inline-block;
     position: relative;
+    display: inline-block;
     flex: none;
 }
 
@@ -60,16 +60,6 @@
     }
 }
 
-.primary:disabled, .secondary:disabled, .icon:disabled {
-    background-color: var(--bg-disabled);
-    border: 0;
-    color: var(--tg-disabled);
-    gap: 0.5rem;
-    &:hover {
-        cursor: not-allowed;
-    }
-}
-
 .icon-outlined {
     background-color: transparent;
     border-radius: 0.25rem;
@@ -85,6 +75,16 @@
         background-color: var(--bg-outline);
         cursor: pointer;
         color: var(--accent-base);
+    }
+}
+
+.primary:disabled, .secondary:disabled, .icon:disabled {
+    background-color: var(--bg-disabled);
+    border: 0;
+    color: var(--tg-disabled);
+    gap: 0.5rem;
+    &:hover {
+        cursor: not-allowed;
     }
 }
 
