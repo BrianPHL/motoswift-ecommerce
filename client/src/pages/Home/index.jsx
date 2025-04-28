@@ -57,6 +57,7 @@ const Home = () => {
                         icon='fa-solid fa-long-arrow-right'
                         iconPosition='right'
                         action={ () => {} }
+                        externalStyles={ styles['motorcycles-header-btn'] }
                     />
                 </div>
                 <div className={ styles['motorcycles-container'] }>
@@ -85,6 +86,7 @@ const Home = () => {
                         icon='fa-solid fa-long-arrow-right'
                         iconPosition='right'
                         action={ () => {} }
+                        externalStyles={ styles['parts-header-btn'] }
                     />
                 </div>
                 <div className={ styles['parts-container'] }>

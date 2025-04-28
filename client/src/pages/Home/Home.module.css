@@ -101,6 +101,9 @@
             align-items: flex-start;
             display: flex;
             gap: 0.5rem;
+            & > .motorcycles-header-btn {
+                flex-shrink: 0;
+            }
             & > .motorcycles-header-info {
                 flex-direction: column;
                 display: flex;
@@ -146,6 +149,9 @@
             align-items: flex-start;
             display: flex;
             gap: 0.5rem;
+            & > .parts-header-btn {
+                flex-shrink: 0;
+            }
             & > .parts-header-info {
                 flex-direction: column;
                 display: flex;
@@ -293,6 +299,16 @@
 @media only screen and (max-width: 902px) {
 
     .wrapper > .hero > .hero-banner { display: none; }
+
+}
+
+@media only screen and (max-width: 680px) {
+
+    .wrapper > .motorcycles > .motorcycles-header,
+    .wrapper > .parts > .parts-header {
+        flex-direction: column;
+        gap: 2rem;
+    }
 
 }
 
