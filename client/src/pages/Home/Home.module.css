@@ -290,13 +290,13 @@
 
 }
 
-@media only screen and (max-width: 685px) {
+@media only screen and (max-width: 902px) {
 
     .wrapper > .hero > .hero-banner { display: none; }
 
 }
 
-@media only screen and (max-width: 407px) {
+@media only screen and (max-width: 467px) {
 
     .wrapper > .hero > .hero-left > .hero-left-info  > .hero-left-info-ctas {
         flex-direction: column;
