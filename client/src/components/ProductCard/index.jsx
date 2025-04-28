@@ -1,47 +1,46 @@
+import { useNavigate } from 'react-router';
 import styles from './ProductCard.module.css';
 import { Button } from '@components';
 
-const ProductCard = ({ tags = [], imageSrc, name, price, description, onReserve, onCart }) => {
+const ProductCard = ({ id, category, subcategory, img, label, price, onReserve, onCart }) => {
+    
+    if (!id || !category || !subcategory || !img || !label || !price || !onReserve || !onCart) return null;
+    
+    const navigate = useNavigate();
+
     return (
-        <div className={styles['ProductCard']}>
-            <div className={styles['tags']}>
-                {tags.map((tag, index) => (
-                    <div key={index} className={styles['hotTag']}>
-                        <p>{tag}</p>
-                    </div>
-                ))}
-            </div>
-
-            <div className={styles['imageContainer']}>
-                {imageSrc ? (
-                    <img src={imageSrc} alt={name} />
-                ) : (
-                    <div className={styles['placeholderBox']}>No Image</div>
-                )}
-            </div>
-
-            <div className={styles['cardLabel']}>
-                <p>{name}</p>
-                <p>{price}</p>
-                <br />
-                <h6 className={styles['extraInfo']}>{description}</h6>
-            </div>
-
-            <div className={styles['buttonCard']}>
-                <Button
-                    type="primary"
-                    label="Reserve Now"
-                    action={onReserve}
-                />
-                <div className={styles['iconBox']}>
-                    <Button
-                        type="primary"
-                        icon="fa-solid fa-cart-shopping"
-                        iconPosition='center'
-                        isOutlined={false}
-                        action={onCart}
-                    />
+        <div className={ styles['wrapper'] }>
+            <img className={ styles['product-img'] } src={ img } alt={ `${ label }. Price: ${ price }` } />
+            <div className={ styles['divider'] }></div>
+            <div className={ styles['details'] }>
+                <div className={ styles['text'] }>
+                    <h2>{ label }</h2>
+                    <h3>{ price }</h3>
                 </div>
+                <Button
+                    type='icon'
+                    icon='fa-solid fa-square-arrow-up-right'
+                    isOutlined={ false }
+                    action={ () => { navigate('#') } }
+                />
+            </div>
+            <div className={ styles['divider'] }></div>
+            <div className={ styles['ctas'] }>
+                <Button
+                    type='secondary'
+                    label='Reserve'
+                    icon='fa-solid fa-calendar-check'
+                    iconPosition='left'
+                    action={ onReserve }
+                    externalStyles={ styles['reserve'] }
+                />
+                <Button
+                    type='icon'
+                    icon='fa-solid fa-cart-plus'
+                    isOutlined={ true }
+                    action={ onCart }
+                    externalStyles={ styles['cart'] }
+                />
             </div>
         </div>
     );

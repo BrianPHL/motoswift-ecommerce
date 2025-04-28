@@ -1,135 +1,55 @@
 @import url('../../index.css');
 
-.ProductCard{
-    height: 27.9rem;
-    width: 21.3rem;
+.wrapper {
+    background-color: var(--bg-secondary);
+    flex-direction: column;
     border-radius: 0.5rem;
+    display: flex;
+    padding: 1rem;
     border: 1px solid var(--bg-outline);
-    background: var(--bg-secondary);
-}
-
-.tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-    padding: 1rem;
-    height: auto;
-}
-
-.hotTag {
-    display: flex;
-    padding: 0.5rem;
-    justify-content: center;
-    align-items: center;
-    border-radius: 0.25rem;
-    border: 1px solid var(--bg-outline);
-    color: var(--tg-primary);
-    font-family: Montserrat;
-    font-size: 0.75rem;
-    font-style: normal;
-    font-weight: 500;
-    line-height: normal;
-}
-
-.imageContainer {   
-    display: flex;
-    padding: 1rem;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    align-self: stretch;
-    width: 21.3rem;
-    height: 10.9rem;
-}
-
-.imageContainer img{
-    width: 11.625rem;
-    height: 10.875rem;
-}
-
-.cardLabel{
-    display: flex;
-    padding: 1rem;
-    flex-direction: column;
-    justify-content: center;
-    align-items: flex-start;
-    align-self: stretch;
-    width: 21.3rem;
-    height: 8rem;
-}
-
-.cardLabel p{
-    color: var(--tg-primary);
-    font-family: Montserrat;
-    font-size: 1rem;
-    font-style: normal;
-    font-weight: 700;
-    line-height: normal;
-}
-
-.cardLabel .extraInfo {
-    overflow: hidden;
-    color: var(--tg-secondary);
-    text-overflow: ellipsis;
-    font-family: Montserrat;
-    font-size: 0.875rem;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
-}
-
-.buttonCard {
-    display: flex;
-    padding: 1rem;
-    flex-direction: row;
-    align-items: flex-start;
+    width: 20rem;
     gap: 1rem;
-    align-self: stretch;
-    height: 5rem;
-    width: 21.3rem;
-    border-top: 1px solid var(--bg-outline);
 }
 
-.buttonCard Button {
-    display: flex;
-    padding: 0.75rem 1.25rem;
-    justify-content: center;
-    align-items: center;
-    gap: 0.5rem;
-    flex: 0 0 auto;
+.product-img {
     border-radius: 0.25rem;
-    border: 1px solid var(--bg-outline);
-    height: 2.5rem;
-
-    color: var(--accent-base);
-    font-family: Montserrat;
-    font-size: 0.875rem;
-    font-weight: 700;
-    background-color: var(--bg-secondary);
-    width: 15.3rem;
 }
 
-
-.buttonCard > :first-child button {
-    background-color: var(--bg-secondary);
-    width: 15.3rem;
-} 
-
-
-
-.iconBox button {
-    width: 2rem;
-}
-
-.placeholderBox {
-    width: 11.625rem;
-    height: 10.875rem;
-    background-color: var(--bg-secondary);
-    color: var(--tg-secondary);
+.details {
+    align-items: flex-start;
+    align-self: stretch;
+    padding: 0.5rem;
     display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 0.875rem;
-    font-family: Montserrat;
-    border: 1px dashed var(--bg-outline);
+    gap: 1rem;
+    & > .text {
+        flex-direction: column;
+        min-width: 0;
+        display: flex;
+        gap: 0.5rem;
+        & > h2 {
+            text-overflow: ellipsis;
+            font-weight: 700;
+            white-space: nowrap;
+            font-size: 1rem;
+            overflow: hidden;
+            color: var(--tg-primary);
+        }
+        & > h3 {
+            font-weight: 500;
+            font-size: 1rem;
+            color: var(--tg-secondary);
+        }
+    }
+}
+
+.ctas {
+    display: flex;
+    gap: 1rem;
+    & > .reserve {
+        width: 100%;
+    }
+}
+
+.divider {
+    border: 1px solid var(--bg-outline);
 }
