@@ -7,24 +7,26 @@
     display: flex;
     padding: 1rem;
     border: 1px solid var(--bg-outline);
-    width: 20rem;
+    width: 18rem;
     gap: 1rem;
 }
 
 .product-img {
     border-radius: 0.25rem;
+    object-fit: contain;
+    height: 16rem;
 }
 
 .details {
     align-items: flex-start;
     align-self: stretch;
-    padding: 0.5rem;
     display: flex;
     gap: 1rem;
     & > .text {
         flex-direction: column;
         min-width: 0;
         display: flex;
+        flex: 1 1 0;
         gap: 0.5rem;
         & > h2 {
             text-overflow: ellipsis;
