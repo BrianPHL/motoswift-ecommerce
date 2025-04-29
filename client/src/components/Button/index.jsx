@@ -89,6 +89,7 @@ const Button = ({ id, label, type, action, icon, iconPosition, isOutlined, isAct
                     <button
                         className={ `${ styles[type] } ${ styles['has-dropdown'] } ${ isOpen ? styles['button-active'] : '' }` }
                         onClick={ hasDropdown ? handleToggle : action }
+                        type='button'
                         { ...props }
                     >
                         { renderComponent() }
@@ -102,6 +103,7 @@ const Button = ({ id, label, type, action, icon, iconPosition, isOutlined, isAct
                 <button
                     className={ `${ styles[type] } ${ externalStyles || '' }  ${ isActive ? styles['button-active'] : '' }`  }
                     onClick={ hasDropdown ? handleToggle : action }
+                    type='button'
                     { ...props }
                 >
                     { renderComponent() }
