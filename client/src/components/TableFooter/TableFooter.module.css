@@ -1,0 +1,14 @@
+@import url('../../index.css');
+
+.wrapper {
+    background-color: var(--bg-secondary);
+    justify-content: center;
+    flex-direction: column;
+    border-radius: 0.5rem;
+    align-items: center;
+    align-self: stretch;
+    padding: 1rem;
+    display: flex;
+    border: 1px solid var(--bg-outline);
+    gap: 1rem;
+}
