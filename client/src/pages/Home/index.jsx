@@ -1,5 +1,6 @@
 import { Button, ProductCard } from '@components';
 import styles from './Home.module.css';
+import { useNavigate } from 'react-router';
 
 const Home = () => {
 
@@ -55,7 +56,6 @@ const Home = () => {
           onCart: () => console.log('Added to cart!'),
         },
     ];
-
     const featured_parts = [
         {
           id: '1',
@@ -108,6 +108,7 @@ const Home = () => {
           onCart: () => console.log('Added to cart!'),
         },
     ];
+    const navigate = useNavigate();
 
     return (
         <div className={ styles['wrapper'] }>
@@ -163,8 +164,8 @@ const Home = () => {
                         label='Browse More Motorcycles'
                         icon='fa-solid fa-long-arrow-right'
                         iconPosition='right'
-                        action={ () => {} }
                         externalStyles={ styles['motorcycles-header-btn'] }
+                        action={ () => { navigate('/motorcycles') } }
                     />
                 </div>
                 <div className={ styles['motorcycles-container'] }>
@@ -196,8 +197,8 @@ const Home = () => {
                         label='Browse More Parts & Accessories'
                         icon='fa-solid fa-long-arrow-right'
                         iconPosition='right'
-                        action={ () => {} }
                         externalStyles={ styles['parts-header-btn'] }
+                        action={ () => { navigate('/parts-and-accessories') } }
                     />
                 </div>
                 <div className={ styles['parts-container'] }>
