@@ -18,9 +18,9 @@ const ProductCard = ({ id, category, subcategory, img, label, price, onReserve, 
                     <h3>{ price }</h3>
                 </div>
                 <Button
-                    type='icon'
+                    type='icon-outlined'
                     icon='fa-solid fa-square-arrow-up-right'
-                    isOutlined={ false }
+                    
                     action={ () => { navigate('#') } }
                 />
             </div>
@@ -35,9 +35,8 @@ const ProductCard = ({ id, category, subcategory, img, label, price, onReserve, 
                     externalStyles={ styles['reserve'] }
                 />
                 <Button
-                    type='icon'
-                    icon='fa-solid fa-cart-plus'
-                    isOutlined={ true }
+                    type='icon-outlined'
+                    icon='fa-solid fa-cart-plus'         
                     action={ onCart }
                     externalStyles={ styles['cart'] }
                 />

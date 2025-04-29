@@ -43,3 +43,10 @@
     color: var(--tg-secondary);
     &:focus { outline: 0; }
 }
+
+.input-button {
+    padding: 0.75rem;
+    &:hover {
+        background-color: var(--bg-outline);
+    }
+}

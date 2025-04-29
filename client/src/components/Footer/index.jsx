@@ -86,27 +86,25 @@ const Footer = () => {
                             hint="Your email address..."
                             type="email"
                             icon="fa-solid fa-paper-plane"
+                            action={ () => {} }
                             isSubmittable={ false }
                         />
                     </div>
                     <div className={ styles['socials'] }>
                         <Button
-                            type='icon'
+                            type='icon-outlined'
                             icon='fa-brands fa-facebook'
                             action={ () => { window.location.href = "https://www.facebook.com" } }
-                            isOutlined={ true }
                         />
                         <Button
-                            type='icon'
+                            type='icon-outlined'
                             icon='fa-brands fa-x-twitter'
                             action={ () => { window.location.href = "https://www.facebook.com" } }
-                            isOutlined={ true }
                         />
                         <Button
-                            type='icon'
+                            type='icon-outlined'
                             icon='fa-brands fa-instagram'
                             action={ () => { window.location.href = "https://www.facebook.com" } }
-                            isOutlined={ true }
                         />
                     </div>
                 </div>

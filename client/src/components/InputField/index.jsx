@@ -54,7 +54,7 @@ const InputField = ({ hint, icon, action, isSubmittable, ...props }) => {
                     type='icon'
                     icon={ icon }
                     action={ action }
-                    isOutlined={ true }
+                    externalStyles={ styles['input-button'] }
                 />
             </div>
         );

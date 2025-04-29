@@ -34,7 +34,7 @@ import styles from './Button.module.css';
  * <Button label="Add" type="primary" action={() => {}} icon="fa-solid fa-plus" iconPosition="left" />
  */
 
-const Button = ({ id, label, type, action, icon, iconPosition, isOutlined, isActive, options, externalStyles, ...props }) => {
+const Button = ({ id, label, type, action, icon, iconPosition, isActive, options, externalStyles, ...props }) => {
     
     const dropdownRef = useRef(null);
     const { openDropdownId, setOpenDropdownId, registerDropdown } = useDropdown();
@@ -74,9 +74,11 @@ const Button = ({ id, label, type, action, icon, iconPosition, isOutlined, isAct
             );
         };
 
-        if (action && type === 'icon' && icon && isOutlined !== undefined) return (
-            <i className={ `${ icon } ${ isOutlined ? styles['icon-outlined'] : '' }` }></i>
-        );
+        if (action && icon) {
+            if (type === 'icon' || type === 'icon-outlined') return (
+                <i className={ icon }></i>
+            );
+        };
 
         return label;
 

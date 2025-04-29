@@ -48,10 +48,10 @@ const Cart = () => {
                                             action={ () => {} }
                                         />
                                         <Button
-                                            type='icon'
+                                            type='icon-outlined'
                                             icon='fa-solid fa-trash-can'
                                             action={ () => {} }
-                                            isOutlined={ true }
+                                            
                                         />
                                     </div>
                                 </div>
