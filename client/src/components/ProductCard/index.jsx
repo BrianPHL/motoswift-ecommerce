@@ -1,3 +1,4 @@
+import { useCart } from '@contexts';
 import { useNavigate } from 'react-router';
 import styles from './ProductCard.module.css';
 import { Button } from '@components';
@@ -6,6 +7,7 @@ const ProductCard = ({ id, category, subcategory, img, label, price, onReserve, 
     
     if (!id || !category || !subcategory || !img || !label || !price || !onReserve || !onCart) return null;
     
+    const { addToCart } = useCart();
     const navigate = useNavigate();
 
     return (
@@ -20,7 +22,6 @@ const ProductCard = ({ id, category, subcategory, img, label, price, onReserve, 
                 <Button
                     type='icon'
                     icon='fa-solid fa-square-arrow-up-right'
-                    
                     action={ () => { navigate('#') } }
                 />
             </div>
@@ -37,7 +38,7 @@ const ProductCard = ({ id, category, subcategory, img, label, price, onReserve, 
                 <Button
                     type='icon-outlined'
                     icon='fa-solid fa-cart-plus'         
-                    action={ onCart }
+                    action={ () => addToCart({ id, category, subcategory, img, label, price }) }
                     externalStyles={ styles['cart'] }
                 />
             </div>

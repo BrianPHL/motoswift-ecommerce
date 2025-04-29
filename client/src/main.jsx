@@ -4,7 +4,8 @@ import { BrowserRouter } from 'react-router';
 import {
   ThemeProvider,
   AuthProvider,
-  DropdownProvider
+  DropdownProvider,
+  CartProvider
 } from '@contexts';
 import App from './App';
 
@@ -14,7 +15,9 @@ createRoot(document.getElementById('root')).render(
       <ThemeProvider>
         <BrowserRouter>
           <DropdownProvider>
-            <App />
+            <CartProvider>
+              <App />
+            </CartProvider>
           </DropdownProvider>
         </BrowserRouter>
       </ThemeProvider>
