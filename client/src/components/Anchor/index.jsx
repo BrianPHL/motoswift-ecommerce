@@ -2,11 +2,12 @@ import { Dropdown } from '@components';
 import { useEffect, useRef } from 'react';
 import { useDropdown } from '@contexts';
 import styles from "./Anchor.module.css";
+import { Link } from 'react-router';
 
 /**
  * @typedef {object} AnchorOption
  * @property {string} label - The text to display for the option.
- * @property {string} href - The URL the option links to.
+ * @property {string} link - The URL the option links to.
  */
 
 /**
@@ -17,16 +18,16 @@ import styles from "./Anchor.module.css";
  * @param {object} props - The component props.
  * @param {string} [props.id] - A unique identifier, required if the anchor has dropdown options, used for global state management.
  * @param {string} props.label - The text label for the anchor or dropdown toggle button.
- * @param {string} [props.href] - The URL for the link. Required if `options` is not provided. If provided with `options`, it's ignored.
+ * @param {string} [props.link] - The URL for the link. Required if `options` is not provided. If provided with `options`, it's ignored.
  * @param {boolean} props.isNested - Determines the styling. `true` for anchors inside Dropdowns or Accordions, `false` for top-level anchors (e.g., in Header nav).
- * @param {AnchorOption[]} [props.options] - An array of options to display in a dropdown menu. If provided, `href` is ignored, and the component renders a button toggle.
+ * @param {AnchorOption[]} [props.options] - An array of options to display in a dropdown menu. If provided, `link` is ignored, and the component renders a button toggle.
  * @returns {JSX.Element | null} The rendered anchor link or dropdown toggle, or null if required props (`label`, `isNested`) are missing.
  *
  * @example Simple Link
- * <Anchor label="About us" href="/about-us" isNested={false} />
+ * <Anchor label="About us" link="/about-us" isNested={false} />
  *
  * @example Nested Link (e.g., inside Dropdown)
- * <Anchor label="Brand #1" href="#" isNested={true} />
+ * <Anchor label="Brand #1" link="#" isNested={true} />
  *
  * @example Dropdown Toggle
  * <Anchor
@@ -34,13 +35,13 @@ import styles from "./Anchor.module.css";
  *   label="Motorcycles"
  *   isNested={false}
  *   options={[
- *     { label: "Brand #1", href: "#" },
- *     { label: "Brand #2", href: "#" },
+ *     { label: "Brand #1", link: "#" },
+ *     { label: "Brand #2", link: "#" },
  *   ]}
  * />
 */
 
-const Anchor = ({ id, label, href, isNested, isActive, options }) => {
+const Anchor = ({ id, label, link, isNested, isActive, options }) => {
 
     const dropdownRef = useRef(null);
     const { openDropdownId, setOpenDropdownId, registerDropdown } = useDropdown();
@@ -58,15 +59,15 @@ const Anchor = ({ id, label, href, isNested, isActive, options }) => {
     };
 
     const renderComponent = () => {
-        if (href && !hasDropdown) {
+        if (link && !hasDropdown) {
             return(
-                <a href={ href } className={ `${ isNested ? styles['anchor-nested'] : styles['anchor'] } ${ isActive ? styles['anchor-active'] : '' }` }>
+                <Link to={ link } className={ `${ isNested ? styles['anchor-nested'] : styles['anchor'] } ${ isActive ? styles['anchor-active'] : '' }` }>
                     { label }
-                </a>
+                </Link>
             );
         };
 
-        if (!href && hasDropdown) {
+        if (!link && hasDropdown) {
             return (
                 <div ref={ dropdownRef } className={ styles['wrapper'] }>
                     <button

@@ -71,7 +71,7 @@ const SignIn = () => {
                             label='Sign up'
                             action={ () => {} }
                         />
-                        <p>Already have an account? <Anchor label="Sign in" href="/sign-in" isNested={ false }/></p>
+                        <p>Already have an account? <Anchor label="Sign in" link="/sign-in" isNested={ false }/></p>
                     </div>
                 </form>
                 <div className={ styles['banner'] }></div>

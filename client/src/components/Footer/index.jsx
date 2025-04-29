@@ -25,22 +25,22 @@ const Footer = () => {
                         <nav>
                             <Anchor
                                 label="Home"
-                                href="/"
+                                link="/"
                                 isNested={ false }
                             />
                             <Anchor
                                 label="Motorcycles"
-                                href="/motorcycles"
+                                link="/motorcycles"
                                 isNested={ false }
                             />
                             <Anchor
                                 label="Parts & Accessories"
-                                href="/parts-and-accessories"
+                                link="/parts-and-accessories"
                                 isNested={ false }
                             />
                             <Anchor
                                 label="My Account"
-                                href="/my-account"
+                                link="/my-account"
                                 isNested={ false }
                             />
                         </nav>
@@ -50,12 +50,12 @@ const Footer = () => {
                         <nav>
                             <Anchor
                                 label="About us"
-                                href="/about-us"
+                                link="/about-us"
                                 isNested={ false }
                             />
                             <Anchor
                                 label="contact@motoswift.com"
-                                href="#"
+                                link="#"
                                 isNested={ false }
                             />
                         </nav>
@@ -65,12 +65,12 @@ const Footer = () => {
                         <nav>
                             <Anchor
                                 label="Terms & Conditions"
-                                href="/terms-and-conditions"
+                                link="/terms-and-conditions"
                                 isNested={ false }
                             />
                             <Anchor
                                 label="Privacy Policy"
-                                href="privacy-policy"
+                                link="privacy-policy"
                                 isNested={ false }
                             />
                         </nav>

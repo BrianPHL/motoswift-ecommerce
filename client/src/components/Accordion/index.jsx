@@ -51,7 +51,7 @@ const Accordion = ({ label, options }) => {
                     <li key={ index }>
                         <Anchor
                             label={ option.label }
-                            href={ option.href }
+                            link={ option.link }
                             isNested={ true }
                         />
                     </li>

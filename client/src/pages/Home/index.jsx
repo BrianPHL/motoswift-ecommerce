@@ -134,11 +134,11 @@ const Home = () => {
                                 options={[
                                     {
                                         label: 'Motorcycles',
-                                        href: '/motorcycles'
+                                        link: '/motorcycles'
                                     },
                                     {
                                         label: 'Parts & Accessories',
-                                        href: '/parts-and-accessories'
+                                        link: '/parts-and-accessories'
                                     }
                                 ]}
                             />
@@ -293,11 +293,11 @@ const Home = () => {
                         options={[
                             {
                                 label: 'Motorcycles',
-                                href: '/motorcycles'
+                                link: '/motorcycles'
                             },
                             {
                                 label: 'Parts & Accessories',
-                                href: '/parts-and-accessories'
+                                link: '/parts-and-accessories'
                             }
                         ]}
                     />

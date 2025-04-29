@@ -32,28 +32,46 @@ const Header = () => {
                     <Logo />
                     <Anchor
                         label="About us"
-                        href="/about-us"
+                        link="/about-us"
                         isNested={ false }
                         isActive={ pathname === '/about-us' }
+                    />
+                    <Anchor
+                        label="Cart (DEV)"
+                        link="/cart"
+                        isNested={ false }
+                        isActive={ pathname === '/cart' }
+                    />
+                    <Anchor
+                        label="Reservations (DEV)"
+                        link="/reservations"
+                        isNested={ false }
+                        isActive={ pathname === '/reservations' }
+                    />
+                    <Anchor
+                        label="Inventory (DEV)"
+                        link="/inventory"
+                        isNested={ false }
+                        isActive={ pathname === '/inventory' }
                     />
                 </div>
                 <div className={ styles['right'] }>
                     <div className={ styles['nav'] }>
                         <Anchor
                             label="Home"
-                            href="/"
+                            link="/"
                             isNested={ false }
                             isActive={ pathname === '/' }
                         />
                         <Anchor
                             label="Motorcycles"
-                            href="/motorcycles"
+                            link="/motorcycles"
                             isNested={ false }
                             isActive={ pathname === '/motorcycles' }
                         />
                         <Anchor
                             label="Parts & Accessories"
-                            href="/parts-and-accessories"
+                            link="/parts-and-accessories"
                             isNested={ false }
                             isActive={ pathname === '/parts-and-accessories' }
                         />
@@ -112,43 +130,43 @@ const Header = () => {
                 <nav className={ styles['mobile-nav'] }>
                     <Anchor
                         label="Home"
-                        href="/"
+                        link="/"
                         isNested={ true }
                         isActive={ pathname === '/' }
                     />
                     <Anchor
                         label="About us"
-                        href="/about-us"
+                        link="/about-us"
                         isNested={ true }
                         isActive={ pathname === '/about-us' }
                     />
                     <Anchor
                         label="Motorcycles"
-                        href="/motorcycles"
+                        link="/motorcycles"
                         isNested={ true }
                         isActive={ pathname === '/motorcycles' }
                     />
                     <Anchor
                         label="Parts & Accessories"
-                        href="/parts-and-accessories"
+                        link="/parts-and-accessories"
                         isNested={ true }
                         isActive={ pathname === '/parts-and-accessories' }
                     />
                     <Accordion
                         label='My account'
-                        type='href'
+                        type='link'
                         options={[
                             {
                                 label: 'My Profile',
-                                href: '#'
+                                link: '#'
                             },
                             {
                                 label: 'My Reservation',
-                                href: '#'
+                                link: '#'
                             },
                             {
                                 label: 'My Cart',
-                                href: '#'
+                                link: '#'
                             },
                         ]}
                     />

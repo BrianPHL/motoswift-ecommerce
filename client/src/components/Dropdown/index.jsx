@@ -36,10 +36,10 @@ const Dropdown = ({ options, isOpen }) => {
         <ul className={ `${ styles['dropdown'] } ${ isOpen ? styles['dropdown-active'] : styles['dropdown-inactive'] }` }>
             { options.map((option, index) => (
                 <li key={ index }>
-                    { option.href ? (
+                    { option.link ? (
                         <Anchor
                             label={ option.label }
-                            href={ option.href }
+                            link={ option.link }
                             isNested={ true }
                         />
                     ) : (
