@@ -293,7 +293,7 @@ const MotorcyclesStore = () => {
                 <ReturnButton />
             </span>
 
-            <h1>This is the Motorcycle Store page.</h1>
+            <h2>Find Your Perfect Ride</h2>
             <TableHeader
                 tableName='motorcycles'
                 currentPage={ currentPage }
