@@ -205,6 +205,17 @@
     }
 }
 
+@media only screen and (max-width: 1290px) {
+
+    .container {
+        flex-direction: column-reverse;
+        & > .summary {
+            width: 100%;
+        }
+    }
+
+}
+
 @media only screen and (max-width: 1200px) {
 
     .wrapper { padding: 8rem 4rem 2rem 4rem; }
