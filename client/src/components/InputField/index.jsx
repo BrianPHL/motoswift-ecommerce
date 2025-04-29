@@ -28,7 +28,7 @@ import styles from './InputField.module.css';
  * <InputField hint="Search..." isSubmittable={true} />
  */
 
-const InputField = ({ hint, icon, isSubmittable, ...props }) => {
+const InputField = ({ hint, icon, action, isSubmittable, ...props }) => {
 
     if (!hint || isSubmittable === undefined) return null;
 
@@ -53,7 +53,7 @@ const InputField = ({ hint, icon, isSubmittable, ...props }) => {
                 <Button
                     type='icon'
                     icon={ icon }
-                    action={ () => {} }
+                    action={ action }
                     isOutlined={ true }
                 />
             </div>
@@ -70,7 +70,7 @@ const InputField = ({ hint, icon, isSubmittable, ...props }) => {
             <Button
                 label='Search'
                 type='primary'
-                action={ () => {} }
+                action={ action }
             />
         </div>
     );
