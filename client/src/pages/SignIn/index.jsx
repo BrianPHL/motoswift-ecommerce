@@ -1,10 +1,12 @@
-import { useNavigate } from 'react-router';
+import { useState } from 'react';
 import { Anchor, Button, InputField, ReturnButton } from '@components';
 import styles from './SignIn.module.css';
 
 const SignIn = () => {
-    const navigate = useNavigate();
-
+    const [ showPassword, setShowPassword ] = useState(false);
+    const handlePasswordToggle = () => {
+        setShowPassword((prev) => !prev);
+    }
     return (
         <div className={ styles['wrapper'] }>
             <div className={ styles['header'] }>
@@ -30,8 +32,9 @@ const SignIn = () => {
                             </label>
                             <InputField
                                 hint='Your password...'
-                                type='password'
-                                icon='fa-solid fa-eye-slash'
+                                type={ showPassword ? 'text' : 'password' }
+                                icon={ showPassword ? 'fa-solid fa-eye' : 'fa-solid fa-eye-slash' }
+                                action={ () => { handlePasswordToggle() } }
                                 isSubmittable={ false }
                             />
                         </div>

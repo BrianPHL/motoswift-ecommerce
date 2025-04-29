@@ -1,8 +1,16 @@
+import { useState } from 'react';
 import { Anchor, Button, InputField, ReturnButton } from '@components';
 import styles from './SignUp.module.css';
 
 const SignIn = () => {
-
+    const [ showPassword, setShowPassword ] = useState(false);
+    const [ showConfirmPassword, setShowConfirmPassword ] = useState(false);
+    const handlePasswordToggle = () => {
+        setShowPassword((prev) => !prev);
+    };
+    const handleConfirmPasswordToggle = () => {
+        setShowConfirmPassword((prev) => !prev);
+    };
     return (
         <div className={ styles['wrapper'] }>
             <div className={ styles['header'] }>
@@ -38,8 +46,9 @@ const SignIn = () => {
                             </label>
                             <InputField
                                 hint='Your password...'
-                                type='password'
-                                icon='fa-solid fa-eye-slash'
+                                type={ showPassword ? 'text' : 'password' }
+                                icon={ showPassword ? 'fa-solid fa-eye' : 'fa-solid fa-eye-slash' }
+                                action={ () => { handlePasswordToggle() } }
                                 isSubmittable={ false }
                             />
                         </div>
@@ -49,8 +58,9 @@ const SignIn = () => {
                             </label>
                             <InputField
                                 hint='Confirm your password...'
-                                type='password'
-                                icon='fa-solid fa-eye-slash'
+                                type={ showConfirmPassword ? 'text' : 'password' }
+                                icon={ showConfirmPassword ? 'fa-solid fa-eye' : 'fa-solid fa-eye-slash' }
+                                action={ () => { handleConfirmPasswordToggle() } }
                                 isSubmittable={ false }
                             />
                         </div>
