@@ -18,7 +18,7 @@ const ProductCard = ({ id, category, subcategory, img, label, price, onReserve, 
                     <h3>{ price }</h3>
                 </div>
                 <Button
-                    type='icon-outlined'
+                    type='icon'
                     icon='fa-solid fa-square-arrow-up-right'
                     
                     action={ () => { navigate('#') } }
