@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "concurrently \"cd client && npx vite\" \"nodemon server/index.js\"",
+    "start": "serve -s ./client/dist",
     "build": "cd client && vite build",
     "lint": "eslint .",
     "preview": "cd client && vite preview"
