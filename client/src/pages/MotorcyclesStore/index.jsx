@@ -1,5 +1,6 @@
 
 import { Button, ProductCard, TableHeader, ReturnButton } from '@components';
+import { Button, ProductCard, TableHeader, TableFooter, ReturnButton } from '@components';
 import styles from './MotorcyclesStore.module.css';
 
 const MotorcyclesStore = () => {
