@@ -1,7 +1,34 @@
+
 @import url('../../index.css');
 
+.wrapper {
+    flex-direction: column;
+    padding: 12rem 8rem 8rem 8rem;
+    display: flex;
+    gap: 4rem;
+    align-items: center;
+    & > h2 {
+        align-self: flex-start;
+        font-weight: 700;
+        font-size: 2rem;
+        color: var(--tg-primary);
+    }
+}
+
+@media only screen and (max-width: 1200px) {
+
+    .wrapper { padding: 8rem 4rem 2rem 4rem; }
+
+}
+
+@media only screen and (max-width: 1080px) {
+
+    .wrapper { padding: 8rem 2rem 2rem 2rem; }
+
+}
+
 .banner {
-    background-image: url('/Banners/parts-and-accessories-banner.png');
+    background-image: url(../../../public/Banners/motorcycles-banner.png);
     background-position: center;
     background-repeat: no-repeat;
     justify-content: center;
@@ -13,10 +40,8 @@
     height: 8rem;
     border: 1px solid var(--bg-outline);
 }
-   
 
 .pagewrap {
-    
     flex-direction: column;
     align-self: flex-start;
     display: flex;
@@ -25,101 +50,26 @@
     & > button {
         align-self: flex-start;
     }
-
-
-}
-
-.wrapper {
-    flex-direction: column;
-    padding: 12rem 8rem 8rem 8rem;
-    display: flex;
-    gap: 4rem;
-    & > h1 {
-        align-self: flex-start ;
-        transition: 0.25s ease all;
-        font-weight: 700;
-        font-size: 2.875rem;
-        color: var(--tg-primary);
-        &:last-child { font-size: 1.75rem; }
-
-    }
-    
 }
 
 .container {
     justify-content: center;
-        align-content: center;
-        align-items: center;
-        align-self: stretch;
-        flex-wrap: wrap;
-        display: flex;
+    align-items: stretch;
+    flex-wrap: wrap;
+    display: flex;
+    width: 100%;
+    gap: 2rem;
+    & > * {
+        flex: 0 1 18rem;
+    }
 }
 
-    .products {
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        gap: 5.813rem;
-        margin: 0.5vh auto 0 auto;
-        max-width: 1780px;
-        align-self: stretch;
-        align-items: center;
-        
-    }
-
-    .paginationContainer {
-        display: flex;
-        justify-content: space-between; 
-        align-items: center;
-        width: 100%;
-        border-radius: 0.5rem;
-        border: 1px solid var(--bg-outline);
-        background: var(--bg-secondary);
-        padding: 1rem;
-    }
-
-    .info {
-        flex-direction: column;
-        align-items: flex-start;
-        display: flex;
-        gap: 0.5rem;
-        & > h3 {
-            font-weight: 400;
-            font-size: 0.875rem;
-            color: var(--tg-secondary);
-            &:last-child { font-size: 0.75rem; }
-        }
-    }
-    
-    .pagination {
-        display: flex;
-        flex-direction: row;
-        gap: 1rem;
-    }
-
-
-
-
-@media only screen and (max-width: 1760px) {
-    
-    .products { grid-template-columns: repeat(3, 1fr); } 
+.results{
+    color: var(--tg-primary);
 }
 
-@media only screen and (max-width: 1440px) {
-
-    .wrapper { padding: 8rem 4rem 2rem 4rem; }
-
-    .products { grid-template-columns: repeat(2, 1fr); }
-
+.pagination {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
 }
-
-@media only screen and (max-width: 1080px) {
-
-    .wrapper { padding: 8rem 2rem 2rem 2rem; }
-
-    .products { grid-template-columns: repeat(1, 1fr); }
-
-}
-
-
-
-
