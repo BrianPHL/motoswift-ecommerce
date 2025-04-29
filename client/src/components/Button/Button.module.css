@@ -77,7 +77,7 @@
     }
 }
 
-.primary:disabled, .secondary:disabled, .icon:disabled {
+.primary:disabled, .secondary:disabled, .icon:disabled, .icon-outlined:disabled {
     background-color: var(--bg-disabled);
     border: 0;
     color: var(--tg-disabled);
