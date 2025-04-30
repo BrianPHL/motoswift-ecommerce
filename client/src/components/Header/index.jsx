@@ -36,24 +36,6 @@ const Header = () => {
                         isNested={ false }
                         isActive={ pathname === '/about-us' }
                     />
-                    <Anchor
-                        label="Cart (DEV)"
-                        link="/cart"
-                        isNested={ false }
-                        isActive={ pathname === '/cart' }
-                    />
-                    <Anchor
-                        label="Reservations (DEV)"
-                        link="/reservations"
-                        isNested={ false }
-                        isActive={ pathname === '/reservations' }
-                    />
-                    <Anchor
-                        label="Inventory (DEV)"
-                        link="/inventory"
-                        isNested={ false }
-                        isActive={ pathname === '/inventory' }
-                    />
                 </div>
                 <div className={ styles['right'] }>
                     <div className={ styles['nav'] }>
