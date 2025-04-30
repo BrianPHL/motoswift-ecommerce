@@ -30,11 +30,11 @@ import styles from './Accordion.module.css';
  * />
  */
 
-const Accordion = ({ label, options }) => {
+const Accordion = ({ label, options, children, ...props }) => {
 
     const [ isOpen, setIsOpen ] = useState(false);
 
-    if (!label || !options) return null;
+    if (!label) return null;
 
     return (
         <>
@@ -42,20 +42,24 @@ const Accordion = ({ label, options }) => {
                 className={` ${styles['header']} ${ isOpen ? styles['header-active'] : '' }` }
                 onClick={ () => setIsOpen((prev) => !prev) }
                 aria-expanded={ isOpen }
+                { ...props }
             >
                 { label }
                 <i className={ `${ 'fa-solid fa-chevron-down' } ${ isOpen ? styles['chevron-active'] : styles['chevron'] }` }></i>
             </button>
             <ul className={ `${ styles['content'] } ${ isOpen ? styles['content-active'] : styles['content-inactive'] }` }>
-                { options.map((option, index) => (
+                {options && options.map((option, index) => (
                     <li key={ index }>
                         <Anchor
                             label={ option.label }
-                            link={ option.link }
+                            link={ option.href }
                             isNested={ true }
                         />
                     </li>
-                ))} 
+                ))}
+                {!options && children && (
+                    <li>{children}</li>
+                )}
             </ul>
         </>
     );
