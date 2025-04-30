@@ -10,3 +10,4 @@ export { default as TableHeader } from "./TableHeader";
 export { default as TableFooter } from "./TableFooter";
 export { default as ProductCard } from "./ProductCard";
 export { default as ReturnButton } from "./ReturnButton";
+export { default as Modal } from "./Modal";

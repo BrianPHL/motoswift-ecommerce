@@ -1,0 +1,33 @@
+@import url('../../index.css');
+
+.modal {
+    background-color: #00000060;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    display: flex;
+    z-index: 99999;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    top: 0;
+}
+
+.box {
+    background-color: var(--bg-secondary);
+    justify-content: center;
+    flex-direction: column;
+    border-radius: 0.5rem;
+    text-align: center;
+    max-width: 30rem;
+    padding: 2rem;
+    display: flex;
+    margin: 2rem;
+    border: 1px solid var(--bg-outline);
+    gap: 2rem;
+    & > p {
+        font-size: 1rem;
+        font-weight: 400;
+        color: var(--tg-secondary);
+    }
+}
