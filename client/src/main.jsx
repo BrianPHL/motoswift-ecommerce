@@ -5,7 +5,8 @@ import {
   ThemeProvider,
   AuthProvider,
   DropdownProvider,
-  CartProvider
+  CartProvider,
+  ReservationProvider
 } from '@contexts';
 import App from './App';
 
@@ -16,7 +17,9 @@ createRoot(document.getElementById('root')).render(
         <BrowserRouter>
           <DropdownProvider>
             <CartProvider>
-              <App />
+              <ReservationProvider>
+                <App />
+              </ReservationProvider>
             </CartProvider>
           </DropdownProvider>
         </BrowserRouter>
