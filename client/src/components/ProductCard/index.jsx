@@ -46,13 +46,13 @@ const ProductCard = ({ id, category, subcategory, img, label, price }) => {
                         icon='fa-solid fa-calendar-check'
                         iconPosition='left'
                         externalStyles={ styles['reserve'] }
-                        action={ () => { requireAuth(addToReservations({ id, category, subcategory, img, label, price })) } }
+                        action={ () => { requireAuth(() => addToReservations({ id, category, subcategory, img, label, price })) } }
                     />
                     <Button
                         type='icon-outlined'
                         icon='fa-solid fa-cart-plus'         
                         externalStyles={ styles['cart'] }
-                        action={ () => requireAuth(addToCart({ id, category, subcategory, img, label, price })) }
+                        action={ () => requireAuth(() => addToCart({ id, category, subcategory, img, label, price })) }
                     />
                 </div>
             </div>
