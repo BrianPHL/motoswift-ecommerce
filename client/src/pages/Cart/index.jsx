@@ -1,11 +1,14 @@
+import { useState } from 'react';
 import { useNavigate } from 'react-router';
-import { Button, Anchor, InputField, ReturnButton } from '@components';
+import { Button, Anchor, InputField, ReturnButton, Modal } from '@components';
 import styles from './Cart.module.css';
-import { useCart } from '@contexts';
+import { useCart, useReservation } from '@contexts';
 
 const Cart = () => {
 
-    const { cartItems, updateQuantity, removeFromCart } = useCart();
+    const { addToReservations } = useReservation();
+    const [modalOpen, setModalOpen] = useState(false);
+    const { cartItems, updateQuantity, removeFromCart, clearCart } = useCart();
     const navigate = useNavigate();
     const subtotal = cartItems.reduce(
         (sum, item) => sum + Number(item.price.replace(/[^\d]/g, "")) * item.quantity,
@@ -14,8 +17,19 @@ const Cart = () => {
     const tax = 0;
     const deductions = 0;
     const total = subtotal + tax - deductions;
+    const handleBatchReserve = (date) => {
+        if (cartItems.length === 0) return;
+        addToReservations({
+            products: cartItems.map(({ id, category, subcategory, img, label, price }) => ({
+                id, category, subcategory, img, label, price
+            })),
+            preferredDate: date,
+        });
+        clearCart();
+    };
 
     return (
+        <>
         <div className={ styles['wrapper'] }>
             <div className={ styles['banner'] }></div>
             <div className={ styles['header'] }>
@@ -116,7 +130,7 @@ const Cart = () => {
                                 <Button
                                     type='primary'
                                     label='Proceed to Reservation'
-                                    action={ () => {} }
+                                    action={ () => setModalOpen(true) }
                                 />
                             </div>
                         </div>
@@ -124,6 +138,14 @@ const Cart = () => {
                 )}
             </div>
         </div>
+        <Modal
+            open={modalOpen}
+            message="Select your preferred reservation date for all items in your cart."
+            isInput={true}
+            onSubmit={handleBatchReserve}
+            onClose={() => setModalOpen(false)}
+        />
+        </>
     );
 
 };
