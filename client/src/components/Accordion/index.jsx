@@ -30,7 +30,7 @@ import styles from './Accordion.module.css';
  * />
  */
 
-const Accordion = ({ label, options, children, ...props }) => {
+const Accordion = ({ label, options, children, externalStyles, ...props }) => {
 
     const [ isOpen, setIsOpen ] = useState(false);
 
@@ -39,7 +39,7 @@ const Accordion = ({ label, options, children, ...props }) => {
     return (
         <>
             <button
-                className={` ${styles['header']} ${ isOpen ? styles['header-active'] : '' }` }
+                className={` ${styles['header']} ${ isOpen ? styles['header-active'] : '' } ${ externalStyles ? externalStyles : null }` }
                 onClick={ () => setIsOpen((prev) => !prev) }
                 aria-expanded={ isOpen }
                 { ...props }
