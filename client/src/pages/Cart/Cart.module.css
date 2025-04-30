@@ -74,7 +74,7 @@
             }
         }
     }
-    & > .reservations {
+    & > .cart {
         background-color: var(--bg-secondary);
         flex-direction: column;
         border-radius: 0.5rem;
@@ -85,7 +85,7 @@
         border: 1px solid var(--bg-outline);
         width: 100%;
         gap: 2rem;
-        & > .reservations-header {
+        & > .cart-header {
             grid-template-columns: minmax(22.5rem, 2fr) 1fr 1fr 1fr;
             align-items: center;
             display: grid;
@@ -102,7 +102,7 @@
             align-self: stretch;
             height: 1px;
         }
-        & > .reservations-item {
+        & > .cart-item {
             grid-template-columns: minmax(22.5rem, 2fr) 1fr 1fr 1fr;
             align-items: center;
             display: grid;
@@ -116,7 +116,7 @@
                     height: 8rem;
                     width: 8rem;
                 }
-                & > .reservations-item-product-details {
+                & > .cart-item-product-details {
                     flex-direction: column;
                     justify-content: space-between;
                     display: flex;
@@ -135,13 +135,13 @@
                             color: var(--tg-primary);
                         }
                     }
-                    & > .reservations-item-product-details-cta {
+                    & > .cart-item-product-details-cta {
                         display: flex;
                         gap: 0.5rem;
                     }
                 }
             }
-            & > .reservations-item-quantity {
+            & > .cart-item-quantity {
                 display: flex;
                 gap: 0.5rem;
                 & > input {
@@ -149,7 +149,7 @@
                     width: 4rem;
                 }
             }
-            & > .reservations-item-price, .reservations-item-total {
+            & > .cart-item-price, .cart-item-total {
                 & > h3 {
                     font-weight: 500;
                     font-size: 0.875rem;
