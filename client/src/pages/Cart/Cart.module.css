@@ -47,6 +47,7 @@
         border-radius: 0.5rem;
         align-items: center;
         align-self: stretch;
+        text-align: center;
         display: flex;
         padding: 2rem;
         border: 1px solid var(--bg-outline);
@@ -73,7 +74,7 @@
             }
         }
     }
-    & > .cart {
+    & > .reservations {
         background-color: var(--bg-secondary);
         flex-direction: column;
         border-radius: 0.5rem;
@@ -84,7 +85,7 @@
         border: 1px solid var(--bg-outline);
         width: 100%;
         gap: 2rem;
-        & > .cart-header {
+        & > .reservations-header {
             grid-template-columns: minmax(22.5rem, 2fr) 1fr 1fr 1fr;
             align-items: center;
             display: grid;
@@ -101,7 +102,7 @@
             align-self: stretch;
             height: 1px;
         }
-        & > .cart-item {
+        & > .reservations-item {
             grid-template-columns: minmax(22.5rem, 2fr) 1fr 1fr 1fr;
             align-items: center;
             display: grid;
@@ -115,7 +116,7 @@
                     height: 8rem;
                     width: 8rem;
                 }
-                & > .cart-item-product-details {
+                & > .reservations-item-product-details {
                     flex-direction: column;
                     justify-content: space-between;
                     display: flex;
@@ -134,13 +135,13 @@
                             color: var(--tg-primary);
                         }
                     }
-                    & > .cart-item-product-details-cta {
+                    & > .reservations-item-product-details-cta {
                         display: flex;
                         gap: 0.5rem;
                     }
                 }
             }
-            & > .cart-item-quantity {
+            & > .reservations-item-quantity {
                 display: flex;
                 gap: 0.5rem;
                 & > input {
@@ -148,7 +149,7 @@
                     width: 4rem;
                 }
             }
-            & > .cart-item-price, .cart-item-total {
+            & > .reservations-item-price, .reservations-item-total {
                 & > h3 {
                     font-weight: 500;
                     font-size: 0.875rem;
