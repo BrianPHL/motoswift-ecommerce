@@ -142,76 +142,53 @@ const Header = () => {
                         isNested={ true }
                         isActive={ pathname === '/parts-and-accessories' }
                     />
-                    <Accordion
-                        label='My account'
-                        type='link'
-                        options={[
-                            {
-                                label: 'My Profile',
-                                link: '#'
-                            },
-                            {
-                                label: 'My Reservation',
-                                link: '#'
-                            },
-                            {
-                                label: 'My Cart',
-                                link: '#'
-                            },
-                        ]}
-                    />
+                    { user ? (
+                        <Accordion
+                            label='My account'
+                            type='link'
+                            options={[
+                                {
+                                    label: 'My Profile',
+                                    link: '#'
+                                },
+                                {
+                                    label: 'My Reservation',
+                                    link: '#'
+                                },
+                                {
+                                    label: 'My Cart',
+                                    link: '#'
+                                },
+                            ]}
+                        />
+                    ) : null}
                 </nav>
                 <div className={ styles['mobile-cta'] }>
                     { user ? (
-                        <Button
-                            id='account-dropdown-1'
-                            type='secondary'
-                            label={ user.name }
-                            options={[
-                                {
-                                    label: 'Profile',
-                                    link: '/profile'
-                                },
-                                {
-                                    label: 'Cart',
-                                    link: '/cart'
-                                },
-                                {
-                                    label: 'Reservations',
-                                    link: '/reservations'
-                                }
-                            ]}
-                        />
+                        <div className={ styles['profile-display'] }>
+                            <h3>{ user.name } </h3>
+                            <i className='fa-solid fa-cog'></i>
+                        </div>
                     ) : (
                         <>
                             <Button
-                                type='primary'
-                                label='Sign up'
-                                action={ () => { navigate('/sign-up') } }
-                            />                        
+                                label="Sign in"
+                                type="primary"
+                                action={() => {
+                                    setDrawerOpen(false);
+                                    navigate('/sign-in');
+                                }}
+                            />
                             <Button
-                                type='secondary'
-                                label='Sign in'
-                                action={ () => { navigate('/sign-in') } }
+                                label="Sign up"
+                                type="secondary"
+                                action={() => {
+                                    setDrawerOpen(false);
+                                    navigate('/sign-up');
+                                }}
                             />
                         </>
                     )}
-                    <Button
-                        label="Sign in"
-                        type="primary"
-                        action={() => {
-                            setDrawerOpen(false);
-                            navigate('/sign-in');
-                        }}
-                    />
-                    <Button
-                        label="Sign up"
-                        type="secondary"
-                        action={() => {
-                            setDrawerOpen(false);
-                            navigate('/sign-up');
-                        }}
-                    />
                 </div>
             </div>
         </>
