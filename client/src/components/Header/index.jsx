@@ -2,20 +2,7 @@ import { useState } from 'react';
 import { Logo, Anchor, Button, Accordion } from '@components';
 import styles from "./Header.module.css";
 import { useNavigate, useLocation } from 'react-router';
-import { useTheme } from "@contexts";
-
-/**
- * Renders the main site header.
- * Includes the Logo, navigation links (using Anchor), action buttons (Sign in, Cart, Theme toggle),
- * and handles responsive behavior by switching between a desktop layout and a mobile layout with a drawer.
- * Uses ThemeContext via useTheme hook.
- *
- * @component
- * @returns {JSX.Element} The rendered header component, containing both desktop and mobile structures.
- *
- * @example
- * <Header />
- */
+import { useTheme, useAuth } from "@contexts";
 
 const Header = () => {
 
@@ -24,6 +11,7 @@ const Header = () => {
     const { pathname } = location;
     const { theme, toggleTheme } = useTheme();
     const [ drawerOpen, setDrawerOpen ] = useState(false);
+    const { user, logout } = useAuth();
 
     return (
         <>
@@ -58,12 +46,33 @@ const Header = () => {
                             isActive={ pathname === '/parts-and-accessories' }
                         />
                     </div>
-                    <Button
-                        label="Sign in"
-                        type="secondary"
-                        action={ () => navigate('/sign-in') }
-                        isActive={ pathname === '/sign-in' }
-                    />
+                    { user ? (
+                        <Button
+                            id='account-dropdown'
+                            type='secondary'
+                            label={ user.name }
+                            options={[
+                                {
+                                    label: 'Profile',
+                                    link: '/profile'
+                                },
+                                {
+                                    label: 'Cart',
+                                    link: '/cart'
+                                },
+                                {
+                                    label: 'Reservations',
+                                    link: '/reservations'
+                                }
+                            ]}
+                        />
+                    ) : (
+                        <Button
+                            type='secondary'
+                            label='Sign in'
+                            action={ () => { navigate('/sign-in') } }
+                        />
+                    )}
                     <Button
                         type="icon"
                         action={ () => toggleTheme()  }
@@ -87,7 +96,6 @@ const Header = () => {
                         type="icon"
                         action={ () => toggleTheme()  }
                         icon={ theme === 'light' ? 'fa-solid fa-moon' : 'fa-solid fa-sun' }
-                        
                     />
                 </div>
             </div>
@@ -154,6 +162,40 @@ const Header = () => {
                     />
                 </nav>
                 <div className={ styles['mobile-cta'] }>
+                    { user ? (
+                        <Button
+                            id='account-dropdown-1'
+                            type='secondary'
+                            label={ user.name }
+                            options={[
+                                {
+                                    label: 'Profile',
+                                    link: '/profile'
+                                },
+                                {
+                                    label: 'Cart',
+                                    link: '/cart'
+                                },
+                                {
+                                    label: 'Reservations',
+                                    link: '/reservations'
+                                }
+                            ]}
+                        />
+                    ) : (
+                        <>
+                            <Button
+                                type='primary'
+                                label='Sign up'
+                                action={ () => { navigate('/sign-up') } }
+                            />                        
+                            <Button
+                                type='secondary'
+                                label='Sign in'
+                                action={ () => { navigate('/sign-in') } }
+                            />
+                        </>
+                    )}
                     <Button
                         label="Sign in"
                         type="primary"
