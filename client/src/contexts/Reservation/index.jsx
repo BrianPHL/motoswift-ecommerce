@@ -5,7 +5,9 @@ export const ReservationProvider = ({ children }) => {
 
     const [ reservationItems, setReservationItems ] = useState([]);
 
-    const addToReservations = (item => setReservationItems([]));
+    const addToReservations = (item) => {
+        setReservationItems(previous => [ ...previous, item ])
+    };
     const clearReservations = () => setReservationItems([]);
 
     return (
