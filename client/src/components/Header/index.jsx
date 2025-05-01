@@ -62,8 +62,12 @@ const Header = () => {
                                 },
                                 {
                                     label: 'Reservations',
-                                    link: '/reservations'
-                                }
+                                    action: () => { navigate('/reservations') },
+                                },
+                                {
+                                    label: 'Logout',
+                                    action: logout,
+                                },
                             ]}
                         />
                     ) : (
@@ -180,7 +184,14 @@ const Header = () => {
                     { user ? (
                         <div className={ styles['profile-display'] }>
                             <h3>{ user.name } </h3>
-                            <i className='fa-solid fa-cog'></i>
+                            <Button
+                                type='icon'
+                                icon='fa-solid fa-right-from-bracket'
+                                action={ () => {
+                                        logout()
+                                        setDrawerOpen(false)
+                                    }}
+                            />
                         </div>
                     ) : (
                         <>
