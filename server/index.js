@@ -11,7 +11,7 @@ const PORT = 3000;
 
 app.use(cors());
 app.use(express.json());
-app.use('api/accounts', accountRoutes);
+app.use('/api/accounts', accountRoutes);
 
 app.get('/', (req, res) => res.send("Backend running!"));
 
