@@ -1,15 +1,16 @@
 import { useState } from 'react';
-import { Anchor, Button, InputField, ReturnButton, Modal } from '@components';
+import { Anchor, Button, InputField, ReturnButton } from '@components';
 import styles from './SignIn.module.css';
 import { useAuth } from '@contexts';
+import { useNavigate } from 'react-router';
 
 const SignIn = () => {
     const [ showPassword, setShowPassword ] = useState(false);
     const [ email, setEmail ] = useState('');
     const [ password, setPassword ] = useState('');
     const [ error, setError ] = useState('');
-    const [ modalOpen, setModalOpen ] = useState(false);
     const { login } = useAuth();
+    const navigate = useNavigate();
     const handlePasswordToggle = () => {
         setShowPassword((prev) => !prev);
     }
@@ -20,6 +21,7 @@ const SignIn = () => {
             setModalOpen(true);
         } else {
             setError('');
+            navigate('/');
         }
     };
     return (
@@ -69,11 +71,6 @@ const SignIn = () => {
                 </form>
                 <div className={ styles['banner'] }></div>
             </div>
-            <Modal
-                open={ modalOpen }
-                message={error}
-                onClose={() => setModalOpen(false)}
-            />
         </div>
     );
 };

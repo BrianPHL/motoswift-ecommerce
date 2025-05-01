@@ -4,20 +4,24 @@ import AuthContext from "./context";
 export const AuthProvider = ({ children }) => {
     const [ user, setUser ] = useState(null);
 
-    const login = ({ email, password }) => {
-        console.log(email, password)
-        if (
-            email === "john.doe@motoswift.com" &&
-            password === "john.doe073"
-        ) {
-            setUser({
-                id: 1,
-                name: "John Doe",
-                email: "john.doe@motoswift.com"
+    const login = async ({ email, password }) => {
+        try {
+            const response = await fetch('/api/accounts/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email, password })
             });
-            return true;
+            const data = await response.json();
+
+            if (response.ok) {
+                setUser(data);
+                return true;
+            } else {
+                return false;
+            }
+        } catch (err) {
+            return false;
         }
-        return false;
     };
 
     const logout = () => setUser(null);
