@@ -20,6 +20,7 @@ const App = () => {
 
   useEffect(() => {
     document.title = PAGE_TITLES[location.pathname] || PAGE_TITLES["/"];
+    window.scrollTo(0, 0);
   }, [ location.pathname ]);
 
   return (
