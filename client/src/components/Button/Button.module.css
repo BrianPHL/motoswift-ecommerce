@@ -16,7 +16,7 @@
     font-size: 0.875rem;
     padding: 0.75rem 1.25rem;
     display: flex;
-    border: 1px solid var(--bg-outline);
+    border: none;
     color: var(--bg-primary);
     gap: 0.5rem;
     &:hover {
