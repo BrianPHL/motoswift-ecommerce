@@ -14,11 +14,9 @@ const SignIn = () => {
     const handlePasswordToggle = () => {
         setShowPassword((prev) => !prev);
     }
-    const handleSignIn = () => {
-        const success = login({ email, password });
+    const handleSignIn = async () => {
+        const success = await login({ email, password });
         if (!success) {
-            setError('Invalid email or password.');
-            setModalOpen(true);
         } else {
             setError('');
             navigate('/');
