@@ -63,6 +63,7 @@ const SignIn = () => {
                             type='primary'
                             label='Sign in'
                             action={ handleSignIn }
+                            disabled={ !email || !password }
                         />
                         <p>Don't have an account yet? <Anchor label="Sign up" link="/sign-up" isNested={ false }/></p>
                     </div>
