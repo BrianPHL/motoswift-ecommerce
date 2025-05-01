@@ -4,37 +4,42 @@ import express from 'express';
 const router = express.Router();
 
 router.get('/', async (req, res) => {
+    
 	try {
-	  
-		const result = await pool.query('SELECT * FROM accounts');
-	  	res.json(result.rows);
 
+        const [ rows ] = await pool.query('SELECT * FROM accounts');
+        res.json(rows);
+    
 	} catch (err) {
-
-	  	res.status(500).json({ error: err.message });
-	
+    
+		res.status(500).json({ error: err.message });
+    
 	}
+
 });
 
-router.post('/login', async(req, res) => {
-
+router.post('/login', async (req, res) => {
+    
 	const { email, password } = req.body;
-	console.log(email, password);
 
-  	try {
+    try {
 
-		const result = await pool.query(
-			'SELECT * FROM accounts WHERE email_address = $1 AND password = $2',
-			[ email, password ]
-		);
+		const [ rows ] = await pool.query(
+            'SELECT * FROM accounts WHERE email = ? AND password = ?',
+            [ email, password ]
+        );
 
-		if (result.rows.length === 0) return res.status(401).json({ error: 'Invalid credentials' });
-
-		res.json(result.rows[0]);
+		if ( rows.length === 0 ) return res.status(401).json({ error: 'Invalid credentials' });
+        res.json(rows[0]);
 
 	} catch (err) {
+
 		res.status(500).json({ error: err.message });
+
 	}
+
+});
+
 });
 
 export default router;
