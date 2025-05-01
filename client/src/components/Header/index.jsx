@@ -50,7 +50,7 @@ const Header = () => {
                         <Button
                             id='account-dropdown'
                             type='secondary'
-                            label={ user.name }
+                            label={ user['first_name'] }
                             options={[
                                 {
                                     label: 'Profile',
@@ -183,7 +183,7 @@ const Header = () => {
                 <div className={ styles['mobile-cta'] }>
                     { user ? (
                         <div className={ styles['profile-display'] }>
-                            <h3>{ user.name } </h3>
+                            <h3>{ user['first_name'] } </h3>
                             <Button
                                 type='icon'
                                 icon='fa-solid fa-right-from-bracket'
