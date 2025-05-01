@@ -77,7 +77,7 @@ const ProductCard = ({ id, category, subcategory, img, label, price }) => {
                 message={
                     modalType === 'reserve'
                         ? "Please select your preferred reservation date."
-                        : "You must be signed in to perform this action! Use these credentials: email: john.doe@motoswift.com | pw: john.doe073"
+                        : "You must be signed in to perform this action!"
                 }
                 isInput={modalType === 'reserve'}
                 onSubmit={modalType === 'reserve' ? handleReservationSubmit : undefined}

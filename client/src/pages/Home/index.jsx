@@ -124,7 +124,7 @@ const Home = () => {
                             <Button
                                 type='primary'
                                 label='Reserve Now'
-                                action={ () => {} }
+                                action={ () => { navigate('/reservations') } }
                             />
                             <h5>or</h5>
                             <Button
@@ -283,7 +283,7 @@ const Home = () => {
                     <Button
                         type='primary'
                         label='Reserve Now'
-                        action={ () => {} }
+                        action={ () => { navigate('/reservations') } }
                     />
                     <h5>or</h5>
                     <Button
