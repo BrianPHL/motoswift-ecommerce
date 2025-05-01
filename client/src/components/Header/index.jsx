@@ -54,11 +54,11 @@ const Header = () => {
                             options={[
                                 {
                                     label: 'Profile',
-                                    link: '/profile'
+                                    action: () => { navigate('/profile') },
                                 },
                                 {
                                     label: 'Cart',
-                                    link: '/cart'
+                                    action: () => { navigate('/cart') },
                                 },
                                 {
                                     label: 'Reservations',
@@ -77,7 +77,6 @@ const Header = () => {
                         type="icon"
                         action={ () => toggleTheme()  }
                         icon={ theme === 'light' ? 'fa-solid fa-moon' : 'fa-solid fa-sun' }
-                        
                     />
                 </div>
             </div>
@@ -108,7 +107,9 @@ const Header = () => {
                             icon="fa-solid fa-close"
                             
                         />
-                        <Logo />
+                        <div onClick={ () => setDrawerOpen(false) }>
+                            <Logo/>
+                        </div>
                     </div>
                     <Button
                         type="icon"
@@ -118,30 +119,42 @@ const Header = () => {
                     />
                 </div>
                 <nav className={ styles['mobile-nav'] }>
-                    <Anchor
-                        label="Home"
-                        link="/"
-                        isNested={ true }
-                        isActive={ pathname === '/' }
-                    />
-                    <Anchor
-                        label="About us"
-                        link="/about-us"
-                        isNested={ true }
-                        isActive={ pathname === '/about-us' }
-                    />
-                    <Anchor
-                        label="Motorcycles"
-                        link="/motorcycles"
-                        isNested={ true }
-                        isActive={ pathname === '/motorcycles' }
-                    />
-                    <Anchor
-                        label="Parts & Accessories"
-                        link="/parts-and-accessories"
-                        isNested={ true }
-                        isActive={ pathname === '/parts-and-accessories' }
-                    />
+                    <span style={{ display: 'contents' }} onClick={ () => setDrawerOpen(false) }>
+                        <Anchor
+                            label="Home"
+                            link="/"
+                            isNested={ true }
+                            isActive={ pathname === '/' }
+                            externalStyles={ styles['mobile-nav-anchor'] }
+                        />
+                    </span>
+                    <span style={{ display: 'contents' }} onClick={ () => setDrawerOpen(false) }>
+                        <Anchor
+                            label="About us"
+                            link="/about-us"
+                            isNested={ true }
+                            isActive={ pathname === '/about-us' }
+                            externalStyles={ styles['mobile-nav-anchor'] }
+                        />
+                    </span>
+                    <span style={{ display: 'contents' }} onClick={ () => setDrawerOpen(false) }>
+                        <Anchor
+                            label="Motorcycles"
+                            link="/motorcycles"
+                            isNested={ true }
+                            isActive={ pathname === '/motorcycles' }
+                            externalStyles={ styles['mobile-nav-anchor'] }
+                        />
+                    </span>
+                    <span style={{ display: 'contents' }} onClick={ () => setDrawerOpen(false) }>
+                        <Anchor
+                            label="Parts & Accessories"
+                            link="/parts-and-accessories"
+                            isNested={ true }
+                            isActive={ pathname === '/parts-and-accessories' }
+                            externalStyles={ styles['mobile-nav-anchor'] }
+                        />
+                    </span>
                     { user ? (
                         <Accordion
                             label='My account'

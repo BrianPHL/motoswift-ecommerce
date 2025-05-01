@@ -1,4 +1,4 @@
-@import url('../../index.css');
+ @import url('../../index.css');
 
 .desktop-header {
     background-color: var(--bg-secondary);
@@ -96,6 +96,10 @@
     }
 }
 
+.mobile-nav-anchor {
+    padding: 1.5rem 2rem;
+}
+
 @media only screen and (max-width: 1200px) {
 
     .desktop-header { padding: 2rem 4rem; }
@@ -111,6 +115,7 @@
 @media only screen and (max-width: 854px) {
 
     .desktop-header { display: none; }
+    .drawer { display: flex; }
     .mobile-header { display: flex; }
 
 }
@@ -118,6 +123,7 @@
 @media only screen and (min-width: 854px) {
 
     .desktop-header { display: flex; }
+    .drawer { display: none; }
     .mobile-header { display: none; }
 
 }
