@@ -41,7 +41,7 @@ import { Link } from 'react-router';
  * />
 */
 
-const Anchor = ({ id, label, link, isNested, isActive, options }) => {
+const Anchor = ({ id, label, link, isNested, isActive, externalStyles, options }) => {
 
     const dropdownRef = useRef(null);
     const { openDropdownId, setOpenDropdownId, registerDropdown } = useDropdown();
@@ -61,7 +61,7 @@ const Anchor = ({ id, label, link, isNested, isActive, options }) => {
     const renderComponent = () => {
         if (link && !hasDropdown) {
             return(
-                <Link to={ link } className={ `${ isNested ? styles['anchor-nested'] : styles['anchor'] } ${ isActive ? styles['anchor-active'] : '' }` }>
+                <Link to={ link } className={ `${ isNested ? styles['anchor-nested'] : styles['anchor'] } ${ isActive ? styles['anchor-active'] : '' } ${ externalStyles }` }>
                     { label }
                 </Link>
             );
@@ -71,7 +71,7 @@ const Anchor = ({ id, label, link, isNested, isActive, options }) => {
             return (
                 <div ref={ dropdownRef } className={ styles['wrapper'] }>
                     <button
-                        className={ `${ styles['anchor'] } ${ styles['dropdown-toggle'] } ${ isOpen ? styles['dropdown-active'] : '' }` }
+                        className={ `${ styles['anchor'] } ${ styles['dropdown-toggle'] } ${ isOpen ? styles['dropdown-active'] : '' } ${ externalStyles }` }
                         onClick={ handleToggle }
                         onMouseDown={ event => event.stopPropagation() }
                     >
