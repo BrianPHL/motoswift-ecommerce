@@ -3,7 +3,6 @@ import styles from './MotorcyclesDetails.module.css';
 import { useNavigate } from 'react-router';
 
 const MotorcyclesDetails = () => {
-    const navigate = useNavigate();
     return (
         <div className={styles['wrapper']}>
             <div className={styles['container']}>
