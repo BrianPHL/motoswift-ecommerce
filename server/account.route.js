@@ -42,6 +42,33 @@ router.post('/login', async (req, res) => {
 
 });
 
+router.post('/create', async (req, res) => {
+
+    const { firstName, lastName, email, address, password } = req.body;
+
+    try {
+        const [ rows ] = await pool.query(
+            `
+                INSERT INTO accounts (first_name, last_name, email, address, password)
+                SELECT ?, ?, ?, ?, ?
+                FROM DUAL
+                WHERE NOT EXISTS (SELECT 1 FROM accounts WHERE email = ?)
+            `,
+            [ firstName, lastName, email, address, password, email ]
+        );
+
+        if (rows.affectedRows === 0) {
+            return res.status(409).json({ error: 'There is an account already associated with this email address!' });
+        }
+
+        res.status(201).json({ id: rows['insertId'], firstName, lastName, email, address });
+
+    } catch (err) {
+
+        console.log(err.message)
+        res.status(500).json({ error: err.message });
+    }
+
 });
 
 export default router;
