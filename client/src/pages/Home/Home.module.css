@@ -66,7 +66,7 @@
             }
         }
         & > .hero-banner {
-            background-image: url('/Banners/hero-banner.png');
+            background-image: url('/Banners/hero-banner.webp');
             background-position: center;
             background-repeat: no-repeat;
             justify-content: center;
@@ -84,7 +84,7 @@
         display: flex;
         gap: 4rem;
         & > .motorcycles-banner {
-            background-image: url('/Banners/motorcycles-banner.png');
+            background-image: url('/Banners/motorcycles-banner.webp');
             background-position: center;
             background-repeat: no-repeat;
             justify-content: center;
@@ -138,7 +138,7 @@
         display: flex;
         gap: 4rem;
         & > .parts-banner {
-            background-image: url('/Banners/parts-and-accessories-banner.png');
+            background-image: url('/Banners/parts-and-accessories-banner.webp');
             background-position: center;
             background-repeat: no-repeat;
             justify-content: center;

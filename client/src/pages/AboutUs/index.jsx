@@ -47,21 +47,21 @@ const AboutUs = () => {
                         </div>
                     </div>
                     <div className={ styles['card'] }>
-                        <img src="Developers/aba_a-pic.png" alt="" />
+                        <img src="Developers/aba_a-pic.webp" alt="" />
                         <div className={ styles['info'] }>
                             <h3>Aba-a, Ivan</h3>
                             <h4>Developer</h4>
                         </div>
                     </div>
                     <div className={ styles['card'] }>
-                        <img src="Developers/amancio-pic.png" alt="" />
+                        <img src="Developers/amancio-pic.webp" alt="" />
                         <div className={ styles['info'] }>
                             <h3>Amancio, C-jay</h3>
                             <h4>Developer</h4>
                         </div>
                     </div>
                     <div className={ styles['card'] }>
-                        <img src="Developers/de_vera-pic.png" alt="" />
+                        <img src="Developers/de_vera-pic.webp" alt="" />
                         <div className={ styles['info'] }>
                             <h3>De Vera, Nathan</h3>
                             <h4>Developer</h4>
