@@ -31,27 +31,37 @@ const App = () => {
     		<Routes>
     			
 				<Route path="/" element={ <Home /> } />
-    			<Route path="/sign-in" element={ <SignIn /> } />
-    			<Route path="/sign-up" element={ <SignUp /> } />
     			<Route path="/about-us" element={ <AboutUs /> } />
     			<Route path="/motorcycles" element={ <MotorcyclesStore /> } />
     			<Route path="/motorcycle-details" element={ <MotorcyclesDetails /> } />
     			<Route path="/parts-and-accessories" element={ <PartsStore /> } />
     			<Route path="/parts-and-accessories-details" element={ <PartsDetails /> } />		
-    			
-				<Route path="profile" element={
+
+				<Route path="/sign-in" element={
+					<ProtectedRoute>
+						<SignIn />
+					</ProtectedRoute>
+				} />
+
+				<Route path="/sign-up" element={
+					<ProtectedRoute>
+						<SignUp />
+					</ProtectedRoute>
+				} />
+
+				<Route path="/profile" element={
 					<ProtectedRoute>
 						<Profile />
 					</ProtectedRoute>
 				} />
 				
-				<Route path="reservations" element={
+				<Route path="/reservations" element={
 					<ProtectedRoute>
 						<Reservations />
 					</ProtectedRoute>
 				} />
 
-    			<Route path="cart" element={
+    			<Route path="/cart" element={
 					<ProtectedRoute>
 						<Cart />
 					</ProtectedRoute>

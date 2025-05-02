@@ -1,17 +1,30 @@
 import { useAuth } from "@contexts";
 import { useEffect } from "react";
-import { useNavigate } from "react-router";
+import { useNavigate, useLocation } from "react-router";
 
 const ProtectedRoute = ({ children }) => {
 
     const { user } = useAuth();
     const navigate = useNavigate();
+    const location = useLocation();
 
     useEffect(() => {
-        if (!user) navigate('/sign-in');
-    }, [ user, navigate ])
+        
+        const isAuthPage = location['pathname'] === '/sign-in' || location['pathname'] === '/sign-up';
+        console.log(user, isAuthPage);
 
-    return user ? children : null;
+        if (!user && !isAuthPage) {
+            navigate('/sign-in');
+        } else if (user && isAuthPage) {
+            navigate('/');
+        }
+
+    }, [ user, navigate, location['pathname'] ])
+
+    const isAuthPage = location.pathname === '/sign-in' || location.pathname === '/sign-up';
+    if ((!user && !isAuthPage) || (user && isAuthPage)) return null;
+
+    return children;
 
 };
 
