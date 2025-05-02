@@ -8,7 +8,7 @@ const SignIn = () => {
     const [ showPassword, setShowPassword ] = useState(false);
     const [ email, setEmail ] = useState('');
     const [ password, setPassword ] = useState('');
-    const [ error, setError ] = useState('');
+    const [ formError, setFormError ] = useState('');
     const { login } = useAuth();
     const { showToast } = useToast();
     const navigate = useNavigate();
@@ -16,13 +16,22 @@ const SignIn = () => {
         setShowPassword((prev) => !prev);
     }
     const handleSignIn = async () => {
-        const success = await login({ email, password });
-        if (!success) {
-        } else {
-            setError('');
-            navigate('/');
+
+        try {
+            const result = await login({ email, password });
+
+            if (result?.error) {
+                setFormError(result['error']);
+                return;
+            } else {
+                setFormError('');
                 showToast(`Welcome! You\'ve successfully logged in as ${ result.user.first_name }.`, 'success')
+                navigate('/');
+            }
+        } catch (err) {
+            setFormError('Server error. Please try again. ' + err)
         }
+
     };
     return (
         <div className={ styles['wrapper'] }>
@@ -32,6 +41,12 @@ const SignIn = () => {
             </div>
             <div className={ styles['container'] }>
                 <form className={ styles['form'] }>
+                    { formError &&
+                        <div className={ styles['error'] }>
+                            <i className='fa-solid fa-circle-exclamation'></i>
+                            <p>{ formError }</p>
+                        </div>
+                    }
                     <div className={ styles['inputs-container'] }>
                         <div className={ styles['input-wrapper'] }>
                             <label htmlFor="email_address">

@@ -29,7 +29,7 @@ router.post('/login', async (req, res) => {
             [ email, password ]
         );
 
-        if (rows.length === 0) return res.status(401).json({ error: 'Invalid credentials' });
+        if (rows.length === 0) return res.status(401).json({ error: 'Invalid username or password. The account might not even exist.' });
 
         res.json(rows[0]);
 

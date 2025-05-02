@@ -19,16 +19,16 @@ export const AuthProvider = ({ children }) => {
             });
             const data = await response.json();
 
-            if (response.ok) {
+            if (response['ok']) {
                 localStorage.setItem('user', JSON.stringify(data));
                 setUser(data);
-                return true;
+                return { user: data };
             } else {
-                return false;
+                return { error: data['error'] };
             }
         } catch (err) {
             console.error('/login route error: ', err);
-            return false;
+            return { error: 'Server error. Please try again. ' + err };
         }
     };
 
