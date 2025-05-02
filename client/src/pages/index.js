@@ -7,6 +7,6 @@ export { default as MotorcyclesDetails } from "./MotorcyclesDetails";
 export { default as PartsStore } from "./PartsStore";
 export { default as PartsDetails } from "./PartsDetails";
 export { default as Cart } from "./Cart";
-export { default as ReservationForm } from "./ReservationForm";
 export { default as Reservations } from "./Reservations";
+export { default as Profile } from "./Profile";
 export { default as NotFound } from "./NotFound";
