@@ -10,7 +10,7 @@ export const ToastProvider =({ children }) => {
         setToasts(previous => [...previous, { identifier, message, type }]);
         setTimeout(() => {
             setToasts(previous => previous.filter(toast => toast.identifier !== identifier));
-        }, 2500);
+        }, 5000);
 
     }, []);
 
