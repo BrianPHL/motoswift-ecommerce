@@ -9,3 +9,4 @@ export { default as PartsDetails } from "./PartsDetails";
 export { default as Cart } from "./Cart";
 export { default as ReservationForm } from "./ReservationForm";
 export { default as Reservations } from "./Reservations";
+export { default as NotFound } from "./NotFound";
