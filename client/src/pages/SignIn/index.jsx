@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Anchor, Button, InputField, ReturnButton } from '@components';
 import styles from './SignIn.module.css';
-import { useAuth } from '@contexts';
+import { useAuth, useToast } from '@contexts';
 import { useNavigate } from 'react-router';
 
 const SignIn = () => {
@@ -10,6 +10,7 @@ const SignIn = () => {
     const [ password, setPassword ] = useState('');
     const [ error, setError ] = useState('');
     const { login } = useAuth();
+    const { showToast } = useToast();
     const navigate = useNavigate();
     const handlePasswordToggle = () => {
         setShowPassword((prev) => !prev);
@@ -20,6 +21,7 @@ const SignIn = () => {
         } else {
             setError('');
             navigate('/');
+                showToast(`Welcome! You\'ve successfully logged in as ${ result.user.first_name }.`, 'success')
         }
     };
     return (

@@ -5,12 +5,14 @@ import styles from './SignUp.module.css';
 const SignIn = () => {
     const [ showPassword, setShowPassword ] = useState(false);
     const [ showConfirmPassword, setShowConfirmPassword ] = useState(false);
+    const { showToast } = useToast();
     const handlePasswordToggle = () => {
         setShowPassword((prev) => !prev);
     };
     const handleConfirmPasswordToggle = () => {
         setShowConfirmPassword((prev) => !prev);
     };
+                showToast('Nice! You\'ve successfully created your account! You may now sign in.', 'success')
     return (
         <div className={ styles['wrapper'] }>
             <div className={ styles['header'] }>

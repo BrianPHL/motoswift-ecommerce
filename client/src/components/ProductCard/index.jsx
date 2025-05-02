@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router';
 import styles from './ProductCard.module.css';
 import { Button, Modal } from '@components';
-import { useAuth, useCart, useReservation } from '@contexts';
+import { useAuth, useCart, useReservation, useToast } from '@contexts';
 
 const ProductCard = ({ id, category, subcategory, img, label, price }) => {
     
@@ -13,12 +13,12 @@ const ProductCard = ({ id, category, subcategory, img, label, price }) => {
     const { addToCart } = useCart();
     const { addToReservations } = useReservation();
     const { user } = useAuth();
+    const { showToast } = useToast();
     const navigate = useNavigate();
 
     const requireAuth = (action) => {
         if (!user) {
-            setModalType('auth');
-            setModalOpen(true);
+            showToast('You must be signed in to perform this action!', 'error')
             return;
         }
         action();
