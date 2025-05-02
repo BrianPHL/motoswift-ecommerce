@@ -1,0 +1,65 @@
+@import url('../../index.css');
+
+.toast {
+    align-items: flex-start;
+    background-color: var(--bg-secondary);
+    border-radius: 0.5rem;
+    display: flex;
+    padding: 1rem;
+    width: 25rem;
+    gap: 1rem;
+}
+
+.message {
+    display: flex;
+    gap: 1rem;
+}
+
+.info {
+    border: 2px solid var(--bg-outline);
+    & > .message > i {
+        font-size: 1.25rem;
+        color: var(--tg-secondary);
+    }
+}
+
+.success {
+    border: 2px solid var(--success-foreground);
+    & > .message > i {
+        font-size: 1.25rem;
+        color: var(--success-foreground);
+    }
+}
+
+.error {
+    border: 2px solid var(--error-foreground);
+    & > .message > i {
+        font-size: 1.25rem;
+        color: var(--error-foreground);
+    }
+}
+
+.message {
+    width: 100%;
+    & > p {
+        font-weight: 500;
+        font-size: 0.75rem;
+        color: var(--tg-secondary);
+    }
+}
+
+@media only screen and (max-width: 430px) {
+
+    .toast {
+        width: 20rem;
+    }
+
+}
+
+@media only screen and (max-width: 355px) {
+
+    .toast {
+        width: 15rem;
+    }
+
+}
