@@ -11,7 +11,6 @@ const ProtectedRoute = ({ children }) => {
     useEffect(() => {
         
         const isAuthPage = location['pathname'] === '/sign-in' || location['pathname'] === '/sign-up';
-        console.log(user, isAuthPage);
 
         if (!user && !isAuthPage) {
             navigate('/sign-in');
