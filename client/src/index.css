@@ -28,6 +28,7 @@ html[data-theme="light"] {
   --error-background: #FFAEC1;
   --error-foreground: #E9204F;
   --error-hover: #86102C;
+  --success-foreground: #00B450;
 }
 
 html[data-theme="dark"] {
@@ -45,4 +46,5 @@ html[data-theme="dark"] {
   --error-background: #4C1824;
   --error-foreground: #E9204F;
   --error-hover: #86102C;
+  --success-foreground: #00B450;
 }
