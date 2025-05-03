@@ -41,7 +41,7 @@ import { Link } from 'react-router';
  * />
 */
 
-const Anchor = ({ id, label, link, isNested, isActive, externalStyles, options }) => {
+const Anchor = ({ id, label, link, isNested, isActive, externalStyles, options, ...props }) => {
 
     const dropdownRef = useRef(null);
     const { openDropdownId, setOpenDropdownId, registerDropdown } = useDropdown();
@@ -61,7 +61,11 @@ const Anchor = ({ id, label, link, isNested, isActive, externalStyles, options }
     const renderComponent = () => {
         if (link && !hasDropdown) {
             return(
-                <Link to={ link } className={ `${ isNested ? styles['anchor-nested'] : styles['anchor'] } ${ isActive ? styles['anchor-active'] : '' } ${ externalStyles }` }>
+                <Link
+                    to={ link }
+                    className={ `${ isNested ? styles['anchor-nested'] : styles['anchor'] } ${ isActive ? styles['anchor-active'] : '' } ${ externalStyles }` }
+                    { ...props }
+                >
                     { label }
                 </Link>
             );
@@ -74,6 +78,7 @@ const Anchor = ({ id, label, link, isNested, isActive, externalStyles, options }
                         className={ `${ styles['anchor'] } ${ styles['dropdown-toggle'] } ${ isOpen ? styles['dropdown-active'] : '' } ${ externalStyles }` }
                         onClick={ handleToggle }
                         onMouseDown={ event => event.stopPropagation() }
+                        { ...props }
                     >
                         { label }
                         <i className={ `fa-solid fa-chevron-down ${ isOpen ? styles['chevron-active'] : styles['chevron'] }` }></i>
