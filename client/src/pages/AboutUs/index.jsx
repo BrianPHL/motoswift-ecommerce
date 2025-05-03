@@ -40,7 +40,7 @@ const AboutUs = () => {
                 </div>
                 <div className={ styles['container'] }>
                     <div className={ styles['card'] }>
-                        <img src="Developers/pasco-pic.jpg" alt="" />
+                        <img src="Developers/pasco-pic.webp" alt="" />
                         <div className={ styles['info'] }>
                             <h3>Pasco, Brian Lawrence C.</h3>
                             <h4>Leader / Developer / Designer</h4>
@@ -68,14 +68,14 @@ const AboutUs = () => {
                         </div>
                     </div>
                     <div className={ styles['card'] }>
-                        <img src="Developers/salvador-pic.jpg" alt="" />
+                        <img src="Developers/salvador-pic.webp" alt="" />
                         <div className={ styles['info'] }>
                             <h3>Salvador, Lance</h3>
                             <h4>Developer</h4>
                         </div>
                     </div>
                     <div className={ styles['card'] }>
-                        <img src="Developers/vardeleon-pic.jpg" alt="" />
+                        <img src="Developers/vardeleon-pic.webp" alt="" />
                         <div className={ styles['info'] }>
                             <h3>Vardeleon, Joshua</h3>
                             <h4>Developer</h4>
