@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
 import styles from './ProductCard.module.css';
-import { Button, Modal } from '@components';
+import { InputField, Button, Modal } from '@components';
 import { useAuth, useCart, useReservation, useToast } from '@contexts';
 
 const ProductCard = ({ id, category, subcategory, img, label, price }) => {
@@ -9,6 +9,9 @@ const ProductCard = ({ id, category, subcategory, img, label, price }) => {
     if (!id || !category || !subcategory || !img || !label || !price) return null;
     
     const [ modalOpen, setModalOpen ] = useState(false);
+    const [ modalType, setModalType ] = useState('');
+    const [ reservePreferredDate, setReservePreferredDate ] = useState('');
+    const [ reserveNotes, setReserveNotes ] = useState('');
     const { addToCart } = useCart();
     const { addToReservations } = useReservation();
     const { user } = useAuth();
@@ -23,15 +26,25 @@ const ProductCard = ({ id, category, subcategory, img, label, price }) => {
         action();
     };
 
-    const handleReserve = () => {
-        requireAuth(() => { setModalOpen(true); });
+    const handleAddToCart = async () => {
+        try {
+            await addToCart({ id, category, subcategory, img, label, price });
+            showToast(`Successfully added ${ label } to your cart!`, 'success');
+        } catch (err) {
+            showToast(`Uh oh! An error occured during the addition of ${ label } to your cart! Please try again later.`, 'error');
+        }
     };
 
-    const handleReservationSubmit = (date) => {
-        addToReservations({
-            product: { id, category, subcategory, img, label, price },
-            preferredDate: date,
-        });
+    const handleAddToReservations = async () => {
+        try {
+            await addToReservations({
+                product: { id, category, subcategory, img, label, price },
+                preferredDate: date,
+            });
+        } catch (err) {
+            showToast(`Uh oh! An error occured during the reservation of ${ label }! Please try again later.`, 'error');
+        }
+   
     };
 
     return (
@@ -58,18 +71,104 @@ const ProductCard = ({ id, category, subcategory, img, label, price }) => {
                         icon='fa-solid fa-calendar-check'
                         iconPosition='left'
                         externalStyles={ styles['reserve'] }
-                        action={handleReserve}
+                        action={
+                            () => { 
+                                requireAuth(() => {
+                                    setModalType('reservation');
+                                    setModalOpen(true);
+                                })
+                            } 
+                        }
                     />
                     <Button
                         type='icon-outlined'
                         icon='fa-solid fa-cart-plus'         
                         externalStyles={ styles['cart'] }
-                        action={ () => requireAuth(() => addToCart({ id, category, subcategory, img, label, price })) }
+                        action={
+                            () => { 
+                                requireAuth(() => {
+                                    setModalType('cart');
+                                    setModalOpen(true);
+                                })
+                            } 
+                        }
                     />
                 </div>
             </div>
-            <Modal label='Reservation Form' isOpen={ modalOpen } onClose={ () => setModalOpen(false) }>
-            </Modal>
+            { modalType === 'reservation' ? (
+                <Modal label='Reservation Form' isOpen={ modalOpen } onClose={ () => setModalOpen(false) }>
+                    <div className={ styles['inputs-container'] }>
+                        <div className={ styles['input-wrapper'] }>
+                            <label htmlFor="preferred_date">
+                                Preferred Date
+                            </label>
+                            <InputField
+                                hint='Your preferred date...'
+                                type='date'
+                                value={ reservePreferredDate }
+                                onChange={ event => setReservePreferredDate(event['target']['value']) }
+                                isSubmittable={ false }
+                            />
+                        </div>
+                        <div className={ styles['input-wrapper'] }>
+                            <label htmlFor="notes">
+                                Notes (Optional)
+                            </label>
+                            <textarea
+                                placeholder='Your note/special request...'
+                                name="notes"
+                                id='notes'
+                                value={ reserveNotes }
+                                onChange={ event => setReserveNotes(event['target']['value']) }
+                            />
+                        </div>
+                    </div>
+                    <div className={ styles['modal-ctas'] }>
+                        <Button
+                            label='Confirm Reservation'
+                            type='primary'
+                            action={ () => {
+                                setModalType('');
+                                setModalOpen(false);
+                            }}
+                            disabled={ !reservePreferredDate }
+                        />
+                        <Button
+                            label='Cancel'
+                            type='secondary'
+                            action={ () => {
+                                setModalType('');
+                                setModalOpen(false);
+                            }}
+                        />
+                    </div>
+                </Modal>
+            ) : modalType === 'cart' ? (
+                <Modal label='Add to Cart Confirmation' isOpen={ modalOpen } onClose={ () => setModalOpen(false) }>
+                    <p className={ styles['modal-info'] }>Are you sure you want to add <strong>{ label }</strong> in your cart?</p>
+                    <div className={ styles['modal-ctas'] }>
+                        <Button
+                            label='Confirm'
+                            type='primary'
+                            action={ () => {
+                                handleAddToCart();
+                                setModalOpen(false);
+                            }}
+                        />
+                        <Button
+                            label='Cancel'
+                            type='secondary'
+                            action={ () => {
+                                setModalType('');
+                                setModalOpen(false);
+                            }}
+                        />
+                    </div>
+                </Modal>
+            ) : null
+
+            };
+            
         </>
     );
 };

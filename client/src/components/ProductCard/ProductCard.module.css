@@ -55,3 +55,58 @@
 .divider {
     border: 1px solid var(--bg-outline);
 }
+
+.modal-info {
+    font-weight: 400;
+    font-size: 1rem;
+    color: var(--tg-secondary);
+}
+
+.modal-ctas {
+    justify-content: flex-end;
+    align-self: stretch;
+    display: flex;
+    gap: 1rem;
+    & > .modal-confirm {
+        background-color: var(--error-foreground);
+        &:hover {
+            background-color: var(--error-hover);
+        }
+    }
+}
+
+.inputs-container {
+    flex-direction: column;
+    align-self: stretch;
+    display: flex;
+    gap: 1rem;
+}
+
+.input-wrapper {
+    justify-content: center;
+    flex-direction: column;
+    align-items: flex-start;
+    align-self: stretch;
+    display: flex;
+    gap: 0.5rem;
+    & > label {
+        font-weight: 500;
+        font-size: 0.75rem;
+        color: var(--tg-primary);
+    }
+    & > textarea {
+        background-color: transparent;
+        border-radius: 0.25rem;
+        transition: 0.25s ease all;
+        font-size: 0.875rem;
+        padding: 0.75rem 1.25rem;
+        border: 1px solid var(--bg-outline);
+        resize: vertical;
+        width: 100%;
+        color: var(--tg-secondary);
+        &:focus {
+            outline: 0;
+            border: 1px solid var(--accent-base);
+        }
+    }
+}
