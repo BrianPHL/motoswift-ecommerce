@@ -8,6 +8,7 @@
     transition: 0.25s ease all;
     font-size: 0.875rem;
     display: flex;
+    border-radius: 0.25rem;
     border: 0;
     width: 100%;
     color: var(--tg-primary);
@@ -19,7 +20,8 @@
 }
 
 .header-active {
-    background-color: var(--bg-outline);
+    background-color: var(--bg-outline) !important;
+    border-radius: 0.25rem 0.25rem 0 0;
     color: var(--accent-base);
 }
 
