@@ -30,7 +30,7 @@ import styles from './Accordion.module.css';
  * />
  */
 
-const Accordion = ({ label, options, children, externalStyles, ...props }) => {
+const Accordion = ({ label, options, externalStyles, children, ...props }) => {
 
     const [ isOpen, setIsOpen ] = useState(false);
 
