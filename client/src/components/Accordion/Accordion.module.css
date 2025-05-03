@@ -37,7 +37,6 @@
     padding: 0;
     margin: 0;
     transition: max-height 0.3s ease, opacity 0.3s ease;
-    & > li > * { padding: 1.5rem 2rem; }
 }
 
 .content-active {
