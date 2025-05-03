@@ -121,6 +121,19 @@
     }
 }
 
+.modal-info {
+    font-weight: 400;
+    font-size: 1rem;
+    color: var(--tg-secondary);
+}
+
+.modal-ctas {
+    justify-content: flex-end;
+    align-self: stretch;
+    display: flex;
+    gap: 1rem;
+}
+
 @media only screen and (max-width: 1200px) {
 
     .wrapper { padding: 8rem 4rem 2rem 4rem; }

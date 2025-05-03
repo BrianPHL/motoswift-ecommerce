@@ -1,10 +1,11 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
-import { Anchor, Button, InputField, ReturnButton } from '@components';
+import { Anchor, Button, InputField, ReturnButton, Modal } from '@components';
 import styles from './SignUp.module.css';
 import { useAuth, useToast } from '@contexts';
 
 const SignIn = () => {
+    const [ modalOpen, setModalOpen ] = useState(false);
     const [ showPassword, setShowPassword ] = useState(false);
     const [ showConfirmPassword, setShowConfirmPassword ] = useState(false);
     const [ firstName, setFirstName ] = useState('');
@@ -25,8 +26,6 @@ const SignIn = () => {
         setShowConfirmPassword((prev) => !prev);
     };
     const handleSignUp = async () => {
-
-        
 
         try {
             const result = await create({ firstName, lastName, email, address, contactNumber, password });
@@ -152,7 +151,7 @@ const SignIn = () => {
                         <Button
                             type='primary'
                             label='Sign up'
-                            action={ handleSignUp }
+                            action={ () => setModalOpen(true) }
                             disabled={ !firstName || !lastName || !email || !address || !password ||!confirmPassword }
                         />
                         <p>Already have an account? <Anchor label="Sign in" link="/sign-in" isNested={ false }/></p>
@@ -160,6 +159,24 @@ const SignIn = () => {
                 </form>
                 <div className={ styles['banner'] }></div>
             </div>
+            <Modal label='Account Creation Confirmation' isOpen={ modalOpen } onClose={ () => setModalOpen(false) }>
+                <p className={ styles['modal-info'] }>Creating an account with <strong>MotoSwift</strong> means you agree with our Terms and Conditions. Do you wish to continue?</p>
+                <div className={ styles['modal-ctas'] }>
+                    <Button
+                        label='Confirm'
+                        type='primary'
+                        action={ () => {
+                            handleSignUp();
+                            setModalOpen(false);
+                        } }
+                    />
+                    <Button
+                        label='Cancel'
+                        type='secondary'
+                        action={ () => setModalOpen(false) }
+                    />
+                </div>
+            </Modal>
         </div>
     );
 };
