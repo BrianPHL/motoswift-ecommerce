@@ -8,11 +8,11 @@ export const ReservationProvider = ({ children }) => {
 
     const addToReservations = (item) => {
         const reservationId = `R-${String(reservationCounter.current).padStart(6, '0')}`;
-        reservationCounter.current += 1;
-        const products = Array.isArray(item.products)
-            ? item.products
-            : item.product
-                ? [item.product]
+        reservationCounter['current'] += 1;
+        const products = Array.isArray(item['products'])
+            ? item['products']
+            : item['product']
+                ? [ item['product'] ]
                 : [];
 
         setReservationItems(previous => [
@@ -21,6 +21,7 @@ export const ReservationProvider = ({ children }) => {
                 ...item,
                 reservationId,
                 products,
+                preferredDate: item['preferredDate']
             }
         ]);
     };
