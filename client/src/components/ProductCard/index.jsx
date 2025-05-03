@@ -31,7 +31,7 @@ const ProductCard = ({ id, category, subcategory, img, label, price }) => {
             await addToCart({ id, category, subcategory, img, label, price });
             showToast(`Successfully added ${ label } to your cart!`, 'success');
         } catch (err) {
-            showToast(`Uh oh! An error occured during the addition of ${ label } to your cart! Please try again later.`, 'error');
+            showToast(`Uh oh! An error occured during the addition of ${ label } to your cart! Please try again later. Error message: ${ err }`, 'error');
         }
     };
 
@@ -39,10 +39,10 @@ const ProductCard = ({ id, category, subcategory, img, label, price }) => {
         try {
             await addToReservations({
                 product: { id, category, subcategory, img, label, price },
-                preferredDate: date,
+                preferredDate: reservePreferredDate,
             });
         } catch (err) {
-            showToast(`Uh oh! An error occured during the reservation of ${ label }! Please try again later.`, 'error');
+            showToast(`Uh oh! An error occured during the reservation of ${ label }! Please try again later. Error message: ${ err }`, 'error');
         }
    
     };
@@ -128,6 +128,7 @@ const ProductCard = ({ id, category, subcategory, img, label, price }) => {
                             label='Confirm Reservation'
                             type='primary'
                             action={ () => {
+                                handleAddToReservations();
                                 setModalType('');
                                 setModalOpen(false);
                             }}
