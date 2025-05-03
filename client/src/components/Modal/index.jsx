@@ -8,7 +8,7 @@ const Modal = ({ label, isOpen, onClose, children }) => {
 
     return (
         <div className={ styles['wrapper'] } onClick={ onClose }>
-            <div className={ styles['modal'] }>
+            <div className={ styles['modal'] } onClick={ event => event.stopPropagation() }>
                 <div className={ styles['header'] }>
                     <h3>{ label }</h3>
                     <Button
