@@ -32,12 +32,12 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
-    const create = async({ firstName, lastName, email, address, password }) => {
+    const create = async({ firstName, lastName, email, address, contactNumber, password }) => {
         try {
             const response = await fetch('/api/accounts/create', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ firstName, lastName, email, address, password })
+                body: JSON.stringify({ firstName, lastName, email, address, contactNumber, password })
             });
             const data = await response.json();
 

@@ -44,17 +44,17 @@ router.post('/login', async (req, res) => {
 
 router.post('/create', async (req, res) => {
 
-    const { firstName, lastName, email, address, password } = req.body;
+    const { firstName, lastName, email, address, contactNumber, password } = req.body;
 
     try {
         const [ rows ] = await pool.query(
             `
-                INSERT INTO accounts (first_name, last_name, email, address, password)
-                SELECT ?, ?, ?, ?, ?
+                INSERT INTO accounts (first_name, last_name, email, address, contact_number, password)
+                SELECT ?, ?, ?, ?, ?, ?
                 FROM DUAL
                 WHERE NOT EXISTS (SELECT 1 FROM accounts WHERE email = ?)
             `,
-            [ firstName, lastName, email, address, password, email ]
+            [ firstName, lastName, email, address, contactNumber, password, email ]
         );
 
         if (rows.affectedRows === 0) {

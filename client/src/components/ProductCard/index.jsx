@@ -8,8 +8,7 @@ const ProductCard = ({ id, category, subcategory, img, label, price }) => {
     
     if (!id || !category || !subcategory || !img || !label || !price) return null;
     
-    const [modalOpen, setModalOpen] = useState(false);
-    const [modalType, setModalType] = useState(null);
+    const [ modalOpen, setModalOpen ] = useState(false);
     const { addToCart } = useCart();
     const { addToReservations } = useReservation();
     const { user } = useAuth();
@@ -25,10 +24,7 @@ const ProductCard = ({ id, category, subcategory, img, label, price }) => {
     };
 
     const handleReserve = () => {
-        requireAuth(() => {
-            setModalType('reserve');
-            setModalOpen(true);
-        });
+        requireAuth(() => { setModalOpen(true); });
     };
 
     const handleReservationSubmit = (date) => {
@@ -72,17 +68,8 @@ const ProductCard = ({ id, category, subcategory, img, label, price }) => {
                     />
                 </div>
             </div>
-            <Modal
-                open={modalOpen}
-                message={
-                    modalType === 'reserve'
-                        ? "Please select your preferred reservation date."
-                        : "You must be signed in to perform this action!"
-                }
-                isInput={modalType === 'reserve'}
-                onSubmit={modalType === 'reserve' ? handleReservationSubmit : undefined}
-                onClose={() => setModalOpen(false)}
-            />
+            <Modal label='Reservation Form' isOpen={ modalOpen } onClose={ () => setModalOpen(false) }>
+            </Modal>
         </>
     );
 };

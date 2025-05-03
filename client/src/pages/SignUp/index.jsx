@@ -11,6 +11,7 @@ const SignIn = () => {
     const [ lastName, setLastName ] = useState('');
     const [ email, setEmail ] = useState('');
     const [ address, setAddress ] = useState('');
+    const [ contactNumber, setContactNumber ] = useState('');
     const [ password, setPassword ] = useState('');
     const [ confirmPassword, setConfirmPassword ] = useState('');
     const [ formError, setFormError ] = useState('');
@@ -25,8 +26,10 @@ const SignIn = () => {
     };
     const handleSignUp = async () => {
 
+        
+
         try {
-            const result = await create({ firstName, lastName, email, address, password });
+            const result = await create({ firstName, lastName, email, address, contactNumber, password });
 
             if (result?.error) {
                 setFormError(result['error']);
@@ -105,6 +108,17 @@ const SignIn = () => {
                                 type='email'
                                 isSubmittable={ false }
                                 onChange={ event => setAddress(event['target']['value']) }
+                            />
+                        </div>
+                        <div className={ styles['input-wrapper'] }>
+                            <label htmlFor="contact_number">
+                                Contact number <span style={{ 'color': 'var(--accent-base)' }}>*</span>
+                            </label>
+                            <InputField
+                                hint='Your contact number...'
+                                type='text'
+                                isSubmittable={ false }
+                                onChange={ event => setContactNumber(event['target']['value']) }
                             />
                         </div>
                         <div className={ styles['input-wrapper'] }>
