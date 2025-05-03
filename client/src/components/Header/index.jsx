@@ -165,18 +165,19 @@ const Header = () => {
                         <Accordion
                             label='My account'
                             type='link'
+                            onLinkClick={ () => setDrawerOpen(false) }
                             options={[
                                 {
                                     label: 'My Profile',
-                                    link: '#'
+                                    link: 'profile'
                                 },
                                 {
                                     label: 'My Reservation',
-                                    link: '#'
+                                    link: 'reservations'
                                 },
                                 {
                                     label: 'My Cart',
-                                    link: '#'
+                                    link: 'cart'
                                 },
                             ]}
                         />
