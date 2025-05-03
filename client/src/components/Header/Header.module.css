@@ -29,7 +29,13 @@
     flex-direction: column;
     display: flex;
     height: 100%;
-    & > *:not(ul) { padding: 1.5rem 2rem; }
+    & > *:not(div) { padding: 1.5rem 2rem; }
+}
+
+.mobile-nav-account {
+    & > button {
+        padding: 1.5rem 2rem;
+    }
 }
 
 .mobile-cta {

@@ -1,5 +1,12 @@
 @import url('../../index.css');
 
+.wrapper {
+    flex-direction: column;
+    display: flex;
+    padding: 0;
+    margin: 0;
+}
+
 .header {
     background-color: transparent;
     justify-content: space-between;
@@ -8,7 +15,7 @@
     transition: 0.25s ease all;
     font-size: 0.875rem;
     display: flex;
-    border-radius: 0.25rem;
+    padding: 1rem;
     border: 0;
     width: 100%;
     color: var(--tg-primary);
@@ -21,7 +28,6 @@
 
 .header-active {
     background-color: var(--bg-outline) !important;
-    border-radius: 0.25rem 0.25rem 0 0;
     color: var(--accent-base);
 }
 

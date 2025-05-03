@@ -166,6 +166,7 @@ const Header = () => {
                             label='My account'
                             type='link'
                             onLinkClick={ () => setDrawerOpen(false) }
+                            externalStyles={ styles['mobile-nav-account'] }
                             options={[
                                 {
                                     label: 'My Profile',

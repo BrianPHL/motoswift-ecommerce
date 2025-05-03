@@ -37,9 +37,9 @@ const Accordion = ({ label, options, externalStyles, onLinkClick, children, ...p
     if (!label) return null;
 
     return (
-        <>
+        <div className={ `${ styles['wrapper'] } ${ externalStyles ? externalStyles : null } `}>
             <button
-                className={` ${styles['header']} ${ isOpen ? styles['header-active'] : '' } ${ externalStyles ? externalStyles : null }` }
+                className={` ${styles['header']} ${ isOpen ? styles['header-active'] : '' }` }
                 onClick={ () => setIsOpen((prev) => !prev) }
                 aria-expanded={ isOpen }
                 { ...props }
@@ -62,7 +62,7 @@ const Accordion = ({ label, options, externalStyles, onLinkClick, children, ...p
                     <li>{children}</li>
                 )}
             </ul>
-        </>
+        </div>
     );
 };
 
