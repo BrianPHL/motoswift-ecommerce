@@ -1,17 +1,19 @@
 import { useState } from 'react';
-import { Logo, Anchor, Button, Accordion } from '@components';
+import { Logo, Anchor, Button, Accordion, Modal } from '@components';
 import styles from "./Header.module.css";
 import { useNavigate, useLocation } from 'react-router';
 import { useTheme, useAuth } from "@contexts";
 
 const Header = () => {
 
+    const [ modalOpen, setModalOpen ] = useState(false);
     const navigate = useNavigate();
     const location = useLocation();
     const { pathname } = location;
     const { theme, toggleTheme } = useTheme();
     const [ drawerOpen, setDrawerOpen ] = useState(false);
     const { user, logout } = useAuth();
+    const handleLogout = () => setModalOpen(true);
 
     return (
         <>
@@ -66,7 +68,7 @@ const Header = () => {
                                 },
                                 {
                                     label: 'Logout',
-                                    action: logout,
+                                    action: handleLogout,
                                 },
                             ]}
                         />
@@ -188,9 +190,10 @@ const Header = () => {
                                 type='icon'
                                 icon='fa-solid fa-right-from-bracket'
                                 action={ () => {
-                                        logout()
+                                        handleLogout()
                                         setDrawerOpen(false)
-                                    }}
+                                    }
+                                }
                             />
                         </div>
                     ) : (
@@ -215,6 +218,25 @@ const Header = () => {
                     )}
                 </div>
             </div>
+            <Modal label='Logout Confirmation' isOpen={ modalOpen } onClose={ () => setModalOpen(false) }>
+                <p className={ styles['modal-info'] }>Are you sure you want to log out of your account?</p>
+                <div className={ styles['modal-ctas'] }>
+                    <Button
+                        label='Confirm'
+                        type='primary'
+                        action={ () => {
+                            setModalOpen(false);
+                            logout();
+                        } }
+                        externalStyles={ styles['modal-confirm'] }
+                    />
+                    <Button
+                        label='Cancel'
+                        type='secondary'
+                        action={ () => { logout } }
+                    />
+                </div>
+            </Modal>
         </>
     );
 };

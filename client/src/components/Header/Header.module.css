@@ -100,6 +100,26 @@
     padding: 1.5rem 2rem;
 }
 
+.modal-info {
+    font-weight: 400;
+    font-size: 1rem;
+    color: var(--tg-secondary);
+
+}
+
+.modal-ctas {
+    justify-content: flex-end;
+    align-self: stretch;
+    display: flex;
+    gap: 1rem;
+    & > .modal-confirm {
+        background-color: var(--error-foreground);
+        &:hover {
+            background-color: var(--error-hover);
+        }
+    }
+}
+
 @media only screen and (max-width: 1200px) {
 
     .desktop-header { padding: 2rem 4rem; }
