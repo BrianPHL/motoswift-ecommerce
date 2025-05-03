@@ -48,11 +48,11 @@ const Accordion = ({ label, options, externalStyles, onLinkClick, children, ...p
                 <i className={ `${ 'fa-solid fa-chevron-down' } ${ isOpen ? styles['chevron-active'] : styles['chevron'] }` }></i>
             </button>
             <ul className={ `${ styles['content'] } ${ isOpen ? styles['content-active'] : styles['content-inactive'] }` }>
-                {options && options.map((option, index) => (
+                { options && options.map((option, index) => (
                     <li key={ index }>
                         <Anchor
                             label={ option.label }
-                            link={ option.href }
+                            link={ option.link }
                             isNested={ true }
                             onClick={ onLinkClick }
                         />
