@@ -30,7 +30,7 @@ import styles from './Accordion.module.css';
  * />
  */
 
-const Accordion = ({ label, options, externalStyles, children, ...props }) => {
+const Accordion = ({ label, options, externalStyles, onLinkClick, children, ...props }) => {
 
     const [ isOpen, setIsOpen ] = useState(false);
 
@@ -54,6 +54,7 @@ const Accordion = ({ label, options, externalStyles, children, ...props }) => {
                             label={ option.label }
                             link={ option.href }
                             isNested={ true }
+                            onClick={ onLinkClick }
                         />
                     </li>
                 ))}
