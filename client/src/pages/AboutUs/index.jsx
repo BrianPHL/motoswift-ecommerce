@@ -40,42 +40,42 @@ const AboutUs = () => {
                 </div>
                 <div className={ styles['container'] }>
                     <div className={ styles['card'] }>
-                        <img src="Developers/pasco-pic.webp" alt="" />
+                        <img src="https://res.cloudinary.com/dfvy7i4uc/image/upload/v1746275484/pasco-pic_rcto1j.webp" alt="" />
                         <div className={ styles['info'] }>
                             <h3>Pasco, Brian Lawrence C.</h3>
                             <h4>Leader / Developer / Designer</h4>
                         </div>
                     </div>
                     <div className={ styles['card'] }>
-                        <img src="Developers/aba_a-pic.webp" alt="" />
+                        <img src="https://res.cloudinary.com/dfvy7i4uc/image/upload/v1746275484/aba_a-pic_kwnrte.webp" alt="" />
                         <div className={ styles['info'] }>
                             <h3>Aba-a, Ivan</h3>
                             <h4>Developer</h4>
                         </div>
                     </div>
                     <div className={ styles['card'] }>
-                        <img src="Developers/amancio-pic.webp" alt="" />
+                        <img src="https://res.cloudinary.com/dfvy7i4uc/image/upload/v1746275483/amancio-pic_ms3yvv.webp" alt="" />
                         <div className={ styles['info'] }>
                             <h3>Amancio, C-jay</h3>
                             <h4>Developer</h4>
                         </div>
                     </div>
                     <div className={ styles['card'] }>
-                        <img src="Developers/de_vera-pic.webp" alt="" />
+                        <img src="https://res.cloudinary.com/dfvy7i4uc/image/upload/v1746275483/de_vera-pic_y8gk1j.webp" alt="" />
                         <div className={ styles['info'] }>
                             <h3>De Vera, Nathan</h3>
                             <h4>Developer</h4>
                         </div>
                     </div>
                     <div className={ styles['card'] }>
-                        <img src="Developers/salvador-pic.webp" alt="" />
+                        <img src="https://res.cloudinary.com/dfvy7i4uc/image/upload/v1746275484/salvador-pic_kj3pwf.webp" alt="" />
                         <div className={ styles['info'] }>
                             <h3>Salvador, Lance</h3>
                             <h4>Developer</h4>
                         </div>
                     </div>
                     <div className={ styles['card'] }>
-                        <img src="Developers/vardeleon-pic.webp" alt="" />
+                        <img src="https://res.cloudinary.com/dfvy7i4uc/image/upload/v1746275484/vardeleon-pic_jkesup.webp" alt="" />
                         <div className={ styles['info'] }>
                             <h3>Vardeleon, Joshua</h3>
                             <h4>Developer</h4>

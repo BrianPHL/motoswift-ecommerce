@@ -28,7 +28,7 @@
 }
 
 .banner {
-    background-image: url(../../../public/Banners/motorcycles-banner.webp);
+    background-image: url('https://res.cloudinary.com/dfvy7i4uc/image/upload/v1746275498/parts-and-accessories-banner_oiem58.webp');
     background-position: center;
     background-repeat: no-repeat;
     justify-content: center;
