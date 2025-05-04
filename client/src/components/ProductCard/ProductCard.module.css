@@ -53,7 +53,9 @@
 }
 
 .divider {
-    border: 1px solid var(--bg-outline);
+    background-color: var(--bg-outline);
+    height: 1px;
+    width: 100%;
 }
 
 .modal-info {

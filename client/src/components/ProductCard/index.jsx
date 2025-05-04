@@ -58,7 +58,7 @@ const ProductCard = ({ id, category, subcategory, img, label, price }) => {
                 <div className={ styles['details'] }>
                     <div className={ styles['text'] }>
                         <h2>{ label }</h2>
-                        <h3>{ price }</h3>
+                        <h3>₱{ price }</h3>
                     </div>
                     <Button
                         type='icon'
