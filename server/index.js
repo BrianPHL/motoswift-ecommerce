@@ -15,12 +15,12 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(cors({
-  origin: process.env.NODE_ENV === 'production' 
-    ? [ 'https://motoswift-ecommerce-production.up.railway.app' ]
-    : ['http://localhost:5173', 'http://127.0.0.1:5173'],
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  credentials: true,
-  allowedHeaders: ['Content-Type', 'Authorization']
+	origin: process.env.NODE_ENV === 'production' 
+    	? [ 'https://motoswift-ecommerce-production.up.railway.app' ]
+    	: ['http://localhost:5173', 'http://127.0.0.1:5173'],
+  	methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  	credentials: true,
+  	allowedHeaders: ['Content-Type', 'Authorization']
 }));
 app.use(express.json());
 app.use('/api/accounts', accountsRouter);
@@ -29,7 +29,7 @@ app.use('/api/products', productsRouter);
 app.use(express.static(path.join(__dirname, '../client/dist')));
 
 app.get(/^(?!\/api\/).*/, (req, res) => {
-    res.sendFile(path.join(__dirname, '../client/dist/index.html'));
+	res.sendFile(path.join(__dirname, '../client/dist/index.html'));
 });
 
 app.listen(PORT, () => {
