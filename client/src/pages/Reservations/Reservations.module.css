@@ -89,6 +89,7 @@
     background-color: var(--bg-secondary);
     border-radius: 0.5rem;
     overflow: hidden;
+    border: 1px solid var(--bg-outline);
     &:not(:last-child) {
         margin-bottom: 1rem;
     }
