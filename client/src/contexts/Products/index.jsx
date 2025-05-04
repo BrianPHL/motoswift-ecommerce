@@ -4,7 +4,7 @@ import { useToast } from '@contexts';
 
 export const ProductsProvider = ({ children }) => {
 
-    const REFRESH_INTERVAL = 5 * 60 * 1000;
+    const REFRESH_INTERVAL = 10 * 60 * 1000;
     const [ products, setProducts ] = useState([]);
     const [ loading, setLoading ] = useState(true);
     const [ error, setError ] = useState(null);
@@ -12,9 +12,16 @@ export const ProductsProvider = ({ children }) => {
     const { showToast } = useToast();
 
     const fetchProducts = useCallback( async (force = false) => {
-        if (force || !lastFetched || (Date.now() - lastFetched > REFRESH_INTERVAL)) {
+
+        if (loading) return;
+
+        const minTimeBetweenFetches = 10000;
+
+        if (force || !lastFetched || (Date.now() - lastFetched < minTimeBetweenFetches)) {
             setLoading(true);
             try {
+
+                console.log(`Fetching products at ${new Date().toLocaleTimeString()}`);
 
                 const response = await fetch('/api/products');
 
@@ -33,16 +40,23 @@ export const ProductsProvider = ({ children }) => {
             }
 
         }
-    }, [ lastFetched, showToast, REFRESH_INTERVAL ]);
+    }, [ loading, lastFetched, showToast, REFRESH_INTERVAL ]);
 
     useEffect(() => {
         fetchProducts(true);
-    }, [ fetchProducts ]);
+    }, []);
 
     useEffect(() => {
-        const interval = setInterval(() => fetchProducts(), REFRESH_INTERVAL);
-        return () => clearInterval(interval);
-    }, [ fetchProducts, REFRESH_INTERVAL ]);
+        
+        console.log("Setting up product refresh interval.")
+        const interval = setInterval(() => { fetchProducts(false)}, REFRESH_INTERVAL);
+
+        return () => {
+            console.log("Clearing product refresh interval");
+            clearInterval(interval);
+        }
+  
+    }, []);
 
     return (
         <ProductsContext.Provider 
