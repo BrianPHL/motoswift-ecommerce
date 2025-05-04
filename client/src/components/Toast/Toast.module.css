@@ -1,17 +1,12 @@
 @import url('../../index.css');
 
 .toast {
-    align-items: flex-start;
     background-color: var(--bg-secondary);
+    align-items: center;
     border-radius: 0.5rem;
     display: flex;
     padding: 1rem;
     width: 25rem;
-    gap: 1rem;
-}
-
-.message {
-    display: flex;
     gap: 1rem;
 }
 
@@ -21,6 +16,12 @@
         font-size: 1rem;
         color: var(--tg-secondary);
     }
+}
+
+.message {
+    align-items: center;
+    display: flex;
+    gap: 1rem;
 }
 
 .success {
