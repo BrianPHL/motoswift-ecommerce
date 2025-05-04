@@ -74,32 +74,36 @@ const Header = () => {
                         />
                     )}
                     <div style={{ display: 'flex', gap: '1rem' }}>
-                        <div className={ styles['indicator-wrapper'] }>
-                            <Button
-                                type="icon"
-                                action={ () => navigate('/cart')  }
-                                icon='fa-solid fa-cart-shopping'
-                                externalStyles={ styles['indicator-btn'] }
-                            />
-                            { cartItems['length'] !== 0 ? (
-                                <span className={ styles['indicator-badge'] }>
-                                    { cartItems['length'] }
-                                </span>
-                            ) : null }
-                        </div>
-                        <div className={ styles['indicator-wrapper'] }>    
-                            <Button
-                                type="icon"
-                                action={ () => navigate('/reservations') }
-                                icon='fa-solid fa-calendar'
-                                externalStyles={ styles['indicator-btn'] }
-                            />
-                            { reservationItems['length'] !== 0 ? (
-                                <span className={ styles['indicator-badge'] }>
-                                    { reservationItems['length'] }
-                                </span>
-                            ) : null }
-                        </div>
+                        { user ? (
+                            <>
+                                <div className={ styles['indicator-wrapper'] }>
+                                    <Button
+                                        type="icon"
+                                        action={ () => navigate('/cart')  }
+                                        icon='fa-solid fa-cart-shopping'
+                                        externalStyles={ styles['indicator-btn'] }
+                                        />
+                                    { cartItems['length'] !== 0 ? (
+                                        <span className={ styles['indicator-badge'] }>
+                                            { cartItems['length'] }
+                                        </span>
+                                    ) : null }
+                                </div>
+                                <div className={ styles['indicator-wrapper'] }>    
+                                    <Button
+                                        type="icon"
+                                        action={ () => navigate('/reservations') }
+                                        icon='fa-solid fa-calendar'
+                                        externalStyles={ styles['indicator-btn'] }
+                                        />
+                                    { reservationItems['length'] !== 0 ? (
+                                        <span className={ styles['indicator-badge'] }>
+                                            { reservationItems['length'] }
+                                        </span>
+                                    ) : null }
+                                </div>
+                            </>
+                        ) : null }
                         <Button
                             type="icon"
                             action={ () => toggleTheme()  }
@@ -152,32 +156,36 @@ const Header = () => {
                     </div>
                     <div className={ styles['right'] }>
                         <div style={{ display: 'flex', gap: '1rem' }}>
-                            <div className={ styles['indicator-wrapper'] }>
-                                <Button
-                                    type="icon"
-                                    action={ () => navigate('/cart')  }
-                                    icon='fa-solid fa-cart-shopping'
-                                    externalStyles={ styles['indicator-btn'] }
-                                />
-                                { cartItems['length'] !== 0 ? (
-                                    <span className={ styles['indicator-badge'] }>
-                                        { cartItems['length'] }
-                                    </span>
-                                ) : null }
-                            </div>
-                            <div className={ styles['indicator-wrapper'] }>    
-                                <Button
-                                    type="icon"
-                                    action={ () => navigate('/reservations') }
-                                    icon='fa-solid fa-calendar'
-                                    externalStyles={ styles['indicator-btn'] }
-                                />
-                                { reservationItems['length'] !== 0 ? (
-                                    <span className={ styles['indicator-badge'] }>
-                                        { reservationItems['length'] }
-                                    </span>
-                                ) : null }
-                            </div>
+                            { user ? (
+                                <>
+                                    <div className={ styles['indicator-wrapper'] }>
+                                        <Button
+                                            type="icon"
+                                            action={ () => navigate('/cart')  }
+                                            icon='fa-solid fa-cart-shopping'
+                                            externalStyles={ styles['indicator-btn'] }
+                                            />
+                                        { cartItems['length'] !== 0 ? (
+                                            <span className={ styles['indicator-badge'] }>
+                                                { cartItems['length'] }
+                                            </span>
+                                        ) : null }
+                                    </div>
+                                    <div className={ styles['indicator-wrapper'] }>    
+                                        <Button
+                                            type="icon"
+                                            action={ () => navigate('/reservations') }
+                                            icon='fa-solid fa-calendar'
+                                            externalStyles={ styles['indicator-btn'] }
+                                            />
+                                        { reservationItems['length'] !== 0 ? (
+                                            <span className={ styles['indicator-badge'] }>
+                                                { reservationItems['length'] }
+                                            </span>
+                                        ) : null }
+                                    </div>
+                                </>
+                            ) : null }
                             <Button
                                 type="icon"
                                 action={ () => toggleTheme()  }
@@ -231,32 +239,36 @@ const Header = () => {
                         </div>
                         <div className={ styles['right'] }>
                             <div style={{ display: 'flex', gap: '1rem' }}>
-                                <div className={ styles['indicator-wrapper'] }>
-                                    <Button
-                                        type="icon"
-                                        action={ () => navigate('/cart')  }
-                                        icon='fa-solid fa-cart-shopping'
-                                        externalStyles={ styles['indicator-btn'] }
-                                    />
-                                    { cartItems['length'] !== 0 ? (
-                                        <span className={ styles['indicator-badge'] }>
-                                            { cartItems['length'] }
-                                        </span>
-                                    ) : null }
-                                </div>
-                                <div className={ styles['indicator-wrapper'] }>    
-                                    <Button
-                                        type="icon"
-                                        action={ () => navigate('/reservations') }
-                                        icon='fa-solid fa-calendar'
-                                        externalStyles={ styles['indicator-btn'] }
-                                    />
-                                    { reservationItems['length'] !== 0 ? (
-                                        <span className={ styles['indicator-badge'] }>
-                                            { reservationItems['length'] }
-                                        </span>
-                                    ) : null }
-                                </div>
+                                { user ? (
+                                    <>
+                                        <div className={ styles['indicator-wrapper'] }>
+                                            <Button
+                                                type="icon"
+                                                action={ () => navigate('/cart')  }
+                                                icon='fa-solid fa-cart-shopping'
+                                                externalStyles={ styles['indicator-btn'] }
+                                                />
+                                            { cartItems['length'] !== 0 ? (
+                                                <span className={ styles['indicator-badge'] }>
+                                                    { cartItems['length'] }
+                                                </span>
+                                            ) : null }
+                                        </div>
+                                        <div className={ styles['indicator-wrapper'] }>    
+                                            <Button
+                                                type="icon"
+                                                action={ () => navigate('/reservations') }
+                                                icon='fa-solid fa-calendar'
+                                                externalStyles={ styles['indicator-btn'] }
+                                                />
+                                            { reservationItems['length'] !== 0 ? (
+                                                <span className={ styles['indicator-badge'] }>
+                                                    { reservationItems['length'] }
+                                                </span>
+                                            ) : null }
+                                        </div>
+                                    </>
+                                ) : null }
                                 <Button
                                     type="icon"
                                     action={ () => toggleTheme()  }
