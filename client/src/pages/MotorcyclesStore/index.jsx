@@ -5,6 +5,8 @@ import styles from './MotorcyclesStore.module.css';
 const MotorcyclesStore = () => {
     const [ currentPage, setCurrentPage ] = useState(1);
     const [ currentSort, setCurrentSort ] = useState('Sort by: Price (Low to High)');
+    const [ searchQuery, setSearchQuery ] = useState('');
+    const [ searchInput, setSearchInput ] = useState('');
     const ITEMS_PER_PAGE = 10;
     const products = [
         {
@@ -48,7 +50,7 @@ const MotorcyclesStore = () => {
           price: '₱123,900.00',
         }
     ];
-    const totalPages = Math.ceil(products.length / ITEMS_PER_PAGE);
+    const filteredProducts = products['filter'](product => product['label']['toLowerCase']()['includes'](searchQuery['toLowerCase']()));
     const getSortedProducts = (products, sortKey) => {
       switch (sortKey) {
         case 'Sort by: Price (Low to High)':
@@ -67,7 +69,8 @@ const MotorcyclesStore = () => {
             return products;
       };
     };
-    const sortedProducts = getSortedProducts(products, currentSort);
+    const sortedProducts = getSortedProducts(filteredProducts, currentSort);
+    const totalPages = Math['max'](1, Math['ceil'](sortedProducts['length'] / ITEMS_PER_PAGE));
     const paginatedProducts = sortedProducts.slice((currentPage - 1) * ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE);
     const handlePageChange = (page) => {
         if (page >= 1 && page <= totalPages) setCurrentPage(page);
@@ -92,6 +95,11 @@ const MotorcyclesStore = () => {
                 sortLabel={ currentSort }
                 onPageChange={ handlePageChange }
                 onSortChange={ handleSortChange }
+                onSearchChange={ event => setSearchInput(event['target']['value']) }
+                onSearchSubmit={ () => {
+                    setSearchQuery(searchInput);
+                    setCurrentPage(1);
+                }}
             />
             
             <div className={styles['container']}>

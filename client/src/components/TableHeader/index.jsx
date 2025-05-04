@@ -1,7 +1,7 @@
 import { Button, InputField } from '@components';
 import styles from './TableHeader.module.css';
 
-const TableHeader = ({ tableName, currentPage, totalPages, resultsLabel, sortLabel, onPageChange, onSortChange }) => {
+const TableHeader = ({ tableName, currentPage, totalPages, resultsLabel, sortLabel, onPageChange, onSortChange, onSearchChange, onSearchSubmit }) => {
 
     if (tableName !== 'motorcycles' && tableName !== 'parts-and-accessories') return null;
     if (currentPage === undefined || totalPages === undefined || !onPageChange) return null;
@@ -40,6 +40,8 @@ const TableHeader = ({ tableName, currentPage, totalPages, resultsLabel, sortLab
                 <InputField
                     hint='Search for motorcycles...'
                     type='text'
+                    onChange={ onSearchChange }
+                    action={ onSearchSubmit }
                     isSubmittable={ true }    
                 />
             </div>
