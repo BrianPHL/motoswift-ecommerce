@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Logo, Anchor, Button, Accordion, Modal } from '@components';
 import styles from "./Header.module.css";
 import { useNavigate, useLocation } from 'react-router';
-import { useTheme, useAuth } from "@contexts";
+import { useTheme, useAuth, useCart, useReservation } from "@contexts";
 
 const Header = () => {
 
@@ -13,6 +13,8 @@ const Header = () => {
     const { theme, toggleTheme } = useTheme();
     const [ drawerOpen, setDrawerOpen ] = useState(false);
     const { user, logout } = useAuth();
+    const { cartItems } = useCart();
+    const { reservationItems } = useReservation();
     const handleLogout = () => setModalOpen(true);
 
     return (
@@ -59,14 +61,6 @@ const Header = () => {
                                     action: () => { navigate('/profile') },
                                 },
                                 {
-                                    label: 'Cart',
-                                    action: () => { navigate('/cart') },
-                                },
-                                {
-                                    label: 'Reservations',
-                                    action: () => { navigate('/reservations') },
-                                },
-                                {
                                     label: 'Logout',
                                     action: handleLogout,
                                 },
@@ -79,11 +73,39 @@ const Header = () => {
                             action={ () => { navigate('/sign-in') } }
                         />
                     )}
-                    <Button
-                        type="icon"
-                        action={ () => toggleTheme()  }
-                        icon={ theme === 'light' ? 'fa-solid fa-moon' : 'fa-solid fa-sun' }
-                    />
+                    <div style={{ display: 'flex', gap: '1rem' }}>
+                        <div className={ styles['indicator-wrapper'] }>
+                            <Button
+                                type="icon"
+                                action={ () => navigate('/cart')  }
+                                icon='fa-solid fa-cart-shopping'
+                                externalStyles={ styles['indicator-btn'] }
+                            />
+                            { cartItems['length'] !== 0 ? (
+                                <span className={ styles['indicator-badge'] }>
+                                    { cartItems['length'] }
+                                </span>
+                            ) : null }
+                        </div>
+                        <div className={ styles['indicator-wrapper'] }>    
+                            <Button
+                                type="icon"
+                                action={ () => navigate('/reservations') }
+                                icon='fa-solid fa-calendar'
+                                externalStyles={ styles['indicator-btn'] }
+                            />
+                            { reservationItems['length'] !== 0 ? (
+                                <span className={ styles['indicator-badge'] }>
+                                    { reservationItems['length'] }
+                                </span>
+                            ) : null }
+                        </div>
+                        <Button
+                            type="icon"
+                            action={ () => toggleTheme()  }
+                            icon={ theme === 'light' ? 'fa-solid fa-moon' : 'fa-solid fa-sun' }
+                        />
+                    </div>
                 </div>
             </div>
             <div className={ styles['mobile-header'] }>
