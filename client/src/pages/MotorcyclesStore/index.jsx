@@ -67,10 +67,10 @@ const MotorcyclesStore = () => {
                 { paginatedProducts.map(product => (
                     <ProductCard
                         key={ product['product_id'] }
-                        id={ product['product_id'] }
+                        product_id={ product['product_id'] }
                         category={ product['category'] }
                         subcategory={ product['subcategory'] }
-                        img={ product['image_url'] }
+                        image_url={ product['image_url'] }
                         label={ product['label'] }
                         price={ product['price'] }
                     />

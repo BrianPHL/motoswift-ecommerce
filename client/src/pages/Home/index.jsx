@@ -103,10 +103,10 @@ const Home = () => {
                     { featuredMotorcycles.map((motorcycle) => (
                         <ProductCard
                             key={ motorcycle['product_id'] }
-                            id={ motorcycle['product_id'] }
+                            product_id={ motorcycle['product_id'] }
                             category={ motorcycle['category'] }
                             subcategory={ motorcycle['subcategory'] }
-                            img={ motorcycle['image_url'] }
+                            image_url={ motorcycle['image_url'] }
                             label={ motorcycle['label'] }
                             price={ motorcycle['price'] }
                         />
@@ -134,10 +134,10 @@ const Home = () => {
                     { featuredPartsAndAccessories.map((partsAndAccessories) => (
                         <ProductCard
                             key={ partsAndAccessories['product_id'] }
-                            id={ partsAndAccessories['product_id'] }
+                            product_id={ partsAndAccessories['product_id'] }
                             category={ partsAndAccessories['category'] }
                             subcategory={ partsAndAccessories['subcategory'] }
-                            img={ partsAndAccessories['image_url'] }
+                            image_url={ partsAndAccessories['image_url'] }
                             label={ partsAndAccessories['label'] }
                             price={ partsAndAccessories['price'] }
                         />

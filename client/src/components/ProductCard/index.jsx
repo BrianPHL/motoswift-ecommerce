@@ -4,9 +4,9 @@ import styles from './ProductCard.module.css';
 import { InputField, Button, Modal } from '@components';
 import { useAuth, useCart, useReservation, useToast } from '@contexts';
 
-const ProductCard = ({ id, category, subcategory, img, label, price }) => {
+const ProductCard = ({ product_id, category, subcategory, image_url, label, price }) => {
     
-    if (!id || !category || !subcategory || !img || !label || !price) return null;
+    if (!product_id || !category || !subcategory || !image_url || !label || !price) return null;
     
     const [ modalOpen, setModalOpen ] = useState(false);
     const [ modalType, setModalType ] = useState('');
@@ -27,8 +27,9 @@ const ProductCard = ({ id, category, subcategory, img, label, price }) => {
     };
 
     const handleAddToCart = async () => {
+        console.log(product_id, category, subcategory, image_url, label, price)
         try {
-            await addToCart({ id, category, subcategory, img, label, price });
+            await addToCart({ product_id, category, subcategory, image_url, label, price });
             showToast(`Successfully added ${ label } to your cart!`, 'success');
         } catch (err) {
             showToast(`Uh oh! An error occured during the addition of ${ label } to your cart! Please try again later. Error message: ${ err }`, 'error');
@@ -38,7 +39,7 @@ const ProductCard = ({ id, category, subcategory, img, label, price }) => {
     const handleAddToReservations = async () => {
         try {
             await addToReservations({
-                product: { id, category, subcategory, img, label, price },
+                product: { product_id, category, subcategory, image_url, label, price },
                 preferredDate: reservePreferredDate,
             });
         } catch (err) {
@@ -52,7 +53,7 @@ const ProductCard = ({ id, category, subcategory, img, label, price }) => {
             <div className={ styles['wrapper'] }>
                 <img
                     className={ styles['product-img'] }
-                    src={ `https://res.cloudinary.com/dfvy7i4uc/image/upload/${ img }` }
+                    src={ `https://res.cloudinary.com/dfvy7i4uc/image/upload/${ image_url }` }
                     alt={ `${ label }. Price: ${ price }` } />
                 <div className={ styles['divider'] }></div>
                 <div className={ styles['details'] }>
