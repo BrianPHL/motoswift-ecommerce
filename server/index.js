@@ -3,7 +3,7 @@ import express from "express";
 import dotenv from "dotenv";
 import path from "path";
 import { fileURLToPath } from 'url';
-import accountRoutes from './account.route.js';
+import accountsRoutes from './accounts.route.js';
 
 dotenv.config();
 
@@ -15,7 +15,7 @@ const PORT = process.env.PORT || 3000;
 
 app.use(cors());
 app.use(express.json());
-app.use('/api/accounts', accountRoutes);
+app.use('/api/accounts', accountsRoutes);
 
 app.use(express.static(path.join(__dirname, '../client/dist')));
 
