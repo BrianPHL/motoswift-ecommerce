@@ -16,19 +16,6 @@
     }
 }
 
-@media only screen and (max-width: 1200px) {
-
-    .wrapper { padding: 8rem 4rem 2rem 4rem; }
-
-}
-
-@media only screen and (max-width: 1080px) {
-
-    .wrapper { padding: 8rem 2rem 2rem 2rem; }
-
-
-}
-
 .banner {
     background-image: url('https://res.cloudinary.com/dfvy7i4uc/image/upload/v1746275497/motorcycles-banner_v55w0m.webp');
     background-position: center;
@@ -74,4 +61,22 @@
     display: flex;
     flex-direction: row;
     gap: 1rem;
+}
+
+@media only screen and (max-width: 1200px) {
+
+    .wrapper { padding: 8rem 4rem 2rem 4rem; }
+
+}
+
+@media only screen and (max-width: 1080px) {
+
+    .wrapper { padding: 8rem 2rem 2rem 2rem; }
+
+}
+
+@media only screen and (max-width: 1010px) {
+
+    .wrapper { padding: 14rem 2rem 2rem 2rem; }
+
 }

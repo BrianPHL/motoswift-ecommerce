@@ -1,6 +1,7 @@
 import { useCallback, useContext, useState, useEffect } from "react";
 import { Toast } from '@components';
 import ToastContext from "./context";
+import styles from './Toast.module.css';
 
 export const ToastProvider =({ children }) => {
 
@@ -21,16 +22,7 @@ export const ToastProvider =({ children }) => {
     return (
         <ToastContext.Provider value={{ showToast }}>
             { children }
-            <div style={{
-                flexDirection: "column",
-                marginTop: '7rem',
-                position: "fixed",
-                display: "flex",
-                zIndex: 9999,
-                right: '1rem',
-                top: '1rem',
-                gap: "1rem"
-            }}>
+            <div className={ styles['toast'] }>
                 { toasts.map(toast => (
                     <Toast
                         key={ toast['identifier'] }

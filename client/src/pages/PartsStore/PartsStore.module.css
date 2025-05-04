@@ -27,6 +27,12 @@
 
 }
 
+@media only screen and (max-width: 1010px) {
+
+    .wrapper { padding: 14rem 2rem 2rem 2rem; }
+
+}
+
 .banner {
     background-image: url('https://res.cloudinary.com/dfvy7i4uc/image/upload/v1746275498/parts-and-accessories-banner_oiem58.webp');
     background-position: center;

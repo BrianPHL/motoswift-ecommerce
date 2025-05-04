@@ -308,6 +308,12 @@
 
 }
 
+@media only screen and (max-width: 1010px) {
+
+    .wrapper { padding: 14rem 2rem 2rem 2rem; }
+
+}
+
 @media only screen and (max-width: 902px) {
 
     .wrapper > .hero > .hero-banner { display: none; }

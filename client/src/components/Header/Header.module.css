@@ -36,7 +36,7 @@
 
 .mobile-nav {
     flex-direction: column;
-    margin-top: 6rem;
+    margin-top: 11.5rem;
     display: flex;
     height: 100%;
     & > *:not(div) { padding: 1.5rem 2rem; }
