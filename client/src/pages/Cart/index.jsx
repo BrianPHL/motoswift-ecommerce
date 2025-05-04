@@ -99,7 +99,10 @@ const subtotal = cartItems.reduce(
                                             </div>
                                             <div className={ styles['cart-item-details-right'] }>
 
-                                                <h3>₱{ item['price'] }</h3>
+                                                <h3>₱{ parseFloat(item['price']).toLocaleString('en-PH', {
+                                                        minimumFractionDigits: 2,
+                                                        maximumFractionDigits: 2
+                                                    }) }</h3>
 
                                                 <div className={ styles['cart-item-details-cta'] }>
                                                     <Button

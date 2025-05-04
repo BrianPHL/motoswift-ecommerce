@@ -86,7 +86,11 @@ const Reservations = ({}) => {
                                                         <div className={ styles['product-details'] }>
                                                             <span>
                                                                 <h3>{ product['label'] }</h3>
-                                                                <h4>{ product['price'] }</h4>
+                                                                <h4>₱{ parseFloat(product['price']).toLocaleString('en-PH', {
+                                                                        minimumFractionDigits: 2,
+                                                                        maximumFractionDigits: 2
+                                                                    })}
+                                                                </h4>
                                                             </span>
                                                             <h4>{`Qty.: ${ product['quantity'] }`}</h4>
                                                         </div>

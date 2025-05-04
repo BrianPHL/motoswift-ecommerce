@@ -16,6 +16,10 @@ const ProductCard = ({ product_id, category, subcategory, image_url, label, pric
     const { addToReservations } = useReservation();
     const { user } = useAuth();
     const { showToast } = useToast();
+    const formattedPrice = parseFloat(price).toLocaleString('en-PH', {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+    });
     const navigate = useNavigate();
 
     const requireAuth = (action) => {
@@ -27,7 +31,6 @@ const ProductCard = ({ product_id, category, subcategory, image_url, label, pric
     };
 
     const handleAddToCart = async () => {
-        console.log(product_id, category, subcategory, image_url, label, price)
         try {
             await addToCart({ product_id, category, subcategory, image_url, label, price });
             showToast(`Successfully added ${ label } to your cart!`, 'success');
@@ -59,7 +62,11 @@ const ProductCard = ({ product_id, category, subcategory, image_url, label, pric
                 <div className={ styles['details'] }>
                     <div className={ styles['text'] }>
                         <h2>{ label }</h2>
-                        <h3>₱{ price }</h3>
+                        <h3>₱{ parseFloat(price).toLocaleString('en-PH', {
+                                minimumFractionDigits: 2,
+                                maximumFractionDigits: 2
+                            })}
+                        </h3>
                     </div>
                     <Button
                         type='icon'
