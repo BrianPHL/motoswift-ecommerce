@@ -52,7 +52,7 @@ const Header = () => {
                     </div>
                     { user ? (
                         <Button
-                            id='account-dropdown'
+                            id='account-desktop-dropdown'
                             type='secondary'
                             label={ user['first_name'] }
                             options={[
@@ -116,7 +116,7 @@ const Header = () => {
                     <div className={ styles['right'] }>
                         { user ? (
                             <Button
-                                id='account-dropdown'
+                                id='account-mobile-dropdown'
                                 type='secondary'
                                 label={ user['first_name'] }
                                 dropdownPosition='right'
@@ -196,7 +196,7 @@ const Header = () => {
                     <div className={ styles['right'] }>
                         { user ? (
                             <Button
-                                id='account-dropdown'
+                                id='account-mobile-drawer-dropdown'
                                 type='secondary'
                                 label={ user['first_name'] }
                                 dropdownPosition='right'
@@ -377,7 +377,7 @@ const Header = () => {
                     <Button
                         label='Cancel'
                         type='secondary'
-                        action={ () => { logout } }
+                        action={ () => setModalOpen(false) }
                     />
                 </div>
             </Modal>
