@@ -14,22 +14,22 @@ import App from './App';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <AuthProvider>
+    <BrowserRouter>
       <ThemeProvider>
-        <BrowserRouter>
+        <DropdownProvider>
           <ToastProvider>
-            <ProductsProvider>
-              <DropdownProvider>
+            <AuthProvider>
+              <ProductsProvider>
                 <ReservationProvider>
                   <CartProvider>
-                    <App />
+                      <App />
                   </CartProvider>
                 </ReservationProvider>
-              </DropdownProvider>
-            </ProductsProvider>
+              </ProductsProvider>
+            </AuthProvider>
           </ToastProvider>
-        </BrowserRouter>
+        </DropdownProvider>
       </ThemeProvider>
-    </AuthProvider>
+    </BrowserRouter>
   </StrictMode>,
 );
