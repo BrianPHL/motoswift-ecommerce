@@ -45,55 +45,61 @@ const Cart = () => {
                 ) : (
                     <>
                         <div className={ styles['cart'] }>
-                            <div className={ styles['cart-header'] }>
-                                <h3>Product</h3>
-                                <h3>Quantity</h3>
-                                <h3>Price</h3>
-                                <h3>Total</h3>
-                            </div>
-                            <div className={ styles['divider'] }></div>
                             { cartItems.map(item => (
-                                <div className={ styles['cart-item'] } key={ item.id }>
-                                    <div className={ styles['cart-item-product'] }>
-                                        <img src={ item.img } alt={ item.label } />
-                                        <div className={ styles['cart-item-product-details'] }>
-                                            <div className={ styles['cart-item-product-details-info'] }>
-                                                <h3>{ item.category } ({ item.subcategory })</h3>
-                                                <h2>{ item.label }</h2>
+                                <div className={ styles['cart-item'] } key={ item['product_id'] }>
+                                    <img
+                                        src={ `https://res.cloudinary.com/dfvy7i4uc/image/upload/${ item['image_url'] }` }
+                                        alt={ `${ item['label'] }. Price: ${ item['price'] }` } 
+                                    />
+                                    <div className={ styles['cart-item-details'] }>
+                                        <div className={ styles['cart-item-details-left'] }>
+                                            <span>
+                                                <span>
+                                                    <h3>{ item['label'] }</h3>
+                                                    <h3>({ item['quantity'] }x)</h3>
+                                                </span>
+                                                <h4>{ item['category'] }, {item['subcategory']}</h4>
+                                            </span>
+                                            <div className={ styles['cart-item-quantity'] }>
+                                                <span style={{ display: 'flex', gap: '0.25rem' }}>
+                                                    <Button
+                                                        type='icon'
+                                                        icon='fa-solid fa-plus'
+                                                        action={ event => updateQuantity(item['product_id'], event['target']['value'] + 1) }
+                                                    />
+                                                    <Button
+                                                        type='icon'
+                                                        icon='fa-solid fa-minus'
+                                                        action={ event => updateQuantity(item['product_id'], event['target']['value'] - 1) }
+                                                    />
+                                                </span>
                                             </div>
-                                            <div className={ styles['cart-item-product-details-cta'] }>
-                                                <Button
-                                                    type='secondary'
-                                                    label='View item'
-                                                    icon='fa-solid fa-square-up-right'
-                                                    iconPosition='right'
-                                                    action={ () => navigate(`/motorcycles/${item.id}`) }
-                                                />
+                                        </div>
+                                        <div className={ styles['cart-item-details-right'] }>
+
+                                            <h3>₱{ item['price'] }</h3>
+
+                                            <div className={ styles['cart-item-details-cta'] }>
                                                 <Button
                                                     type='icon-outlined'
                                                     icon='fa-solid fa-trash-can'
-                                                    action={ () => removeFromCart(item.id) }
+                                                    externalStyles={ styles['cart-item-remove'] }
+                                                    action={ () => removeFromCart(item['product_id']) }
+                                                />
+                                                <Button
+                                                    type='icon-outlined'
+                                                    icon='fa-solid fa-square-up-right'
+                                                    action={ () => console.log("View") }
+                                                />
+                                                <Button
+                                                    type='primary'
+                                                    label='Reserve'
+                                                    icon='fa-solid fa-calendar'
+                                                    iconPosition='left'
+                                                    action={ () => console.log("Reserve") }
                                                 />
                                             </div>
                                         </div>
-                                    </div>
-                                    <div className={ styles['cart-item-quantity'] }>
-                                        <InputField
-                                            hint='Qty...'
-                                            isSubmittable={ false }
-                                            type='number'
-                                            value={ item.quantity }
-                                            min={1}
-                                            onChange={e => updateQuantity( item.id, e.target.value )}
-                                        />
-                                    </div>
-                                    <div className={ styles['cart-item-price'] }>
-                                        <h3>{ item.price }</h3>
-                                    </div>
-                                    <div className={ styles['cart-item-total'] }>
-                                        <h3>
-                                            ₱ {(Number(item.price.replace(/[^\d]/g, "")) * item.quantity).toLocaleString()}
-                                        </h3>
                                     </div>
                                 </div>
                             ))}
@@ -111,8 +117,8 @@ const Cart = () => {
                                     <h3>₱{ tax.toLocaleString() }</h3>
                                 </div>
                                 <div className={ styles['summary-item'] }>
-                                    <h3>Deductions</h3>
-                                    <h3>₱{ deductions.toLocaleString() }</h3>
+                                    <h3>Shipping</h3>
+                                    <h3 style={{ color: 'var(--accent-base)', fontWeight: '600' }}>FREE</h3>
                                 </div>
                                 <div className={ styles['summary-item'] }>
                                     <h3>Total</h3>
