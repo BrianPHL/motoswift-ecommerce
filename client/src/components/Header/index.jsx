@@ -337,28 +337,6 @@ const Header = () => {
                             externalStyles={ styles['mobile-nav-anchor'] }
                         />
                     </span>
-                    { user ? (
-                        <Accordion
-                            label='My account'
-                            type='link'
-                            onLinkClick={ () => setDrawerOpen(false) }
-                            externalStyles={ styles['mobile-nav-account'] }
-                            options={[
-                                {
-                                    label: 'My Profile',
-                                    link: 'profile'
-                                },
-                                {
-                                    label: 'My Reservation',
-                                    link: 'reservations'
-                                },
-                                {
-                                    label: 'My Cart',
-                                    link: 'cart'
-                                },
-                            ]}
-                        />
-                    ) : null}
                 </nav>
                 <div className={ styles['mobile-cta'] }>
                     { user ? (
