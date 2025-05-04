@@ -25,8 +25,8 @@
 }
 
 .mobile-nav {
-    margin-top: 6rem;
     flex-direction: column;
+    margin-top: 6rem;
     display: flex;
     height: 100%;
     & > *:not(div) { padding: 1.5rem 2rem; }
@@ -58,6 +58,7 @@
     z-index: 999;
     display: flex;
     height: 100vh;
+    height: 100dvh;
     width: 100%;
     left: 0;
     top: 0;
