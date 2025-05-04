@@ -109,42 +109,162 @@ const Header = () => {
                 </div>
             </div>
             <div className={ styles['mobile-header'] }>
-                <div className={ styles['left'] }>
-                    <Button
-                        type="icon"
-                        action={ () => setDrawerOpen(true) }
-                        icon="fa-solid fa-bars"
-                        
-                    />
-                    <Logo />
+                <div className={ styles['mobile-header-top'] }>
+                    <div className={ styles['left'] }>
+                        <Logo />
+                    </div>
+                    <div className={ styles['right'] }>
+                        { user ? (
+                            <Button
+                                id='account-dropdown'
+                                type='secondary'
+                                label={ user['first_name'] }
+                                dropdownPosition='right'
+                                options={[
+                                    {
+                                        label: 'Profile',
+                                        action: () => { navigate('/profile') },
+                                    },
+                                    {
+                                        label: 'Logout',
+                                        action: handleLogout,
+                                    },
+                                ]}
+                            />
+                        ) : (
+                            <Button
+                                type='secondary'
+                                label='Sign in'
+                                action={ () => { navigate('/sign-in') } }
+                            />
+                        )}
+                    </div>
                 </div>
-                <div className={ styles['right'] }>
-                    <Button
-                        type="icon"
-                        action={ () => toggleTheme()  }
-                        icon={ theme === 'light' ? 'fa-solid fa-moon' : 'fa-solid fa-sun' }
-                    />
-                </div>
-            </div>
-            <div className={ `${ styles['drawer'] } ${ drawerOpen ? styles['drawer-open'] : '' }` }>
-                <div className={ styles['drawer-header'] }>
+                <div className={ styles['divider'] }></div>
+                <div className={ styles['mobile-header-bottom'] }>
                     <div className={ styles['left'] }>
                         <Button
                             type="icon"
-                            action={ () => setDrawerOpen(false) }
-                            icon="fa-solid fa-close"
+                            action={ () => setDrawerOpen(true) }
+                            icon="fa-solid fa-bars"
                             
                         />
-                        <div onClick={ () => setDrawerOpen(false) }>
-                            <Logo/>
+                    </div>
+                    <div className={ styles['right'] }>
+                        <div style={{ display: 'flex', gap: '1rem' }}>
+                            <div className={ styles['indicator-wrapper'] }>
+                                <Button
+                                    type="icon"
+                                    action={ () => navigate('/cart')  }
+                                    icon='fa-solid fa-cart-shopping'
+                                    externalStyles={ styles['indicator-btn'] }
+                                />
+                                { cartItems['length'] !== 0 ? (
+                                    <span className={ styles['indicator-badge'] }>
+                                        { cartItems['length'] }
+                                    </span>
+                                ) : null }
+                            </div>
+                            <div className={ styles['indicator-wrapper'] }>    
+                                <Button
+                                    type="icon"
+                                    action={ () => navigate('/reservations') }
+                                    icon='fa-solid fa-calendar'
+                                    externalStyles={ styles['indicator-btn'] }
+                                />
+                                { reservationItems['length'] !== 0 ? (
+                                    <span className={ styles['indicator-badge'] }>
+                                        { reservationItems['length'] }
+                                    </span>
+                                ) : null }
+                            </div>
+                            <Button
+                                type="icon"
+                                action={ () => toggleTheme()  }
+                                icon={ theme === 'light' ? 'fa-solid fa-moon' : 'fa-solid fa-sun' }
+                            />
                         </div>
                     </div>
-                    <Button
-                        type="icon"
-                        action={ () => toggleTheme()  }
-                        icon={ theme === 'light' ? 'fa-solid fa-moon' : 'fa-solid fa-sun' }
-                        
-                    />
+                </div>
+            </div>
+            <div className={` ${ styles['drawer'] } ${ drawerOpen ? styles['drawer-open'] : null }`}>
+                <div className={ styles['drawer-header'] }>
+                <div className={ styles['drawer-header-top'] }>
+                    <div className={ styles['left'] }>
+                        <Logo />
+                    </div>
+                    <div className={ styles['right'] }>
+                        { user ? (
+                            <Button
+                                id='account-dropdown'
+                                type='secondary'
+                                label={ user['first_name'] }
+                                dropdownPosition='right'
+                                options={[
+                                    {
+                                        label: 'Profile',
+                                        action: () => { navigate('/profile') },
+                                    },
+                                    {
+                                        label: 'Logout',
+                                        action: handleLogout,
+                                    },
+                                ]}
+                            />
+                        ) : (
+                            <Button
+                                type='secondary'
+                                label='Sign in'
+                                action={ () => { navigate('/sign-in') } }
+                            />
+                        )}
+                    </div>
+                </div>
+                <div className={ styles['divider'] }></div>
+                    <div className={ styles['drawer-header-bottom'] }>
+                        <div className={ styles['left'] }>
+                            <Button
+                                type="icon"
+                                action={ () => setDrawerOpen(false) }
+                                icon="fa-solid fa-close"
+                            />
+                        </div>
+                        <div className={ styles['right'] }>
+                            <div style={{ display: 'flex', gap: '1rem' }}>
+                                <div className={ styles['indicator-wrapper'] }>
+                                    <Button
+                                        type="icon"
+                                        action={ () => navigate('/cart')  }
+                                        icon='fa-solid fa-cart-shopping'
+                                        externalStyles={ styles['indicator-btn'] }
+                                    />
+                                    { cartItems['length'] !== 0 ? (
+                                        <span className={ styles['indicator-badge'] }>
+                                            { cartItems['length'] }
+                                        </span>
+                                    ) : null }
+                                </div>
+                                <div className={ styles['indicator-wrapper'] }>    
+                                    <Button
+                                        type="icon"
+                                        action={ () => navigate('/reservations') }
+                                        icon='fa-solid fa-calendar'
+                                        externalStyles={ styles['indicator-btn'] }
+                                    />
+                                    { reservationItems['length'] !== 0 ? (
+                                        <span className={ styles['indicator-badge'] }>
+                                            { reservationItems['length'] }
+                                        </span>
+                                    ) : null }
+                                </div>
+                                <Button
+                                    type="icon"
+                                    action={ () => toggleTheme()  }
+                                    icon={ theme === 'light' ? 'fa-solid fa-moon' : 'fa-solid fa-sun' }
+                                />
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <nav className={ styles['mobile-nav'] }>
                     <span style={{ display: 'contents' }} onClick={ () => setDrawerOpen(false) }>
