@@ -76,7 +76,10 @@ const Header = () => {
                     <div style={{ display: 'flex', gap: '1rem' }}>
                         { user ? (
                             <>
-                                <div className={ styles['indicator-wrapper'] }>
+                                <div 
+                                    className={ styles['indicator-wrapper'] }
+                                    onClick={ () => navigate('/cart')  }
+                                >
                                     <Button
                                         type="icon"
                                         action={ () => navigate('/cart')  }
@@ -89,7 +92,10 @@ const Header = () => {
                                         </span>
                                     ) : null }
                                 </div>
-                                <div className={ styles['indicator-wrapper'] }>    
+                                <div 
+                                    className={ styles['indicator-wrapper'] }
+                                    onClick={ () => navigate('/reservations')  }
+                                > 
                                     <Button
                                         type="icon"
                                         action={ () => navigate('/reservations') }
@@ -158,7 +164,10 @@ const Header = () => {
                         <div style={{ display: 'flex', gap: '1rem' }}>
                             { user ? (
                                 <>
-                                    <div className={ styles['indicator-wrapper'] }>
+                                    <div 
+                                        className={ styles['indicator-wrapper'] }
+                                        onClick={ () => navigate('/cart')  }
+                                    >
                                         <Button
                                             type="icon"
                                             action={ () => navigate('/cart')  }
@@ -171,7 +180,10 @@ const Header = () => {
                                             </span>
                                         ) : null }
                                     </div>
-                                    <div className={ styles['indicator-wrapper'] }>    
+                                    <div 
+                                        className={ styles['indicator-wrapper'] }
+                                        onClick={ () => navigate('/reservations')  }
+                                    >
                                         <Button
                                             type="icon"
                                             action={ () => navigate('/reservations') }
@@ -241,7 +253,10 @@ const Header = () => {
                             <div style={{ display: 'flex', gap: '1rem' }}>
                                 { user ? (
                                     <>
-                                        <div className={ styles['indicator-wrapper'] }>
+                                        <div 
+                                            className={ styles['indicator-wrapper'] }
+                                            onClick={ () => navigate('/cart')  }
+                                        >
                                             <Button
                                                 type="icon"
                                                 action={ () => navigate('/cart')  }
@@ -254,7 +269,10 @@ const Header = () => {
                                                 </span>
                                             ) : null }
                                         </div>
-                                        <div className={ styles['indicator-wrapper'] }>    
+                                        <div 
+                                            className={ styles['indicator-wrapper'] }
+                                            onClick={ () => navigate('/reservations')  }
+                                        >    
                                             <Button
                                                 type="icon"
                                                 action={ () => navigate('/reservations') }
