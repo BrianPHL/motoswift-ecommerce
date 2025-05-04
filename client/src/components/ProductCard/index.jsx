@@ -50,7 +50,10 @@ const ProductCard = ({ id, category, subcategory, img, label, price }) => {
     return (
         <>
             <div className={ styles['wrapper'] }>
-                <img className={ styles['product-img'] } src={ img } alt={ `${ label }. Price: ${ price }` } />
+                <img
+                    className={ styles['product-img'] }
+                    src={ `https://res.cloudinary.com/dfvy7i4uc/image/upload/${ img }` }
+                    alt={ `${ label }. Price: ${ price }` } />
                 <div className={ styles['divider'] }></div>
                 <div className={ styles['details'] }>
                     <div className={ styles['text'] }>
@@ -166,9 +169,7 @@ const ProductCard = ({ id, category, subcategory, img, label, price }) => {
                         />
                     </div>
                 </Modal>
-            ) : null
-
-            };
+            ) : null };
             
         </>
     );
