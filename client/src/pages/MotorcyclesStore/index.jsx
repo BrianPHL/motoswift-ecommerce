@@ -11,47 +11,6 @@ const MotorcyclesStore = () => {
     const { products, loading, error, refreshProducts } = useProducts();
     const ITEMS_PER_PAGE = 10;
     const motorcycles = products['filter'](product => product['category'] === 'Motorcycles');
-    //     {
-    //       id: '1',
-    //       category: 'motorcycles',
-    //       subcategory: 'big-bike',
-    //       img: '/Products/Motorcycles/Big_Bike/honda_nx500.webp',
-    //       label: 'Honda NX500',
-    //       price: '₱409,000.00',
-    //     },
-    //     {
-    //       id: '2',
-    //       category: 'motorcycles',
-    //       subcategory: 'electrical',
-    //       img: '/Products/Motorcycles/Electrical/honda_em1-e.webp',
-    //       label: 'Honda EM1 e',
-    //       price: '₱155,400.00',
-    //     },
-    //     {
-    //       id: '3',
-    //       category: 'motorcycles',
-    //       subcategory: 'big-bike',
-    //       img: '/Products/Motorcycles/Scooters/honda_click.webp',
-    //       label: 'Honda Click125',
-    //       price: '₱81,900.00',
-    //     },
-    //     {
-    //       id: '4',
-    //       category: 'motorcycles',
-    //       subcategory: 'big-bike',
-    //       img: '/Products/Motorcycles/Sports/honda_cbr150r.webp',
-    //       label: 'Honda CBR150R',
-    //       price: '₱183,900.00',
-    //     },
-    //     {
-    //       id: '5',
-    //       category: 'motorcycles',
-    //       subcategory: 'big-bike',
-    //       img: '/Products/Motorcycles/Underbone/honda_winner-x.webp',
-    //       label: 'Honda Winner-X',
-    //       price: '₱123,900.00',
-    //     }
-    // ];
     const filteredProducts = motorcycles['filter'](product => product['label']['toLowerCase']()['includes'](searchQuery['toLowerCase']()));
     const getSortedProducts = (products, sortKey) => {
       switch (sortKey) {
