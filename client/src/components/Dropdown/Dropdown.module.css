@@ -12,7 +12,6 @@
     z-index: 998;
     opacity: 0;
     border: 1px solid var(--bg-outline);
-    left: 0;
     top: 100%;
     & > li > a {
         font-weight: 500;
@@ -32,6 +31,14 @@
             color: var(--accent-base);
         }
     }
+}
+
+.dropdown-left {
+    left: 0;
+}
+
+.dropdown-right {
+    right: 0;
 }
 
 .dropdown-active {

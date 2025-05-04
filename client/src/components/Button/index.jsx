@@ -34,7 +34,7 @@ import styles from './Button.module.css';
  * <Button label="Add" type="primary" action={() => {}} icon="fa-solid fa-plus" iconPosition="left" />
  */
 
-const Button = ({ id, label, type, action, icon, iconPosition, isActive, options, externalStyles, ...props }) => {
+const Button = ({ id, label, type, action, icon, iconPosition, isActive, options, externalStyles, dropdownPosition, ...props }) => {
     
     const dropdownRef = useRef(null);
     const { openDropdownId, setOpenDropdownId, registerDropdown } = useDropdown();
@@ -99,6 +99,7 @@ const Button = ({ id, label, type, action, icon, iconPosition, isActive, options
                     <Dropdown
                         options={ options }
                         isOpen={ isOpen }
+                        position={ dropdownPosition }
                     />
                 </div>
             ) : (
