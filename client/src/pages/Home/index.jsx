@@ -1,114 +1,45 @@
+import { useEffect, useState } from 'react';
 import { Button, ProductCard } from '@components';
 import styles from './Home.module.css';
 import { useNavigate } from 'react-router';
+import { useProducts } from '@contexts';
 
 const Home = () => {
 
-    const featured_motorcycles = [
-        {
-          id: '1',
-          category: 'motorcycles',
-          subcategory: 'big-bike',
-          img: '/Products/Motorcycles/Big_Bike/honda_nx500.webp',
-          label: 'Honda NX500',
-          price: '₱409,000.00',
-          onReserve: () => console.log('Reserved!'),
-          onCart: () => console.log('Added to cart!'),
-        },
-        {
-          id: '2',
-          category: 'motorcycles',
-          subcategory: 'electrical',
-          img: '/Products/Motorcycles/Electrical/honda_em1-e.webp',
-          label: 'Honda EM1 e',
-          price: '₱155,400.00',
-          onReserve: () => console.log('Reserved!'),
-          onCart: () => console.log('Added to cart!'),
-        },
-        {
-          id: '3',
-          category: 'motorcycles',
-          subcategory: 'big-bike',
-          img: '/Products/Motorcycles/Scooters/honda_click.webp',
-          label: 'Honda Click125',
-          price: '₱81,900.00',
-          onReserve: () => console.log('Reserved!'),
-          onCart: () => console.log('Added to cart!'),
-        },
-        {
-          id: '4',
-          category: 'motorcycles',
-          subcategory: 'big-bike',
-          img: '/Products/Motorcycles/Sports/honda_cbr150r.webp',
-          label: 'Honda CBR150R',
-          price: '₱183,900.00',
-          onReserve: () => console.log('Reserved!'),
-          onCart: () => console.log('Added to cart!'),
-        },
-        {
-          id: '5',
-          category: 'motorcycles',
-          subcategory: 'big-bike',
-          img: '/Products/Motorcycles/Underbone/honda_winner-x.webp',
-          label: 'Honda Winner-X',
-          price: '₱123,900.00',
-          onReserve: () => console.log('Reserved!'),
-          onCart: () => console.log('Added to cart!'),
-        },
-    ];
-    const featured_parts = [
-        {
-          id: '1',
-          category: 'accessories',
-          subcategory: 'customization',
-          img: '/Products/Accessories/Customization/motoloot_sticker-gps-warning.webp',
-          label: 'Motoloot GPS Warning Sticker',
-          price: '₱560.00',
-          onReserve: () => console.log('Reserved!'),
-          onCart: () => console.log('Added to cart!'),
-        },
-        {
-          id: '2',
-          category: 'accessories',
-          subcategory: 'customization',
-          img: '/Products/Accessories/Customization/polisport_crf250fr-front-fender.webp',
-          label: 'Polisport CRF250FR Front Fender',
-          price: '₱1,360.00',
-          onReserve: () => console.log('Reserved!'),
-          onCart: () => console.log('Added to cart!'),
-        },
-        {
-          id: '3',
-          category: 'gear',
-          subcategory: 'bodywear',
-          img: '/Products/Gear/Bodywear/taichi_rsj347.webp',
-          label: 'Taichi RSJ347 Overlap Mesh',
-          price: '₱9,080.00',
-          onReserve: () => console.log('Reserved!'),
-          onCart: () => console.log('Added to cart!'),
-        },
-        {
-          id: '4',
-          category: 'maintenance',
-          subcategory: 'electrical',
-          img: '/Products/Maintenance/Electrical/noco_gc004.webp',
-          label: 'Noco GC004 X-Connect 10-foot Extension Cable',
-          price: '₱1,200.00',
-          onReserve: () => console.log('Reserved!'),
-          onCart: () => console.log('Added to cart!'),
-        },
-        {
-          id: '5',
-          category: 'parts',
-          subcategory: 'body',
-          img: '/Products/Parts/Body/acerbis_full-plastic-kit.webp',
-          label: 'Acerbis Full Plastic Kit',
-          price: '₱12,652.84',
-          onReserve: () => console.log('Reserved!'),
-          onCart: () => console.log('Added to cart!'),
-        },
-    ];
     const navigate = useNavigate();
+    const { products, loading } = useProducts();
+    const [ featuredMotorcycles, setFeaturedMotorcycles ] = useState([]);
+    const [ featuredPartsAndAccessories, setfeaturedPartsAndAccessories ] = useState([]);
+
+    // * Fisher-Yates Shuffle Algorithm
+    // * https://en.wikipedia.org/wiki/Fisher%E2%80%93Yates_shuffle
+    const shuffleArray = (array) => {
+        
+        const shuffled = [ ...array ];
+        
+        for (let i = shuffled['length'] - 1; i > 0; i--) {
+            const j = Math['floor'](Math['random']() * (i + 1));
+            [ shuffled[i], [shuffled[j]] ] = [ shuffled[j], [shuffled[i]] ];
+        };
+        return shuffled;
+
+    }
+
+    useEffect(() => {
+
+        if (products && products['length'] > 0) {
+
+            const motorcycles = products['filter'](product => product['category'] === 'Motorcycles');
+            const randomMotorcycles = shuffleArray(motorcycles)['slice'](0, 5);
+            const partsAndAccessories = products['filter'](product => product['category'] !== 'Motorcycles');
+            const randomPartsAndAccessories = shuffleArray(partsAndAccessories)['slice'](0, 5);
+
+            setFeaturedMotorcycles(randomMotorcycles);
+            setfeaturedPartsAndAccessories(randomPartsAndAccessories);
+
+        }
+
+    }, [ products ]);
 
     return (
         <div className={ styles['wrapper'] }>
@@ -169,17 +100,15 @@ const Home = () => {
                     />
                 </div>
                 <div className={ styles['motorcycles-container'] }>
-                    { featured_motorcycles.map((motorcycle) => (
+                    { featuredMotorcycles.map((motorcycle) => (
                         <ProductCard
-                            key={ motorcycle.id }
-                            id={ motorcycle.id }
-                            category={ motorcycle.category }
-                            subcategory={ motorcycle.subcategory }
-                            img={ motorcycle.img }
-                            label={ motorcycle.label }
-                            price={ motorcycle.price }
-                            onReserve={ motorcycle.onReserve }
-                            onCart={ motorcycle.onCart }
+                            key={ motorcycle['product_id'] }
+                            id={ motorcycle['product_id'] }
+                            category={ motorcycle['category'] }
+                            subcategory={ motorcycle['subcategory'] }
+                            img={ motorcycle['image_url'] }
+                            label={ motorcycle['label'] }
+                            price={ motorcycle['price'] }
                         />
                     ))}
                 </div>
@@ -202,17 +131,15 @@ const Home = () => {
                     />
                 </div>
                 <div className={ styles['parts-container'] }>
-                    { featured_parts.map((part) => (
+                    { featuredPartsAndAccessories.map((partsAndAccessories) => (
                         <ProductCard
-                            key={ part.id }
-                            id={ part.id }
-                            category={ part.category }
-                            subcategory={ part.subcategory }
-                            img={ part.img }
-                            label={ part.label }
-                            price={ part.price }
-                            onReserve={ part.onReserve }
-                            onCart={ part.onCart }
+                            key={ partsAndAccessories['product_id'] }
+                            id={ partsAndAccessories['product_id'] }
+                            category={ partsAndAccessories['category'] }
+                            subcategory={ partsAndAccessories['subcategory'] }
+                            img={ partsAndAccessories['image_url'] }
+                            label={ partsAndAccessories['label'] }
+                            price={ partsAndAccessories['price'] }
                         />
                     ))}
                 </div>
