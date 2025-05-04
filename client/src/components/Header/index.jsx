@@ -71,6 +71,7 @@ const Header = () => {
                             type='secondary'
                             label='Sign in'
                             action={ () => { navigate('/sign-in') } }
+                            isActive={ pathname === '/sign-in' }
                         />
                     )}
                     <div style={{ display: 'flex', gap: '1rem' }}>
@@ -82,8 +83,8 @@ const Header = () => {
                                 >
                                     <Button
                                         type="icon"
-                                        action={ () => navigate('/cart')  }
                                         icon='fa-solid fa-cart-shopping'
+                                        action={ () => navigate('cart') }
                                         externalStyles={ styles['indicator-btn'] }
                                         />
                                     { cartItems['length'] !== 0 ? (
@@ -146,6 +147,7 @@ const Header = () => {
                                 type='secondary'
                                 label='Sign in'
                                 action={ () => { navigate('/sign-in') } }
+                                isActive={ pathname === '/sign-in' }
                             />
                         )}
                     </div>
@@ -236,6 +238,7 @@ const Header = () => {
                                 type='secondary'
                                 label='Sign in'
                                 action={ () => { navigate('/sign-in') } }
+                                isActive={ pathname === '/sign-in' }
                             />
                         )}
                     </div>
