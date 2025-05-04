@@ -43,6 +43,7 @@
     transition: 0.25s ease all;
     border-top: 0;
     align-self: stretch;
+    font-size: 1rem;
     display: flex;
     padding: 0.75rem 1.25rem;
     width: 100%;
