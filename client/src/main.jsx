@@ -7,7 +7,8 @@ import {
   DropdownProvider,
   CartProvider,
   ReservationProvider,
-  ToastProvider
+  ToastProvider,
+  ProductsProvider
 } from '@contexts';
 import App from './App';
 
@@ -16,15 +17,17 @@ createRoot(document.getElementById('root')).render(
     <AuthProvider>
       <ThemeProvider>
         <BrowserRouter>
-          <DropdownProvider>
-            <CartProvider>
-              <ReservationProvider>
-                <ToastProvider>
-                  <App />
-                </ToastProvider>
-              </ReservationProvider>
-            </CartProvider>
-          </DropdownProvider>
+          <ToastProvider>
+            <ProductsProvider>
+              <DropdownProvider>
+                <ReservationProvider>
+                  <CartProvider>
+                    <App />
+                  </CartProvider>
+                </ReservationProvider>
+              </DropdownProvider>
+            </ProductsProvider>
+          </ToastProvider>
         </BrowserRouter>
       </ThemeProvider>
     </AuthProvider>
