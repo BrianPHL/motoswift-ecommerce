@@ -50,30 +50,6 @@ const Header = () => {
                             isActive={ pathname === '/parts-and-accessories' }
                         />
                     </div>
-                    { user ? (
-                        <Button
-                            id='account-desktop-dropdown'
-                            type='secondary'
-                            label={ user['first_name'] }
-                            options={[
-                                {
-                                    label: 'Profile',
-                                    action: () => { navigate('/profile') },
-                                },
-                                {
-                                    label: 'Logout',
-                                    action: handleLogout,
-                                },
-                            ]}
-                        />
-                    ) : (
-                        <Button
-                            type='secondary'
-                            label='Sign in'
-                            action={ () => { navigate('/sign-in') } }
-                            isActive={ pathname === '/sign-in' }
-                        />
-                    )}
                     <div style={{ display: 'flex', gap: '1rem' }}>
                         { user ? (
                             <>
@@ -117,6 +93,31 @@ const Header = () => {
                             icon={ theme === 'light' ? 'fa-solid fa-moon' : 'fa-solid fa-sun' }
                         />
                     </div>
+                    { user ? (
+                        <Button
+                            id='account-desktop-dropdown'
+                            type='secondary'
+                            label={ user['first_name'] }
+                            dropdownPosition='right'
+                            options={[
+                                {
+                                    label: 'Profile',
+                                    action: () => { navigate('/profile') },
+                                },
+                                {
+                                    label: 'Logout',
+                                    action: handleLogout,
+                                },
+                            ]}
+                        />
+                    ) : (
+                        <Button
+                            type='secondary'
+                            label='Sign in'
+                            action={ () => { navigate('/sign-in') } }
+                            isActive={ pathname === '/sign-in' }
+                        />
+                    )}
                 </div>
             </div>
             <div className={ styles['mobile-header'] }>
