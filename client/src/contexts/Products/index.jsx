@@ -6,7 +6,7 @@ export const ProductsProvider = ({ children }) => {
 
     const REFRESH_INTERVAL = 10 * 60 * 1000;
     const [ products, setProducts ] = useState([]);
-    const [ loading, setLoading ] = useState(true);
+    const [ loading, setLoading ] = useState(false);
     const [ error, setError ] = useState(null);
     const [ lastFetched, setLastFetched ] = useState(null);
     const { showToast } = useToast();
@@ -17,7 +17,7 @@ export const ProductsProvider = ({ children }) => {
 
         const minTimeBetweenFetches = 10000;
 
-        if (force || !lastFetched || (Date.now() - lastFetched < minTimeBetweenFetches)) {
+        if (force || !lastFetched || (Date.now() - lastFetched > minTimeBetweenFetches)) {
             setLoading(true);
             try {
 
@@ -27,12 +27,14 @@ export const ProductsProvider = ({ children }) => {
 
                 if (!response['ok']) throw new Error('Failed to fetch products');
                 
-                const data = await response['json']();
+                const data = await response.json();
+                console.log("Products received:", data.length || 0);
                 setProducts(data);
-                setLastFetched(Date['now']());
+                setLastFetched(Date.now());
                 setError(null);
 
             } catch (err) {
+                console.error("Product fetch error:", err);
                 showToast(`Failed to load products: ${ err['message'] }`, 'error');
                 setError(err['message']);
             } finally {
@@ -40,16 +42,19 @@ export const ProductsProvider = ({ children }) => {
             }
 
         }
-    }, [ loading, lastFetched, showToast, REFRESH_INTERVAL ]);
+    }, [ showToast ]);
 
     useEffect(() => {
+        console.log("Running initial product fetch");
         fetchProducts(true);
-    }, []);
+    }, [ fetchProducts ]);
 
     useEffect(() => {
         
         console.log("Setting up product refresh interval.")
-        const interval = setInterval(() => { fetchProducts(false)}, REFRESH_INTERVAL);
+        const interval = setInterval(() => { 
+            fetchProducts(false)
+        }, REFRESH_INTERVAL);
 
         return () => {
             console.log("Clearing product refresh interval");
@@ -64,6 +69,7 @@ export const ProductsProvider = ({ children }) => {
                 products,
                 loading,
                 error,
+                lastFetched,
                 refreshProducts: () => fetchProducts(true)
             }}
         >
