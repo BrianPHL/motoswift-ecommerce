@@ -64,6 +64,37 @@ export const ProductsProvider = ({ children }) => {
         }
     };
 
+    const addProduct = async (productData) => {
+        try {
+            setLoading(true);
+            
+            const response = await fetch('/api/products', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(productData)
+            });
+            
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.error || 'Failed to create product');
+            }
+            
+            const newProduct = await response.json();
+            
+            setProducts(prevProducts => [...prevProducts, newProduct]);
+            
+            showToast('Product successfully created', 'success');
+            
+        } catch (error) {
+            console.error('Error adding product:', error);
+            showToast(`Failed to create product: ${error.message}`, 'error');
+        } finally {
+            setLoading(false);
+        }
+    };
+
     useEffect(() => {
         fetchProducts(true);
     }, [ fetchProducts ]);
@@ -85,7 +116,9 @@ export const ProductsProvider = ({ children }) => {
                 loading,
                 error,
                 lastFetched,
-                refreshProducts: () => fetchProducts(true)
+                refreshProducts: () => fetchProducts(true),
+                deleteProduct,
+                addProduct
             }}
         >
             { children }
