@@ -41,6 +41,29 @@ export const ProductsProvider = ({ children }) => {
         }
     }, [ showToast ]);
 
+    const deleteProduct = async (productId) => {
+        try {
+            const response = await fetch(`/api/products/${productId}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+            
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.error || 'Failed to delete product');
+            }
+            
+            showToast('Product successfully deleted', 'success');
+            refreshProducts();
+
+        } catch (error) {
+            console.error('Error deleting product:', error);
+            showToast(`Failed to delete product: ${error.message}`, 'error');
+        }
+    };
+
     useEffect(() => {
         fetchProducts(true);
     }, [ fetchProducts ]);
