@@ -6,6 +6,7 @@ import { fileURLToPath } from 'url';
 import accountsRouter from './accounts.route.js';
 import productsRouter from './products.route.js';
 import cartsRouter from './carts.route.js';
+import reservationsRouter from './reservations.route.js';
 
 dotenv.config();
 
@@ -27,6 +28,7 @@ app.use(express.json());
 app.use('/api/accounts', accountsRouter);
 app.use('/api/products', productsRouter);
 app.use('/api/carts', cartsRouter);
+app.use('/api/reservations', reservationsRouter);
 
 app.use(express.static(path.join(__dirname, '../client/dist')));
 
