@@ -129,7 +129,7 @@
     align-self: stretch;
     display: flex;
     gap: 1rem;
-    & > .modal-confirm {
+    & > .modal-warn {
         background-color: var(--error-foreground);
         &:hover {
             background-color: var(--error-hover);
