@@ -48,7 +48,6 @@ router.get('/:account_id', async (req, res) => {
 
 router.post('/', async (req, res) => {
 
-	console.log("are you here")
 	const connection = await pool.getConnection();
 	
 	try {
@@ -56,7 +55,6 @@ router.post('/', async (req, res) => {
 		await connection.beginTransaction();
 		
 		const { account_id, preferred_date, notes, products } = req.body;
-		console.log(account_id, preferred_date, notes, products);
 
 		const [ result ] = await connection.query(
 			`

@@ -40,8 +40,6 @@ export const ReservationProvider = ({ children }) => {
     };
 
     const addToReservations = async (item) => {
-
-        console.log("yes?")
         
         if (!user) return;
 
@@ -86,8 +84,6 @@ export const ReservationProvider = ({ children }) => {
     };
 
     const cancelReservation = async (reservation_id) => {
-
-        console.log(reservation_id)
 
         if (!user) return;
 

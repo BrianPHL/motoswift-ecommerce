@@ -21,14 +21,11 @@ export const ProductsProvider = ({ children }) => {
             setLoading(true);
             try {
 
-                console.log(`Fetching products at ${new Date().toLocaleTimeString()}`);
-
                 const response = await fetch('/api/products');
 
                 if (!response['ok']) throw new Error('Failed to fetch products');
                 
                 const data = await response.json();
-                console.log("Products received:", data.length || 0);
                 setProducts(data);
                 setLastFetched(Date.now());
                 setError(null);
@@ -45,21 +42,16 @@ export const ProductsProvider = ({ children }) => {
     }, [ showToast ]);
 
     useEffect(() => {
-        console.log("Running initial product fetch");
         fetchProducts(true);
     }, [ fetchProducts ]);
 
     useEffect(() => {
         
-        console.log("Setting up product refresh interval.")
         const interval = setInterval(() => { 
             fetchProducts(false)
         }, REFRESH_INTERVAL);
 
-        return () => {
-            console.log("Clearing product refresh interval");
-            clearInterval(interval);
-        }
+        return () => clearInterval(interval);
   
     }, []);
 
