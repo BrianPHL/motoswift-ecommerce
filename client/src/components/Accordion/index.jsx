@@ -30,7 +30,7 @@ import styles from './Accordion.module.css';
  * />
  */
 
-const Accordion = ({ label, options, externalStyles, onLinkClick, children, ...props }) => {
+const Accordion = ({ label, options, externalStyles, onLinkClick, children, isOpenByDefault = false, ...props }) => {
 
     const [ isOpen, setIsOpen ] = useState(false);
 
@@ -39,15 +39,15 @@ const Accordion = ({ label, options, externalStyles, onLinkClick, children, ...p
     return (
         <div className={ `${ styles['wrapper'] } ${ externalStyles ? externalStyles : null } `}>
             <button
-                className={` ${styles['header']} ${ isOpen ? styles['header-active'] : '' }` }
+                className={` ${styles['header']} ${ isOpen || isOpenByDefault ? styles['header-active'] : '' }` }
                 onClick={ () => setIsOpen((prev) => !prev) }
-                aria-expanded={ isOpen }
+                aria-expanded={ isOpen || isOpenByDefault }
                 { ...props }
             >
                 { label }
-                <i className={ `${ 'fa-solid fa-chevron-down' } ${ isOpen ? styles['chevron-active'] : styles['chevron'] }` }></i>
+                <i className={ `${ 'fa-solid fa-chevron-down' } ${ isOpen || isOpenByDefault ? styles['chevron-active'] : styles['chevron'] }` }></i>
             </button>
-            <ul className={ `${ styles['content'] } ${ isOpen ? styles['content-active'] : styles['content-inactive'] }` }>
+            <ul className={ `${ styles['content'] } ${ isOpen || isOpenByDefault ? styles['content-active'] : styles['content-inactive'] }` }>
                 { options && options.map((option, index) => (
                     <li key={ index }>
                         <Anchor
