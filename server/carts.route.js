@@ -66,5 +66,67 @@ router.post('/', async (req, res) => {
 
 });
 
+router.put('/', async (req, res) => {
+    try {
+        const { account_id, product_id, quantity } = req.body;
+
+        if (quantity <= 0) {
+            await pool.query(
+                `
+                    DELETE FROM carts
+                    WHERE account_id = ? AND product_id = ?
+                `,
+                [ account_id, product_id ]
+            );
+        } else {
+            await pool.query(
+                `
+                    UPDATE carts SET quantity = ?
+                    WHERE account_id = ? AND product_id = ?
+                `,
+                [ quantity, account_id, product_id ]
+            );
+        }
+
+        res.json({ message: 'Cart updated successfully' })
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    };
+});
+
+router.delete('/:account_id/:product_id', async (req, res) => {
+    try {
+        const { account_id, product_id } = req.params;
+
+        await pool.query(
+            `
+                DELETE FROM carts
+                WHERE account_id = ? AND product_id = ?
+            `,
+            [ account_id, product_id ]
+        );
+        
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
+router.delete('/clear/:account_id', async (req, res) => {
+    try {
+        const { account_id } = req.params;
+
+        await pool.query(
+            `
+                DELETE FROM carts
+                WHERE account_id = ?
+            `,
+            [ account_id ]
+        );
+
+        res.json({ message: 'Cart Cleared' })
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
 
 export default router;

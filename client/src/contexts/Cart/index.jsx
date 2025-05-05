@@ -67,26 +67,92 @@ export const CartProvider = ({ children }) => {
         }
     };
 
-    const removeFromCart = (product_id) => {
-        setCartItems(previous => previous.filter(item => item['product_id'] !== product_id));
-    };
+    const updateQuantity = async (product_id, quantity) => {
 
-    const updateQuantity = (product_id, quantity) => {
+        if (!user) return;
 
-        if (quantity <= 0) {
-            removeFromCart(product_id);
-            return;
+        try {
+            setLoading(true);
+
+            if (quantity <= 0) {
+                removeFromCart(product_id);
+                return;
+            }
+    
+            setCartItems(previous =>
+                previous.map(item =>
+                    item['product_id'] === product_id ? { ...item, quantity: Number(quantity) } : item
+                )
+            );
+
+            await fetch('/api/carts/', {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    account_id: user['account_id'],
+                    product_id: product_id,
+                    quantity: quantity
+                })
+            });
+
+        } catch (err) {
+            console.error("Failed to update quantity:", err);
+            showToast("Failed to update quantity", "error");
+            fetchCartItems();
+        } finally {
+            setLoading(false);
         }
 
-        setCartItems(previous =>
-            previous.map(item =>
-                item['product_id'] === product_id ? { ...item, quantity: Number(quantity) } : item
-            )
-        );
     };
 
-    const clearCart = () => {
-        setCartItems([]);
+    const removeFromCart = async (product_id) => {
+
+        if (!user) return;
+        
+        try {
+
+            setLoading(true);
+            setCartItems(previous => previous.filter(item => item['product_id'] !== product_id));
+            await fetch(`/api/carts/${ user['account_id'] }/${ product_id }`, {
+                method: 'DELETE',
+                headers: { 'Content-Type': 'application/json' }
+            });
+
+        } catch (err) {
+            console.error("Failed to remove item:", err);
+            showToast("Failed to remove item from cart", "error");
+            fetchCartItems();            
+        } finally {
+            setLoading(false);
+        }
+
+    };
+
+    const clearCart = async () => {
+        
+        if (!user) return;
+
+        try {
+
+            setLoading(true);
+
+            setCartItems([]);
+            
+            await fetch(`/api/carts/clear/${ user['account_id'] }`, {
+                method: 'DELETE',
+                headers: { 'Content-Type': 'application/json' }
+            });
+
+            showToast('Cart cleared!', 'success');
+            
+        } catch (err) {
+            console.error("Failed to clear cart:", err);
+            showToast("Failed to clear cart", "error");
+            fetchCartItems();
+        } finally {
+            setLoading(false);
+        }
+
     };
 
     useEffect(() => {
@@ -94,7 +160,7 @@ export const CartProvider = ({ children }) => {
     }, [ user ])
     
     return (
-        <CartContext.Provider value={{ cartItems, addToCart, updateQuantity, removeFromCart, clearCart }}>
+        <CartContext.Provider value={{ cartItems, addToCart, updateQuantity, removeFromCart, clearCart, loading, refreshCart: fetchCartItems }}>
             {children}
         </CartContext.Provider>
     );
