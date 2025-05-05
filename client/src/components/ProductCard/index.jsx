@@ -177,7 +177,7 @@ const ProductCard = ({ product_id, category, subcategory, image_url, label, pric
                         />
                     </div>
                 </Modal>
-            ) : null };
+            ) : null }
             
         </>
     );
