@@ -384,7 +384,7 @@ const Header = () => {
                             setModalOpen(false);
                             logout();
                         } }
-                        externalStyles={ styles['modal-confirm'] }
+                        externalStyles={ styles['modal-warn'] }
                     />
                     <Button
                         label='Cancel'

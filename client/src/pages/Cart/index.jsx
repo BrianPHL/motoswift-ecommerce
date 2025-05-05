@@ -295,6 +295,7 @@ const subtotal = cartItems.reduce(
                                 removeFromCart(selectedItem['product_id']);
                                 setModalOpen(false);
                             }}
+                            externalStyles={ styles['modal-warn'] }
                         />
                         <Button
                             label='Cancel'
