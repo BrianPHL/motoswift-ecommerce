@@ -4,10 +4,26 @@ import AuthContext from "./context";
 export const AuthProvider = ({ children }) => {
 
     const [ user, setUser ] = useState(null);
+    const [ loading, setLoading ] = useState(true);
 
     useEffect(() => {
-        const storedUser = localStorage.getItem('user');
-        if (storedUser) setUser(JSON.parse(storedUser));
+        const loadUserFromStorage = () => {
+            try {
+                const storedUser = localStorage.getItem('user');
+                if (storedUser) {
+                    const parsedUser = JSON.parse(storedUser);
+                    setUser(parsedUser);
+                }
+            } catch (err) {
+                console.error('Failed to load user from storage:', err);
+                
+                localStorage.removeItem('user');
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        loadUserFromStorage();
     }, []);
 
     const login = async ({ email, password }) => {
@@ -58,7 +74,7 @@ export const AuthProvider = ({ children }) => {
     }
 
     return (
-        <AuthContext.Provider value={{ user, login, logout, create }}>
+        <AuthContext.Provider value={{ user, loading, login, logout, create }}>
             { children }
         </AuthContext.Provider>
     );
