@@ -202,8 +202,8 @@ const Reservations = ({}) => {
                     </div>
                 </Modal>
             ) : modalType === 'reactivate-confirmation' ? (
-                <Modal label='Reservation Reactivation Confirmation' isOpen={ modalOpen } onClose={ () => setModalOpen(false) }>
-                    <p className={ styles['modal-info'] }>Are you sure you want to cancel <strong>Reservation #{ selectedItem['reservation_id'] }</strong> from your reservations? You'll be able to reserve it again afterwards.</p>
+                <Modal label='Cancelled Reservation Reactivation Confirmation' isOpen={ modalOpen } onClose={ () => setModalOpen(false) }>
+                    <p className={ styles['modal-info'] }>Are you sure you want to reactivate <strong>Reservation #{ selectedItem['reservation_id'] }</strong> from your reservations?</p>
                     <div className={ styles['modal-ctas'] }>
                         <Button
                             label='Confirm'
