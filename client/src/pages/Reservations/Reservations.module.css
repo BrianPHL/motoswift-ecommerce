@@ -46,6 +46,7 @@
     text-align: center;
     display: flex;
     padding: 2rem;
+    height: 20rem;
     border: 1px solid var(--bg-outline);
     flex: 1 0 0;
     gap: 0.5rem;
@@ -106,8 +107,23 @@
     flex-direction: column;
     display: flex;
     gap: 2rem;
-    & > h3 {
+    & > span {
+        justify-content: space-between;
+        align-items: center;
+        display: flex;
+    }
+    & > span > h3 {
+        font-weight: 600;
+        font-size: 1rem;
         color: var(--tg-primary);
+    }
+    & > span > h4 {
+        background-color: var(--bg-outline);
+        border-radius: 0.25rem;
+        font-weight: 500;
+        font-size: 0.875rem;
+        padding: 0.5rem 0.75rem;
+        color: var(--accent-base);
     }
 }
 
@@ -138,6 +154,8 @@
     display: flex;
     gap: 2rem;
     & > h3 {
+        font-weight: 600;
+        font-size: 1rem;
         color: var(--tg-primary);
     }
 }
@@ -202,7 +220,7 @@
     gap: 1rem;
 }
 
-.reservation-cancel:hover {
+.reservation-warn:hover {
     color: var(--error-foreground);
 }
 
@@ -249,6 +267,25 @@
     background-color: var(--bg-outline);
     width: 100%;
     height: 1px;
+}
+
+.modal-info {
+    font-weight: 400;
+    font-size: 1rem;
+    color: var(--tg-secondary);
+}
+
+.modal-ctas {
+    justify-content: flex-end;
+    align-self: stretch;
+    display: flex;
+    gap: 1rem;
+    & > .modal-warn {
+        background-color: var(--error-foreground);
+        &:hover {
+            background-color: var(--error-hover);
+        }
+    }
 }
 
 @media only screen and (max-width: 1200px) {
