@@ -24,7 +24,7 @@ export const CartProvider = ({ children }) => {
             setCartItems(data || []);
 
         } catch (err) {
-            console.error("Failed to fetch cart items:", err);
+            console.error("Failed to fetch cart items: ", err);
             showToast(`Failed to load your cart: ${ err } `, "error");
         } finally {
             setLoading(false);
@@ -59,7 +59,7 @@ export const CartProvider = ({ children }) => {
             });
 
         } catch (err) {
-            console.error("Failed to add item to cart:", error);
+            console.error("Failed to add item to cart:", err);
             showToast("Failed to add item to cart", "error");
             fetchCartItems();
         } finally {
