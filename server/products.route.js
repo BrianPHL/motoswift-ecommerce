@@ -20,14 +20,14 @@ router.get('/', async (req, res) => {
 
 router.post('/', async (req, res) => {
     try {
-        const { label, price, category, subcategory, description } = req.body;
+        const { label, price, category, subcategory, description, image_url } = req.body;
         
         const [ result ] = await pool.query(
             `
 				INSERT INTO products (label, price, category, subcategory, description, image_url)
              	VALUES (?, ?, ?, ?, ?, ?)
 			`,
-            [label, price, category, subcategory || null, description || null, "none for now" ]
+            [label, price, category, subcategory, description || null, "none for now" ]
         );
         
         const newProductId = result['insertId'];

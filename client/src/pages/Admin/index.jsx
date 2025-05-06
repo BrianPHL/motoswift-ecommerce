@@ -216,6 +216,17 @@ const Admin = ({}) => {
                             onChange={ event => console.log('w') }
                         />
                     </div>
+                    <div className={ styles['input-wrapper'] }>
+                        <label htmlFor="image_url">
+                            Image URL
+                        </label>
+                        <InputField
+                            hint='The product image URL...'
+                            type='text'
+                            onChange={ event => console.log('w')}
+                            isSubmittable={ false }
+                        />
+                    </div>
                     <div className={ styles['modal-ctas'] }>
                         <Button
                             label='Cancel'
@@ -311,6 +322,17 @@ const Admin = ({}) => {
                             name="notes"
                             id='notes'
                             onChange={ event => console.log('w') }
+                        />
+                    </div>
+                    <div className={ styles['input-wrapper'] }>
+                        <label htmlFor="image_url">
+                            Image URL
+                        </label>
+                        <InputField
+                            hint='The product image URL...'
+                            type='text'
+                            onChange={ event => console.log('w')}
+                            isSubmittable={ false }
                         />
                     </div>
                     <div className={ styles['modal-ctas'] }>
