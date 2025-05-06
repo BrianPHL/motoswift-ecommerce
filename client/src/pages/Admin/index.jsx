@@ -5,12 +5,13 @@ import styles from './Admin.module.css';
 
 const Admin = ({}) => {
 
-    const { products, refreshProducts } = useProducts();
+    const { products, addProduct, refreshProducts } = useProducts();
     const [ searchInput, setSearchInput ] = useState('');
     const [ searchQuery, setSearchQuery ] = useState('');
     const [ modalOpen, setModalOpen ] = useState(false);
     const [ modalType, setModalType ] = useState('');
     const [ selectedItem, setSelectedItem ] = useState(null);
+    const [ newProductData, setNewProductData ] = useState({ label: '', price: 0, category: '', subcategory: '', description: '', image_url: '' });
     const handleSearchChange = (e) => setSearchInput(e.target.value);
     const handleSearchSubmit = () => setSearchQuery(searchInput);
     const filteredProducts = searchQuery
@@ -240,6 +241,7 @@ const Admin = ({}) => {
                             label='Add Product'
                             type='primary'
                             action={ () => {
+                                addProduct(newProductData);
                                 setModalOpen(false);
                             }}
                         />
