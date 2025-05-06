@@ -149,7 +149,7 @@ const Header = () => {
                     <div className={ styles['right'] }>
                     { user && user['role'] === 'customer' ? (
                         <Button
-                            id='account-desktop-dropdown'
+                            id='account-mobile-dropdown'
                             type='secondary'
                             label={ user['first_name'] }
                             dropdownPosition='right'
@@ -166,7 +166,7 @@ const Header = () => {
                         />
                     ) : user && user['role'] === 'admin' ? (
                         <Button
-                            id='account-desktop-dropdown-2'
+                            id='account-mobile-dropdown-2'
                             type='secondary'
                             label={ user['first_name'] }
                             dropdownPosition='right'
