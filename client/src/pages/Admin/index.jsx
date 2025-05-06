@@ -1,11 +1,11 @@
 import { ReturnButton, Button, InputField, Modal } from '@components';
 import { useProducts, useToast } from "@contexts";
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import styles from './Admin.module.css';
 
 const Admin = ({}) => {
 
-    const { products, addProduct, deleteProduct, refreshProducts } = useProducts();
+    const { products, addProduct, deleteProduct, updateProduct, refreshProducts } = useProducts();
     const [ searchInput, setSearchInput ] = useState('');
     const [ searchQuery, setSearchQuery ] = useState('');
     const [ modalOpen, setModalOpen ] = useState(false);
@@ -20,6 +20,9 @@ const Admin = ({}) => {
             [ field ]: value
         }));
     };
+    const resetProductData = () => {
+        setProductData({ label: '', price: 0, category: '', subcategory: '', description: '', image_url: '' });
+    }
     const filteredProducts = searchQuery
         ? products.filter(product => 
             product.label.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -29,6 +32,20 @@ const Admin = ({}) => {
             (product.description && product.description.toLowerCase().includes(searchQuery.toLowerCase()))
           )
         : products;
+
+    useEffect(() => {
+        if (modalType === 'edit-product' && selectedItem) {
+            setProductData({
+                product_id: selectedItem['product_id'],
+                label: selectedItem['label'],
+                price: selectedItem['price'],
+                category: selectedItem['category'],
+                subcategory: selectedItem['subcategory'],
+                description: selectedItem['description'],
+                image_url: selectedItem['image_url'],
+            });
+        };
+    }, [ modalType, selectedItem ]);
 
     return (
         <>
@@ -64,6 +81,7 @@ const Admin = ({}) => {
                             iconPosition='left'
                             label='Add a product'
                             action={ () => {
+                                resetProductData();
                                 setModalType('add-product');
                                 setModalOpen(true);
                             }}
@@ -218,15 +236,15 @@ const Admin = ({}) => {
                         />
                     </div>
                     <div className={ styles['input-wrapper'] }>
-                        <label htmlFor="notes">
-                            Notes (Optional)
+                        <label htmlFor="description">
+                            Description (Optional)
                         </label>
                         <textarea
                             placeholder='The product description...'
-                            name="notes"
-                            id='notes'
-                            value={ productData['notes'] }
-                            onChange={ event => handleProductDataChange('notes', event['target']['value']) }
+                            name="description"
+                            id='description'
+                            value={ productData['description'] }
+                            onChange={ event => handleProductDataChange('description', event['target']['value']) }
                         />
                     </div>
                     <div className={ styles['input-wrapper'] }>
@@ -248,6 +266,7 @@ const Admin = ({}) => {
                             action={ () => {
                                 setModalType('');
                                 setModalOpen(false);
+                                resetProductData();
                             }}
                         />
                         <Button
@@ -270,6 +289,7 @@ const Admin = ({}) => {
                             action={ () => {
                                 setModalType('');
                                 setModalOpen(false);
+                                resetProductData();
                             }}
                         />
                         <Button
@@ -293,6 +313,7 @@ const Admin = ({}) => {
                             action={ () => {
                                 setModalType('');
                                 setModalOpen(false);
+                                resetProductData();
                             }}
                         />
                         <Button
@@ -317,7 +338,8 @@ const Admin = ({}) => {
                         <InputField
                             hint='The product label...'
                             type='text'
-                            onChange={ event => console.log('w')}
+                            value={ productData['label'] || '' }
+                            onChange={ event => handleProductDataChange('label', event['target']['value']) }
                             isSubmittable={ false }
                         />
                     </div>
@@ -328,7 +350,8 @@ const Admin = ({}) => {
                         <InputField
                             hint='The product price...'
                             type='text'
-                            onChange={ event => console.log('w')}
+                            value={ productData['price'] || '' }
+                            onChange={ event => handleProductDataChange('price', event['target']['value']) }
                             isSubmittable={ false }
                         />
                     </div>
@@ -339,7 +362,8 @@ const Admin = ({}) => {
                         <InputField
                             hint='The product category...'
                             type='text'
-                            onChange={ event => console.log('w')}
+                            value={ productData['category'] || '' }
+                            onChange={ event => handleProductDataChange('category', event['target']['value']) }
                             isSubmittable={ false }
                         />
                     </div>
@@ -350,19 +374,21 @@ const Admin = ({}) => {
                         <InputField
                             hint='The product subcategory...'
                             type='text'
-                            onChange={ event => console.log('w')}
+                            value={ productData['subcategory'] || '' }
+                            onChange={ event => handleProductDataChange('subcategory', event['target']['value']) }
                             isSubmittable={ false }
                         />
                     </div>
                     <div className={ styles['input-wrapper'] }>
-                        <label htmlFor="notes">
-                            Notes (Optional)
+                        <label htmlFor="description">
+                            Description (Optional)
                         </label>
                         <textarea
                             placeholder='The product description...'
-                            name="notes"
-                            id='notes'
-                            onChange={ event => console.log('w') }
+                            name="description"
+                            id='description'
+                            value={ productData['description'] || '' }
+                            onChange={ event => handleProductDataChange('description', event['target']['value']) }
                         />
                     </div>
                     <div className={ styles['input-wrapper'] }>
@@ -372,7 +398,8 @@ const Admin = ({}) => {
                         <InputField
                             hint='The product image URL...'
                             type='text'
-                            onChange={ event => console.log('w')}
+                            value={ productData['image_url'] || '' }
+                            onChange={ event => handleProductDataChange('image_url', event['target']['value']) }
                             isSubmittable={ false }
                         />
                     </div>
@@ -383,13 +410,17 @@ const Admin = ({}) => {
                             action={ () => {
                                 setModalType('');
                                 setModalOpen(false);
+                                resetProductData();
                             }}
                         />
                         <Button
                             label='Confirm Edit'
                             type='primary'
                             action={ () => {
+                                updateProduct(productData);
+                                setModalType('');
                                 setModalOpen(false);
+                                resetProductData();
                             }}
                         />
                     </div>

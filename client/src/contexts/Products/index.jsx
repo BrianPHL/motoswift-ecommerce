@@ -80,8 +80,7 @@ export const ProductsProvider = ({ children }) => {
             });
             
             if (!response.ok) {
-                const errorData = await response.json();
-                throw new Error(errorData.error || 'Failed to create product');
+                throw new Error('Failed to create product');
             }
 
             // TODO: Add a function for context changes instead of relying on fully products fetch.
@@ -89,12 +88,46 @@ export const ProductsProvider = ({ children }) => {
             
             showToast('Product successfully created', 'success');
             
-        } catch (error) {
-            console.error('Error adding product:', error);
-            showToast(`Failed to create product: ${error.message}`, 'error');
+        } catch (err) {
+            console.error('Error adding product:', err);
+            showToast(`Failed to create product: ${err.message}`, 'error');
         } finally {
             setLoading(false);
         }
+    };
+
+    const updateProduct = async (productData) => {
+
+        console.log('Attempt to update product data: ', productData['product_id'])
+        
+        try {
+            setLoading(true);
+            
+            const response = await fetch(`/api/products/${ productData['product_id'] }`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(productData)
+            });
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error('Failed to update product data!');
+            }
+
+            fetchProducts(true);
+
+            showToast(`Product updated successfully! Product Id: ${ data['product_id'] }`, 'success')
+
+
+        } catch (err) {
+            console.error('Error updating product:', err);
+            showToast(`Failed to update product: ${err.message}`, 'error');
+        } finally {
+            setLoading(false);
+        }
+
     };
 
     useEffect(() => {
@@ -120,6 +153,7 @@ export const ProductsProvider = ({ children }) => {
                 lastFetched,
                 refreshProducts: () => fetchProducts(true),
                 deleteProduct,
+                updateProduct,
                 addProduct
             }}
         >
