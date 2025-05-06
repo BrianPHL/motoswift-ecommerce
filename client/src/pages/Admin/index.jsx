@@ -11,9 +11,15 @@ const Admin = ({}) => {
     const [ modalOpen, setModalOpen ] = useState(false);
     const [ modalType, setModalType ] = useState('');
     const [ selectedItem, setSelectedItem ] = useState(null);
-    const [ newProductData, setNewProductData ] = useState({ label: '', price: 0, category: '', subcategory: '', description: '', image_url: '' });
+    const [ productData, setProductData ] = useState({ label: '', price: 0, category: '', subcategory: '', description: '', image_url: '' });
     const handleSearchChange = (e) => setSearchInput(e.target.value);
     const handleSearchSubmit = () => setSearchQuery(searchInput);
+    const handleProductDataChange = (field, value) => {
+        setProductData(previous => ({
+            ...previous,
+            [ field ]: value
+        }));
+    };
     const filteredProducts = searchQuery
         ? products.filter(product => 
             product.label.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -94,7 +100,7 @@ const Admin = ({}) => {
                                 <h3>actions</h3>
                             </div>
                             { filteredProducts.map(product => (
-                                <div className={styles['table-rows']} key={product.product_id}>
+                                <div className={styles['table-rows']} key={product['product_id']}>
 
                                     <div className={styles['table-cell']}>
                                         <img
@@ -148,7 +154,7 @@ const Admin = ({}) => {
                                             icon='fa-solid fa-pen-to-square'
                                             action={ () => {
                                                 setSelectedItem(product);
-                                                setModalType('edit-product');
+                                                setModalType('edit-product-confirmation');
                                                 setModalOpen(true);
                                             }}
                                         />
@@ -170,7 +176,8 @@ const Admin = ({}) => {
                         <InputField
                             hint='The product label...'
                             type='text'
-                            onChange={ event => console.log('w')}
+                            value={ productData['label'] }
+                            onChange={ event => handleProductDataChange('label', event['target']['value']) }
                             isSubmittable={ false }
                         />
                     </div>
@@ -181,7 +188,8 @@ const Admin = ({}) => {
                         <InputField
                             hint='The product price...'
                             type='text'
-                            onChange={ event => console.log('w')}
+                            value={ productData['price'] }
+                            onChange={ event => handleProductDataChange('price', event['target']['value']) }
                             isSubmittable={ false }
                         />
                     </div>
@@ -192,7 +200,8 @@ const Admin = ({}) => {
                         <InputField
                             hint='The product category...'
                             type='text'
-                            onChange={ event => console.log('w')}
+                            value={ productData['category'] }
+                            onChange={ event => handleProductDataChange('category', event['target']['value']) }
                             isSubmittable={ false }
                         />
                     </div>
@@ -203,7 +212,8 @@ const Admin = ({}) => {
                         <InputField
                             hint='The product subcategory...'
                             type='text'
-                            onChange={ event => console.log('w')}
+                            value={ productData['subcategory'] }
+                            onChange={ event => handleProductDataChange('subcategory', event['target']['value']) }
                             isSubmittable={ false }
                         />
                     </div>
@@ -215,7 +225,8 @@ const Admin = ({}) => {
                             placeholder='The product description...'
                             name="notes"
                             id='notes'
-                            onChange={ event => console.log('w') }
+                            value={ productData['notes'] }
+                            onChange={ event => handleProductDataChange('notes', event['target']['value']) }
                         />
                     </div>
                     <div className={ styles['input-wrapper'] }>
@@ -225,7 +236,8 @@ const Admin = ({}) => {
                         <InputField
                             hint='The product image URL...'
                             type='text'
-                            onChange={ event => console.log('w')}
+                            value={ productData['image_url'] }
+                            onChange={ event => handleProductDataChange('image_url', event['target']['value']) }
                             isSubmittable={ false }
                         />
                     </div>
@@ -242,7 +254,7 @@ const Admin = ({}) => {
                             label='Add Product'
                             type='primary'
                             action={ () => {
-                                addProduct(newProductData);
+                                addProduct(productData);
                                 setModalOpen(false);
                             }}
                         />
@@ -266,6 +278,31 @@ const Admin = ({}) => {
                             action={ () => {
                                 deleteProduct(selectedItem['product_id']);
                                 setModalOpen(false);
+                            }}
+                            externalStyles={ styles['modal-warn'] }
+                        />
+                    </div>
+                </Modal>
+            ) : modalType === 'edit-product-confirmation' ? (
+                <Modal label='Edit Product Confirmation' isOpen={ modalOpen } onClose={ () => setModalOpen(false) }>
+                    <p className={ styles['modal-info'] }>Are you sure you want to modify <strong>{ selectedItem['label'] }?</strong> This action is irreversible!</p>
+                    <div className={ styles['modal-ctas'] }>
+                        <Button
+                            label='Cancel'
+                            type='secondary'
+                            action={ () => {
+                                setModalType('');
+                                setModalOpen(false);
+                            }}
+                        />
+                        <Button
+                            label='Confirm'
+                            type='primary'
+                            action={ () => {
+                                setModalType('');
+                                setModalOpen(false);
+                                setModalType('edit-product');
+                                setModalOpen(true);
                             }}
                             externalStyles={ styles['modal-warn'] }
                         />
