@@ -57,6 +57,8 @@ export const ProductsProvider = ({ children }) => {
             }
             
             showToast('Product successfully deleted', 'success');
+
+            // TODO: Add a function for context changes instead of relying on fully products fetch.
             fetchProducts(true);
 
         } catch (error) {
@@ -81,10 +83,9 @@ export const ProductsProvider = ({ children }) => {
                 const errorData = await response.json();
                 throw new Error(errorData.error || 'Failed to create product');
             }
-            
-            const newProduct = await response.json();
-            
-            setProducts(prevProducts => [...prevProducts, newProduct]);
+
+            // TODO: Add a function for context changes instead of relying on fully products fetch.
+            fetchProducts(true);
             
             showToast('Product successfully created', 'success');
             
