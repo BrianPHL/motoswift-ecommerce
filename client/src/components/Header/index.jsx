@@ -93,7 +93,7 @@ const Header = () => {
                             icon={ theme === 'light' ? 'fa-solid fa-moon' : 'fa-solid fa-sun' }
                         />
                     </div>
-                    { user ? (
+                    { user && user['role'] === 'customer' ? (
                         <Button
                             id='account-desktop-dropdown'
                             type='secondary'
@@ -103,6 +103,27 @@ const Header = () => {
                                 {
                                     label: 'Profile',
                                     action: () => { navigate('/profile') },
+                                },
+                                {
+                                    label: 'Logout',
+                                    action: handleLogout,
+                                },
+                            ]}
+                        />
+                    ) : user && user['role'] === 'admin' ? (
+                        <Button
+                            id='account-desktop-dropdown'
+                            type='secondary'
+                            label={ user['first_name'] }
+                            dropdownPosition='right'
+                            options={[
+                                {
+                                    label: 'Profile',
+                                    action: () => { navigate('/profile') },
+                                },
+                                {
+                                    label: 'Admin',
+                                    action: () => { navigate('/admin') },
                                 },
                                 {
                                     label: 'Logout',
@@ -126,31 +147,52 @@ const Header = () => {
                         <Logo />
                     </div>
                     <div className={ styles['right'] }>
-                        { user ? (
-                            <Button
-                                id='account-mobile-dropdown'
-                                type='secondary'
-                                label={ user['first_name'] }
-                                dropdownPosition='right'
-                                options={[
-                                    {
-                                        label: 'Profile',
-                                        action: () => { navigate('/profile') },
-                                    },
-                                    {
-                                        label: 'Logout',
-                                        action: handleLogout,
-                                    },
-                                ]}
-                            />
-                        ) : (
-                            <Button
-                                type='secondary'
-                                label='Sign in'
-                                action={ () => { navigate('/sign-in') } }
-                                isActive={ pathname === '/sign-in' }
-                            />
-                        )}
+{ user && user['role'] === 'customer' ? (
+                        <Button
+                            id='account-desktop-dropdown'
+                            type='secondary'
+                            label={ user['first_name'] }
+                            dropdownPosition='right'
+                            options={[
+                                {
+                                    label: 'Profile',
+                                    action: () => { navigate('/profile') },
+                                },
+                                {
+                                    label: 'Logout',
+                                    action: handleLogout,
+                                },
+                            ]}
+                        />
+                    ) : user && user['role'] === 'admin' ? (
+                        <Button
+                            id='account-desktop-dropdown'
+                            type='secondary'
+                            label={ user['first_name'] }
+                            dropdownPosition='right'
+                            options={[
+                                {
+                                    label: 'Profile',
+                                    action: () => { navigate('/profile') },
+                                },
+                                {
+                                    label: 'Admin',
+                                    action: () => { navigate('/admin') },
+                                },
+                                {
+                                    label: 'Logout',
+                                    action: handleLogout,
+                                },
+                            ]}
+                        />
+                    ) : (
+                        <Button
+                            type='secondary'
+                            label='Sign in'
+                            action={ () => { navigate('/sign-in') } }
+                            isActive={ pathname === '/sign-in' }
+                        />
+                    )}
                     </div>
                 </div>
                 <div className={ styles['divider'] }></div>
