@@ -147,7 +147,7 @@ const Header = () => {
                         <Logo />
                     </div>
                     <div className={ styles['right'] }>
-{ user && user['role'] === 'customer' ? (
+                    { user && user['role'] === 'customer' ? (
                         <Button
                             id='account-desktop-dropdown'
                             type='secondary'
@@ -166,7 +166,7 @@ const Header = () => {
                         />
                     ) : user && user['role'] === 'admin' ? (
                         <Button
-                            id='account-desktop-dropdown'
+                            id='account-desktop-dropdown-2'
                             type='secondary'
                             label={ user['first_name'] }
                             dropdownPosition='right'
