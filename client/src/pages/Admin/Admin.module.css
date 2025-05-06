@@ -71,9 +71,16 @@
 
 .table-rows {
     grid-template-columns: repeat(11, 1fr);
+    transition: 0.25s ease all;
     display: grid;
     padding: 1rem;
     gap: 1rem;
+    &:not(:last-child) {
+        border-bottom: 1px solid var(--bg-outline);
+    }
+    &:hover {
+        background-color: var(--bg-outline);
+    }
 }
 
 .table-cell {

@@ -37,7 +37,8 @@ const Admin = ({}) => {
                     <InputField
                         hint='Search here...'
                         type='text'
-                        isSubmittable={ true }
+                        icon='fa-solid fa-magnifying-glass'
+                        isSubmittable={ false }
                         value={searchInput}
                         onChange={handleSearchChange}
                         action={handleSearchSubmit}
