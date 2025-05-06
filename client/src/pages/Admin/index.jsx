@@ -5,7 +5,7 @@ import styles from './Admin.module.css';
 
 const Admin = ({}) => {
 
-    const { products, addProduct, refreshProducts } = useProducts();
+    const { products, addProduct, deleteProduct, refreshProducts } = useProducts();
     const [ searchInput, setSearchInput ] = useState('');
     const [ searchQuery, setSearchQuery ] = useState('');
     const [ modalOpen, setModalOpen ] = useState(false);
@@ -264,6 +264,7 @@ const Admin = ({}) => {
                             label='Confirm'
                             type='primary'
                             action={ () => {
+                                deleteProduct(selectedItem['product_id']);
                                 setModalOpen(false);
                             }}
                             externalStyles={ styles['modal-warn'] }

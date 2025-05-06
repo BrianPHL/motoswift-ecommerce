@@ -42,8 +42,9 @@ export const ProductsProvider = ({ children }) => {
     }, [ showToast ]);
 
     const deleteProduct = async (productId) => {
+
         try {
-            const response = await fetch(`/api/products/${productId}`, {
+            const response = await fetch(`/api/products/${ productId }`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json'
