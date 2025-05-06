@@ -56,7 +56,7 @@ export const ProductsProvider = ({ children }) => {
             }
             
             showToast('Product successfully deleted', 'success');
-            refreshProducts();
+            fetchProducts(true);
 
         } catch (error) {
             console.error('Error deleting product:', error);
