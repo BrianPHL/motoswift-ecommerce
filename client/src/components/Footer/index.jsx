@@ -100,7 +100,7 @@ const Footer = () => {
             <div className={ styles['bottom'] }>
                 <div className={ styles['bottom-left'] }>
                     <h5>© 2025 MotoSwift. All rights reserved.</h5>
-                    <h5>Crafted by hand using <span className={ styles['link'] } onClick={ () => { window.location.href = "https://www.figma.com" } }>Figma</span> & <span className={ styles['link'] } onClick={ () => { window.location.href = "https://www.react.dev" } }>React.js</span>.</h5>
+                    <h5>Designed in <span className={ styles['link'] } onClick={ () => { window.location.href = "https://www.figma.com" } }>Figma</span>, built with <span className={ styles['link'] } onClick={ () => { window.location.href = "https://www.react.dev" } }>React.js</span>, running on <span className={ styles['link'] } onClick={ () => { window.location.href = "https://www.railway.com" } }>Railway</span>.</h5>
                 </div>
                 <div className={ styles['bottom-right'] }>
                     <Logo />  
