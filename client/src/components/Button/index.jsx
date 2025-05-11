@@ -56,36 +56,39 @@ const Button = ({ id, label, type, action, icon, iconPosition, isActive, options
         return label;
 
     };
-        
+
+    if (hasDropdown) return (
+        <div ref={ dropdownRef } className={ `${ styles['wrapper'] } ${ externalStyles || '' }` }>
+            <button
+                id={ id }
+                className={ `${ styles[type] } ${ styles['has-dropdown'] } ${ isOpen ? styles['button-active'] : '' }` }
+                onClick={ handleToggle }
+                type='button'
+                aria-haspopup='true'
+                aria-expanded={ isOpen }
+                { ...props }
+            >
+                { renderComponent() }
+            </button>
+            <Dropdown
+                options={ options }
+                isOpen={ isOpen }
+                position={ dropdownPosition }
+                aria-labelledby={ id }
+            />
+        </div>
+    );
+
     return (
-        <>
-            { hasDropdown ? (
-                <div ref={ dropdownRef } className={ `${ styles['wrapper'] } ${ externalStyles || '' }` }>
-                    <button
-                        className={ `${ styles[type] } ${ styles['has-dropdown'] } ${ isOpen ? styles['button-active'] : '' }` }
-                        onClick={ hasDropdown ? handleToggle : action }
-                        type='button'
-                        { ...props }
-                    >
-                        { renderComponent() }
-                    </button>
-                    <Dropdown
-                        options={ options }
-                        isOpen={ isOpen }
-                        position={ dropdownPosition }
-                    />
-                </div>
-            ) : (
-                <button
-                    className={ `${ styles[type] } ${ externalStyles || '' }  ${ isActive ? styles['button-active'] : '' }`  }
-                    onClick={ hasDropdown ? handleToggle : action }
-                    type='button'
-                    { ...props }
-                >
-                    { renderComponent() }
-                </button>
-            )}
-        </>
+        <button
+            id={ id }
+            className={ `${ styles[type] } ${ externalStyles || '' }  ${ isActive ? styles['button-active'] : '' }`  }
+            onClick={ action }
+            type='button'
+            { ...props }
+        >
+            { renderComponent() }
+        </button>
     );
 };
 
