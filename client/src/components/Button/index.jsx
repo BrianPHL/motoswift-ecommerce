@@ -22,7 +22,11 @@ const Button = ({ id, label, type, action, icon, iconPosition, isActive, options
     
     const renderComponent = () => {
 
-        if (hasDropdown) return (
+        if (hasDropdown && !label && !icon) return (
+            <i className={` fa-solid fa-chevron-down ${ isOpen ? styles['chevron-active'] : styles['chevron'] } `}></i>
+        );
+
+        if (hasDropdown && label) return (
             <>
                 { label }
                 <i className={ `fa-solid fa-chevron-down ${ isOpen ? styles['chevron-active'] : styles['chevron'] }` }></i>
