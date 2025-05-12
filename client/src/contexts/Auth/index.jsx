@@ -75,6 +75,41 @@ export const AuthProvider = ({ children }) => {
         setUser(null);
     }
 
+    const updateAvatar = async (file) => {
+
+        if (!user || !file) return { error: 'Missing user or file!' };
+
+        try {
+
+            setIsUpdatingAvatar(true);
+
+            const formData = new FormData();
+            formData.append('avatar', file);
+
+            const response = await fetch(`/api/accounts/${ user['account_id'] }/avatar`, {
+                method: 'POST',
+                body: formData,
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data['error'] || 'Failed to upload avatar!');
+            }
+
+            const updatedUser = { ...user, image_url: data['image_url'] };
+            setUser(updatedUser);
+            localStorage.setItem('user', JSON.stringify(updatedUser));
+
+            return { success: true, image_url: data['image_url'] };
+
+        } catch (err) {
+            console.error("Failed to update avatar:", err);
+            return { error: err.message };
+        } finally { setIsUpdatingAvatar(false); }
+
+    }
+
     const removeAvatar = async () => {
 
         if (!user) return;
