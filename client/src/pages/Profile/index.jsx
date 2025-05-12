@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router';
 const Profile = ({}) => {
 
     const navigate = useNavigate();
-    const { user, loading, logout, remove, updateAvatar, removeAvatar } = useAuth();
+    const { user, loading, logout, isUpdatingAvatar, isRemovingAvatar, updateAvatar, removeAvatar } = useAuth();
     const { reservationItems, clearReservations } = useReservation();
     const { showToast } = useToast();
     const cancelledReservations = reservationItems.filter(reservation => reservation['status'].toLowerCase() === 'cancelled');
@@ -34,6 +34,51 @@ const Profile = ({}) => {
     const [ doPasswordsMatch, setDoPasswordsMatch ] = useState(true);
     const [ showPassword, setShowPassword ] = useState(false);
     const [ showConfirmPassword, setShowConfirmPassword ] = useState(false);
+    const handleFileChange = (event) => {
+        
+        const file = event['target']['files'][0];
+        
+        if (!file) return;
+
+        const validTypes = [ 'image/jpeg', 'image/png', 'image/gif', 'image/webp' ];
+
+        if (!validTypes.includes(file['type'])) {
+            showToast('Please select a valid image file! Valid image file types: .JPEG, .PNG, .GIF, and .WEBP', 'error');
+            return;
+        };
+
+        if (file.size > 5 * 1024 * 1024) {
+            showToast('Image file must be smaller than 5MB', 'error');
+            return;
+        }
+
+        setAvatarFile(file);
+
+        const reader = new FileReader();
+        reader.onloadend = () => {
+            setAvatarPreview(reader['result']);
+        };
+        reader.readAsDataURL(file);
+
+    };
+    const handleAvatarUpload = async () => {
+        
+        if (!avatarFile) {
+            showToast('Please select an image first!', 'error');
+            return;
+        }
+
+        const result = await updateAvatar(avatarFile);
+
+        if (result?.error) {
+            showToast(`Failed to upload avatar: ${result.error}`, 'error');
+        } else {
+            showToast('Avatar uploaded successfully', 'success');
+            setAvatarFile(null);
+            setAvatarPreview(null);
+        };
+
+    };
     const handleAvatarRemoval = async () => {
         
         const result = await removeAvatar();
@@ -133,13 +178,19 @@ const Profile = ({}) => {
 
                     <div className={ styles['avatar'] }>
 
-                        <div className={ styles['avatar-img'] }>
-                            <img
-                                src={user?.image_url 
-                                    ? `https://res.cloudinary.com/dfvy7i4uc/image/upload/${ user['image_url'] }` 
-                                    : "https://static.vecteezy.com/system/resources/thumbnails/004/511/281/small_2x/default-avatar-photo-placeholder-profile-picture-vector.jpg" } 
-                                alt="User avatar" 
-                            />
+                        <div className={styles['avatar-img']}>
+                            {(isUpdatingAvatar || isRemovingAvatar) ? (
+                                <div style={{ display: 'grid', placeContent: 'center', height: '100%' }} className={styles['avatar-loading']}>
+                                    <i style={{ color: 'var(--accent-base)' }} className="fa-solid fa-spinner fa-spin"></i>
+                                </div>
+                            ) : (
+                                <img
+                                    src={user?.image_url 
+                                        ? `https://res.cloudinary.com/dfvy7i4uc/image/upload/${user['image_url']}` 
+                                        : "https://static.vecteezy.com/system/resources/thumbnails/004/511/281/small_2x/default-avatar-photo-placeholder-profile-picture-vector.jpg"} 
+                                    alt="User avatar" 
+                                />
+                            )}
                             <Button
                                 id='profile-avatar-dropdown'
                                 type='icon-outlined'
@@ -170,8 +221,8 @@ const Profile = ({}) => {
                                 <h3>{ user['email'] }</h3>
                             </span>
                             <span>
-                                <h4><strong>Member since:</strong> 2025-05-05 20:34:11</h4>
-                                <h4><strong>Last modified since:</strong> 2025-05-05 20:34:11</h4>
+                                <h4><strong>Member since:</strong> {user['created_at'] ? new Date(user['created_at']).toISOString().replace('T', ' ').slice(0, 19) : 'N/A'}</h4>
+                                <h4><strong>Last modified since:</strong> {user['modified_at'] ? new Date(user['modified_at']).toISOString().replace('T', ' ').slice(0, 19) : 'N/A'}</h4>
                             </span>
                         </div>
 
@@ -543,22 +594,47 @@ const Profile = ({}) => {
                     </div>
                 </Modal>
             ) : modalType === 'change-avatar' ? (
-                <Modal label='Change Avatar' isOpen={ isModalOpen } onClose={ () => setIsModalOpen(false) }>
-                    <p className={ styles['modal-info'] }>Are you sure you want to remove your profile picture? Your account will display the default avatar instead.</p>
-                    <div className={ styles['modal-ctas'] }>
+                <Modal label='Change Avatar' isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
+                    <p className={ styles['change-avatar-info'] }>Upload a new profile picture. We recommend using a square image for best results.</p>
+                    { avatarPreview && (
+                        <div className={ styles['change-avatar-preview'] }>
+                            <img 
+                                src={ avatarPreview } 
+                                alt="Avatar preview" 
+                            />
+                        </div>
+                    )}
+                    <div className={ styles['input-wrapper'] }>
+                        <label htmlFor="avatar-file">Select an image</label>
+                        <InputField
+                            type='file'
+                            id='avatar-file'
+                            hint='.'
+                            accept="image/jpeg,image/png,image/gif,image/webp"
+                            onChange={ handleFileChange }
+                            isSubmittable={ false }
+                        />
+                        <p className={ styles['change-avatar-info'] }>Recommended size: 500x500 pixels. Maximum size: 5MB.</p>
+                    </div>
+                    
+                    <div className={styles['modal-ctas']}>
                         <Button
-                            label='Upload Avatar'
+                            label='Upload'
                             type='primary'
-                            action={ () => {
+                            action={() => {
+                                handleAvatarUpload();
                                 setIsModalOpen(false);
                             }}
+                            disabled={!avatarFile}
                         />
                         <Button
                             label='Cancel'
                             type='secondary'
-                            action={ () => {
+                            action={() => {
                                 setModalType('');
                                 setIsModalOpen(false);
+                                setAvatarFile(null);
+                                setAvatarPreview(null);
                             }}
                         />
                     </div>
