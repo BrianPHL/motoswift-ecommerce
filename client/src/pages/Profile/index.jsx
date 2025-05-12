@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router';
 const Profile = ({}) => {
 
     const navigate = useNavigate();
-    const { user, loading, logout, isUpdatingAvatar, isRemovingAvatar, updateAvatar, removeAvatar } = useAuth();
+    const { user, loading, logout, isUpdatingAvatar, isRemovingAvatar, updateAvatar, removeAvatar, updatePersonalInfo: updatePersonalInfoAPI, updateAddress: updateAddressAPI, updatePassword: updatePasswordAPI, remove } = useAuth();
     const { reservationItems, clearReservations } = useReservation();
     const { showToast } = useToast();
     const cancelledReservations = reservationItems.filter(reservation => reservation['status'].toLowerCase() === 'cancelled');
@@ -114,9 +114,15 @@ const Profile = ({}) => {
         setIsPasswordInfoChanged(hasContent && updatedInfo['password'] === updatedInfo['confirmPassword']);
 
     };
-    const updatePersonalInfo = () => {
-        console.log(personalInfo);
-        setIsPersonalInfoChanged(false);
+    const updatePersonalInfo = async () => {
+        const result = await updatePersonalInfoAPI(personalInfo);
+
+        if (result?.error) {
+            showToast(`Failed to update personal info: ${result.error}`, 'error');
+        } else {
+            showToast('Personal information updated successfully', 'success');
+            setIsPersonalInfoChanged(false);
+        }
     };
     const updateAddressInfo = () => {
         console.log(addressInfo);

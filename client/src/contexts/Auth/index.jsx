@@ -75,6 +75,38 @@ export const AuthProvider = ({ children }) => {
         setUser(null);
     }
 
+    const updatePersonalInfo = async (personalInfo) => {
+
+        if (!user) return { error: 'User not logged in' };
+
+        try {
+            setIsInitializing(true);
+
+            const response = await fetch(`/api/accounts/${user.account_id}/personal-info`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(personalInfo)
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data.error || 'Failed to update personal information');
+            }
+
+            const updatedUser = { ...data };
+            setUser(updatedUser);
+            localStorage.setItem('user', JSON.stringify(updatedUser));
+
+            return { success: true };
+        } catch (err) {
+            console.error("Failed to update personal info:", err);
+            return { error: err.message };
+        } finally {
+            setIsInitializing(false);
+        }
+    };
+
     const updateAvatar = async (file) => {
 
         if (!user || !file) return { error: 'Missing user or file!' };

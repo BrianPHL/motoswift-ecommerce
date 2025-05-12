@@ -78,6 +78,57 @@ router.post('/create', async (req, res) => {
 
 });
 
+router.put('/:account_id/personal-info', async (req, res) => {
+    try {
+        const { account_id } = req.params;
+        const { first_name, last_name, email, contact_number } = req.body;
+        
+        if (email) {
+            const [ existingEmail ] = await pool.query(
+                `
+                    SELECT account_id
+                    FROM accounts 
+                    WHERE email = ? AND account_id != ?
+                `,
+                [email, account_id]
+            );
+            
+            if (existingEmail.length > 0) {
+                return res.status(409).json({ 
+                    error: 'Email already in use by another account' 
+                });
+            }
+        }
+        
+        const [ result ] = await pool.query(
+            `
+                UPDATE accounts 
+                SET first_name = ?, last_name = ?, email = ?, contact_number = ?
+                WHERE account_id = ?
+            `,
+            [first_name, last_name, email, contact_number, account_id]
+        );
+        
+        if (result.affectedRows === 0) {
+            return res.status(404).json({ error: 'Account not found' });
+        }
+        
+        const [user] = await pool.query(
+            `
+                SELECT *
+                FROM accounts
+                WHERE account_id = ?
+            `,
+            [account_id]
+        );
+        
+        res.json(user[0]);
+    } catch (err) {
+        console.error('Error updating personal info:', err);
+        res.status(500).json({ error: err.message });
+    }
+});
+
 router.post('/:account_id/avatar', upload.single('avatar'), async (req, res) => {
 
     try {
