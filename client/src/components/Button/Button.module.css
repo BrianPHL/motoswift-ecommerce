@@ -80,9 +80,26 @@
     }
 }
 
-.primary:disabled, .secondary:disabled, .icon:disabled, .icon-outlined:disabled {
+.primary:disabled {
     background-color: var(--bg-disabled);
     border: 0;
+    color: var(--tg-disabled);
+    gap: 0.5rem;
+    &:hover {
+        cursor: not-allowed;
+    }
+}
+
+.icon-disabled {
+    color: var(--tg-disabled);
+    &:hover {
+        cursor: not-allowed;
+    }
+}
+
+.secondary:disabled, .icon-outlined:disabled {
+    background-color: var(--bg-disabled);
+    border: 1px solid var(--bg-outline);
     color: var(--tg-disabled);
     gap: 0.5rem;
     &:hover {
