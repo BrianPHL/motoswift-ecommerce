@@ -4,8 +4,10 @@ import AuthContext from "./context";
 export const AuthProvider = ({ children }) => {
 
     const [ user, setUser ] = useState(null);
-    const [ loading, setLoading ] = useState(true);
-
+    const [ isInitializing, setIsInitializing ] = useState(true);
+    const [ isUpdatingAvatar, setIsUpdatingAvatar ] = useState(false);
+    const [ isRemovingAvatar, setIsRemovingAvatar ] = useState(false);
+    
     useEffect(() => {
         const loadUserFromStorage = () => {
             try {
@@ -19,7 +21,7 @@ export const AuthProvider = ({ children }) => {
                 
                 localStorage.removeItem('user');
             } finally {
-                setLoading(false);
+                setIsInitializing(false);
             }
         };
 
@@ -79,7 +81,7 @@ export const AuthProvider = ({ children }) => {
 
         try {
 
-            setLoading(true);
+            setIsRemovingAvatar(true);
 
             const response = await fetch(`/api/accounts/${ user['account_id'] }/avatar`, {
                 method: 'DELETE',
@@ -103,12 +105,12 @@ export const AuthProvider = ({ children }) => {
         } catch (err) {
             console.error("Failed to remove avatar:", err);
             return { error: err.message };
-        } finally { setLoading(false); }
+        } finally { setIsRemovingAvatar(false); }
 
     };
 
     return (
-        <AuthContext.Provider value={{ user, loading, login, logout, create }}>
+        <AuthContext.Provider value={{ user, isLoading: isInitializing, isUpdatingAvatar, isRemovingAvatar, login, logout, create, updateAvatar, removeAvatar }}>
             { children }
         </AuthContext.Provider>
     );
