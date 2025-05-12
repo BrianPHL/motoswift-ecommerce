@@ -158,4 +158,56 @@ router.delete('/:reservation_id', async (req, res) => {
 
 });
 
+router.delete('/cancelled/:account_id', async (req, res) => {
+    const connection = await pool.getConnection();
+    
+    try {
+        await connection.beginTransaction();
+        
+        const { account_id } = req.params;
+        
+        const [ cancelledReservations ] = await connection.query(
+            `
+				SELECT reservation_id
+				FROM reservations
+				WHERE account_id = ? AND status = "cancelled"
+			`,
+            [account_id]
+        );
+        
+        if (cancelledReservations.length === 0) {
+            return res.json({ message: 'No cancelled reservations to delete', count: 0 });
+        }
+        
+        // Extract just the IDs
+        const reservationIds = cancelledReservations.map(r => r.reservation_id);
+        
+        // Delete from reservation_products for these reservations
+        await connection.query(
+            'DELETE FROM reservation_products WHERE reservation_id IN (?)',
+            [reservationIds]
+        );
+        
+        // Delete the cancelled reservations
+        const [result] = await connection.query(
+            'DELETE FROM reservations WHERE account_id = ? AND status = "cancelled"',
+            [account_id]
+        );
+        
+        await connection.commit();
+        
+        res.json({ 
+            message: 'Cancelled reservations deleted successfully',
+            count: result.affectedRows
+        });
+        
+    } catch (err) {
+        await connection.rollback();
+        console.error('Error deleting cancelled reservations:', err);
+        res.status(500).json({ error: err.message });
+    } finally {
+        connection.release();
+    }
+});
+
 export default router;

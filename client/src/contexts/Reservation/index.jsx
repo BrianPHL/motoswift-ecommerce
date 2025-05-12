@@ -194,6 +194,35 @@ export const ReservationProvider = ({ children }) => {
 
     };
 
+    const clearReservations = async () => {
+
+        if (!user) return;
+    
+        try {
+            setLoading(true);
+
+            const response = await fetch(`/api/reservations/cancelled/${user.account_id}`, {
+                method: 'DELETE',
+                headers: { 'Content-Type': 'application/json' }
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data.error || 'Failed to clear cancelled reservations');
+            }
+
+            // Remove cancelled reservations from state
+            setReservationItems(previous => previous.filter(item => item.status !== 'cancelled'));
+
+            showToast(`Successfully removed ${data.count} cancelled reservations`, 'success');
+
+        } catch (err) {
+            console.error("Failed to clear cancelled reservations:", err);
+            showToast(`Failed to clear reservation history: ${err.message}`, "error");
+        } finally { setLoading(false); }
+    };
+
     useEffect(() => {
         if (user?.account_id) {
             fetchReservations();
@@ -201,7 +230,15 @@ export const ReservationProvider = ({ children }) => {
     }, [ user ]);
 
     return (
-        <ReservationContext.Provider value={{ reservationItems, addToReservations, cancelReservation, reactivateReservation, deleteReservation, refreshReservations: fetchReservations }}>
+        <ReservationContext.Provider value={{ 
+            reservationItems, 
+            addToReservations, 
+            cancelReservation, 
+            reactivateReservation, 
+            deleteReservation, 
+            clearReservations,
+            refreshReservations: fetchReservations 
+        }}>
             { children }
         </ReservationContext.Provider>
     );
