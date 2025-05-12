@@ -32,7 +32,7 @@
     border: 1px solid var(--bg-outline);
     height: 20rem;
     width: 100%;
-    gap: 0.5rem;
+    gap: 1rem;
     & > h3 {
         font-weight: 600;
         font-size: 1rem;
@@ -170,7 +170,7 @@
 
 .cart-item-details-cta {
     display: flex;
-    gap: 0.5rem;
+    gap: 1rem;
 }
 
 .cart-item-remove:hover {
@@ -261,7 +261,7 @@
     align-items: flex-start;
     align-self: stretch;
     display: flex;
-    gap: 0.5rem;
+    gap: 1rem;
     & > input { width: 100%; }
     & > label {
         font-weight: 500;
@@ -312,5 +312,27 @@
 @media only screen and (max-width: 1010px) {
 
     .wrapper { padding: 14rem 2rem 2rem 2rem; }
+
+}
+
+@media only screen and (max-width: 780px) {
+
+    .cart-item, .cart-item-details {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .cart-item-details {
+        gap: 2rem;
+    }
+
+    .cart-item-details-left  {
+        gap: 1rem;
+    }
+
+    .cart-item-details-right {
+        align-items: flex-start;
+        gap: 1rem;
+    }
 
 }

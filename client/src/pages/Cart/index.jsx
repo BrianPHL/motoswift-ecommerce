@@ -83,7 +83,7 @@ const subtotal = cartItems.reduce(
                                                     <h4>{ item['category'] }, {item['subcategory']}</h4>
                                                 </span>
                                                 <div className={ styles['cart-item-quantity'] }>
-                                                    <span style={{ display: 'flex', gap: '0.25rem' }}>
+                                                    <span style={{ display: 'flex', gap: '1rem' }}>
                                                         <Button
                                                             type='icon-outlined'
                                                             icon='fa-solid fa-minus'
