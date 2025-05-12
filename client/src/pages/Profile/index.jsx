@@ -392,7 +392,7 @@ const Profile = ({}) => {
                             <h2>Reservation History</h2>
                             { cancelledReservations.length === 0 ? (
                                 <div className={ styles['info-reservation-empty'] }>
-                                    <h3>Your Reservations is empty!</h3>
+                                    <h3>You Currently Do Not Have a Cancelled Reservation</h3>
                                     <p>Start browsing for items in <Anchor label="Motorcycles" link="/motorcycles" isNested={ false }/> or <Anchor label="Parts & Accessories" link="/parts-and-accessories" isNested={ false }/>.</p>
                                     <p>or</p>
                                     <p>Add items to <Anchor label="Cart" link="/cart" isNested={ false }/> to reserve by batch.</p>
