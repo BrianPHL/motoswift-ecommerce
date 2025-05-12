@@ -36,6 +36,25 @@
     gap: 1rem;
 }
 
+.change-image-info {
+    font-weight: 400;
+    font-size: 0.875rem;
+    color: var(--tg-secondary);
+}
+
+.change-image-preview {
+    justify-content: center;
+    align-self: stretch;
+    display: flex;
+    & > img {
+        border-radius: 8rem;
+        object-fit: cover;
+        border: 1px solid var(--bg-outline);
+        height: 8rem;
+        width: 8rem;
+    }
+}
+
 .table-search {
     width: 25rem;
     flex: none;
@@ -161,6 +180,11 @@
             outline: 0;
             border: 1px solid var(--accent-base);
         }
+    }
+    & > p {
+        font-weight: 400;
+        font-size: 0.875rem;
+        color: var(--tg-secondary);
     }
 }
 
