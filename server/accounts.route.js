@@ -190,6 +190,74 @@ router.put('/:account_id/password', async (req, res) => {
     }
 });
 
+router.delete('/:account_id', async (req, res) => {
+    const connection = await pool.getConnection();
+    
+    try {
+        await connection.beginTransaction();
+        
+        const { account_id } = req.params;
+
+        await connection.query(
+            `
+                DELETE rp FROM reservation_products rp
+                JOIN reservations r ON rp.reservation_id = r.reservation_id
+                WHERE r.account_id = ?
+            `,
+            [account_id]
+        );
+        
+        await connection.query(
+            `
+                DELETE
+                FROM reservations
+                WHERE account_id = ?
+            `,
+            [account_id]
+        );
+        
+        await connection.query(
+            `
+                DELETE
+                FROM carts
+                WHERE account_id = ?
+            `,
+            [account_id]
+        );
+        
+        // Get avatar URL before deleting account
+        const [accounts] = await connection.query(
+            `
+                SELECT image_url 
+                FROM accounts
+                WHERE account_id = ?
+            `,
+            [account_id]
+        );
+        
+        await connection.query(
+            `
+                DELETE
+                FROM accounts
+                WHERE account_id = ?
+            `,
+            [account_id]
+        );
+        
+        if (accounts.length > 0 && accounts[0].image_url) {
+            await cloudinary.uploader.destroy(accounts[0].image_url);
+        }
+        
+        await connection.commit();
+        
+        res.json({ message: 'Account deleted successfully' });
+    } catch (err) {
+        await connection.rollback();
+        console.error('Error deleting account:', err);
+        res.status(500).json({ error: err.message });
+    } finally { connection.release(); }
+});
+
 router.post('/:account_id/avatar', upload.single('avatar'), async (req, res) => {
 
     try {

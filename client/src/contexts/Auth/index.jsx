@@ -165,6 +165,35 @@ export const AuthProvider = ({ children }) => {
             setIsInitializing(false);
         }
     };
+
+    const remove = async (account_id) => {
+        
+        if (!user) return { error: 'User not logged in' };
+
+        try {
+
+            setIsInitializing(true);
+
+            const response = await fetch(`/api/accounts/${account_id}`, {
+                method: 'DELETE',
+                headers: { 'Content-Type': 'application/json' }
+            });
+
+            if (!response.ok) {
+                const data = await response.json();
+                throw new Error(data.error || 'Failed to delete account');
+            }
+
+            logout();
+
+            return { success: true };
+        } catch (err) {
+            console.error("Failed to delete account:", err);
+            return { error: err.message };
+        } finally { setIsInitializing(false); }
+
+    };
+
     const updateAvatar = async (file) => {
 
         if (!user || !file) return { error: 'Missing user or file!' };
