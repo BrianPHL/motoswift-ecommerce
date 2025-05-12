@@ -6,6 +6,11 @@ import styles from './Admin.module.css';
 const Admin = ({}) => {
 
     const { products, addProduct, deleteProduct, updateProduct, refreshProducts } = useProducts();
+    const { showToast } = useToast();
+    const [ productImage, setProductImage ] = useState(null);
+    const [ imageFile, setImageFile ] = useState(null);
+    const [ imagePreview, setImagePreview ] = useState(null);
+    const [ isUploading, setIsUploading ] = useState(false);
     const [ searchInput, setSearchInput ] = useState('');
     const [ searchQuery, setSearchQuery ] = useState('');
     const [ modalOpen, setModalOpen ] = useState(false);
@@ -20,9 +25,97 @@ const Admin = ({}) => {
             [ field ]: value
         }));
     };
+    const handleImageChange = (event) => {
+        const file = event.target.files[0];
+        if (!file) return;
+        
+        const validTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+        if (!validTypes.includes(file.type)) {
+            showToast('Please select a valid image file (JPEG, PNG, GIF, WEBP)', 'error');
+            return;
+        }
+
+        if (file.size > 5 * 1024 * 1024) {
+            showToast('Image must be smaller than 5MB', 'error');
+            return;
+        }
+
+        setProductImage(file);
+
+        const reader = new FileReader();
+        reader.onloadend = () => {
+            setImagePreview(reader.result);
+        };
+        reader.readAsDataURL(file);
+    };
+    const resetImageData = () => {
+        setProductImage(null);
+        setImagePreview(null);
+    };
+    const uploadProductImage = async () => {
+        if (!productImage) return null;
+
+        try {
+            setIsUploading(true);
+
+            const formData = new FormData();
+            formData.append('image', productImage);
+
+            const response = await fetch('/api/products/upload-image', {
+                method: 'POST',
+                body: formData
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.error || 'Failed to upload image');
+            }
+
+            const data = await response.json();
+            return data.image_url;
+        } catch (error) {
+            showToast(`Image upload failed: ${error.message}`, 'error');
+            return null;
+        } finally {
+            setIsUploading(false);
+        }
+    };
+    const handleAddProduct = async () => {
+        try {
+            
+            if (!productData.label || !productData.price || !productData.category) {
+                showToast('Please fill out all required fields', 'error');
+                return;
+            }
+
+            if (productImage) {
+                const imageUrl = await uploadProductImage();
+                if (imageUrl) {
+                    productData.image_url = imageUrl;
+                } else {
+                    if (!confirm("Image upload failed. Continue adding product without image?")) {
+                        return;
+                    }
+                }
+            }
+
+            const result = await addProduct(productData);
+
+            if (result?.error) {
+                showToast(`Failed to add product: ${result.error}`, 'error');
+            } else {
+                showToast('Product added successfully', 'success');
+                setModalOpen(false);
+                resetProductData();
+            }
+        } catch (error) {
+            showToast(`Error adding product: ${error.message}`, 'error');
+        }
+    };
     const resetProductData = () => {
         setProductData({ label: '', price: 0, category: '', subcategory: '', description: '', image_url: '' });
-    }
+        resetImageData();
+    };
     const filteredProducts = searchQuery
         ? products.filter(product => 
             product.label.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -44,6 +137,12 @@ const Admin = ({}) => {
                 description: selectedItem['description'],
                 image_url: selectedItem['image_url'],
             });
+
+            if (selectedItem['image_url']) {
+                setImagePreview(`https://res.cloudinary.com/dfvy7i4uc/image/upload/${selectedItem['image_url']}`);
+            } else {
+                setImagePreview(null);
+            }
         };
     }, [ modalType, selectedItem ]);
 
@@ -248,16 +347,24 @@ const Admin = ({}) => {
                         />
                     </div>
                     <div className={ styles['input-wrapper'] }>
-                        <label htmlFor="image_url">
-                            Image URL
-                        </label>
+                        { imagePreview && (
+                            <div className={ styles['change-image-preview'] }>
+                                <img 
+                                    src={ imagePreview } 
+                                    alt="Image preview" 
+                                />
+                            </div>
+                        )}
+                        <label htmlFor="image-file">Select an image</label>
                         <InputField
-                            hint='The product image URL...'
-                            type='text'
-                            value={ productData['image_url'] }
-                            onChange={ event => handleProductDataChange('image_url', event['target']['value']) }
+                            type='file'
+                            id='image-file'
+                            hint='.'
+                            accept="image/jpeg,image/png,image/gif,image/webp"
+                            onChange={ handleImageChange }
                             isSubmittable={ false }
                         />
+                        <p>Recommended size: 500x500 pixels. Maximum size: 5MB.</p>
                     </div>
                     <div className={ styles['modal-ctas'] }>
                         <Button
@@ -273,7 +380,7 @@ const Admin = ({}) => {
                             label='Add Product'
                             type='primary'
                             action={ () => {
-                                addProduct(productData);
+                                handleAddProduct();
                                 setModalOpen(false);
                             }}
                         />

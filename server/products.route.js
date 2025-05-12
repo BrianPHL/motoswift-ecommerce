@@ -1,7 +1,14 @@
 import pool from "./db.js";
 import express from 'express';
+import cloudinary from "./cloudinary.js";
+import multer from 'multer';
+import fs from 'fs';
 
 const router = express.Router();
+const upload = multer({
+    dest: 'temp/',
+    limits: { fileSize: 5 * 1024 * 1024 }
+})
 
 router.get('/', async (req, res) => {
     
@@ -24,17 +31,18 @@ router.post('/', async (req, res) => {
         
         const [ result ] = await pool.query(
             `
-				INSERT INTO products (label, price, category, subcategory, description, image_url)
-             	VALUES (?, ?, ?, ?, ?, ?)
-			`,
-            [ label, price, category, subcategory, description || null, "none for now" ]
+                INSERT INTO products (label, price, category, subcategory, description, image_url)
+                VALUES (?, ?, ?, ?, ?, ?)
+            `,
+            [ label, price, category, subcategory, description || null, image_url || null ]
         );
         
         const newProductId = result['insertId'];
         
-		res.status(201).json({
-			message: 'Product added successfully!', newProductId
-		});
+        res.status(201).json({
+            message: 'Product added successfully!', 
+            newProductId
+        });
     } catch (err) {
         console.error('Error adding product:', err);
         res.status(500).json({ error: err.message });
@@ -70,6 +78,36 @@ router.put('/:product_id', async (req, res) => {
         res.status(500).json({ error: err.message });
     }
 
+});
+
+router.post('/upload-image', upload.single('image'), async (req, res) => {
+
+    try {
+        if (!req.file) return res.status(400).json({ error: 'No file uploaded' });
+        
+        const result = await cloudinary.uploader.upload(req.file.path, {
+            folder: 'products',
+            public_id: `product_${Date.now()}`
+        });
+        
+        fs.unlinkSync(req.file.path);
+        
+        res.json({ 
+            message: 'Image uploaded successfully',
+            image_url: result.public_id
+        });
+        
+    } catch (err) {
+        console.error('Error uploading image:', err);
+        if (req.file?.path) {
+            try {
+                fs.unlinkSync(req.file.path);
+            } catch (error) {
+                console.error('Failed to delete temporary file:', error);
+            }
+        }
+        res.status(500).json({ error: err.message });
+    }
 });
 
 router.delete('/:product_id', async (req, res) => {
