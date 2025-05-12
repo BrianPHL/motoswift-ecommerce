@@ -6,7 +6,7 @@ import { useCart, useReservation } from '@contexts';
 
 const Cart = () => {
 
-    const [ modalType, setModalType ] = useState(false);
+    const [ modalType, setModalType ] = useState('');
     const [ modalOpen, setModalOpen ] = useState(false);
     const { cartItems, updateQuantity, removeFromCart, clearCart } = useCart();
     const [ selectedItem, setSelectedItem ] = useState(null);
