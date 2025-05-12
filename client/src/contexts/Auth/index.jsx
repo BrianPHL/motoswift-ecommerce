@@ -73,8 +73,42 @@ export const AuthProvider = ({ children }) => {
         setUser(null);
     }
 
+    const removeAvatar = async () => {
+
+        if (!user) return;
+
+        try {
+
+            setLoading(true);
+
+            const response = await fetch(`/api/accounts/${ user['account_id'] }/avatar`, {
+                method: 'DELETE',
+                headers: { 'Content-Type': 'application/json' }
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data['error'] || 'Failed to remove avatar');
+            }
+
+            const updatedUser = { ...user };
+            delete updatedUser['image_url'];
+
+            setUser(updatedUser);
+            localStorage.setItem('user', JSON.stringify(updatedUser));
+
+            return { success: true };
+
+        } catch (err) {
+            console.error("Failed to remove avatar:", err);
+            return { error: err.message };
+        } finally { setLoading(false); }
+
+    };
+
     return (
-        <AuthContext.Provider value={{ user, loading, login, logout, create }}>
+        <AuthContext.Provider value={{ user, loading, login, logout, create, remove, updateAvatar, removeAvatar }}>
             { children }
         </AuthContext.Provider>
     );

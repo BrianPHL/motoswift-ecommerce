@@ -1,3 +1,4 @@
+import cloudinary from "./cloudinary.js";
 import pool from "./db.js";
 import express from 'express';
 
@@ -67,6 +68,49 @@ router.post('/create', async (req, res) => {
 
         console.error(err.message)
         res.status(500).json({ error: err.message });
+    }
+
+});
+
+router.delete('/:account_id/avatar', async (req, res) => {
+
+    try {
+
+        const { account_id } = req.params;
+
+        const [ accounts ] = await pool.query(
+            `
+                SELECT image_url FROM accounts
+                WHERE account_id = ?
+            `,
+            [ account_id ]
+        );
+
+        if (accounts.length === 0) {
+            return res.status(404).json({ error: 'Account not found!' });
+        }
+
+        const image_url = accounts[0]['image_url'];
+
+        if (image_url) {
+            await cloudinary.uploader.destroy(image_url);
+        }
+
+        await pool.query(
+            `
+                UPDATE accounts SET image_url = NULL
+                WHERE account_id = ?
+            `,
+            [ account_id ]
+        );
+
+        res.json({ message: 'Avatar removed successfully!' });
+
+    } catch (err) {
+
+        console.error('Error removing avatar:', err);
+        res.status(500).json({ error: err.message });
+    
     }
 
 });
