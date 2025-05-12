@@ -134,7 +134,12 @@ const Profile = ({}) => {
                     <div className={ styles['avatar'] }>
 
                         <div className={ styles['avatar-img'] }>
-                            <img src="https://static.vecteezy.com/system/resources/thumbnails/004/511/281/small_2x/default-avatar-photo-placeholder-profile-picture-vector.jpg" alt="" />
+                            <img
+                                src={user?.image_url 
+                                    ? `https://res.cloudinary.com/dfvy7i4uc/image/upload/${ user['image_url'] }` 
+                                    : "https://static.vecteezy.com/system/resources/thumbnails/004/511/281/small_2x/default-avatar-photo-placeholder-profile-picture-vector.jpg" } 
+                                alt="User avatar" 
+                            />
                             <Button
                                 id='profile-avatar-dropdown'
                                 type='icon-outlined'
@@ -161,8 +166,8 @@ const Profile = ({}) => {
 
                         <div className={ styles['avatar-info'] }>
                             <span>
-                                <h2>Doe, John</h2>
-                                <h3>johndoe@motoswift.com</h3>
+                                <h2>{ user['first_name'] + ' ' + user['last_name'] }</h2>
+                                <h3>{ user['email'] }</h3>
                             </span>
                             <span>
                                 <h4><strong>Member since:</strong> 2025-05-05 20:34:11</h4>
