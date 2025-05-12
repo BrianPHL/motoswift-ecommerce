@@ -124,9 +124,16 @@ const Profile = ({}) => {
             setIsPersonalInfoChanged(false);
         }
     };
-    const updateAddressInfo = () => {
-        console.log(addressInfo);
-        setIsAddressInfoChanged(false);
+
+    const updateAddressInfo = async () => {
+        const result = await updateAddressAPI(addressInfo.address);
+
+        if (result?.error) {
+            showToast(`Failed to update address: ${result.error}`, 'error');
+        } else {
+            showToast('Address updated successfully', 'success');
+            setIsAddressInfoChanged(false);
+        }
     };
     const updatePasswordInfo = () => {
         setAddressInfo({ password: '', confirmPassword: '' });

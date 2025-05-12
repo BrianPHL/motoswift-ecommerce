@@ -129,6 +129,41 @@ router.put('/:account_id/personal-info', async (req, res) => {
     }
 });
 
+router.put('/:account_id/address', async (req, res) => {
+    try {
+        const { account_id } = req.params;
+        const { address } = req.body;
+        
+        const [result] = await pool.query(
+            `
+                UPDATE accounts 
+                SET address = ?, modified_at = CURRENT_TIMESTAMP
+                WHERE account_id = ?
+            `,
+            [address, account_id]
+        );
+        
+        if (result.affectedRows === 0) {
+            return res.status(404).json({ error: 'Account not found' });
+        }
+
+        const [user] = await pool.query(
+            `
+                SELECT *
+                FROM accounts
+                WHERE account_id = ?
+            `,
+            [account_id]
+        );
+        
+        res.json(user[0]);
+
+    } catch (err) {
+        console.error('Error updating address:', err);
+        res.status(500).json({ error: err.message });
+    }
+});
+
 router.post('/:account_id/avatar', upload.single('avatar'), async (req, res) => {
 
     try {
