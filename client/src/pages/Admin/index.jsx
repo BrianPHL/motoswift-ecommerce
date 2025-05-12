@@ -112,6 +112,39 @@ const Admin = ({}) => {
             showToast(`Error adding product: ${error.message}`, 'error');
         }
     };
+    const handleUpdateProduct = async () => {
+        try {
+            
+            if (!productData.label || !productData.price || !productData.category) {
+                showToast('Please fill out all required fields', 'error');
+                return;
+            }
+
+            if (productImage) {
+                const imageUrl = await uploadProductImage();
+                if (imageUrl) {
+                    productData.image_url = imageUrl;
+                } else {
+                    if (!confirm("Image upload failed. Continue with existing image?")) {
+                        return;
+                    }
+                }
+            }
+
+            const result = await updateProduct(productData);
+
+            if (result?.error) {
+                showToast(`Failed to update product: ${result.error}`, 'error');
+            } else {
+                showToast('Product updated successfully', 'success');
+                setModalType('');
+                setModalOpen(false);
+                resetProductData();
+            }
+        } catch (error) {
+            showToast(`Error updating product: ${error.message}`, 'error');
+        }
+    };
     const resetProductData = () => {
         setProductData({ label: '', price: 0, category: '', subcategory: '', description: '', image_url: '' });
         resetImageData();
@@ -499,16 +532,28 @@ const Admin = ({}) => {
                         />
                     </div>
                     <div className={ styles['input-wrapper'] }>
-                        <label htmlFor="image_url">
-                            Image URL
-                        </label>
+                        <label>Current Image</label>
+                        <div className={styles['change-image-preview']}>
+                            {imagePreview ? (
+                                <img 
+                                    src={imagePreview} 
+                                    alt="Current product image" 
+                                />
+                            ) : (
+                                <p>No image available</p>
+                            )}
+                        </div>
+                        
+                        <label htmlFor="image-file">Upload new image (optional)</label>
                         <InputField
-                            hint='The product image URL...'
-                            type='text'
-                            value={ productData['image_url'] || '' }
-                            onChange={ event => handleProductDataChange('image_url', event['target']['value']) }
-                            isSubmittable={ false }
+                            type='file'
+                            id='image-file'
+                            hint='.'
+                            accept="image/jpeg,image/png,image/gif,image/webp"
+                            onChange={ handleImageChange }
+                            isSubmittable={false}
                         />
+                        <p>Recommended size: 500x500 pixels. Maximum size: 5MB.</p>
                     </div>
                     <div className={ styles['modal-ctas'] }>
                         <Button
@@ -524,7 +569,7 @@ const Admin = ({}) => {
                             label='Confirm Edit'
                             type='primary'
                             action={ () => {
-                                updateProduct(productData);
+                                handleUpdateProduct();
                                 setModalType('');
                                 setModalOpen(false);
                                 resetProductData();

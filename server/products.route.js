@@ -114,14 +114,38 @@ router.delete('/:product_id', async (req, res) => {
     try {
         const { product_id } = req.params;
         
-        await pool.query(
+        const [product] = await pool.query(
             `
-				DELETE FROM products WHERE product_id = ?
-			`,
+                SELECT image_url
+                FROM products
+                WHERE product_id = ?
+            `,
             [product_id]
         );
         
-        res.status(200).json({ message: 'Product deleted successfully' });
+        if (product.length === 0) {
+            return res.status(404).json({ error: 'Product not found' });
+        }
+
+        if (product[0].image_url && product[0].image_url !== 'none for now') {
+            try {
+                await cloudinary.uploader.destroy(product[0].image_url);
+                console.log(`Deleted image: ${product[0].image_url}`);
+            } catch (imageError) {
+                console.error('Error deleting image from Cloudinary:', imageError);
+            }
+        }
+        
+        await pool.query(
+            `
+                DELETE
+                FROM products
+                WHERE product_id = ?
+            `,
+            [product_id]
+        );
+        
+        res.status(200).json({ message: 'Product and associated image deleted successfully' });
     } catch (err) {
         console.error('Error deleting product:', err);
         res.status(500).json({ error: err.message });
