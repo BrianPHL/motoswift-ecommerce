@@ -135,9 +135,23 @@ const Profile = ({}) => {
             setIsAddressInfoChanged(false);
         }
     };
-    const updatePasswordInfo = () => {
-        setAddressInfo({ password: '', confirmPassword: '' });
-        setIsPasswordInfoChanged(false);
+
+    const updatePasswordInfo = async () => {
+        if (passwordInfo.password !== passwordInfo.confirmPassword) {
+            showToast('Passwords do not match', 'error');
+            return;
+        }
+
+        const result = await updatePasswordAPI(passwordInfo.password);
+
+        if (result?.error) {
+            showToast(`Failed to update password: ${result.error}`, 'error');
+        } else {
+            showToast('Password updated successfully', 'success');
+            setPasswordInfo({ password: '', confirmPassword: '' });
+            setIsPasswordInfoChanged(false);
+            setDoPasswordsMatch(true);
+        }
     };
     const resetPersonalInfo = () => {
         setPersonalInfo({

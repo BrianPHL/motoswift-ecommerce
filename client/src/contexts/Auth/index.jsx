@@ -138,6 +138,33 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
+    const updatePassword = async (password) => {
+
+        if (!user) return { error: 'User not logged in' };
+
+        try {
+            setIsInitializing(true);
+
+            const response = await fetch(`/api/accounts/${user.account_id}/password`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ password })
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data.error || 'Failed to update password');
+            }
+
+            return { success: true };
+        } catch (err) {
+            console.error("Failed to update password:", err);
+            return { error: err.message };
+        } finally {
+            setIsInitializing(false);
+        }
+    };
     const updateAvatar = async (file) => {
 
         if (!user || !file) return { error: 'Missing user or file!' };

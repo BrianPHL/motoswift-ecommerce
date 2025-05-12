@@ -164,6 +164,32 @@ router.put('/:account_id/address', async (req, res) => {
     }
 });
 
+router.put('/:account_id/password', async (req, res) => {
+    try {
+        const { account_id } = req.params;
+        const { password } = req.body;
+        
+        const [result] = await pool.query(
+            `
+                UPDATE accounts 
+                SET password = ?
+                WHERE account_id = ?
+            `,
+            [password, account_id]
+        );
+        
+        if (result.affectedRows === 0) {
+            return res.status(404).json({ error: 'Account not found' });
+        }
+        
+        res.json({ message: 'Password updated successfully' });
+
+    } catch (err) {
+        console.error('Error updating password:', err);
+        res.status(500).json({ error: err.message });
+    }
+});
+
 router.post('/:account_id/avatar', upload.single('avatar'), async (req, res) => {
 
     try {
