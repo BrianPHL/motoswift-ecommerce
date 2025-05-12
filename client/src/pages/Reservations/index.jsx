@@ -57,6 +57,14 @@ const Reservations = ({}) => {
                                 </div>
                             </div>
                             <div className={ styles['list'] }>
+                                <div className={ styles['notice'] }>
+                                    <i className='fa-solid fa-triangle-exclamation'></i>
+                                    <p>
+                                        All reservations made through this platform are stored for record-keeping purposes only and will remain in either Pending or Cancelled status even after the preferred reservation date has passed.
+                                    <br /><br />
+                                        This feature is part of a future system upgrade. For now, reservations do not guarantee product availability or fulfillment.
+                                    </p>
+                                </div>
                                 { reservationItems.map(reservation => (
                                     <Accordion
                                         key={ reservation['reservation_id'] }

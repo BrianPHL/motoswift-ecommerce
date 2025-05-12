@@ -72,6 +72,25 @@
     }
 }
 
+.notice {
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--accent-base);
+    border-radius: 0.5rem;
+    margin-bottom: 1rem;
+    align-items: center;
+    padding: 1rem;
+    display: flex;
+    gap: 1rem;
+    & > i {
+        color: var(--accent-base);
+    }
+    & > p {
+        font-weight: 500;
+        font-size: 0.875rem;
+        color: var(--tg-primary);
+    }
+}
+
 .reservations {
     flex-direction: row-reverse;
     align-self: stretch;
@@ -84,6 +103,7 @@
     align-self: stretch;
     display: flex;
     width: 100%;
+    gap: 1rem;
 }
 
 .reservation {
@@ -91,9 +111,7 @@
     border-radius: 0.5rem;
     overflow: hidden;
     border: 1px solid var(--bg-outline);
-    &:not(:last-child) {
-        margin-bottom: 1rem;
-    }
+
 }
 
 .content {
@@ -303,5 +321,17 @@
 @media only screen and (max-width: 1010px) {
 
     .wrapper { padding: 14rem 2rem 2rem 2rem; }
+
+}
+
+@media only screen and (max-width: 880px) {
+
+    .reservations {
+        flex-direction: column;
+    }
+
+    .summary {
+        width: 100%;
+    }
 
 }
