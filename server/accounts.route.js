@@ -1,8 +1,14 @@
 import cloudinary from "./cloudinary.js";
 import pool from "./db.js";
 import express from 'express';
+import multer from "multer";
+import fs from "fs";
 
 const router = express.Router();
+const upload = multer({
+    dest: 'temp/',
+    limits: { fileSize: 5 * 1024 * 1024 }
+})
 
 router.get('/', async (req, res) => {
     
@@ -68,6 +74,44 @@ router.post('/create', async (req, res) => {
 
         console.error(err.message)
         res.status(500).json({ error: err.message });
+    }
+
+});
+
+router.post('/:account_id/avatar', upload.single('avatar'), async (req, res) => {
+
+    try {
+
+        const { account_id } = req.params;
+
+        if (!req.file) return res.status(400).json({ error: 'No file uploaded!' });
+
+        const result = await cloudinary.uploader.upload(req.file.path, {
+            folder: 'avatars',
+            public_id: `avatar_${ account_id }_${ Date.now() }`
+        });
+
+        fs.unlinkSync(req.file.path);
+
+        await pool.query(
+            `
+                UPDATE accounts SET image_url = ?
+                WHERE account_id = ?
+            `,
+            [ result['public_id'], account_id ]
+        );
+
+        res.json({
+            message: 'Avatar uploaded successfully',
+            image_url: result['public_id']
+        })
+
+    } catch (err) {
+
+        console.error('Error uploading avatar:', err);
+        if (req.file?.path) fs.unlinkSync(req.file.path);
+        res.status(500).json({ error: err.message });
+
     }
 
 });
