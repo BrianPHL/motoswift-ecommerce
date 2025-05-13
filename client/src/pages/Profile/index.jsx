@@ -443,7 +443,15 @@ const Profile = ({}) => {
                                                 <div className={ styles['info-reservation-list-item-products'] }>
                                                     <h3>Reserved Products</h3>
                                                     { reservation['products'] && reservation['products'].map(product => (
-                                                        <div className={ styles['info-reservation-list-item-product'] } key={ product['product_id']} onClick={ () => console.log("Navigate to details page") }>
+                                                        <div 
+                                                            key={ product['product_id'] }
+                                                            className={ styles['info-reservation-list-item-product'] }
+                                                            onClick={ () => {
+                                                                product['category'].toLowerCase() === 'motorcycles'
+                                                                ? navigate(`/motorcycles/${ product['product_id'] }`)
+                                                                : navigate(`/parts-and-accessories/${ product['product_id'] }`)
+                                                            }}
+                                                        > 
                                                             <span>
                                                                 <img src={`https://res.cloudinary.com/dfvy7i4uc/image/upload/${ product['image_url'] }`} alt="" />
                                                                 <div className={ styles['info-reservation-list-item-product-details'] }>
