@@ -2,53 +2,173 @@
 
 .wrapper {
     flex-direction: column;
-    padding: 12rem 8rem 3rem 8rem;
+    padding: 12rem 8rem 8rem 8rem;
     display: flex;
     gap: 4rem;
 }
 
-.container {
+.header {
+    flex-direction: column;
+    align-self: flex-start;
     display: flex;
-    flex-direction: row;
-    color: var(--tg-primary);
+    gap: 1rem;
+    & > button {
+        align-self: flex-start;
+    }
+    & > h1 {
+        font-weight: 700;
+        font-size: 1.25rem;
+        color: var(--tg-primary);
+    }
 }
 
-.imageContainer {
+.loading {
     background-color: var(--bg-secondary);
-    width: 250rem;
-    height: 35rem;
-}
-
-.Details {
-    display: flex;
+    border-radius: 0.5rem;
+    justify-content: center;
     flex-direction: column;
-    margin: 0rem 2rem 5rem 2rem;
-    height: 35rem;
-}
-
-
-.productDescription {
-    padding: 1rem 0rem 2rem 0rem;
-    height: 25rem; 
-    flex-grow: 1;
-}
-
-.productDescription h2 {
-    margin-bottom: 1.5rem;
-    color: var(--bg-outline);
-}
-
-
-.productDescription p {
-    margin-bottom: 1.5rem;
-}
-
-.buttonContainer {
+    align-items: center;
     display: flex;
+    border: 1px solid var(--bg-outline);
+    height: 32rem;
+    gap: 1rem;
+    & > i {
+        color: var(--accent-base);
+    }
+    & > p {
+        font-weight: 400;
+        font-size: 0.875rem;
+        color: var(--tg-primary);
+    }
+}
+
+.product {
+    display: flex;
+    gap: 2rem;
+}
+
+.product-image {
+    border-radius: 0.5rem;
+    padding: 2rem;
+    border: 1px solid var(--bg-outline);
+}
+
+.product-details {
     flex-direction: column;
+    display: flex;
+    gap: 2rem;
+}
+
+.product-details-header {
+    flex-direction: column;
+    display: flex;
+    & > h2 {
+        font-weight: 700;
+        font-size: 3rem;
+        color: var(--tg-primary);
+    }
+    & > h3 {
+        font-weight: 500;
+        font-size: 1rem;
+        color: var(--tg-primary);
+    }
+}
+
+.product-details-info {
+    flex-direction: column;
+    display: flex;
+    gap: 2rem;
+    & > span > h4 {
+        font-weight: 500;
+        font-size: 1.25rem;
+        color: var(--tg-secondary);
+    }
+    & > span > p {
+        font-weight: 400;
+        font-size: 1.25rem;
+        color: var(--tg-secondary);
+    }
+    & > h3 {
+        font-weight: 700;
+        font-size: 1.5rem;
+        color: var(--tg-primary);
+    }
+}
+
+.product-details-ctas {
+    display: flex;
     gap: 1rem;
 }
 
-.buttonContainer Button {
-    width: 100%;
+.divider {
+    background-color: var(--bg-outline);
+    height: 1px;
+}
+
+.modal-info {
+    font-weight: 400;
+    font-size: 1rem;
+    color: var(--tg-secondary);
+}
+
+.modal-ctas {
+    justify-content: flex-end;
+    align-self: stretch;
+    display: flex;
+    gap: 1rem;
+    & > .modal-warn {
+        background-color: var(--error-foreground);
+        &:hover {
+            background-color: var(--error-hover);
+        }
+    }
+}
+
+.inputs-container {
+    flex-direction: column;
+    align-self: stretch;
+    display: flex;
+    gap: 1rem;
+}
+
+.input-wrapper {
+    justify-content: center;
+    flex-direction: column;
+    align-items: flex-start;
+    align-self: stretch;
+    display: flex;
+    gap: 1rem;
+    & > input { width: 100%; }
+    & > label {
+        font-weight: 500;
+        font-size: 0.75rem;
+        color: var(--tg-primary);
+    }
+    & > textarea {
+        background-color: transparent;
+        border-radius: 0.25rem;
+        transition: 0.25s ease all;
+        font-size: 0.875rem;
+        padding: 0.75rem 1.25rem;
+        border: 1px solid var(--bg-outline);
+        resize: vertical;
+        width: 100%;
+        color: var(--tg-secondary);
+        &:focus {
+            outline: 0;
+            border: 1px solid var(--accent-base);
+        }
+    }
+}
+
+@media only screen and (max-width: 1200px) {
+
+    .wrapper { padding: 8rem 4rem 2rem 4rem; }
+
+}
+
+@media only screen and (max-width: 1080px) {
+
+    .wrapper { padding: 8rem 2rem 2rem 2rem; }
+
 }

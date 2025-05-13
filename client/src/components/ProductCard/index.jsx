@@ -71,7 +71,11 @@ const ProductCard = ({ product_id, category, subcategory, image_url, label, pric
                     <Button
                         type='icon'
                         icon='fa-solid fa-square-arrow-up-right'
-                        action={ () => { navigate('#') } }
+                        action={ () => {
+                            category.toLowerCase() === 'motorcycles'
+                            ? navigate(`/motorcycles/${ product_id }`)
+                            : navigate(`/parts-and-accessories/${ product_id }`)
+                        }}
                     />
                 </div>
                 <div className={ styles['divider'] }></div>
