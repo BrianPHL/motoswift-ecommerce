@@ -45,6 +45,7 @@ const ProductCard = ({ product_id, category, subcategory, image_url, label, pric
                 product: { product_id, category, subcategory, image_url, label, price },
                 preferredDate: reservePreferredDate,
             });
+            showToast(`Successfully added ${ label } to your reservations!`, 'success');
         } catch (err) {
             showToast(`Uh oh! An error occured during the reservation of ${ label }! Please try again later. Error message: ${ err }`, 'error');
         }
