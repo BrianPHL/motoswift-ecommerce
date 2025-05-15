@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Button, ProductCard } from '@components';
+import { Button, ProductCard, Carousel } from '@components';
 import styles from './Home.module.css';
 import { useNavigate } from 'react-router';
 import { useProducts } from '@contexts';
@@ -43,51 +43,53 @@ const Home = () => {
 
     return (
         <div className={ styles['wrapper'] }>
-            <div className={ styles['hero'] }>
-                <div className={ styles['hero-left'] }>
-                    <h5>Home</h5>
-                    <div className={ styles['hero-left-info'] }>
-                        <div className={ styles['hero-left-info-text'] }>
-                            <h2>Ride Beyond Limits. Own the Road Today!</h2>
-                            <h3>Premium motorcycles, top-tier accessories, and hassle-free reservations – all in one place.</h3>
+            <Carousel>
+                <div className={ styles['hero'] }>
+                    <div className={ styles['hero-left'] }>
+                        <h5>Home</h5>
+                        <div className={ styles['hero-left-info'] }>
+                            <div className={ styles['hero-left-info-text'] }>
+                                <h2>Ride Beyond Limits. Own the Road Today!</h2>
+                                <h3>Premium motorcycles, top-tier accessories, and hassle-free reservations – all in one place.</h3>
+                            </div>
+                            <div className={ styles['hero-left-info-ctas'] }>
+                                <Button
+                                    type='primary'
+                                    label='Reserve Now'
+                                    action={ () => { navigate('/reservations') } }
+                                />
+                                <h5>or</h5>
+                                <Button
+                                    id='hero-browse-inventory-1'
+                                    type='secondary'
+                                    label='Browse our Inventory'
+                                    options={[
+                                        {
+                                            label: 'Motorcycles',
+                                            link: '/motorcycles'
+                                        },
+                                        {
+                                            label: 'Parts & Accessories',
+                                            link: '/parts-and-accessories'
+                                        }
+                                    ]}
+                                />
+                            </div>
                         </div>
-                        <div className={ styles['hero-left-info-ctas'] }>
-                            <Button
-                                type='primary'
-                                label='Reserve Now'
-                                action={ () => { navigate('/reservations') } }
-                            />
-                            <h5>or</h5>
-                            <Button
-                                id='hero-browse-inventory-1'
-                                type='secondary'
-                                label='Browse our Inventory'
-                                options={[
-                                    {
-                                        label: 'Motorcycles',
-                                        link: '/motorcycles'
-                                    },
-                                    {
-                                        label: 'Parts & Accessories',
-                                        link: '/parts-and-accessories'
-                                    }
-                                ]}
-                            />
+                        <div className={ styles['hero-left-footer'] }>
+                            <h5>Scroll down and see what we have in store for you</h5>
+                            <i className='fa-solid fa-arrow-down'></i>
                         </div>
                     </div>
-                    <div className={ styles['hero-left-footer'] }>
-                        <h5>Scroll down and see what we have in store for you</h5>
-                        <i className='fa-solid fa-arrow-down'></i>
-                    </div>
+                    <div className={ styles['hero-banner'] }></div>
                 </div>
-                <div className={ styles['hero-banner'] }></div>
-            </div>
+            </Carousel>
             <div className={ styles['motorcycles'] }>
                 <div className={ styles['motorcycles-banner'] }></div>
                 <div className={ styles['motorcycles-header'] }>
                     <div className={ styles['motorcycles-header-info'] }>
                         <h2>Top Picks for Riders</h2>
-                        <div className={ styles['motorcycles-header-info-divider'] }></div>
+                        <div className={ styles['highlight-divider'] }></div>
                         <h3>Check out our most popular motorcycles, handpicked for performance and style.</h3>
                     </div>
                     <Button
@@ -118,7 +120,7 @@ const Home = () => {
                 <div className={ styles['parts-header'] }>
                     <div className={ styles['parts-header-info'] }>
                         <h2>Essential Parts. Premium Accessories. Maximum Performance.</h2>
-                        <div className={ styles['parts-header-info-divider'] }></div>
+                        <div className={ styles['highlight-divider'] }></div>
                         <h3>Because every rider deserves the best. Discover high-performance parts and stylish accessories made for the road.</h3>
                     </div>
                     <Button
@@ -147,7 +149,7 @@ const Home = () => {
             <div className={ styles['trust'] }>
                 <div className={ styles['trust-header'] }>
                     <h2>Why Riders Trust MotoSwift</h2>
-                    <div className={ styles['trust-divider'] }></div>
+                    <div className={ styles['highlight-divider'] }></div>
                     <p>At MotoSwift, we go the extra mile to ensure you get the best motorcycles, parts, and accessories at unbeatable quality. Whether you're a daily commuter or a speed enthusiast, we’ve got what you need to make every ride smooth and safe.</p>
                 </div>
                 <div className={ styles['trust-container'] }>
@@ -155,7 +157,7 @@ const Home = () => {
                         <i className='fa-solid fa-motorcycle'></i>
                         <div className={ styles['trust-container-card-header'] }>
                             <h2>Wide Selection of Motorcycles</h2>
-                            <div className={ styles['trust-container-card-header-divider'] }></div>
+                            <div className={ styles['highlight-divider'] }></div>
                             <h3>From daily rides to high-performance bikes, we have something for every rider.</h3>
                         </div>
                         <div className={ styles['trust-container-card-details'] }>
@@ -173,7 +175,7 @@ const Home = () => {
                         <i className='fa-solid fa-wrench'></i>
                         <div className={ styles['trust-container-card-header'] }>
                             <h2>Premium Quality Parts & Accessories</h2>
-                            <div className={ styles['trust-container-card-header-divider'] }></div>
+                            <div className={ styles['highlight-divider'] }></div>
                             <h3>Only the best and most reliable parts to keep your ride in top shape.</h3>
                         </div>
                         <div className={ styles['trust-container-card-details'] }>
@@ -191,7 +193,7 @@ const Home = () => {
                         <i className='fa-solid fa-motorcycle'></i>
                         <div className={ styles['trust-container-card-header'] }>
                             <h2>Trusted by Thousands of Riders</h2>
-                            <div className={ styles['trust-container-card-header-divider'] }></div>
+                            <div className={ styles['highlight-divider'] }></div>
                             <h3>With excellent customer satisfaction, we are the go-to shop for riders across the country.</h3>
                         </div>
                         <div className={ styles['trust-container-card-details'] }>
