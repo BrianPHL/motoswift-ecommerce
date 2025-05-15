@@ -8,9 +8,11 @@
 }
 
 .hero {
+    border-radius: 0.5rem;
     align-self: stretch;
+    padding: 1rem;
     display: flex;
-    gap: 8rem;    
+    gap: 8rem;
 }
 
 .hero-left {
@@ -75,18 +77,30 @@
 }
 
 .hero-banner {
-    background-image: url('https://res.cloudinary.com/dfvy7i4uc/image/upload/v1746275497/hero-banner_zfhs2p.webp');
+    /* background-image: url('https://res.cloudinary.com/dfvy7i4uc/image/upload/v1746275497/hero-banner_zfhs2p.webp'); */
     background-position: center;
     background-repeat: no-repeat;
-    justify-content: center;
     background-size: cover;
-    border-radius: 0.5rem;
+    border-radius: 0.25rem;
     align-items: center;
     align-self: stretch;
     display: flex;
     border: 1px solid var(--bg-outline);
     width: 100%;
 }
+
+.hero-banner-first {
+    background-image: url('https://res.cloudinary.com/dfvy7i4uc/image/upload/v1746275497/hero-banner_zfhs2p.webp');
+}
+
+.hero-banner-second {
+    background-image: url('https://res.cloudinary.com/dfvy7i4uc/image/upload/parts-and-accessories-banner_oiem58.webp');
+}
+
+.hero-banner-third {
+    background-image: url('https://res.cloudinary.com/dfvy7i4uc/image/upload/sign-in-and-sign-up-banner_o47rul.webp');
+}
+
 
 .motorcycles {
     flex-direction: column;
@@ -300,7 +314,7 @@
 @media only screen and (max-width: 1080px) {
 
     .wrapper { padding: 8rem 2rem 2rem 2rem; }
-    .wrapper > .hero { gap: 2rem; }
+    .hero { gap: 2rem; }
 
 }
 
@@ -312,14 +326,13 @@
 
 @media only screen and (max-width: 902px) {
 
-    .wrapper > .hero > .hero-banner { display: none; }
+    .hero-banner { display: none; }
 
 }
 
 @media only screen and (max-width: 680px) {
 
-    .wrapper > .motorcycles > .motorcycles-header,
-    .wrapper > .parts > .parts-header {
+    .motorcycles-header, .parts-header {
         flex-direction: column;
         gap: 2rem;
     }
@@ -328,7 +341,7 @@
 
 @media only screen and (max-width: 467px) {
 
-    .wrapper > .hero > .hero-left > .hero-left-info  > .hero-left-info-ctas {
+    .hero-left-info-ctas {
         flex-direction: column;
         align-items: flex-start;
         align-self: flex-start;

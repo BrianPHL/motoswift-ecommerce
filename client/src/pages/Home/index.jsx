@@ -81,7 +81,85 @@ const Home = () => {
                             <i className='fa-solid fa-arrow-down'></i>
                         </div>
                     </div>
-                    <div className={ styles['hero-banner'] }></div>
+                    <div className={` ${ styles['hero-banner'] } ${ styles['hero-banner-first'] } `}></div>
+                </div>
+                <div className={ styles['hero'] }>
+                    <div className={ styles['hero-left'] }>
+                        <h5>Parts & Accessories</h5>
+                        <div className={ styles['hero-left-info'] }>
+                            <div className={ styles['hero-left-info-text'] }>
+                                <h2>Upgrade Your Ride With Premium Parts</h2>
+                                <h3>Discover high-performance components and stylish accessories that enhance both form and function.</h3>
+                            </div>
+                            <div className={ styles['hero-left-info-ctas'] }>
+                                <Button
+                                    type='primary'
+                                    label='Shop Parts Now'
+                                    action={ () => { navigate('/parts-and-accessories') } }
+                                />
+                                <h5>or</h5>
+                                <Button
+                                    id='hero-browse-inventory-2'
+                                    type='secondary'
+                                    label='View Top Categories'
+                                    options={[
+                                        {
+                                            label: 'Engine Components',
+                                            link: '/parts-and-accessories'
+                                        },
+                                        {
+                                            label: 'Safety Gear',
+                                            link: '/parts-and-accessories'
+                                        }
+                                    ]}
+                                />
+                            </div>
+                        </div>
+                        <div className={ styles['hero-left-footer'] }>
+                            <h5>Scroll down and see what we have in store for you</h5>
+                            <i className='fa-solid fa-arrow-down'></i>
+                        </div>
+                    </div>
+                    <div className={` ${ styles['hero-banner'] } ${ styles['hero-banner-second'] } `}></div>
+                </div>
+                <div className={ styles['hero'] }>
+                    <div className={ styles['hero-left'] }>
+                        <h5>Customer Experience</h5>
+                        <div className={ styles['hero-left-info'] }>
+                            <div className={ styles['hero-left-info-text'] }>
+                                <h2>Trusted By 5,000+ Riders Nationwide</h2>
+                                <h3>Join thousands of satisfied customers who count on MotoSwift for quality products and exceptional service.</h3>
+                            </div>
+                            <div className={ styles['hero-left-info-ctas'] }>
+                                <Button
+                                    type='primary'
+                                    label='See Customer Stories'
+                                    action={ () => { navigate('/about-us') } }
+                                />
+                                <h5>or</h5>
+                                <Button
+                                    id='hero-browse-inventory-3'
+                                    type='secondary'
+                                    label='Popular Choices'
+                                    options={[
+                                        {
+                                            label: 'Best Sellers',
+                                            link: '/motorcycles'
+                                        },
+                                        {
+                                            label: 'New Arrivals',
+                                            link: '/parts-and-accessories'
+                                        }
+                                    ]}
+                                />
+                            </div>
+                        </div>
+                        <div className={ styles['hero-left-footer'] }>
+                            <h5>Scroll down and see what we have in store for you</h5>
+                            <i className='fa-solid fa-arrow-down'></i>
+                        </div>
+                    </div>
+                    <div className={` ${ styles['hero-banner'] } ${ styles['hero-banner-third'] } `}></div>
                 </div>
             </Carousel>
             <div className={ styles['motorcycles'] }>
@@ -216,7 +294,7 @@ const Home = () => {
                     />
                     <h5>or</h5>
                     <Button
-                        id='hero-browse-inventory-2'
+                        id='hero-browse-inventory-4'
                         type='secondary'
                         label='Browse our Inventory'
                         options={[
