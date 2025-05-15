@@ -1,4 +1,5 @@
 import { Children, useEffect, useRef, useState } from 'react';
+import { Button } from '@components';
 import styles from './Carousel.module.css';
 
 const Carousel = ({ children }) => {
@@ -17,7 +18,7 @@ const Carousel = ({ children }) => {
         setActiveIndex((prev) => (prev === 0 ? childCount - 1 : prev - 1));
     }
 
-    const goToSlide = () => {
+    const goToSlide = (index) => {
         setActiveIndex(index);
     }
 
@@ -32,13 +33,56 @@ const Carousel = ({ children }) => {
 
     if (childCount === 0) return null;
 
-    if (childCount === 1) return <div className={ styles['carousel'] }>{ children }</div>;
+    if (childCount === 1) return children;
 
     return (
-        <>
-            {/* TODO: Implement Carousel for multiple elements, current implementation only supports one element as of this moment. */}
-            { children }
-        </>
+        <div
+            className={ styles['carousel'] }
+            onMouseEnter={ () => setIsHovering(true) }
+            onMouseLeave={ () => setIsHovering(false) }
+        >
+            { childrenArray.map((child, index) => (
+                <div
+                    key={index}
+                    className={` ${ index === 0 ? styles['carousel-slide-first'] : styles['carousel-slide'] } 
+                        ${ index === activeIndex ? styles['carousel-slide-active'] : null }
+                    `}
+                    style={{ transform: `translateX(${(index - activeIndex) * 100}%)` }}
+                >
+                    { child }
+                </div>
+            ))}
+            { childCount > 1 && (
+                <>
+                    { isHovering && (
+                        <>
+                            <Button
+                                type='icon-outlined'
+                                icon='fa-solid fa-chevron-left'
+                                action={ prevSlide }
+                                externalStyles={ styles['carousel-prev_btn'] }
+                            />
+                            <Button
+                                type='icon-outlined'
+                                icon='fa-solid fa-chevron-right'
+                                action={ nextSlide }
+                                externalStyles={ styles['carousel-next_btn'] }
+                            />
+                        </>
+                    )}
+                    <div className={ styles['carousel-page_indicators'] }>
+                        { childrenArray.map((_, index) => (
+                            <button
+                                key={ index }
+                                className={`${ styles['carousel-page_indicator'] } ${ index === activeIndex ? styles['carousel-page_indicator-active'] : null }`}
+                                onClick={ () => goToSlide(index) }
+                                aria-label={ `Go to slide ${index + 1}` }
+                            />
+                        ))}
+                    </div>
+                </>
+            )}
+        </div>
     );
 };
 
