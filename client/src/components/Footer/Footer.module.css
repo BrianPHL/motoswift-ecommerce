@@ -5,7 +5,7 @@
     flex-direction: column;
     border-top: 1px solid var(--bg-outline);
     display: flex;
-    padding: 4rem 8rem;
+    padding: 4rem 16rem;
     gap: 4rem;
 }
 
@@ -122,25 +122,30 @@
     }
 }
 
-@media only screen and (max-width: 1200px) {
+@media only screen and (max-width: 1475px) {
 
     .wrapper { 
-        padding: 2rem 4rem;
+        padding: 4rem 8rem;
         gap: 4rem;
     }
 
 }
 
-@media only screen and (max-width: 1080px) {
+@media only screen and (max-width: 1220px) {
 
     .wrapper {
-        padding: 2rem 2rem; 
+        padding: 2rem 4rem; 
         gap: 2rem;
     }
 
 }
 
-@media only screen and (max-width: 1020px) {
+@media only screen and (max-width: 1090px) {
+
+    .wrapper {
+        padding: 2rem 2rem; 
+        gap: 2rem;
+    }
 
     .top {
         flex-direction: column;
@@ -189,11 +194,13 @@
     .bottom-left {
         align-items: center;
         align-self: stretch;
+        text-align: center;
     }
 
     .bottom-right {
         align-items: center;
         align-self: stretch;
+        text-align: center;
     }
 
     .top-left {
