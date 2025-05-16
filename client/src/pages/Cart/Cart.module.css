@@ -2,7 +2,7 @@
 
 .wrapper {
     flex-direction: column;
-    padding: 12rem 8rem 8rem 8rem;
+    padding: 12rem 16rem 16rem 16rem;
     display: flex;
     gap: 4rem;
 }
@@ -297,19 +297,19 @@
 
 }
 
-@media only screen and (max-width: 1200px) {
+@media only screen and (max-width: 1475px) {
+
+    .wrapper { padding: 12rem 8rem 4rem 8rem; }
+
+}
+
+@media only screen and (max-width: 1220px) {
 
     .wrapper { padding: 8rem 4rem 2rem 4rem; }
 
 }
 
-@media only screen and (max-width: 1080px) {
-
-    .wrapper { padding: 8rem 2rem 2rem 2rem; }
-
-}
-
-@media only screen and (max-width: 1010px) {
+@media only screen and (max-width: 1090px) {
 
     .wrapper { padding: 14rem 2rem 2rem 2rem; }
 
