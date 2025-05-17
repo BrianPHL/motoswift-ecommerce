@@ -2,8 +2,6 @@ export { default as Home } from "./Home";
 export { default as SignIn } from "./SignIn";
 export { default as SignUp } from "./SignUp";
 export { default as AboutUs } from "./AboutUs";
-export { default as MotorcyclesStore } from "./MotorcyclesStore";
-export { default as MotorcyclesDetails } from "./MotorcyclesDetails";
 export { default as PartsStore } from "./PartsStore";
 export { default as PartsDetails } from "./PartsDetails";
 export { default as Cart } from "./Cart";
@@ -11,3 +9,5 @@ export { default as Reservations } from "./Reservations";
 export { default as Profile } from "./Profile";
 export { default as NotFound } from "./NotFound";
 export { default as Admin } from "./Admin";
+
+export * from './Motorcycles';
