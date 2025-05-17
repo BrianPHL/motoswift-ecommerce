@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router';
 import { Button, ReturnButton, Modal, InputField } from '@components';
 import { useProducts, useCart, useReservation, useAuth, useToast } from '@contexts';
-import styles from './PartsDetails.module.css'
+import styles from './ProductPage.module.css';
 
 const MotorcyclesDetails = () => {
 

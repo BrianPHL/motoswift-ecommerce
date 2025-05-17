@@ -4,6 +4,7 @@ import { Header, Footer } from '@components';
 import { ProtectedRoute } from '@routes';
 import { Home, SignIn, SignUp, AboutUs, Reservations, Cart, Profile, Admin, NotFound } from '@pages';
 import { Store as MotorcyclesStore, ProductPage as MotorcyclesProductPage } from '@pages/Motorcycles';
+import { Store as PartsAndAccessoriesStore, ProductPage as PartsAndAccessoriesProductPage } from '@pages/PartsAndAccessories';
 
 const PAGE_TITLES = {
 	"/": "MotoSwift | Your Trusted Motorcycle Shop - Ride Fast, Ride Smart",
@@ -35,9 +36,9 @@ const App = () => {
 				<Route path="/" element={ <Home /> } />
     			<Route path="/about-us" element={ <AboutUs /> } />
     			<Route path="/motorcycles" element={ <MotorcyclesStore /> } />
-    			<Route path="/parts-and-accessories" element={ <PartsStore /> } />
-    			<Route path="/parts-and-accessories/:product_id" element={ <PartsDetails /> } />		
     			<Route path="/motorcycles/:product_id" element={ <MotorcyclesProductPage /> } />
+    			<Route path="/parts-and-accessories" element={ <PartsAndAccessoriesStore /> } />
+    			<Route path="/parts-and-accessories/:product_id" element={ <PartsAndAccessoriesProductPage /> } />		
 
 				<Route path="/sign-in" element={
 					<ProtectedRoute>

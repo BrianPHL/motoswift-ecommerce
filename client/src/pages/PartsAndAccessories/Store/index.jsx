@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Button, ProductCard, TableHeader, TableFooter, ReturnButton } from '@components';
 import { useProducts } from '@contexts';
-import styles from './PartsStore.module.css';
+import styles from './Store.module.css';
 
 const PartsStore = () => {
     const [ currentPage, setCurrentPage ] = useState(1);
