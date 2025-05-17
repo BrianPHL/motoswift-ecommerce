@@ -2,7 +2,7 @@
 
 .wrapper {
     flex-direction: column;
-    padding: 12rem 16rem 16rem 16rem;
+    padding: 12rem 16rem 6rem 16rem;
     display: flex;
     gap: 4rem;
 }
@@ -163,13 +163,13 @@
 
 @media only screen and (max-width: 1475px) {
 
-    .wrapper { padding: 12rem 8rem 4rem 8rem; }
+    .wrapper { padding: 12rem 8rem 6rem 8rem; }
 
 }
 
 @media only screen and (max-width: 1220px) {
 
-    .wrapper { padding: 8rem 4rem 2rem 4rem; }
+    .wrapper { padding: 8rem 4rem 4rem 4rem; }
 
 }
 
