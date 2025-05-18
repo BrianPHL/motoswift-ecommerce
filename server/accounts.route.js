@@ -25,6 +25,17 @@ router.get('/', async (req, res) => {
 
 });
 
+router.get('/count', async (req, res) => {
+    try {
+        const [result] = await pool.query('SELECT COUNT(*) as count FROM accounts');
+        res.json({ count: result[0].count });
+    } catch (err) {
+        console.error('Error counting accounts:', err);
+        res.status(500).json({ error: err.message });
+    }
+});
+
+
 router.post('/login', async (req, res) => {
     
 	const { email, password } = req.body;

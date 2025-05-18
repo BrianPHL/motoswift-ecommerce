@@ -7,6 +7,7 @@ export const AuthProvider = ({ children }) => {
     const [ isInitializing, setIsInitializing ] = useState(true);
     const [ isUpdatingAvatar, setIsUpdatingAvatar ] = useState(false);
     const [ isRemovingAvatar, setIsRemovingAvatar ] = useState(false);
+    const [ userCount, setUserCount ] = useState(0);
     
     useEffect(() => {
         const loadUserFromStorage = () => {
@@ -263,9 +264,31 @@ export const AuthProvider = ({ children }) => {
 
     };
 
+    const fetchUserCount = async () => {
+
+        if (!user) return;
+        
+        try {
+            const response = await fetch('/api/accounts/count');
+            const data = await response.json();
+            
+            if (!response.ok) {
+                throw new Error(data.error || 'Failed to fetch user count');
+            }
+            
+            setUserCount(data.count);
+            return data.count;
+        } catch (error) {
+            console.error('Error fetching user count:', error);
+            return 0;
+        }
+    };
+
     return (
         <AuthContext.Provider value={{
-            user, 
+            user,
+            userCount,
+            fetchUserCount,
             isLoading: isInitializing, 
             isUpdatingAvatar,
             isRemovingAvatar,
@@ -277,7 +300,7 @@ export const AuthProvider = ({ children }) => {
             removeAvatar,
             updatePersonalInfo,
             updateAddress,
-            updatePassword
+            updatePassword,
         }}>
             { children }
         </AuthContext.Provider>
