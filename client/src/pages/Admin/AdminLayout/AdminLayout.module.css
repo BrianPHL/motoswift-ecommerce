@@ -32,8 +32,10 @@
     background-color: var(--bg-secondary);
     flex-direction: column;
     border-radius: 0.5rem;
-    display: flex;
     flex-shrink: 0;
+    overflow: hidden;
+    display: flex;
+    height: 100%;
     border: 1px solid var(--bg-outline);
     width: 15rem;
 }
@@ -57,5 +59,17 @@
 @media only screen and (max-width: 1090px) {
 
     .wrapper { padding: 14rem 2rem 2rem 2rem; }
+
+}
+
+@media only screen and (max-width: 935px) {
+
+    .container {
+        flex-direction: column;
+    }
+
+    .nav {
+        width: 100%;
+    }
 
 }
