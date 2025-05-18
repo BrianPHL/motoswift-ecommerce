@@ -259,9 +259,9 @@ const Header = () => {
                         <Logo />
                     </div>
                     <div className={ styles['right'] }>
-                        { user ? (
+                        { user && user['role'] === 'customer' ? (
                             <Button
-                                id='account-mobile-drawer-dropdown'
+                                id='account-mobile-dropdown-213'
                                 type='secondary'
                                 label={ user['first_name'] }
                                 dropdownPosition='right'
@@ -269,6 +269,27 @@ const Header = () => {
                                     {
                                         label: 'Profile',
                                         action: () => { navigate('/profile') },
+                                    },
+                                    {
+                                        label: 'Logout',
+                                        action: handleLogout,
+                                    },
+                                ]}
+                            />
+                        ) : user && user['role'] === 'admin' ? (
+                            <Button
+                                id='account-mobile-dropdown-21241'
+                                type='secondary'
+                                label={ user['first_name'] }
+                                dropdownPosition='right'
+                                options={[
+                                    {
+                                        label: 'Profile',
+                                        action: () => { navigate('/profile') },
+                                    },
+                                    {
+                                        label: 'Admin',
+                                        action: () => { navigate('/admin') },
                                     },
                                     {
                                         label: 'Logout',
