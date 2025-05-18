@@ -130,39 +130,6 @@ export const ProductsProvider = ({ children }) => {
 
     };
 
-    const addStock = async (productId, quantityChange, newThreshold, notes) => {
-        try {
-            const response = await fetch('/api/stocks/add', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    product_id: productId,
-                    quantity_change: quantityChange,
-                    new_threshold: newThreshold || undefined,
-                    notes: notes,
-                    admin_id: user['account_id']
-                })
-            });
-
-            const data = await response.json();
-
-            if (!response.ok) {
-                throw new Error(data.error || 'Failed to add stock');
-            }
-
-            showToast('Stock added successfully', 'success');
-
-            fetchProducts();
-
-            return true;
-            
-        } catch (error) {
-            console.error('Error adding stock:', error);
-            showToast(`Failed to add stock: ${error.message}`, 'error');
-            return false;
-        }
-    };
-
     useEffect(() => {
         fetchProducts(true);
     }, [ fetchProducts ]);
@@ -187,8 +154,7 @@ export const ProductsProvider = ({ children }) => {
                 refreshProducts: () => fetchProducts(true),
                 deleteProduct,
                 updateProduct,
-                addProduct,
-                addStock
+                addProduct
             }}
         >
             { children }

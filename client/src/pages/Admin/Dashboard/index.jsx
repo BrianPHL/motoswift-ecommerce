@@ -1,6 +1,6 @@
 import styles from './Dashboard.module.css';
 import { Button, Modal, InputField } from '@components';
-import { useProducts, useAuth, useToast, useInstallments, useReservation } from '@contexts';
+import { useProducts, useAuth, useToast, useInstallments, useReservation, useStocks } from '@contexts';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router';
 
@@ -11,16 +11,16 @@ const Dashboard = () => {
     const [ quantityToAdd, setQuantityToAdd ] = useState(1);
     const [ newThreshold, setNewThreshold ] = useState('');
     const [ notes, setNotes ] = useState('');
-    const [ lowStockProducts, setLowStockProducts ] = useState([]);
     const [ isLoading, setIsLoading ] = useState(true);
     const [ selectedProduct, setSelectedProduct ] = useState(null);
 
     const navigate = useNavigate();
-    const { products, addStock } = useProducts();
+    const { products } = useProducts();
     const { user, userCount, fetchUserCount } = useAuth();
     const { showToast } = useToast();
     const { pendingCount, fetchPendingCount } = useInstallments();
     const { recentReservations, pendingReservationsCount, fetchRecentReservations } = useReservation();
+    const { lowStockProducts, addStock } = useStocks();
 
     const handleAddStock = async () => {
         if (!selectedProduct) return;
@@ -64,18 +64,6 @@ const Dashboard = () => {
 
         loadDashboardData();
     }, [user]);
-
-    useEffect(() => {
-        if (products && products.length > 0) {
-            
-            const lowStock = products.filter(product => 
-                product.stock_quantity <= product.stock_threshold
-            );
-
-            setLowStockProducts(lowStock);
-            
-        }
-    }, [products]);
 
     const handleOpenAddStockModal = (product = null) => {
         setSelectedProduct(product);
