@@ -66,9 +66,8 @@ const Store = () => {
                             type="secondary" 
                             label="Clear Search" 
                             action={() => {
-                                console.log("clicked")
                                 setSearchInput('');
-                                setSearchQuery('');  // Directly clear the search query
+                                setSearchQuery('');
                                 resetPagination();
                             }}
                         />
