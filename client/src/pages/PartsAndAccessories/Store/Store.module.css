@@ -14,24 +14,6 @@
     }
 }
 
-@media only screen and (max-width: 1475px) {
-
-    .wrapper { padding: 12rem 8rem 6rem 8rem; }
-
-}
-
-@media only screen and (max-width: 1220px) {
-
-    .wrapper { padding: 8rem 4rem 4rem 4rem; }
-
-}
-
-@media only screen and (max-width: 1090px) {
-
-    .wrapper { padding: 14rem 2rem 2rem 2rem; }
-
-}
-
 .banner {
     background-image: url('https://res.cloudinary.com/dfvy7i4uc/image/upload/v1746275498/parts-and-accessories-banner_oiem58.webp');
     background-position: center;
@@ -77,4 +59,33 @@
     display: flex;
     flex-direction: row;
     gap: 1rem;
+}
+
+.empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem 1rem;
+    text-align: center;
+    gap: 1rem;
+    color: var(--tg-secondary);
+}
+
+@media only screen and (max-width: 1475px) {
+
+    .wrapper { padding: 12rem 8rem 6rem 8rem; }
+
+}
+
+@media only screen and (max-width: 1220px) {
+
+    .wrapper { padding: 8rem 4rem 4rem 4rem; }
+
+}
+
+@media only screen and (max-width: 1090px) {
+
+    .wrapper { padding: 14rem 2rem 2rem 2rem; }
+
 }
