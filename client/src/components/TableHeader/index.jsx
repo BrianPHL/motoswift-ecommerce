@@ -1,7 +1,7 @@
 import { Button, InputField } from '@components';
 import styles from './TableHeader.module.css';
 
-const TableHeader = ({ tableName, currentPage, totalPages, resultsLabel, sortLabel, onPageChange, onSortChange, onSearchChange, onSearchSubmit }) => {
+const TableHeader = ({ tableName, currentPage, totalPages, resultsLabel, sortLabel, searchValue, onPageChange, onSortChange, onSearchChange, onSearchSubmit }) => {
 
     if (tableName !== 'motorcycles' && tableName !== 'parts-and-accessories') return null;
     if (currentPage === undefined || totalPages === undefined || !onPageChange) return null;
@@ -43,6 +43,7 @@ const TableHeader = ({ tableName, currentPage, totalPages, resultsLabel, sortLab
                     onChange={ onSearchChange }
                     action={ onSearchSubmit }
                     isSubmittable={ true }    
+                    value={ searchValue }
                 />
             </div>
             <div className={ styles['divider'] }></div>
