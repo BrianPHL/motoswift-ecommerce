@@ -6,6 +6,8 @@ export const ReservationProvider = ({ children }) => {
 
     const [ reservationItems, setReservationItems ] = useState([]);
     const [ loading, setLoading ] = useState(false);
+    const [ recentReservations, setRecentReservations ] = useState([]);
+    const [ pendingReservationsCount, setPendingReservationsCount ] = useState(0);
     const { user } = useAuth();
     const { showToast } = useToast();
     const reservationCounter = useRef(1);
@@ -35,6 +37,33 @@ export const ReservationProvider = ({ children }) => {
             showToast(`Failed to load your reservations: ${err.message}`, "error");
         } finally {
             setLoading(false);
+        }
+
+    };
+
+    const fetchRecentReservations = async () => {
+
+        if (!user) return;
+        
+        try {
+            const response = await fetch('/api/reservations/recent', {
+                method: 'GET',
+                headers: { 'Content-Type': 'application/json' }
+            });
+            const data = await response.json();
+            
+            if (!response.ok) {
+                throw new Error(data.error || 'Failed to fetch recent reservations');
+            }
+            
+            setRecentReservations(data);
+            const pendingCount = data.filter(r => r.status === 'pending').length;
+            setPendingReservationsCount(pendingCount);
+            
+            return data;
+        } catch (error) {
+            console.error('Error fetching recent reservations:', error);
+            return [];
         }
 
     };
@@ -231,7 +260,10 @@ export const ReservationProvider = ({ children }) => {
 
     return (
         <ReservationContext.Provider value={{ 
-            reservationItems, 
+            reservationItems,
+            recentReservations,
+            pendingReservationsCount,
+            fetchRecentReservations,
             addToReservations, 
             cancelReservation, 
             reactivateReservation, 

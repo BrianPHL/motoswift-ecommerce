@@ -3,6 +3,26 @@ import express from 'express';
 
 const router = express.Router();
 
+router.get('/recent', async (req, res) => {
+
+	try {
+
+		const [ rows ] = await pool.query(`
+			SELECT r.reservation_id, r.status, r.preferred_date, r.notes,
+			       a.first_name, a.last_name, a.email
+			FROM reservations r
+			JOIN accounts a ON r.account_id = a.account_id
+			ORDER BY r.created_at DESC
+			LIMIT 10
+		`);
+
+    	res.json(rows);
+  	} catch (err) {
+  		console.error('Error fetching recent reservations:', err);
+  		res.status(500).json({ error: err.message });
+  	}
+});
+
 router.get('/:account_id', async (req, res) => {
     
 	try {
