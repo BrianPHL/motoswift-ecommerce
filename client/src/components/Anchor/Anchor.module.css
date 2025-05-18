@@ -36,6 +36,11 @@
     color: var(--accent-base);
 }
 
+.anchor-nested-active {
+    background-color: var(--bg-outline);
+    color: var(--accent-base);
+}
+
 .dropdown-active {
     background-color: var(--bg-outline);
     color: var(--accent-base);

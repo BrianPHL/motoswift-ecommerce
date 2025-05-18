@@ -26,7 +26,7 @@ const Anchor = ({ id, label, link, isNested, isActive, externalStyles, options, 
             return(
                 <Link
                     to={ link }
-                    className={ `${ isNested ? styles['anchor-nested'] : styles['anchor'] } ${ isActive ? styles['anchor-active'] : '' } ${ externalStyles }` }
+                    className={ `${ isNested ? styles['anchor-nested'] : styles['anchor'] } ${ isActive && isNested ? styles['anchor-nested-active'] : isActive && !isNested ? styles['anchor-active'] : '' } ${ externalStyles }` }
                     { ...props }
                 >
                     { label }
