@@ -130,7 +130,6 @@ router.delete('/:product_id', async (req, res) => {
         if (product[0].image_url && product[0].image_url !== 'none for now') {
             try {
                 await cloudinary.uploader.destroy(product[0].image_url);
-                console.log(`Deleted image: ${product[0].image_url}`);
             } catch (imageError) {
                 console.error('Error deleting image from Cloudinary:', imageError);
             }
