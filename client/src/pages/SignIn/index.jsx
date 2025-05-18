@@ -54,7 +54,7 @@ const SignIn = () => {
                             </label>
                             <InputField
                                 hint='Your email address...'
-                                type='email'
+                                type='text'
                                 value={ email }
                                 onChange={e => setEmail(e.target.value)}
                                 isSubmittable={ false }
