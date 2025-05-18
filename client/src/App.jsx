@@ -17,7 +17,11 @@ const PAGE_TITLES = {
 	"/reservations": "MotoSwift | Reservations",
 	"/cart": "MotoSwift | Cart",
 	"/profile": "MotoSwift | Profile",
-	"/admin": "MotoSwift | Admin"
+	"/admin": "MotoSwift | Admin Dashboard",
+	"/admin/products": "MotoSwift | Admin Products",
+	"/admin/reservations": "MotoSwift | Admin Reservations",
+	"/admin/stocks": "MotoSwift | Admin Stocks",
+	"/admin/installments": "MotoSwift | Admin Installments",
 };
 
 const App = () => {
