@@ -1,10 +1,19 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 
-const useProductFilter = (allProducts, categoryFilter) => {
-	const [currentSort, setCurrentSort] = useState('Sort by: Price (Low to High)');
-	const [searchQuery, setSearchQuery] = useState('');
-	const [searchInput, setSearchInput] = useState('');
-  
+const useProductFilter = (allProducts, categoryFilter, initialSort, initialSearch) => {
+	const [currentSort, setCurrentSort] = useState(initialSort || 'Sort by: Price (Low to High)');
+	const [searchQuery, setSearchQuery] = useState(initialSearch || '');
+	const [searchInput, setSearchInput] = useState(initialSearch || '');
+	
+	useEffect(() => {
+		setCurrentSort(initialSort || 'Sort by: Price (Low to High)');
+	}, [initialSort]);
+
+	useEffect(() => {
+		setSearchQuery(initialSearch || '');
+		setSearchInput(initialSearch || '');
+	}, [initialSearch]);  
+
 	const categoryProducts = useMemo(() => {
 		if (categoryFilter === 'Motorcycles') {
 			return allProducts.filter(product => product.category === 'Motorcycles');
