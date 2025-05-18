@@ -63,6 +63,17 @@
     gap: 1rem;
 }
 
+.empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem 1rem;
+    text-align: center;
+    gap: 1rem;
+    color: var(--tg-secondary);
+}
+
 @media only screen and (max-width: 1475px) {
 
     .wrapper { padding: 12rem 8rem 6rem 8rem; }

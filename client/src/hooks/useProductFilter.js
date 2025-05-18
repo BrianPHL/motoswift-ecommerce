@@ -50,7 +50,7 @@ const useProductFilter = (allProducts, categoryFilter) => {
 		setSearchQuery(searchInput);
 	};
 
-	return { sortedProducts, categoryProducts, currentSort, searchQuery, searchInput, handleSortChange, handleSearchChange, handleSearchSubmit, setSearchInput };
+	return { sortedProducts, categoryProducts, currentSort, searchQuery, searchInput, handleSortChange, handleSearchChange, handleSearchSubmit, setSearchInput, setSearchQuery };
 };
 
 export default useProductFilter;
