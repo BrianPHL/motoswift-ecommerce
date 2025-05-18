@@ -19,6 +19,8 @@
 	border-radius: 0.5rem;
 	padding: 1rem;
 	display: flex;
+	max-height: 80vh;
+	overflow-y: scroll;
 	border: 1px solid var(--bg-outline);
 	margin: 2rem;
 	width: 30rem;
