@@ -1,10 +1,16 @@
- import { Button, ProductCard, TableHeader, TableFooter, ReturnButton } from '@components';
+import { useEffect } from 'react';
+import { useSearchParams } from 'react-router';
+import { Button, ProductCard, TableHeader, TableFooter, ReturnButton } from '@components';
 import { useProducts } from '@contexts';
 import { useProductFilter, usePagination } from '@hooks';
 import styles from './Store.module.css';
 
 const Store = () => {
+    const [ searchParams, setSearchParams ] = useSearchParams();
     const { products, loading, error, refreshProducts } = useProducts();
+    const queryPage = parseInt(searchParams.get('page') || '1', 10);
+    const querySort = searchParams.get('sort') || 'Sort by: Price (Low to High)';
+    const querySearch = searchParams.get('search') || '';
     const ITEMS_PER_PAGE = 10;
     const {
         sortedProducts,
@@ -17,23 +23,38 @@ const Store = () => {
         handleSearchSubmit,
         setSearchInput,
         setSearchQuery
-    } = useProductFilter(products, 'Parts-And-Accessories');
+    } = useProductFilter(products, 'Parts-and-Accessories', querySort, querySearch);
     const {
         currentPage,
         totalPages,
         currentItems: paginatedProducts,
         handlePageChange,
         resetPagination
-    } = usePagination(sortedProducts, ITEMS_PER_PAGE);
+    } = usePagination(sortedProducts, ITEMS_PER_PAGE, queryPage);
+    const updateSearchParams = ({ page, sort, search }) => {
+        
+        const params = new URLSearchParams(searchParams);
 
+        if (page !== undefined) params.set('page', page);
+        if (sort !== undefined) params.set('sort', sort);
+        if (search !== undefined) params.set('search', search);
+
+        setSearchParams(params);
+
+    };
     const handleSortChange = (sort) => {
         onSortChange(sort);
-        resetPagination();
+        updateSearchParams({ sort, page: 1 });
     };
 
     const handleSearch = () => {
         handleSearchSubmit();
-        resetPagination();
+        updateSearchParams({ search: searchInput, page: 1 });
+    };
+
+    const handlePageChangeWrapped = (page) => {
+        handlePageChange(page);
+        updateSearchParams({ page });
     };
     
     return (
@@ -42,17 +63,17 @@ const Store = () => {
             <span className={ styles['pagewrap'] }>
                 <ReturnButton />
             </span>
-            
-            <h2>Find The Perfect Parts For Your Perfect Ride</h2>
+
+            <h2>Find Your Perfect Ride</h2>
             
             <TableHeader
-                tableName='motorcycles'
+                tableName='parts-and-accessories'
                 currentPage={ currentPage }
                 totalPages={ totalPages }
                 resultsLabel={ `Showing ${ paginatedProducts['length'] } out of ${ categoryProducts['length'] } results` }
                 sortLabel={ currentSort }
                 searchValue={ searchInput }
-                onPageChange={ handlePageChange }
+                onPageChange={ handlePageChangeWrapped }
                 onSortChange={ handleSortChange }
                 onSearchChange={ handleSearchChange }
                 onSearchSubmit={ handleSearch }
@@ -69,6 +90,7 @@ const Store = () => {
                                 setSearchInput('');
                                 setSearchQuery('');
                                 resetPagination();
+                                updateSearchParams({ search: '', page: 1 });
                             }}
                         />
                     </div>
@@ -94,7 +116,7 @@ const Store = () => {
                 totalPages={ totalPages }
                 resultsLabel={ `Showing ${ paginatedProducts['length'] } out of ${ categoryProducts['length'] } results` }
                 sortLabel={ currentSort }
-                onPageChange={ handlePageChange }
+                onPageChange={ handlePageChangeWrapped }
             />
         </div>
     );
