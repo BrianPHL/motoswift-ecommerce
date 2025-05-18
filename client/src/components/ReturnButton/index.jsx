@@ -2,9 +2,10 @@ import { useNavigate } from 'react-router';
 import { Button } from '@components';
 import styles from './ReturnButton.module.css';
 
-const ReturnButton = ({}) => {
-
+const ReturnButton = () => {
     const navigate = useNavigate();
+    
+    const handleReturn = () => navigate(-1);
 
     return (
         <Button
@@ -12,7 +13,7 @@ const ReturnButton = ({}) => {
             type='secondary'
             label='Return'
             iconPosition='left'
-            action={ () => { navigate(-1) } }
+            action={ handleReturn }
             externalStyles={ styles['return'] }
         />
     );
