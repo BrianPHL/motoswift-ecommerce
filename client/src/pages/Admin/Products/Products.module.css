@@ -152,7 +152,6 @@
     justify-content: center;
     text-align: center;
     display: flex;
-    border: 1px solid var(--bg-outline);
     height: 20rem;
     width: 100%;
     gap: 1rem;
