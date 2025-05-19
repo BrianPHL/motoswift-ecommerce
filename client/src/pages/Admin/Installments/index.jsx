@@ -125,6 +125,35 @@ const Installments = () => {
     return (
         <div className={styles['wrapper']}>
             <div className={styles['section']}>
+                <h2>Overview</h2>
+                <div className={styles['overview']}>
+                    <div className={styles['overview-item']}>
+                        <div className={styles['overview-item-header']}>
+                            <h3>Pending Installments</h3>
+                        </div>
+                        <h2>{pendingInstallments?.length || 0}</h2>
+                    </div>
+                    <div className={styles['overview-item']}>
+                        <div className={styles['overview-item-header']}>
+                            <h3>Due Today</h3>
+                        </div>
+                        <h2>{pendingInstallments?.filter(i => {
+                            const today = new Date().toDateString();
+                            const dueDate = new Date(i.payment_date).toDateString();
+                            return today === dueDate;
+                        }).length || 0}</h2>
+                    </div>
+                    <div className={styles['overview-item']}>
+                        <div className={styles['overview-item-header']}>
+                            <h3>Overdue Payments</h3>
+                        </div>
+                        <h2>{pendingInstallments?.filter(i => {
+                            return new Date(i.payment_date) < new Date();
+                        }).length || 0}</h2>
+                    </div>
+                </div>
+            </div>
+            <div className={styles['section']}>
                 <div className={styles['section-header']}>
                     <h2>Pending Installments</h2>
                 </div>

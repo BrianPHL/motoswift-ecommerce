@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useSearchParams } from 'react-router';
 import styles from './Products.module.css';
 import { Button, Modal, InputField, TableHeader, TableFooter } from '@components';
-import { useProducts, useToast } from '@contexts';
+import { useProducts, useToast, useStocks } from '@contexts';
 import { useProductFilter, usePagination } from '@hooks';
 
 const Products = () => {
@@ -32,6 +32,7 @@ const Products = () => {
     });
 
     const { products, loading, addProduct, updateProduct, deleteProduct } = useProducts();
+        const { lowStockProducts } = useStocks();
     const { showToast } = useToast();
 
     const {
@@ -221,6 +222,29 @@ const Products = () => {
 
     return (
         <div className={styles['wrapper']}>
+            <div className={styles['section']}>
+                <h2>Overview</h2>
+                <div className={styles['overview']}>
+                    <div className={styles['overview-item']}>
+                        <div className={styles['overview-item-header']}>
+                            <h3>Total Products</h3>
+                        </div>
+                        <h2>{products?.length || 0}</h2>
+                    </div>
+                    <div className={styles['overview-item']}>
+                        <div className={styles['overview-item-header']}>
+                            <h3>Out of Stock</h3>
+                        </div>
+                        <h2>{products?.filter(p => p.stock_quantity <= 0).length || 0}</h2>
+                    </div>
+                    <div className={styles['overview-item']}>
+                        <div className={styles['overview-item-header']}>
+                            <h3>Low Stock</h3>
+                        </div>
+                        <h2>{lowStockProducts?.length || 0}</h2>
+                    </div>
+                </div>
+            </div>
             <div className={styles['section']}>
                 <div className={styles['section-header']}>
                     <h2>Products</h2>

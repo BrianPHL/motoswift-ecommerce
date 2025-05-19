@@ -139,19 +139,47 @@ const Stocks = () => {
     return (
         <div className={styles['wrapper']}>
             <div className={styles['section']}>
-                <div className={styles['section-header']}>
-                    <h2>Stock Management</h2>
-                    <Button
-                        type="primary"
-                        icon="fa-solid fa-plus"
-                        iconPosition="left"
-                        label="Add Stock"
-                        action={() => setIsModalOpen(true)}
-                    />
+                <h2>Overview</h2>
+                <div className={styles['overview']}>
+                    <div className={styles['overview-item']}>
+                        <div className={styles['overview-item-header']}>
+                            <h3>Low Stock Items</h3>
+                        </div>
+                        <h2>{lowStockProducts?.length || 0}</h2>
+                    </div>
+                    <div className={styles['overview-item']}>
+                        <div className={styles['overview-item-header']}>
+                            <h3>Out of Stock Items</h3>
+                        </div>
+                        <h2>{products?.filter(p => p.stock_quantity <= 0).length || 0}</h2>
+                    </div>
+                    <div className={styles['overview-item']}>
+                        <div className={styles['overview-item-header']}>
+                            <h3>Recent Stock Updates</h3>
+                        </div>
+                        <h2>{stockHistory?.filter(t => {
+                            // Updates in the last 24 hours
+                            const date = new Date(t.created_at);
+                            const now = new Date();
+                            return (now - date) < 86400000;
+                        }).length || 0}</h2>
+                    </div>
                 </div>
+            </div>
+            <div className={styles['section']}>
 
                 <div className={styles['section']}>
-                    <h2>Low Stock Products</h2>
+                    
+                    <div className={ styles['section-header'] }>
+                        <h2>Low Stock Products</h2>
+                        <Button
+                            type="primary"
+                            icon="fa-solid fa-plus"
+                            iconPosition="left"
+                            label="Add Stock"
+                            action={() => setIsModalOpen(true)}
+                        />
+                    </div>
                     <div className={styles['table']}>
                         <div className={styles['table-wrapper']}>
                             <div className={styles['table-header']} style={{ gridTemplateColumns: 'repeat(5, 1fr)' }}>

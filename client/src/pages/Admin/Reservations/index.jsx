@@ -22,11 +22,9 @@ const Reservations = () => {
     const [statusUpdateNotes, setStatusUpdateNotes] = useState('');
     const ITEMS_PER_PAGE = 10;
 
-    // Access reservations context
     const { recentReservations, refreshReservations } = useReservation();
     const { showToast } = useToast();
 
-    // Fetch all reservations on load
     useEffect(() => {
         const loadReservations = async () => {
             try {
@@ -39,13 +37,11 @@ const Reservations = () => {
         loadReservations();
     }, []);
 
-    // Filter reservations based on search and sort
     useEffect(() => {
         if (!recentReservations) return;
         
         let result = [...recentReservations];
-        
-        // Apply search filter using URL param
+
         if (querySearch) {
             const searchLower = querySearch.toLowerCase();
             result = result.filter(res => 
@@ -56,8 +52,7 @@ const Reservations = () => {
                 res.status?.toLowerCase().includes(searchLower)
             );
         }
-        
-        // Apply sorting using URL param
+
         switch(querySort) {
             case 'Sort by: Latest':
                 result.sort((a, b) => new Date(b.created_at || b.preferred_date) - new Date(a.created_at || a.preferred_date));
@@ -88,14 +83,12 @@ const Reservations = () => {
         
     }, [recentReservations, querySearch, querySort]);
 
-    // Apply pagination
     useEffect(() => {
         const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
         const endIndex = startIndex + ITEMS_PER_PAGE;
         setPaginatedReservations(filteredReservations.slice(startIndex, endIndex));
     }, [filteredReservations, currentPage]);
 
-    // Update URL parameters function
     const updateSearchParams = ({ page, sort, search }) => {
         const params = new URLSearchParams(searchParams);
 
@@ -106,30 +99,25 @@ const Reservations = () => {
         setSearchParams(params);
     };
 
-    // Handle page change
     const handlePageChange = (page) => {
         setCurrentPage(page);
         updateSearchParams({ page });
     };
 
-    // Handle search change
     const handleSearchChange = (e) => {
         setSearchInput(e.target.value);
     };
 
-    // Handle search submit
     const handleSearch = () => {
         setCurrentPage(1);
         updateSearchParams({ search: searchInput, page: 1 });
     };
 
-    // Handle sort change
     const handleSortChange = (sort) => {
         setCurrentPage(1);
         updateSearchParams({ sort, page: 1 });
     };
 
-    // Handle clear search
     const handleClearSearch = () => {
         setSearchInput('');
         setCurrentPage(1);
@@ -204,6 +192,29 @@ const Reservations = () => {
 
     return (
         <div className={styles['wrapper']}>
+            <div className={styles['section']}>
+                <h2>Overview</h2>
+                <div className={styles['overview']}>
+                    <div className={styles['overview-item']}>
+                        <div className={styles['overview-item-header']}>
+                            <h3>Pending Reservations</h3>
+                        </div>
+                        <h2>{recentReservations?.filter(r => r.status === 'pending').length || 0}</h2>
+                    </div>
+                    <div className={styles['overview-item']}>
+                        <div className={styles['overview-item-header']}>
+                            <h3>Completed Reservations</h3>
+                        </div>
+                        <h2>{recentReservations?.filter(r => r.status === 'completed').length || 0}</h2>
+                    </div>
+                    <div className={styles['overview-item']}>
+                        <div className={styles['overview-item-header']}>
+                            <h3>Cancelled Reservations</h3>
+                        </div>
+                        <h2>{recentReservations?.filter(r => r.status === 'cancelled').length || 0}</h2>
+                    </div>
+                </div>
+            </div>
             <div className={styles['section']}>
                 <div className={styles['section-header']}>
                     <h2>Reservations</h2>
