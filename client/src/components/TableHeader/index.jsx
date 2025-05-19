@@ -3,7 +3,7 @@ import styles from './TableHeader.module.css';
 
 const TableHeader = ({ tableName, currentPage, totalPages, resultsLabel, sortLabel, searchValue, onPageChange, onSortChange, onSearchChange, onSearchSubmit }) => {
 
-    if (tableName !== 'motorcycles' && tableName !== 'parts-and-accessories' && tableName !== 'products' && tableName !== 'reservations') return null;
+    if (tableName !== 'motorcycles' && tableName !== 'parts-and-accessories' && tableName !== 'products' && tableName !== 'reservations' && tableName !== 'installments') return null;
     if (currentPage === undefined || totalPages === undefined || !onPageChange) return null;
 
     const pageNumbers = [];
@@ -29,6 +29,25 @@ const TableHeader = ({ tableName, currentPage, totalPages, resultsLabel, sortLab
                 {
                     label: 'Sort by: Status (Cancelled First)',
                     action: () => { onSortChange('Sort by: Status (Cancelled First)') },
+                }
+            ];
+        } else if (tableName === 'installments') {
+            return [
+                {
+                    label: 'Sort by: Latest',
+                    action: () => { onSortChange('Sort by: Latest') },
+                },
+                {
+                    label: 'Sort by: Oldest',
+                    action: () => { onSortChange('Sort by: Oldest') },
+                },
+                {
+                    label: 'Sort by: Amount (High to Low)',
+                    action: () => { onSortChange('Sort by: Amount (High to Low)') },
+                },
+                {
+                    label: 'Sort by: Amount (Low to High)',
+                    action: () => { onSortChange('Sort by: Amount (Low to High)') },
                 }
             ];
         }
@@ -61,6 +80,8 @@ const TableHeader = ({ tableName, currentPage, totalPages, resultsLabel, sortLab
                 return 'Search for motorcycles...';
             case 'products':
                 return 'Search for products...';
+            case 'installments':
+                return 'Search installment requests...';
             default:
                 return 'Search for parts & accessories...';
         }
