@@ -16,7 +16,7 @@
 html[data-theme="light"] {
   --bg-primary: #E0E0E0;
   --bg-secondary: #F8F9FA;
-  --bg-outline: #BDBDBD;
+  --bg-outline: #E0E0E0;
   --bg-disabled: #D5D5D5;
   --tg-primary: #1B1B1B;
   --tg-secondary: #555555;
