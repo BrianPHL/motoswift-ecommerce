@@ -158,7 +158,7 @@ const ProductCard = ({ product_id, category, subcategory, image_url, label, pric
                 isOpen={ modalOpen && modalType === 'cart' }
                 onClose={ () => setModalOpen(false) }
             >
-                <div className={ styles['modal-infos'] }>
+                <div style={{ alignItems: 'flex-start' }} className={ styles['modal-infos'] }>
                     <h3>{ label }</h3>
                     <span>
                         <p>Are you sure you want to add <strong>{ label }</strong> to your cart?</p>
@@ -206,7 +206,7 @@ const ProductCard = ({ product_id, category, subcategory, image_url, label, pric
                 isOpen={ modalOpen && modalType === 'reservation' }
                 onClose={ () => setModalOpen(false) }
             >
-                <div className={ styles['modal-infos'] }>
+                <div style={{ alignItems: 'flex-start' }} className={ styles['modal-infos'] }>
                     <h3>{ label }</h3>
                     <span>
                         <p>Fill out the form below to reserve <strong>{ label }</strong></p>
