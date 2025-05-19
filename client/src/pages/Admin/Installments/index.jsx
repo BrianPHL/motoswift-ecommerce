@@ -1,54 +1,76 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router';
 import styles from './Installments.module.css';
-import { Button, Modal, TableHeader, TableFooter } from '@components';
-import { useInstallments, useToast } from '@contexts';
+import { Button, Modal, InputField, TableHeader, TableFooter } from '@components';
+import { useReservation, useToast, useAuth } from '@contexts';
 
-const Installments = () => {
-
-    const [searchParams, setSearchParams] = useSearchParams();
-    const queryPage = parseInt(searchParams.get('page') || '1', 10);
-    const querySort = searchParams.get('sort') || 'Sort by: Latest';
-    const querySearch = searchParams.get('search') || '';
-    const ITEMS_PER_PAGE = 10;
-
-    const [currentPage, setCurrentPage] = useState(queryPage);
-    const [totalPages, setTotalPages] = useState(1);
-    const [filteredInstallments, setFilteredInstallments] = useState([]);
-    const [paginatedInstallments, setPaginatedInstallments] = useState([]);
-    const [searchInput, setSearchInput] = useState(querySearch);
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [selectedInstallment, setSelectedInstallment] = useState(null);
+const AdminInstallments = () => {
+    const [ searchParams, setSearchParams ] = useSearchParams();
+    const [ installments, setInstallments ] = useState([]);
+    const [ filteredInstallments, setFilteredInstallments ] = useState([]);
+    const [ paginatedInstallments, setPaginatedInstallments ] = useState([]);
+    const [ selectedInstallment, setSelectedInstallment ] = useState(null);
+    const [ isModalOpen, setIsModalOpen ] = useState(false);
+    const [ modalType, setModalType ] = useState('');
+    const [ processingNotes, setProcessingNotes ] = useState('');
+    const [ loading, setLoading ] = useState(true);
+    const [ currentPage, setCurrentPage ] = useState(parseInt(searchParams.get('page')) || 1);
+    const [ totalPages, setTotalPages ] = useState(1);
+    const [ searchInput, setSearchInput ] = useState(searchParams.get('search') || '');
+    const [ querySearch, setQuerySearch ] = useState(searchParams.get('search') || '');
+    const [ querySort, setQuerySort ] = useState(searchParams.get('sort') || 'Sort by: Latest');
     
-    const { pendingInstallments, fetchPendingInstallments, processInstallment, isLoading } = useInstallments();
+    const ITEMS_PER_PAGE = 10;
     const { showToast } = useToast();
+    const { user } = useAuth();
+    const { processInstallment } = useReservation();
+    
+    const fetchInstallments = async () => {
 
-    useEffect(() => {
-        fetchPendingInstallments();
-    }, []);
+        try {
+            setLoading(true);
+            
+            console.log('negar')
+            const response = await fetch('/api/installments/pending');
+            const data = await response.json();
 
+            console.log("data?", data)
+            
+            if (!response.ok) {
+                throw new Error('Failed to fetch installment requests');
+            }
+            
+            setInstallments(data);
+        } catch (error) {
+            showToast(`Error: ${error.message}`, 'error');
+        } finally {
+            setLoading(false);
+        }
+    };
+    
     useEffect(() => {
-        if (!pendingInstallments) return;
+        if (!installments) return;
         
-        let result = [...pendingInstallments];
+        let result = [...installments];
         
         if (querySearch) {
             const searchLower = querySearch.toLowerCase();
-            result = result.filter(installment => 
-                installment.first_name?.toLowerCase().includes(searchLower) ||
-                installment.last_name?.toLowerCase().includes(searchLower) ||
-                installment.email?.toLowerCase().includes(searchLower) ||
-                installment.installment_id?.toString().includes(searchLower) ||
-                installment.reservation_id?.toString().includes(searchLower)
+            result = result.filter(req => 
+                req.first_name?.toLowerCase().includes(searchLower) ||
+                req.last_name?.toLowerCase().includes(searchLower) ||
+                req.email?.toLowerCase().includes(searchLower) ||
+                req.installment_id?.toString().includes(searchLower) ||
+                req.reservation_id?.toString().includes(searchLower)
             );
         }
-
+        
+        // Sort results
         switch(querySort) {
             case 'Sort by: Latest':
-                result.sort((a, b) => new Date(b.payment_date) - new Date(a.payment_date));
+                result.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
                 break;
             case 'Sort by: Oldest':
-                result.sort((a, b) => new Date(a.payment_date) - new Date(b.payment_date));
+                result.sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
                 break;
             case 'Sort by: Amount (High to Low)':
                 result.sort((a, b) => parseFloat(b.amount) - parseFloat(a.amount));
@@ -62,106 +84,116 @@ const Installments = () => {
         
         setFilteredInstallments(result);
         setTotalPages(Math.max(1, Math.ceil(result.length / ITEMS_PER_PAGE)));
-        
-    }, [pendingInstallments, querySearch, querySort]);
-
+    }, [installments, querySearch, querySort]);
+    
     useEffect(() => {
         const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
         const endIndex = startIndex + ITEMS_PER_PAGE;
         setPaginatedInstallments(filteredInstallments.slice(startIndex, endIndex));
     }, [filteredInstallments, currentPage]);
-
+    
     const updateSearchParams = ({ page, sort, search }) => {
         const params = new URLSearchParams(searchParams);
-
+        
         if (page !== undefined) params.set('page', page);
         if (sort !== undefined) params.set('sort', sort);
         if (search !== undefined) params.set('search', search);
-
+        
         setSearchParams(params);
     };
-
+    
     const handlePageChange = (page) => {
         setCurrentPage(page);
         updateSearchParams({ page });
     };
-
+    
     const handleSearchChange = (e) => {
         setSearchInput(e.target.value);
     };
-
+    
     const handleSearch = () => {
         setCurrentPage(1);
+        setQuerySearch(searchInput);
         updateSearchParams({ search: searchInput, page: 1 });
     };
-
+    
     const handleSortChange = (sort) => {
+        setQuerySort(sort);
         setCurrentPage(1);
         updateSearchParams({ sort, page: 1 });
     };
-
+    
     const handleClearSearch = () => {
         setSearchInput('');
+        setQuerySearch('');
         setCurrentPage(1);
         updateSearchParams({ search: '', page: 1 });
     };
-
-    const handleOpenProcessModal = (installment) => {
+    
+    const handleOpenApproveModal = (installment) => {
         setSelectedInstallment(installment);
+        setModalType('approve');
+        setProcessingNotes('');
         setIsModalOpen(true);
     };
-
-    const handleProcessInstallment = async () => {
+    
+    const handleOpenRejectModal = (installment) => {
+        setSelectedInstallment(installment);
+        setModalType('reject');
+        setProcessingNotes('');
+        setIsModalOpen(true);
+    };
+    
+    const handleApproveInstallment = async () => {
         if (!selectedInstallment) return;
         
-        const success = await processInstallment(selectedInstallment.installment_id);
+        const success = await processInstallment(
+            selectedInstallment.installment_id,
+            'completed',
+            processingNotes
+        );
+        
         if (success) {
             setIsModalOpen(false);
-            setSelectedInstallment(null);
+            await fetchInstallments();
         }
     };
+    
+    const handleRejectInstallment = async () => {
+        if (!selectedInstallment) return;
+        
+        const success = await processInstallment(
+            selectedInstallment.installment_id,
+            'rejected',
+            processingNotes
+        );
+        
+        if (success) {
+            setIsModalOpen(false);
+            await fetchInstallments();
+        }
+    };
+    
+    useEffect(() => {
+        if (user?.role === 'admin') {
+            fetchInstallments();
+        }
+    }, [user]);
+    
+    if (user?.role !== 'admin') {
+        return <div className={styles['unauthorized']}>Unauthorized Access</div>;
+    }
     
     return (
         <div className={styles['wrapper']}>
             <div className={styles['section']}>
-                <h2>Overview</h2>
-                <div className={styles['overview']}>
-                    <div className={styles['overview-item']}>
-                        <div className={styles['overview-item-header']}>
-                            <h3>Pending Installments</h3>
-                        </div>
-                        <h2>{pendingInstallments?.length || 0}</h2>
-                    </div>
-                    <div className={styles['overview-item']}>
-                        <div className={styles['overview-item-header']}>
-                            <h3>Due Today</h3>
-                        </div>
-                        <h2>{pendingInstallments?.filter(i => {
-                            const today = new Date().toDateString();
-                            const dueDate = new Date(i.payment_date).toDateString();
-                            return today === dueDate;
-                        }).length || 0}</h2>
-                    </div>
-                    <div className={styles['overview-item']}>
-                        <div className={styles['overview-item-header']}>
-                            <h3>Overdue Payments</h3>
-                        </div>
-                        <h2>{pendingInstallments?.filter(i => {
-                            return new Date(i.payment_date) < new Date();
-                        }).length || 0}</h2>
-                    </div>
-                </div>
-            </div>
-            <div className={styles['section']}>
-                <div className={styles['section-header']}>
-                    <h2>Pending Installments</h2>
-                </div>
+                <h2>Pending Installment Requests</h2>
                 
                 <TableHeader
-                    tableName="reservations"
+                    tableName="installments"
                     currentPage={currentPage}
                     totalPages={totalPages}
-                    resultsLabel={`Showing ${paginatedInstallments.length} out of ${filteredInstallments.length} installments`}
+                    resultsLabel={`Showing ${paginatedInstallments.length} out of ${filteredInstallments.length} installment requests`}
                     sortLabel={querySort}
                     searchValue={searchInput}
                     onPageChange={handlePageChange}
@@ -173,16 +205,16 @@ const Installments = () => {
                 <div className={styles['table']}>
                     <div className={styles['table-wrapper']}>
                         <div className={styles['table-header']} style={{ gridTemplateColumns: 'repeat(7, 1fr)' }}>
-                            <h3>installment_id</h3>
-                            <h3>customer_name</h3>
-                            <h3>email</h3>
-                            <h3>amount</h3>
-                            <h3>payment_date</h3>
-                            <h3>reservation_id</h3>
-                            <h3>actions</h3>
+                            <h3>ID</h3>
+                            <h3>Customer</h3>
+                            <h3>Email</h3>
+                            <h3>Amount</h3>
+                            <h3>Payment Date</h3>
+                            <h3>Reservation ID</h3>
+                            <h3>Actions</h3>
                         </div>
                         
-                        {isLoading ? (
+                        {loading ? (
                             <div className={styles['empty-table']}>
                                 <i className="fa-solid fa-spinner fa-spin"></i>
                             </div>
@@ -190,7 +222,7 @@ const Installments = () => {
                             paginatedInstallments.map(installment => (
                                 <div 
                                     key={installment.installment_id} 
-                                    className={styles['table-rows']} 
+                                    className={styles['table-rows']}
                                     style={{ gridTemplateColumns: 'repeat(7, 1fr)' }}
                                 >
                                     <div className={styles['table-cell']}>{installment.installment_id}</div>
@@ -214,7 +246,14 @@ const Installments = () => {
                                         <Button
                                             type="icon"
                                             icon="fa-solid fa-check"
-                                            action={() => handleOpenProcessModal(installment)}
+                                            title="Approve"
+                                            action={() => handleOpenApproveModal(installment)}
+                                        />
+                                        <Button
+                                            type="icon"
+                                            icon="fa-solid fa-times"
+                                            title="Reject"
+                                            action={() => handleOpenRejectModal(installment)}
                                         />
                                     </div>
                                 </div>
@@ -223,7 +262,7 @@ const Installments = () => {
                             <div className={styles['empty-table']}>
                                 {querySearch ? (
                                     <div className={styles['empty']}>
-                                        <h3>No installments found matching "{querySearch}"</h3>
+                                        <h3>No installment requests found matching "{querySearch}"</h3>
                                         <Button 
                                             type="secondary" 
                                             label="Clear Search" 
@@ -231,7 +270,7 @@ const Installments = () => {
                                         />
                                     </div>
                                 ) : (
-                                    <p>No pending installments found</p>
+                                    <p>No pending installment requests</p>
                                 )}
                             </div>
                         )}
@@ -241,36 +280,45 @@ const Installments = () => {
                 <TableFooter
                     currentPage={currentPage}
                     totalPages={totalPages}
-                    resultsLabel={`Showing ${paginatedInstallments.length} out of ${filteredInstallments.length} installments`}
+                    resultsLabel={`Showing ${paginatedInstallments.length} out of ${filteredInstallments.length} installment requests`}
                     sortLabel={querySort}
                     onPageChange={handlePageChange}
                 />
             </div>
-
+            
+            {/* Approve Modal */}
             <Modal
-                isOpen={isModalOpen}
+                label="Approve Installment Request"
+                isOpen={isModalOpen && modalType === 'approve'}
                 onClose={() => setIsModalOpen(false)}
-                label="Process Installment"
             >
                 {selectedInstallment && (
                     <>
                         <div className={styles['modal-infos']}>
-                            <h3>Installment #{selectedInstallment.installment_id}</h3>
+                            <h3>Installment Request #{selectedInstallment.installment_id}</h3>
                             <span>
                                 <p><strong>Customer:</strong> {selectedInstallment.first_name} {selectedInstallment.last_name}</p>
                                 <p><strong>Email:</strong> {selectedInstallment.email}</p>
-                                <p><strong>Amount:</strong> ₱{parseFloat(selectedInstallment.amount).toLocaleString('en-PH', {
-                                    minimumFractionDigits: 2,
-                                    maximumFractionDigits: 2
-                                })}</p>
+                                <p><strong>Amount:</strong> ₱{parseFloat(selectedInstallment.amount).toLocaleString('en-PH')}</p>
                                 <p><strong>Payment Date:</strong> {new Date(selectedInstallment.payment_date).toLocaleDateString()}</p>
                                 <p><strong>Reservation ID:</strong> {selectedInstallment.reservation_id}</p>
+                                
+                                <p style={{ marginTop: '1rem', fontWeight: 'bold' }}>
+                                    Approving this request will reserve the product(s) and reduce inventory stock.
+                                </p>
                             </span>
                         </div>
                         
-                        <p className={styles['modal-info']}>
-                            Are you sure you want to mark this installment as processed? This action cannot be undone.
-                        </p>
+                        <div className={styles['inputs-container']}>
+                            <div className={styles['input-wrapper']}>
+                                <label>Add Notes (Optional)</label>
+                                <textarea
+                                    value={processingNotes}
+                                    onChange={(e) => setProcessingNotes(e.target.value)}
+                                    placeholder="Add any additional notes about this approval..."
+                                />
+                            </div>
+                        </div>
                         
                         <div className={styles['modal-ctas']}>
                             <Button
@@ -280,8 +328,61 @@ const Installments = () => {
                             />
                             <Button
                                 type="primary"
-                                label="Confirm"
-                                action={handleProcessInstallment}
+                                label="Approve Installment"
+                                action={handleApproveInstallment}
+                            />
+                        </div>
+                    </>
+                )}
+            </Modal>
+            
+            {/* Reject Modal */}
+            <Modal
+                label="Reject Installment Request"
+                isOpen={isModalOpen && modalType === 'reject'}
+                onClose={() => setIsModalOpen(false)}
+            >
+                {selectedInstallment && (
+                    <>
+                        <div className={styles['modal-infos']}>
+                            <h3>Installment Request #{selectedInstallment.installment_id}</h3>
+                            <span>
+                                <p><strong>Customer:</strong> {selectedInstallment.first_name} {selectedInstallment.last_name}</p>
+                                <p><strong>Email:</strong> {selectedInstallment.email}</p>
+                                <p><strong>Amount:</strong> ₱{parseFloat(selectedInstallment.amount).toLocaleString('en-PH')}</p>
+                                <p><strong>Payment Date:</strong> {new Date(selectedInstallment.payment_date).toLocaleDateString()}</p>
+                                <p><strong>Reservation ID:</strong> {selectedInstallment.reservation_id}</p>
+                                
+                                <p style={{ marginTop: '1rem', fontWeight: 'bold', color: 'var(--error-foreground)' }}>
+                                    Rejecting this request will delete the associated reservation.
+                                </p>
+                            </span>
+                        </div>
+                        
+                        <div className={styles['inputs-container']}>
+                            <div className={styles['input-wrapper']}>
+                                <label>Rejection Reason</label>
+                                <textarea
+                                    value={processingNotes}
+                                    onChange={(e) => setProcessingNotes(e.target.value)}
+                                    placeholder="Provide a reason for rejecting this installment request..."
+                                    required
+                                />
+                            </div>
+                        </div>
+                        
+                        <div className={styles['modal-ctas']}>
+                            <Button
+                                type="secondary"
+                                label="Cancel"
+                                action={() => setIsModalOpen(false)}
+                            />
+                            <Button
+                                type="primary"
+                                label="Reject Installment"
+                                action={handleRejectInstallment}
+                                externalStyles={styles['modal-warn']}
+                                disabled={!processingNotes}
                             />
                         </div>
                     </>
@@ -291,4 +392,4 @@ const Installments = () => {
     );
 };
 
-export default Installments;
+export default AdminInstallments;
