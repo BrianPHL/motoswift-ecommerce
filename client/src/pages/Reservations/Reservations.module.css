@@ -109,7 +109,6 @@
 .reservation {
     background-color: var(--bg-secondary);
     border-radius: 0.5rem;
-    overflow: hidden;
     border: 1px solid var(--bg-outline);
 
 }
@@ -176,6 +175,14 @@
         font-size: 1rem;
         color: var(--tg-primary);
     }
+}
+
+.products-container {
+    flex-direction: column;
+    overflow-y: scroll;
+    display: flex;
+    gap: 1rem;
+    max-height: 20rem;
 }
 
 .product {

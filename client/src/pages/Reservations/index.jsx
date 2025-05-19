@@ -108,39 +108,41 @@ const Reservations = ({}) => {
                                             <div className={ styles['divider'] }></div>
                                             <div className={ styles['products'] }>
                                                 <h3>Reserved Products</h3>
-                                                { reservation['products'] && reservation['products'].map(product => (
-                                                    <div
-                                                        key={['product_id']}
-                                                        className={ styles['product'] }
-                                                        onClick={ () => {
-                                                            product['category'].toLowerCase() === 'motorcycles'
-                                                            ? navigate(`/motorcycles/${ product['product_id'] }`)
-                                                            : navigate(`/parts-and-accessories/${ product['product_id'] }`)
-                                                        }}
-                                                    >
-                                                        <span>
-                                                            <img src={`https://res.cloudinary.com/dfvy7i4uc/image/upload/${ product['image_url'] }`} alt="" />
-                                                            <div className={ styles['product-details'] }>
-                                                                <span>
-                                                                    <h3>{ product['label'] }</h3>
-                                                                    <h4>₱{ parseFloat(product['price']).toLocaleString('en-PH', {
-                                                                            minimumFractionDigits: 2,
-                                                                            maximumFractionDigits: 2
-                                                                        })}
-                                                                    </h4>
-                                                                </span>
-                                                                <h4>{`Qty.: ${ product['quantity'] }`}</h4>
-                                                            </div>
-                                                        </span>
-                                                        <i className='fa-solid fa-square-up-right'></i>
-                                                    </div>
-                                                ))}
+                                                <div className={ styles['products-container'] }>
+                                                    { reservation['products'] && reservation['products'].map(product => (
+                                                        <div
+                                                            key={['product_id']}
+                                                            className={ styles['product'] }
+                                                            onClick={ () => {
+                                                                product['category'].toLowerCase() === 'motorcycles'
+                                                                ? navigate(`/motorcycles/${ product['product_id'] }`)
+                                                                : navigate(`/parts-and-accessories/${ product['product_id'] }`)
+                                                            }}
+                                                        >
+                                                            <span>
+                                                                <img src={`https://res.cloudinary.com/dfvy7i4uc/image/upload/${ product['image_url'] }`} alt="" />
+                                                                <div className={ styles['product-details'] }>
+                                                                    <span>
+                                                                        <h3>{ product['label'] }</h3>
+                                                                        <h4>₱{ parseFloat(product['price']).toLocaleString('en-PH', {
+                                                                                minimumFractionDigits: 2,
+                                                                                maximumFractionDigits: 2
+                                                                            })}
+                                                                        </h4>
+                                                                    </span>
+                                                                    <h4>{`Qty.: ${ product['quantity'] }`}</h4>
+                                                                </div>
+                                                            </span>
+                                                            <i className='fa-solid fa-square-up-right'></i>
+                                                        </div>
+                                                    ))}
+                                                </div>
                                             </div>
                                             <div className={ styles['divider'] }></div>
                                             <div className={ styles['ctas'] }>
                                                 { reservation['status'] === 'pending' ? (
                                                     <>
-                                                       <Button
+                                                        <Button
                                                             type='primary'
                                                             label='Checkout'
                                                             disabled
@@ -156,9 +158,9 @@ const Reservations = ({}) => {
                                                             externalStyles={ styles['reservation-warn'] }
                                                         />
                                                     </>
-                                                ) : reservation['status'] === 'cancelled' && (
+                                                ) : reservation['status'] === 'cancelled' ? (
                                                     <>
-                                                       <Button
+                                                        <Button
                                                             type='primary'
                                                             label='Checkout'
                                                             disabled
@@ -183,6 +185,28 @@ const Reservations = ({}) => {
                                                             externalStyles={ styles['reservation-warn'] }
                                                         />
                                                     </>
+                                                ) : reservation['status'] === 'pending_approval' ? (
+                                                    <Button
+                                                        type='secondary'
+                                                        label='Cancel'
+                                                        action={ () => {
+                                                            setSelectedItem(reservation);
+                                                            setModalType('cancel-confirmation')
+                                                            setModalOpen(true);
+                                                        }}
+                                                        externalStyles={ styles['reservation-warn'] }
+                                                    />
+                                                ) : reservation['status'] === 'rejected' && (
+                                                    <Button
+                                                        type='secondary'
+                                                        label='Delete'
+                                                        action={ () => {
+                                                            setSelectedItem(reservation);
+                                                            setModalType('delete-confirmation')
+                                                            setModalOpen(true);
+                                                        }}
+                                                        externalStyles={ styles['reservation-warn'] }
+                                                    />
                                                 )}
                                             </div>
                                         </div>
