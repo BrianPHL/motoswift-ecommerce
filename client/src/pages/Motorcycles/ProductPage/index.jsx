@@ -11,6 +11,9 @@ const ProductPage = () => {
     const [ loading, setLoading ] = useState(true);
     const [ modalOpen, setModalOpen ] = useState(false);
     const [ modalType, setModalType ] = useState('');
+    const [ productQuantity, setProductQuantity ] = useState(1);
+    const [ isOutOfStock, setIsOutOfStock ] = useState(false);
+    const [ isLowStock, setIsLowStock ] = useState(false);
     const [ reservePreferredDate, setReservePreferredDate ] = useState('');
     const [ reserveNotes, setReserveNotes ] = useState('');
     const { products } = useProducts();
@@ -22,10 +25,12 @@ const ProductPage = () => {
     
     useEffect(() => {
         if (products && products['length'] > 0) {
-
+            
             const foundProduct = products.find(product => product.product_id.toString() === product_id);
             if (foundProduct) {
                 setProduct(foundProduct);
+                setIsOutOfStock(foundProduct['stock_quantity'] <= 0);
+                setIsLowStock(foundProduct['stock_quantity'] > 0 && foundProduct['stock_quantity'] <= 5);
             } else {
                 showToast('Product not found!', 'error');
                 navigate('/motorcycles');
@@ -35,8 +40,6 @@ const ProductPage = () => {
 
         }
     }, [ product_id, products, navigate, showToast ]);
-
-    const isOutOfStock = product?.stock_quantity <= 0;
 
     const requireAuth = (action) => {
         if (!user) {
@@ -92,62 +95,79 @@ const ProductPage = () => {
         }
     };
 
-    if (loading || !product) return null;
+    if (loading) {
+        return (
+            <div className={styles['wrapper']}>
+                <div className={styles['header']}>
+                    <ReturnButton />
+                    <h1>Product Details</h1>
+                </div>
+                <div className={styles['loading']}>
+                    <i className="fa-solid fa-spinner fa-spin"></i>
+                    <p>Loading product, please wait...</p>
+                </div>
+            </div>
+        );
+    };
 
     return (
-        <div className={ styles['wrapper'] }>
-            <div className={ styles['banner'] }></div>
-            <div className={ styles['product'] }>
-                <span className={ styles['pagewrap'] }>
+        <>
+            <div className={ styles['wrapper'] }>
+                <div className={ styles['header'] }>
                     <ReturnButton />
-                </span>
-                <div className={ styles['product-main'] }>
-                    <img
-                        src={ `https://res.cloudinary.com/dfvy7i4uc/image/upload/${ product['image_url'] }` }
-                        alt={ `${ product['label'] }. Price: ${ product['price'] }` } 
-                    />
+                    <h1>Product Details</h1>
+                </div>
+                <div className={ styles['product'] }>
+                    <div className={ styles['product-image'] }>
+                        <img
+                            src={ `https://res.cloudinary.com/dfvy7i4uc/image/upload/${ product['image_url'] }` }
+                            alt={ `${ product['label'] }. Price: ${ product['price'] }` } 
+                        />
+                    </div>
                     <div className={ styles['product-details'] }>
+                        <div className={ styles['product-details-header'] }>
+                            <h2>{ product['label'] }</h2>
+                            <h3 style={{ marginTop: '2rem' }}><strong>Category:</strong> { product['category'] } | <strong>Sub-category:</strong> { product['subcategory'] }</h3>
+                                <h3 style={{ marginTop: '1rem' }}>
+                                    <strong>Availability:</strong>{' '}
+                                    <span className={
+                                        isOutOfStock 
+                                            ? styles['out-of-stock'] 
+                                            : isLowStock 
+                                                ? styles['low-stock'] 
+                                                : styles['in-stock']
+                                    }>
+                                        {isOutOfStock 
+                                            ? 'Out of stock' 
+                                            : isLowStock 
+                                                ? `Low Stock (${product['stock_quantity']} available)` 
+                                                : `${product['stock_quantity']} available`
+                                        }
+                                    </span>
+                                </h3>
+                        </div>
+
                         <div className={ styles['product-details-info'] }>
                             <span>
-                                <h2>{ product['label'] }</h2>
-                                <h3>₱{ parseFloat(product['price']).toLocaleString('en-PH', {
+                                <h4><strong>Description</strong></h4>
+                                <p>{ product['description'] }</p>
+                            </span>
+                            <h3>₱{ parseFloat(product['price']).toLocaleString('en-PH', {
                                     minimumFractionDigits: 2,
                                     maximumFractionDigits: 2
                                 })}
-                                </h3>
-                                <p className={styles['stock-info']}>
-                                    <strong>Availability:</strong> 
-                                    <span className={isOutOfStock ? styles['out-of-stock'] : styles['in-stock']}>
-                                        {isOutOfStock ? 'Out of Stock' : 'In Stock'}
-                                    </span>
-                                    {!isOutOfStock && <> ({product.stock_quantity} available)</>}
-                                </p>
-                            </span>
+                            </h3>
                         </div>
-
-                        <div className={ styles['divider'] }></div>
-
                         <div className={ styles['product-details-ctas'] }>
-                            {isOutOfStock && (
-                                <div className={styles['stock-status-banner']}>
-                                    <i className="fa-solid fa-exclamation-triangle"></i>
-                                    <span>This product is currently out of stock</span>
-                                </div>
-                            )}
                             <Button
                                 type='primary'
                                 label='Reserve'
                                 icon='fa-solid fa-calendar-check'
                                 iconPosition='left'
                                 externalStyles={ styles['reserve'] }
-                                disabled={isOutOfStock}
                                 action={
                                     () => { 
                                         requireAuth(() => {
-                                            if (isOutOfStock) {
-                                                showToast(`Sorry, ${product.label} is currently out of stock.`, 'error');
-                                                return;
-                                            }
                                             setModalType('reservation');
                                             setModalOpen(true);
                                         })
@@ -159,14 +179,9 @@ const ProductPage = () => {
                                 icon='fa-solid fa-cart-plus'
                                 iconPosition='left'
                                 label='Add to Cart'
-                                disabled={isOutOfStock}
                                 action={
                                     () => { 
                                         requireAuth(() => {
-                                            if (isOutOfStock) {
-                                                showToast(`Sorry, ${product.label} is currently out of stock.`, 'error');
-                                                return;
-                                            }
                                             setModalType('cart');
                                             setModalOpen(true);
                                         })
@@ -174,129 +189,114 @@ const ProductPage = () => {
                                 }
                             />
                         </div>
-
                     </div>
                 </div>
-
-                <div className={ styles['product-description'] }>
-                    <h2>Product Information</h2>
-                    <div className={ styles['product-description-content'] }>
-                        <div className={ styles['product-description-content-card'] }>
-                            <div className={ styles['product-description-content-card-header'] }>
-                                <h3>Description</h3>
-                                <div className={ styles['highlight-divider'] }></div>
-                            </div>
-                            <p>{ product['description'] }</p>
-                        </div>
-                        <div className={ styles['product-description-content-card'] }>
-                            <div className={ styles['product-description-content-card-header'] }>
-                                <h3>Details</h3>
-                                <div className={ styles['highlight-divider'] }></div>
-                            </div>
-                            <div className={ styles['product-description-content-card-details'] }>
-                                <div className={ styles['product-description-content-card-details-item'] }>
-                                    <p>Product ID</p>
-                                    <p>{ product['product_id'] }</p>
-                                </div>
-                                <div className={ styles['product-description-content-card-details-item'] }>
-                                    <p>Product Type</p>
-                                    <p>{ product['category'] }</p>
-                                </div>
-                                <div className={ styles['product-description-content-card-details-item'] }>
-                                    <p>Product Variant</p>
-                                    <p>{ product['subcategory'] }</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
             </div>
-
-            <Modal
-                label={ `Add ${ product['label'] } to Cart` }
-                isOpen={ modalOpen && modalType === 'cart' }
-                onClose={ () => setModalOpen(false) }
-            >
-                <div className={ styles['modal-infos'] }>
-                    <h3>{ product['label'] }</h3>
-                    <span>
-                        <p>Are you sure you want to add <strong>{ product['label'] }</strong> to your cart?</p>
-                        <p>Stock Available: <strong>{product.stock_quantity}</strong></p>
-                    </span>
-                </div>
-                <div className={ styles['modal-ctas'] }>
-                    <Button 
-                        type="secondary" 
-                        label="Cancel" 
-                        action={ () => setModalOpen(false) } 
-                    />
-                    <Button 
-                        type="primary" 
-                        label="Add to Cart" 
-                        action={ () => { 
-                            handleAddToCart(); 
-                            setModalOpen(false);
-                        }}
-                    />
-                </div>
-            </Modal>
-
-            <Modal
-                label={ `Reserve ${ product['label'] }` }
-                isOpen={ modalOpen && modalType === 'reservation' }
-                onClose={ () => setModalOpen(false) }
-            >
-                <div className={ styles['modal-infos'] }>
-                    <h3>{ product['label'] }</h3>
-                    <span>
-                        <p>Fill out the form below to reserve <strong>{ product['label'] }</strong></p>
-                        <p>Stock Available: <strong>{product.stock_quantity}</strong></p>
-                    </span>
-                </div>
-                <div className={ styles['inputs-container'] }>
-                    <div className={ styles['input-wrapper'] }>
-                        <label htmlFor="preferred_date">
-                            Preferred Date
-                        </label>
-                        <InputField
-                            hint='Your preferred date...'
-                            type='date'
-                            value={ reservePreferredDate }
-                            onChange={ (e) => setReservePreferredDate(e.target.value) }
-                            isSubmittable={ false }
+            { modalType === 'reservation' ? (
+                <Modal
+                    label={ `Reserve ${ product['label'] }` }
+                    isOpen={ modalOpen && modalType === 'reservation' }
+                    onClose={ () => setModalOpen(false) }
+                >
+                    <div style={{ alignItems: 'flex-start' }} className={ styles['modal-infos'] }>
+                        <h3>{ product['label'] }</h3>
+                        <span>
+                            <p>Fill out the form below to reserve <strong>{ product['label'] }</strong></p>
+                            <p>Stock Available: <strong>{ product['stock_quantity'] }</strong></p>
+                        </span>
+                    </div>
+                    <div className={ styles['inputs-container'] }>
+                        <div className={ styles['input-wrapper'] }>
+                            <label htmlFor="preferred_date">
+                                Preferred Date
+                            </label>
+                            <InputField
+                                hint='Your preferred date...'
+                                type='date'
+                                value={ reservePreferredDate }
+                                onChange={ (e) => setReservePreferredDate(e.target.value) }
+                                isSubmittable={ false }
+                            />
+                        </div>
+                        <div className={ styles['input-wrapper'] }>
+                            <label htmlFor="notes">
+                                Notes (Optional)
+                            </label>
+                            <textarea
+                                placeholder="Additional information..."
+                                value={ reserveNotes }
+                                onChange={ (e) => setReserveNotes(e.target.value) }
+                            ></textarea>
+                        </div>
+                    </div>
+                    <div className={ styles['modal-ctas'] }>
+                        <Button 
+                            type="secondary" 
+                            label="Cancel" 
+                            action={ () => setModalOpen(false) } 
+                        />
+                        <Button 
+                            type="primary" 
+                            label="Reserve" 
+                            action={ () => { 
+                                handleAddToReservations(); 
+                                setModalOpen(false);
+                            }}
+                            disabled={ !reservePreferredDate }
                         />
                     </div>
-                    <div className={ styles['input-wrapper'] }>
-                        <label htmlFor="notes">
-                            Notes (Optional)
-                        </label>
-                        <textarea
-                            placeholder="Additional information..."
-                            value={ reserveNotes }
-                            onChange={ (e) => setReserveNotes(e.target.value) }
-                        ></textarea>
+                </Modal>
+            ) : modalType === 'cart' ? (
+                <Modal
+                    label={ `Add ${ product['label'] } to Cart` }
+                    isOpen={ modalOpen && modalType === 'cart' }
+                    onClose={ () => setModalOpen(false) }
+                >
+                    <div style={{ alignItems: 'flex-start' }} className={ styles['modal-infos'] }>
+                        <h3>{ product['label'] }</h3>
+                        <span>
+                            <p>Are you sure you want to add <strong>{ product['label'] }</strong> to your cart?</p>
+                            <p style={{ marginTop: '1rem' }}>Stock Available: <strong>{ product['stock_quantity'] }</strong></p>
+                        </span>
                     </div>
-                </div>
-                <div className={ styles['modal-ctas'] }>
-                    <Button 
-                        type="secondary" 
-                        label="Cancel" 
-                        action={ () => setModalOpen(false) } 
-                    />
-                    <Button 
-                        type="primary" 
-                        label="Reserve" 
-                        action={ () => { 
-                            handleAddToReservations(); 
-                            setModalOpen(false);
-                        }}
-                        disabled={ !reservePreferredDate }
-                    />
-                </div>
-            </Modal>
+                    <div className={ styles['modal-infos'] } style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
 
-        </div>
+                        <span style={{ display: 'flex', gap: '1rem' }}>
+                            <Button
+                                type='icon-outlined'
+                                icon='fa-solid fa-minus'
+                                action={ () => setProductQuantity(prevQuantity => prevQuantity - 1) }
+                                disabled={ productQuantity <= 1 }
+                            />
+                            <Button
+                                type='icon-outlined'
+                                icon='fa-solid fa-plus'
+                                action={ () => setProductQuantity(prevQuantity => prevQuantity + 1) }
+                                disabled={ productQuantity >= product['stock_quantity'] }
+                            />
+                        </span>
+
+                        <p style={{ fontWeight: '600', fontSize: '1rem', color: 'var(--tg-primary)' }}>{ productQuantity }x</p>
+
+                    </div>
+                    <div className={ styles['modal-ctas'] }>
+                        <Button 
+                            type="secondary" 
+                            label="Cancel" 
+                            action={ () => setModalOpen(false) } 
+                        />
+                        <Button 
+                            type="primary" 
+                            label="Add to Cart" 
+                            action={ () => { 
+                                handleAddToCart(); 
+                                setModalOpen(false);
+                            }}
+                        />
+                    </div>
+                </Modal>
+            ) : null }
+        </>
     );
 };
 
