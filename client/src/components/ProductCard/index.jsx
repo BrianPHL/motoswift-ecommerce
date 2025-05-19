@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router';
 import styles from './ProductCard.module.css';
 import { InputField, Button, Modal } from '@components';
@@ -13,24 +13,13 @@ const ProductCard = ({ product_id, category, subcategory, image_url, label, pric
     const [ reservePreferredDate, setReservePreferredDate ] = useState('');
     const [ reserveNotes, setReserveNotes ] = useState('');
     const [ productQuantity, setProductQuantity ] = useState(1);
+    const [ isOutOfStock, setIsOutOfStock ] = useState(false);
+    const [ isLowStock, setIsLowStock ] = useState(false);
     const { addToCart } = useCart();
     const { addToReservations } = useReservation();
     const { user } = useAuth();
     const { showToast } = useToast();
     const navigate = useNavigate();
-    const isOutOfStock = stock_quantity <= 0;
-    
-    const getStockStatusClass = () => {
-        if (stock_quantity <= 0) return styles['stock-out'];
-        if (stock_quantity <= 5) return styles['stock-low'];
-        return styles['stock-good'];
-    };
-
-    const getStockStatusText = () => {
-        if (stock_quantity <= 0) return "Out of Stock";
-        if (stock_quantity <= 5) return `Low Stock (${stock_quantity})`;
-        return `In Stock (${stock_quantity})`;
-    };
 
     const formattedPrice = parseFloat(price).toLocaleString('en-PH', {
         minimumFractionDigits: 2,
@@ -60,6 +49,7 @@ const ProductCard = ({ product_id, category, subcategory, image_url, label, pric
     };
 
     const handleAddToReservations = async () => {
+
         if (isOutOfStock) {
             showToast(`Sorry, ${label} is currently out of stock.`, 'error');
             return;
@@ -67,7 +57,7 @@ const ProductCard = ({ product_id, category, subcategory, image_url, label, pric
         
         try {
             await addToReservations({
-                product: { product_id, category, subcategory, image_url, label, price, quantity },
+                product: { product_id, category, subcategory, image_url, label, price, quantity: productQuantity },
                 preferredDate: reservePreferredDate,
                 notes: reserveNotes
             });
@@ -75,16 +65,26 @@ const ProductCard = ({ product_id, category, subcategory, image_url, label, pric
             setReservePreferredDate('');
             setReserveNotes('');
         } catch (err) {
-            showToast(`Uh oh! An error occured during the reservation of ${ label }! Please try again later.`, 'error');
+            showToast(`Uh oh! An error occured during the reservation of ${ label }! Please try again later. ${ err }`, 'error');
         }
     };
+
+    useEffect(() => {
+        setIsOutOfStock(stock_quantity <= 0);
+        setIsLowStock(stock_quantity);
+    }, [stock_quantity]);
 
     return (
         <>
             <div className={ styles['wrapper'] }>
-                {isOutOfStock && (
+                { isOutOfStock && (
                     <div className={styles['out-of-stock-badge']}>
                         Out of Stock
+                    </div>
+                )}
+                { isLowStock && !isOutOfStock && (
+                    <div className={styles['low-stock-badge']}>
+                        Low Stock
                     </div>
                 )}
                 <img
@@ -96,10 +96,7 @@ const ProductCard = ({ product_id, category, subcategory, image_url, label, pric
                     <div className={ styles['text'] }>
                         <h2>{ label }</h2>
                         <h3>₱{ formattedPrice }</h3>
-                        <div className={`${styles['stock-indicator']} ${getStockStatusClass()}`}>
-                            <i className={`fa-solid ${isOutOfStock ? 'fa-xmark' : stock_quantity <= 5 ? 'fa-triangle-exclamation' : 'fa-check'}`}></i>
-                            <p>{getStockStatusText()}</p>
-                        </div>
+                        <p>Available Stocks: { stock_quantity }</p>
                     </div>
                     <Button
                         type='icon'
