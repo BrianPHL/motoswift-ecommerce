@@ -5,7 +5,7 @@ import { Button, Modal, TableHeader, TableFooter, InputField } from '@components
 import { useReservation, useToast } from '@contexts';
 
 const Reservations = () => {
-    // Use URL search params instead of local state
+
     const [searchParams, setSearchParams] = useSearchParams();
     const queryPage = parseInt(searchParams.get('page') || '1', 10);
     const querySort = searchParams.get('sort') || 'Sort by: Latest';

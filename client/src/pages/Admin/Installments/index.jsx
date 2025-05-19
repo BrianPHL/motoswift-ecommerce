@@ -81,7 +81,6 @@ const Installments = () => {
         setSearchParams(params);
     };
 
-    // Handler functions
     const handlePageChange = (page) => {
         setCurrentPage(page);
         updateSearchParams({ page });

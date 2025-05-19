@@ -19,21 +19,18 @@ const ProductCard = ({ product_id, category, subcategory, image_url, label, pric
     const navigate = useNavigate();
     const isOutOfStock = stock_quantity <= 0;
     
-    // Add a class based on stock level
     const getStockStatusClass = () => {
         if (stock_quantity <= 0) return styles['stock-out'];
         if (stock_quantity <= 5) return styles['stock-low'];
         return styles['stock-good'];
     };
 
-    // Add stock status text
     const getStockStatusText = () => {
         if (stock_quantity <= 0) return "Out of Stock";
         if (stock_quantity <= 5) return `Low Stock (${stock_quantity})`;
         return `In Stock (${stock_quantity})`;
     };
 
-    // Format price with commas
     const formattedPrice = parseFloat(price).toLocaleString('en-PH', {
         minimumFractionDigits: 2,
         maximumFractionDigits: 2

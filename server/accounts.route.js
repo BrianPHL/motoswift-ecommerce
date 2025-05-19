@@ -235,8 +235,7 @@ router.delete('/:account_id', async (req, res) => {
             `,
             [account_id]
         );
-        
-        // Get avatar URL before deleting account
+
         const [accounts] = await connection.query(
             `
                 SELECT image_url 

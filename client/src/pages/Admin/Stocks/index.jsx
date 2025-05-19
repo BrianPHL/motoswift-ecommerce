@@ -32,8 +32,7 @@ const Stocks = () => {
         if (!stockHistory) return;
         
         let result = [...stockHistory];
-        
-        // Apply search filter
+
         if (querySearch) {
             const searchLower = querySearch.toLowerCase();
             result = result.filter(item => 
@@ -158,7 +157,6 @@ const Stocks = () => {
                             <h3>Recent Stock Updates</h3>
                         </div>
                         <h2>{stockHistory?.filter(t => {
-                            // Updates in the last 24 hours
                             const date = new Date(t.created_at);
                             const now = new Date();
                             return (now - date) < 86400000;

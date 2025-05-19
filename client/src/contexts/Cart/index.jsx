@@ -42,8 +42,7 @@ export const CartProvider = ({ children }) => {
 
         try {
             setLoading(true);
-            
-            // Check stock before adding
+
             const stockResponse = await fetch(`/api/stocks/${item.product_id}/stock`);
             if (stockResponse.ok) {
                 const stockData = await stockResponse.json();
