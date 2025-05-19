@@ -17,7 +17,7 @@ export const ReservationProvider = ({ children }) => {
 
         try {
             setLoading(true);
-            const response = await fetch(`/api/reservations/${user['account_id']}`, {
+            const response = await fetch(`/api/reservations/${ user['account_id'] }`, {
                 method: 'GET',
                 headers: { 'Content-Type': 'application/json' }
             });
@@ -71,31 +71,22 @@ export const ReservationProvider = ({ children }) => {
         try {
             setLoading(true);
 
-            const productsToReserve = Array.isArray(item.products) ? item.products : [item.product];
-            for (const product of productsToReserve) {
-                const stockResponse = await fetch(`/api/stocks/${product.product_id}/stock`);
-                if (stockResponse.ok) {
-                    const stockData = await stockResponse.json();
-                    if (stockData.stock_quantity <= 0) {
-                        showToast(`Sorry, ${product.label} is currently out of stock.`, 'error');
-                        return { error: "Out of stock" };
-                    }
-                }
-            }
-            
-            const reservationData = {
-                account_id: user.account_id,
-                preferred_date: item.preferredDate,
-                notes: item.notes || '',
-                products: productsToReserve
-            };
-            
+            const products = Array.isArray(item['products'])
+                ? item['products']
+                : item['product']
+                    ? [ item['product'] ]
+                    : [];
+
             const response = await fetch('/api/reservations', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(reservationData)
+                body: JSON.stringify({
+                    account_id: user['account_id'],
+                    preferred_date: item['preferredDate'],
+                    notes: item['notes'],
+                    products: products
+                })
             });
-            
             const data = await response.json();
             
             if (!response.ok) {

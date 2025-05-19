@@ -20,18 +20,46 @@ router.get('/recent', async (req, res) => {
 });
 
 router.get('/:account_id', async (req, res) => {
+    
 	try {
-		const [rows] = await pool.query(`
-			SELECT r.*
-			FROM reservations r
-			WHERE r.account_id = ?
-		`, [req.params.account_id]);
-		
-		res.json(rows);
+
+		const { account_id } = req.params;
+
+        const [ reservations ] = await pool.query(
+			`
+				SELECT * FROM reservations
+				WHERE account_id = ?
+				ORDER BY created_at DESC
+			`,
+			[ account_id ]
+		);
+
+		for (let i = 0; i < reservations['length']; i++) {
+
+			const [ items ] = await pool.query(
+				`
+					SELECT reservation_item.*, product.label, product.price, product.category, product.subcategory, product.image_url
+					FROM reservation_products reservation_item
+					JOIN products product ON reservation_item.product_id = product.product_id
+					WHERE reservation_item.reservation_id = ?
+				`,
+				[ reservations[i]['reservation_id'] ]
+			)
+
+			reservations[i]['products'] = items;
+
+		};
+
+		res.json(reservations);
+
+    
 	} catch (err) {
-		console.error('Error fetching user reservations:', err);
-		res.status(500).json({ error: err.message });
+    
+        console.error('Error fetching reservations:', err);
+        res.status(500).json({ error: err.message });
+    
 	}
+
 });
 
 router.get('/:reservation_id/products', async (req, res) => {
@@ -236,6 +264,7 @@ router.put('/:reservation_id/reactivate', async (req, res) => {
 });
 
 router.post('/', async (req, res) => {
+
 	const connection = await pool.getConnection();
 	try {
 		await connection.beginTransaction();
