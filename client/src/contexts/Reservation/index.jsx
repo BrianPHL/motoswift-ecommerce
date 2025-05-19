@@ -154,6 +154,59 @@ export const ReservationProvider = ({ children }) => {
         }
     };
 
+    const reactivateReservation = async (reservation_id) => {
+
+        if (!user) return;
+
+        try {
+            setLoading(true);
+
+            const response = await fetch(`/api/reservations/${reservation_id}/reactivate`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    admin_id: user['account_id']
+                })
+            });
+
+            if (!response.ok) {
+                const data = await response.json();
+                throw new Error(data.error || 'Failed to reactivate reservation!');
+            }
+
+            setReservationItems(prev => 
+                prev.map(item => 
+                    item.reservation_id === reservation_id 
+                    ? { ...item, status: 'pending' } 
+                    : item
+                )
+            );
+
+            if (recentReservations) {
+                setRecentReservations(prev => 
+                    prev.map(item => 
+                        item.reservation_id === reservation_id 
+                        ? { ...item, status: 'pending' } 
+                        : item
+                    )
+                );
+            }
+
+            setPendingReservationsCount(prev => prev + 1);
+
+            showToast("Reservation reactivated successfully!", "success");
+            refreshProducts();
+            return true;
+
+        } catch (err) {
+            console.error("Failed to reactivate reservation:", err);
+            showToast(`Failed to reactivate reservation: ${err.message}`, "error");
+            return false;
+        } finally {
+            setLoading(false);
+        }
+    };
+
     const deleteReservation = async (reservation_id) => {
         if (!user) return;
 
@@ -207,6 +260,7 @@ export const ReservationProvider = ({ children }) => {
             fetchRecentReservations,
             addToReservations, 
             cancelReservation,
+            reactivateReservation,
             deleteReservation,
             refreshReservations: fetchReservations 
         }}>
