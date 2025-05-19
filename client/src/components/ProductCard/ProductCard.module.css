@@ -101,6 +101,7 @@
 .modal-infos {
     flex-direction: column;
     border-radius: 0.25rem;
+    align-items: center;
     display: flex;
     padding: 1rem;
     border: 1px solid var(--bg-outline);
@@ -110,7 +111,7 @@
         font-size: 1rem;
         color: var(--tg-primary);
     }
-    & > span > p {
+    & > span > p, & > p {
         font-weight: 500;
         font-size: 0.875rem;
         color: var(--tg-secondary);

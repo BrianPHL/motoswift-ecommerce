@@ -12,6 +12,7 @@ const ProductCard = ({ product_id, category, subcategory, image_url, label, pric
     const [ modalType, setModalType ] = useState('');
     const [ reservePreferredDate, setReservePreferredDate ] = useState('');
     const [ reserveNotes, setReserveNotes ] = useState('');
+    const [ productQuantity, setProductQuantity ] = useState(1);
     const { addToCart } = useCart();
     const { addToReservations } = useReservation();
     const { user } = useAuth();
@@ -51,7 +52,8 @@ const ProductCard = ({ product_id, category, subcategory, image_url, label, pric
         }
         
         try {
-            await addToCart({ product_id, category, subcategory, image_url, label, price, stock_quantity });
+            console.log(productQuantity)
+            await addToCart({ product_id, category, subcategory, image_url, label, price, stock_quantity, quantity: productQuantity });
             showToast(`Successfully added ${ label } to your cart!`, 'success');
         } catch (err) {
             showToast(`Uh oh! An error occured during the addition of ${ label } to your cart! Please try again later.`, 'error');
@@ -163,6 +165,26 @@ const ProductCard = ({ product_id, category, subcategory, image_url, label, pric
                         <p>Are you sure you want to add <strong>{ label }</strong> to your cart?</p>
                         <p style={{ marginTop: '1rem' }}>Stock Available: <strong>{stock_quantity}</strong></p>
                     </span>
+                </div>
+                <div className={ styles['modal-infos'] } style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                    
+                    <span style={{ display: 'flex', gap: '1rem' }}>
+                        <Button
+                            type='icon-outlined'
+                            icon='fa-solid fa-minus'
+                            action={ () => setProductQuantity(prevQuantity => prevQuantity - 1) }
+                            disabled={ productQuantity <= 1 }
+                        />
+                        <Button
+                            type='icon-outlined'
+                            icon='fa-solid fa-plus'
+                            action={ () => setProductQuantity(prevQuantity => prevQuantity + 1) }
+                            disabled={ productQuantity >= stock_quantity }
+                        />
+                    </span>
+
+                    <p style={{ fontWeight: '600', fontSize: '1rem', color: 'var(--tg-primary)' }}>{ productQuantity }x</p>
+
                 </div>
                 <div className={ styles['modal-ctas'] }>
                     <Button 
