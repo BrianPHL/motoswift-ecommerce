@@ -102,4 +102,41 @@ router.post('/', async (req, res) => {
   }
 });
 
+router.delete('/:reservation_id', async (req, res) => {
+	
+	const connection = await pool.getConnection();
+	
+	try {
+		
+		await connection.beginTransaction();
+
+		const { reservation_id } = req.params;
+
+		await connection.query(
+		  `DELETE FROM reservation_products WHERE reservation_id = ?`,
+		  [reservation_id]
+		);
+
+		const [result] = await connection.query(
+		  `DELETE FROM reservations WHERE reservation_id = ?`,
+		  [reservation_id]
+		);
+
+		if (result.affectedRows === 0) {
+		  await connection.rollback();
+		  return res.status(404).json({ error: 'Reservation not found' });
+		}
+
+		await connection.commit();
+		res.json({ message: 'Reservation deleted successfully' });
+	
+	} catch (err) {
+  
+		await connection.rollback();
+  		console.error('Error deleting reservation:', err);
+  		res.status(500).json({ error: err.message });
+
+	} finally { connection.release();}
+});
+
 export default router;

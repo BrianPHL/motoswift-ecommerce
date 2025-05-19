@@ -3,7 +3,77 @@ import pool from './db.js';
 
 const router = express.Router();
 
-// Add stock to a product
+router.get('/history', async (req, res) => {
+    try {
+        const [rows] = await pool.query(`
+            SELECT sh.*, 
+                   p.label as product_name, 
+                   p.category,
+                   a.first_name, a.last_name
+            FROM stocks_history sh
+            JOIN products p ON sh.product_id = p.product_id
+            JOIN accounts a ON sh.admin_id = a.account_id
+            ORDER BY sh.created_at DESC
+            LIMIT 100
+        `);
+        
+        res.json(rows);
+    } catch (err) {
+        console.error('Error fetching stock history:', err);
+        res.status(500).json({ error: err.message });
+    }
+});
+
+router.get('/low', async (req, res) => {
+    try {
+        const [rows] = await pool.query(`
+            SELECT * FROM products
+            WHERE stock_quantity <= stock_threshold
+            ORDER BY (stock_threshold - stock_quantity) DESC
+        `);
+        
+        res.json(rows);
+    } catch (err) {
+        console.error('Error fetching low stock products:', err);
+        res.status(500).json({ error: err.message });
+    }
+});
+
+router.get('/status-count', async (req, res) => {
+    try {
+        const [rows] = await pool.query(`
+            SELECT 
+                COUNT(CASE WHEN stock_status = 'in_stock' THEN 1 END) as in_stock_count,
+                COUNT(CASE WHEN stock_status = 'low_stock' THEN 1 END) as low_stock_count,
+                COUNT(CASE WHEN stock_status = 'out_of_stock' THEN 1 END) as out_of_stock_count
+            FROM products
+        `);
+        
+        res.json(rows[0]);
+    } catch (err) {
+        console.error('Error fetching stock status counts:', err);
+        res.status(500).json({ error: err.message });
+    }
+});
+
+router.get('/:product_id/stock', async (req, res) => {
+    try {
+        const [rows] = await pool.query(
+            'SELECT stock_quantity FROM products WHERE product_id = ?',
+            [req.params.product_id]
+        );
+        
+        if (rows.length === 0) {
+            return res.status(404).json({ error: 'Product not found' });
+        }
+        
+        res.json(rows[0]);
+    } catch (err) {
+        console.error('Error checking product stock:', err);
+        res.status(500).json({ error: err.message });
+    }
+});
+
 router.post('/add', async (req, res) => {
     const connection = await pool.getConnection();
     
@@ -12,7 +82,6 @@ router.post('/add', async (req, res) => {
         
         const { product_id, quantity_change, new_threshold, notes, admin_id } = req.body;
         
-        // Get current stock quantity to calculate previous and new quantities
         const [currentProduct] = await connection.query(
             'SELECT stock_quantity, stock_threshold FROM products WHERE product_id = ?',
             [product_id]
@@ -26,7 +95,6 @@ router.post('/add', async (req, res) => {
         const previousQuantity = currentProduct[0].stock_quantity;
         const newQuantity = previousQuantity + quantity_change;
         
-        // Update product stock quantity
         const [productResult] = await connection.query(
             `
             UPDATE products 
@@ -49,8 +117,7 @@ router.post('/add', async (req, res) => {
                 product_id
             ]
         );
-        
-        // Record stock transaction in stocks_history with all required fields
+
         await connection.query(
             `
             INSERT INTO stocks_history (
@@ -66,7 +133,7 @@ router.post('/add', async (req, res) => {
             `,
             [
                 product_id, 
-                'restock',  // assuming restock for adding stock
+                'restock',
                 quantity_change, 
                 previousQuantity,
                 newQuantity,
@@ -89,62 +156,6 @@ router.post('/add', async (req, res) => {
         res.status(500).json({ error: err.message });
     } finally {
         connection.release();
-    }
-});
-
-// Get stock transaction history
-router.get('/history', async (req, res) => {
-    try {
-        const [rows] = await pool.query(`
-            SELECT sh.*, 
-                   p.label as product_name, 
-                   p.category,
-                   a.first_name, a.last_name
-            FROM stocks_history sh
-            JOIN products p ON sh.product_id = p.product_id
-            JOIN accounts a ON sh.admin_id = a.account_id
-            ORDER BY sh.created_at DESC
-            LIMIT 100
-        `);
-        
-        res.json(rows);
-    } catch (err) {
-        console.error('Error fetching stock history:', err);
-        res.status(500).json({ error: err.message });
-    }
-});
-
-// Get low stock products
-router.get('/low', async (req, res) => {
-    try {
-        const [rows] = await pool.query(`
-            SELECT * FROM products
-            WHERE stock_quantity <= stock_threshold
-            ORDER BY (stock_threshold - stock_quantity) DESC
-        `);
-        
-        res.json(rows);
-    } catch (err) {
-        console.error('Error fetching low stock products:', err);
-        res.status(500).json({ error: err.message });
-    }
-});
-
-// Get stock status count (for dashboard)
-router.get('/status-count', async (req, res) => {
-    try {
-        const [rows] = await pool.query(`
-            SELECT 
-                COUNT(CASE WHEN stock_status = 'in_stock' THEN 1 END) as in_stock_count,
-                COUNT(CASE WHEN stock_status = 'low_stock' THEN 1 END) as low_stock_count,
-                COUNT(CASE WHEN stock_status = 'out_of_stock' THEN 1 END) as out_of_stock_count
-            FROM products
-        `);
-        
-        res.json(rows[0]);
-    } catch (err) {
-        console.error('Error fetching stock status counts:', err);
-        res.status(500).json({ error: err.message });
     }
 });
 

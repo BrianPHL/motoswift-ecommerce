@@ -3,24 +3,20 @@ import { useAuth, useToast } from '@contexts';
 import ReservationContext from "./context";
 
 export const ReservationProvider = ({ children }) => {
-
-    const [ reservationItems, setReservationItems ] = useState([]);
-    const [ loading, setLoading ] = useState(false);
-    const [ recentReservations, setRecentReservations ] = useState([]);
-    const [ pendingReservationsCount, setPendingReservationsCount ] = useState(0);
+    const [  reservationItems, setReservationItems ] = useState([]);
+    const [  loading, setLoading ] = useState(false);
+    const [  recentReservations, setRecentReservations ] = useState([]);
+    const [  pendingReservationsCount, setPendingReservationsCount ] = useState(0);
     const { user } = useAuth();
     const { showToast } = useToast();
     const reservationCounter = useRef(1);
 
     const fetchReservations = async () => {
-
         if (!user) return;
 
         try {
-
             setLoading(true);
-
-            const response = await fetch(`/api/reservations/${ user['account_id'] }`, {
+            const response = await fetch(`/api/reservations/${user['account_id']}`, {
                 method: 'GET',
                 headers: { 'Content-Type': 'application/json' }
             });
@@ -29,20 +25,17 @@ export const ReservationProvider = ({ children }) => {
             if (!response.ok) {
                 throw new Error(data.error || 'Failed to fetch reservations!');
             }
-
+            
             setReservationItems(data || []);
-
         } catch (err) {
             console.error("Failed to fetch reservations:", err);
             showToast(`Failed to load your reservations: ${err.message}`, "error");
         } finally {
             setLoading(false);
         }
-
     };
 
     const fetchRecentReservations = async () => {
-
         if (!user) return;
         
         try {
@@ -65,198 +58,138 @@ export const ReservationProvider = ({ children }) => {
             console.error('Error fetching recent reservations:', error);
             return [];
         }
-
     };
 
     const addToReservations = async (item) => {
-        
-        if (!user) return;
+
+        if (!user) {
+            showToast("You must be logged in to make reservations.", "error");
+            return { error: "Not authenticated" };
+        }
 
         try {
-
             setLoading(true);
 
-            const products = Array.isArray(item['products'])
-                ? item['products']
-                : item['product']
-                    ? [ item['product'] ]
-                    : [];
-
+            const productsToReserve = Array.isArray(item.products) ? item.products : [item.product];
+            for (const product of productsToReserve) {
+                const stockResponse = await fetch(`/api/stocks/${product.product_id}/stock`);
+                if (stockResponse.ok) {
+                    const stockData = await stockResponse.json();
+                    if (stockData.stock_quantity <= 0) {
+                        showToast(`Sorry, ${product.label} is currently out of stock.`, 'error');
+                        return { error: "Out of stock" };
+                    }
+                }
+            }
+            
+            const reservationData = {
+                account_id: user.account_id,
+                preferred_date: item.preferredDate,
+                notes: item.notes || '',
+                products: productsToReserve
+            };
+            
             const response = await fetch('/api/reservations', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    account_id: user['account_id'],
-                    preferred_date: item['preferredDate'],
-                    notes: item['notes'],
-                    products: products
-                })
+                body: JSON.stringify(reservationData)
             });
+            
             const data = await response.json();
-
+            
             if (!response.ok) {
                 throw new Error(data.error || 'Failed to create reservation!');
             }
-
+            
             await fetchReservations();
-
-            return data['reservation_id'];
-
+            showToast("Reservation added successfully!", "success");
+            
+            return { success: true, reservation_id: data.reservation_id };
         } catch (err) {
             console.error("Failed to add reservation:", err);
-            showToast(`Failed to create reservation: ${err.message}`, "error");
-            throw err;
+            showToast(`Failed to add reservation: ${err.message}`, "error");
+            return { error: err.message };
         } finally {
             setLoading(false);
         }
-        
     };
 
     const cancelReservation = async (reservation_id) => {
-
         if (!user) return;
 
         try {
-
             setLoading(true);
-
-            const response = await fetch(`/api/reservations/${ reservation_id }`, {
+            
+            const response = await fetch(`/api/reservations/${reservation_id}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    status: 'cancelled'
-                })
+                body: JSON.stringify({ status: 'cancelled' })
             });
-            const data = await response.json();
-
+            
             if (!response.ok) {
-                throw new Error(data.error || 'Failed to cancel the reservation!');
+                const data = await response.json();
+                throw new Error(data.error || 'Failed to cancel reservation!');
             }
-
-            setReservationItems(previous => 
-                previous.map(item => 
-                    item['reservation_id'] === reservation_id 
-                        ? { ...item, status: 'cancelled' } 
-                        : item
+            
+            setReservationItems(prev => 
+                prev.map(item => 
+                    item.reservation_id === reservation_id 
+                    ? { ...item, status: 'cancelled' } 
+                    : item
                 )
             );
-
-            showToast('Reservation cancelled successfully!', 'success');
             
+            showToast("Reservation cancelled successfully!", "success");
         } catch (err) {
             console.error("Failed to cancel reservation:", err);
             showToast(`Failed to cancel reservation: ${err.message}`, "error");
         } finally {
             setLoading(false);
         }
-
-    };
-
-    const reactivateReservation = async (reservation_id) => {
-
-        if (!user) return;
-
-        try {
-
-            setLoading(true);
-
-            const response = await fetch(`/api/reservations/${ reservation_id }`, {
-                method: 'PUT',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    status: 'pending'
-                })
-            });
-            const data = await response.json();
-
-            if (!response.ok) {
-                throw new Error(data.error || 'Failed to reactivate the reservation!');
-            }
-
-            setReservationItems(previous => 
-                previous.map(item => 
-                    item['reservation_id'] === reservation_id 
-                        ? { ...item, status: 'pending' } 
-                        : item
-                )
-            );
-
-            showToast('Reservation reactivated successfully!', 'success');
-            
-        } catch (err) {
-            console.error("Failed to reactivate reservation:", err);
-            showToast(`Failed to reactivate reservation: ${err.message}`, "error");
-        } finally {
-            setLoading(false);
-        }
-
     };
 
     const deleteReservation = async (reservation_id) => {
-
         if (!user) return;
 
         try {
-
             setLoading(true);
 
-            const response = await fetch(`/api/reservations/${ reservation_id }`, {
+            const response = await fetch(`/api/reservations/${reservation_id}`, {
                 method: 'DELETE',
                 headers: { 'Content-Type': 'application/json' }
             });
-            const data = await response.json();
 
             if (!response.ok) {
-                throw new Error(data.error || 'Failed to delete the cancelled reservation!');
+                const data = await response.json();
+                throw new Error(data.error || 'Failed to delete reservation!');
+            }
+            
+            setReservationItems(prev => 
+                prev.filter(item => item.reservation_id !== reservation_id)
+            );
+
+            if (recentReservations) {
+                setRecentReservations(prev => 
+                    prev.filter(item => item.reservation_id !== reservation_id)
+                );
             }
 
-            setReservationItems(previous => previous.filter(item => item['reservation_id'] !== reservation_id));
-
-            showToast('Cancelled Reservation deleted successfully!', 'success');
-            
+            showToast("Reservation deleted successfully!", "success");
+            return true;
         } catch (err) {
-            console.error("Failed to delete the cancelled reservation:", err);
-            showToast(`Failed to delete the cancelled reservation: ${err.message}`, "error");
+            console.error("Failed to delete reservation:", err);
+            showToast(`Failed to delete reservation: ${err.message}`, "error");
+            return false;
         } finally {
             setLoading(false);
         }
-
-    };
-
-    const clearReservations = async () => {
-
-        if (!user) return;
-    
-        try {
-            setLoading(true);
-
-            const response = await fetch(`/api/reservations/cancelled/${user.account_id}`, {
-                method: 'DELETE',
-                headers: { 'Content-Type': 'application/json' }
-            });
-
-            const data = await response.json();
-
-            if (!response.ok) {
-                throw new Error(data.error || 'Failed to clear cancelled reservations');
-            }
-
-            // Remove cancelled reservations from state
-            setReservationItems(previous => previous.filter(item => item.status !== 'cancelled'));
-
-            showToast(`Successfully removed ${data.count} cancelled reservations`, 'success');
-
-        } catch (err) {
-            console.error("Failed to clear cancelled reservations:", err);
-            showToast(`Failed to clear reservation history: ${err.message}`, "error");
-        } finally { setLoading(false); }
     };
 
     useEffect(() => {
         if (user?.account_id) {
             fetchReservations();
         }
-    }, [ user ]);
+    }, [user]);
 
     return (
         <ReservationContext.Provider value={{ 
@@ -265,16 +198,13 @@ export const ReservationProvider = ({ children }) => {
             pendingReservationsCount,
             fetchRecentReservations,
             addToReservations, 
-            cancelReservation, 
-            reactivateReservation, 
-            deleteReservation, 
-            clearReservations,
+            cancelReservation,
+            deleteReservation,
             refreshReservations: fetchReservations 
         }}>
             { children }
         </ReservationContext.Provider>
     );
-
 };
 
 export const useReservation = () => useContext(ReservationContext);

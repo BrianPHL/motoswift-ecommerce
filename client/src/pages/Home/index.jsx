@@ -189,6 +189,7 @@ const Home = () => {
                             image_url={ motorcycle['image_url'] }
                             label={ motorcycle['label'] }
                             price={ motorcycle['price'] }
+                            stock_quantity={ motorcycle['stock_quantity'] }
                         />
                     ))}
                 </div>
@@ -220,6 +221,7 @@ const Home = () => {
                             image_url={ partsAndAccessories['image_url'] }
                             label={ partsAndAccessories['label'] }
                             price={ partsAndAccessories['price'] }
+                            stock_quantity={ partsAndAccessories['stock_quantity'] }
                         />
                     ))}
                 </div>

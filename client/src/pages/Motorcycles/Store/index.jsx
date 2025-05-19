@@ -105,6 +105,7 @@ const Store = () => {
                                 image_url={ product['image_url'] }
                                 label={ product['label'] }
                                 price={ product['price'] }
+                                stock_quantity={ product['stock_quantity'] }
                             />
                         ))}
                     </>

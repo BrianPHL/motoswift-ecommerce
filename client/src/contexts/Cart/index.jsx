@@ -41,6 +41,17 @@ export const CartProvider = ({ children }) => {
         if (!user) return;
 
         try {
+            setLoading(true);
+            
+            // Check stock before adding
+            const stockResponse = await fetch(`/api/stocks/${item.product_id}/stock`);
+            if (stockResponse.ok) {
+                const stockData = await stockResponse.json();
+                if (stockData.stock_quantity <= 0) {
+                    showToast(`Sorry, ${item.label} is currently out of stock.`, 'error');
+                    return;
+                }
+            }
 
             setCartItems(previous => {
                 const exists = previous.find(cartItem => cartItem['product_id'] === item['product_id']);
@@ -58,7 +69,7 @@ export const CartProvider = ({ children }) => {
                 body: JSON.stringify({
                     account_id: user['account_id'],
                     product_id: item['product_id'],
-                    quantity: item['quantity']
+                    quantity: item['quantity'] || 1
                 })
             });
 
@@ -69,23 +80,35 @@ export const CartProvider = ({ children }) => {
         } finally {
             setLoading(false);
         }
+
     };
 
-    const updateQuantity = async (product_id, quantity) => {
-
+    const updateQuantity = async (product_id, newQuantity) => {
+        
         if (!user) return;
 
         try {
-            setLoading(true);
 
-            if (quantity <= 0) {
-                removeFromCart(product_id);
-                return;
+            setLoading(true);
+            
+            if (newQuantity <= 0) {
+                return removeFromCart(product_id);
             }
-    
-            setCartItems(previous =>
-                previous.map(item =>
-                    item['product_id'] === product_id ? { ...item, quantity: Number(quantity) } : item
+
+            const stockResponse = await fetch(`/api/stocks/${product_id}/stock`);
+            if (stockResponse.ok) {
+                const stockData = await stockResponse.json();
+                if (stockData.stock_quantity < newQuantity) {
+                    showToast(`Sorry, only ${stockData.stock_quantity} units available in stock.`, 'error');
+                    return;
+                }
+            }
+
+            setCartItems(previous => 
+                previous.map(item => 
+                    item['product_id'] === product_id 
+                        ? { ...item, quantity: newQuantity } 
+                        : item
                 )
             );
 
@@ -94,8 +117,8 @@ export const CartProvider = ({ children }) => {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     account_id: user['account_id'],
-                    product_id: product_id,
-                    quantity: quantity
+                    product_id,
+                    quantity: newQuantity
                 })
             });
 
@@ -110,11 +133,11 @@ export const CartProvider = ({ children }) => {
     };
 
     const removeFromCart = async (product_id) => {
-
-        if (!user) return;
         
-        try {
+        if (!user) return;
 
+        try {
+            
             setLoading(true);
             setCartItems(previous => previous.filter(item => item['product_id'] !== product_id));
             await fetch(`/api/carts/${ user['account_id'] }/${ product_id }`, {

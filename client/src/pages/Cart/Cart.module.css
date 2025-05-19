@@ -186,6 +186,36 @@
     }
 }
 
+.stock-info {
+    margin-bottom: 1rem;
+    margin-top: 0.5rem;
+    align-items: center;
+    font-size: 0.75rem;
+    display: flex;
+    gap: 0.25rem;
+}
+
+.max-quantity {
+    color: var(--error-foreground);
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-weight: 500;
+}
+
+.stock-available {
+    color: var(--success-foreground);
+}
+
+.stock-loading {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    margin-top: 0.25rem;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
 .summary {
     background-color: var(--bg-secondary);
     flex-direction: column;

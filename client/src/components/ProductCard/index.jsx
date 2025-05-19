@@ -4,7 +4,7 @@ import styles from './ProductCard.module.css';
 import { InputField, Button, Modal } from '@components';
 import { useAuth, useCart, useReservation, useToast } from '@contexts';
 
-const ProductCard = ({ product_id, category, subcategory, image_url, label, price }) => {
+const ProductCard = ({ product_id, category, subcategory, image_url, label, price, stock_quantity = 0 }) => {
     
     if (!product_id || !category || !subcategory || !image_url || !label || !price) return null;
     
@@ -16,11 +16,28 @@ const ProductCard = ({ product_id, category, subcategory, image_url, label, pric
     const { addToReservations } = useReservation();
     const { user } = useAuth();
     const { showToast } = useToast();
+    const navigate = useNavigate();
+    const isOutOfStock = stock_quantity <= 0;
+    
+    // Add a class based on stock level
+    const getStockStatusClass = () => {
+        if (stock_quantity <= 0) return styles['stock-out'];
+        if (stock_quantity <= 5) return styles['stock-low'];
+        return styles['stock-good'];
+    };
+
+    // Add stock status text
+    const getStockStatusText = () => {
+        if (stock_quantity <= 0) return "Out of Stock";
+        if (stock_quantity <= 5) return `Low Stock (${stock_quantity})`;
+        return `In Stock (${stock_quantity})`;
+    };
+
+    // Format price with commas
     const formattedPrice = parseFloat(price).toLocaleString('en-PH', {
         minimumFractionDigits: 2,
         maximumFractionDigits: 2
     });
-    const navigate = useNavigate();
 
     const requireAuth = (action) => {
         if (!user) {
@@ -31,30 +48,47 @@ const ProductCard = ({ product_id, category, subcategory, image_url, label, pric
     };
 
     const handleAddToCart = async () => {
+        if (isOutOfStock) {
+            showToast(`Sorry, ${label} is currently out of stock.`, 'error');
+            return;
+        }
+        
         try {
-            await addToCart({ product_id, category, subcategory, image_url, label, price });
+            await addToCart({ product_id, category, subcategory, image_url, label, price, stock_quantity });
             showToast(`Successfully added ${ label } to your cart!`, 'success');
         } catch (err) {
-            showToast(`Uh oh! An error occured during the addition of ${ label } to your cart! Please try again later. Error message: ${ err }`, 'error');
+            showToast(`Uh oh! An error occured during the addition of ${ label } to your cart! Please try again later.`, 'error');
         }
     };
 
     const handleAddToReservations = async () => {
+        if (isOutOfStock) {
+            showToast(`Sorry, ${label} is currently out of stock.`, 'error');
+            return;
+        }
+        
         try {
             await addToReservations({
-                product: { product_id, category, subcategory, image_url, label, price },
+                product: { product_id, category, subcategory, image_url, label, price, quantity },
                 preferredDate: reservePreferredDate,
+                notes: reserveNotes
             });
             showToast(`Successfully added ${ label } to your reservations!`, 'success');
+            setReservePreferredDate('');
+            setReserveNotes('');
         } catch (err) {
-            showToast(`Uh oh! An error occured during the reservation of ${ label }! Please try again later. Error message: ${ err }`, 'error');
+            showToast(`Uh oh! An error occured during the reservation of ${ label }! Please try again later.`, 'error');
         }
-   
     };
 
     return (
         <>
             <div className={ styles['wrapper'] }>
+                {isOutOfStock && (
+                    <div className={styles['out-of-stock-badge']}>
+                        Out of Stock
+                    </div>
+                )}
                 <img
                     className={ styles['product-img'] }
                     src={ `https://res.cloudinary.com/dfvy7i4uc/image/upload/${ image_url }` }
@@ -63,11 +97,11 @@ const ProductCard = ({ product_id, category, subcategory, image_url, label, pric
                 <div className={ styles['details'] }>
                     <div className={ styles['text'] }>
                         <h2>{ label }</h2>
-                        <h3>₱{ parseFloat(price).toLocaleString('en-PH', {
-                                minimumFractionDigits: 2,
-                                maximumFractionDigits: 2
-                            })}
-                        </h3>
+                        <h3>₱{ formattedPrice }</h3>
+                        <div className={`${styles['stock-indicator']} ${getStockStatusClass()}`}>
+                            <i className={`fa-solid ${isOutOfStock ? 'fa-xmark' : stock_quantity <= 5 ? 'fa-triangle-exclamation' : 'fa-check'}`}></i>
+                            <p>{getStockStatusText()}</p>
+                        </div>
                     </div>
                     <Button
                         type='icon'
@@ -87,9 +121,14 @@ const ProductCard = ({ product_id, category, subcategory, image_url, label, pric
                         icon='fa-solid fa-calendar-check'
                         iconPosition='left'
                         externalStyles={ styles['reserve'] }
+                        disabled={isOutOfStock}
                         action={
                             () => { 
                                 requireAuth(() => {
+                                    if (isOutOfStock) {
+                                        showToast(`Sorry, ${label} is currently out of stock.`, 'error');
+                                        return;
+                                    }
                                     setModalType('reservation');
                                     setModalOpen(true);
                                 })
@@ -100,9 +139,14 @@ const ProductCard = ({ product_id, category, subcategory, image_url, label, pric
                         type='icon-outlined'
                         icon='fa-solid fa-cart-plus'         
                         externalStyles={ styles['cart'] }
+                        disabled={isOutOfStock}
                         action={
                             () => { 
                                 requireAuth(() => {
+                                    if (isOutOfStock) {
+                                        showToast(`Sorry, ${label} is currently out of stock.`, 'error');
+                                        return;
+                                    }
                                     setModalType('cart');
                                     setModalOpen(true);
                                 })
@@ -111,81 +155,90 @@ const ProductCard = ({ product_id, category, subcategory, image_url, label, pric
                     />
                 </div>
             </div>
-            { modalType === 'reservation' ? (
-                <Modal label='Reservation Form' isOpen={ modalOpen } onClose={ () => setModalOpen(false) }>
-                    <div className={ styles['inputs-container'] }>
-                        <div className={ styles['input-wrapper'] }>
-                            <label htmlFor="preferred_date">
-                                Preferred Date
-                            </label>
-                            <InputField
-                                hint='Your preferred date...'
-                                type='date'
-                                value={ reservePreferredDate }
-                                onChange={ event => setReservePreferredDate(event['target']['value']) }
-                                isSubmittable={ false }
-                            />
-                        </div>
-                        <div className={ styles['input-wrapper'] }>
-                            <label htmlFor="notes">
-                                Notes (Optional)
-                            </label>
-                            <textarea
-                                placeholder='Your note/special request...'
-                                name="notes"
-                                id='notes'
-                                value={ reserveNotes }
-                                onChange={ event => setReserveNotes(event['target']['value']) }
-                            />
-                        </div>
-                    </div>
-                    <div className={ styles['modal-ctas'] }>
-                        <Button
-                            label='Confirm Reservation'
-                            type='primary'
-                            action={ () => {
-                                handleAddToReservations();
-                                setModalType('');
-                                setModalOpen(false);
-                            }}
-                            disabled={ !reservePreferredDate }
-                        />
-                        <Button
-                            label='Cancel'
-                            type='secondary'
-                            action={ () => {
-                                setModalType('');
-                                setModalOpen(false);
-                            }}
-                        />
-                    </div>
-                </Modal>
-            ) : modalType === 'cart' ? (
-                <Modal label='Add to Cart Confirmation' isOpen={ modalOpen } onClose={ () => setModalOpen(false) }>
-                    <p className={ styles['modal-info'] }>Are you sure you want to add <strong>{ label }</strong> in your cart?</p>
-                    <div className={ styles['modal-ctas'] }>
-                        <Button
-                            label='Confirm'
-                            type='primary'
-                            action={ () => {
-                                handleAddToCart();
-                                setModalOpen(false);
-                            }}
-                        />
-                        <Button
-                            label='Cancel'
-                            type='secondary'
-                            action={ () => {
-                                setModalType('');
-                                setModalOpen(false);
-                            }}
+            <Modal
+                label={ `Add ${ label } to Cart` }
+                isOpen={ modalOpen && modalType === 'cart' }
+                onClose={ () => setModalOpen(false) }
+            >
+                <div className={ styles['modal-infos'] }>
+                    <h3>{ label }</h3>
+                    <span>
+                        <p>Are you sure you want to add <strong>{ label }</strong> to your cart?</p>
+                        <p style={{ marginTop: '1rem' }}>Stock Available: <strong>{stock_quantity}</strong></p>
+                    </span>
+                </div>
+                <div className={ styles['modal-ctas'] }>
+                    <Button 
+                        type="secondary" 
+                        label="Cancel" 
+                        action={ () => setModalOpen(false) } 
+                    />
+                    <Button 
+                        type="primary" 
+                        label="Add to Cart" 
+                        action={ () => { 
+                            handleAddToCart(); 
+                            setModalOpen(false);
+                        }}
+                    />
+                </div>
+            </Modal>
+            <Modal
+                label={ `Reserve ${ label }` }
+                isOpen={ modalOpen && modalType === 'reservation' }
+                onClose={ () => setModalOpen(false) }
+            >
+                <div className={ styles['modal-infos'] }>
+                    <h3>{ label }</h3>
+                    <span>
+                        <p>Fill out the form below to reserve <strong>{ label }</strong></p>
+                        <p>Stock Available: <strong>{stock_quantity}</strong></p>
+                    </span>
+                </div>
+                <div className={ styles['inputs-container'] }>
+                    <div className={ styles['input-wrapper'] }>
+                        <label htmlFor="preferred_date">
+                            Preferred Date
+                        </label>
+                        <InputField
+                            hint='Your preferred date...'
+                            type='date'
+                            value={ reservePreferredDate }
+                            onChange={ (e) => setReservePreferredDate(e.target.value) }
+                            isSubmittable={ false }
                         />
                     </div>
-                </Modal>
-            ) : null }
-            
+                    <div className={ styles['input-wrapper'] }>
+                        <label htmlFor="notes">
+                            Notes (Optional)
+                        </label>
+                        <textarea
+                            placeholder="Additional information..."
+                            value={ reserveNotes }
+                            onChange={ (e) => setReserveNotes(e.target.value) }
+                        ></textarea>
+                    </div>
+                </div>
+                <div className={ styles['modal-ctas'] }>
+                    <Button 
+                        type="secondary" 
+                        label="Cancel" 
+                        action={ () => setModalOpen(false) } 
+                    />
+                    <Button 
+                        type="primary" 
+                        label="Reserve" 
+                        action={ () => { 
+                            handleAddToReservations(); 
+                            setModalOpen(false);
+                        }}
+                        disabled={ !reservePreferredDate }
+                    />
+                </div>
+            </Modal>
         </>
     );
 };
 
 export default ProductCard;
+

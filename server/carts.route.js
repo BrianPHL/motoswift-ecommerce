@@ -10,7 +10,7 @@ router.get('/:account_id', async (req, res) => {
         const { account_id } = req.params;
         const [ rows ] = await pool.query(
           `
-            SELECT cart.*, product.label, product.price, product.category, product.subcategory, product.image_url
+            SELECT cart.*, product.label, product.price, product.category, product.subcategory, product.image_url, product.stock_quantity
             FROM carts cart
             JOIN products product ON cart.product_id = product.product_id
             WHERE cart.account_id = ?
