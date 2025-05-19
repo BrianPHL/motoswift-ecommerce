@@ -5,16 +5,22 @@ import styles from './Cart.module.css';
 import { useCart, useReservation, useToast } from '@contexts';
 
 const Cart = () => {
-    const [modalType, setModalType] = useState('');
-    const [modalOpen, setModalOpen] = useState(false);
+    const [ modalType, setModalType ] = useState('');
+    const [ modalOpen, setModalOpen ] = useState(false);
     const { cartItems, updateQuantity, removeFromCart, clearCart, refreshCart } = useCart();
-    const [selectedItem, setSelectedItem] = useState(null);
-    const [reservePreferredDate, setReservePreferredDate] = useState('');
-    const [reserveNotes, setReserveNotes] = useState('');
+    const [ selectedItem, setSelectedItem ] = useState(null);
+    const [ reservePreferredDate, setReservePreferredDate ] = useState('');
+    const [ reserveNotes, setReserveNotes ] = useState('');
+    const [ paymentMethod, setPaymentMethod ] = useState('cash');
+    const [ installmentAmount, setInstallmentAmount ] = useState('');
+    const [ installmentPaymentDate, setInstallmentPaymentDate ] = useState('');
+    const [ installmentNotes, setInstallmentNotes ] = useState('');
     const { addToReservations } = useReservation();
     const { showToast } = useToast();
     const navigate = useNavigate();
     
+    console.log(cartItems[0]);
+
     const [stockInfo, setStockInfo] = useState({});
 
     const subtotal = cartItems.reduce(
@@ -101,13 +107,25 @@ const Cart = () => {
                 }
             }
 
+            let installmentDetails = null;
+            if (paymentMethod === 'cash_installment') {
+                installmentDetails = {
+                    amount: parseFloat(installmentAmount),
+                    payment_date: installmentPaymentDate || new Date(),
+                    notes: installmentNotes
+                };
+            }
+
             await addToReservations({
                 products: cartItems.map(({ product_id, category, subcategory, image_url, label, price, quantity }) => ({
                     product_id, category, subcategory, image_url, label, price, quantity
                 })),
                 preferredDate: reservePreferredDate,
-                notes: reserveNotes
+                notes: reserveNotes,
+                paymentMethod: paymentMethod,
+                installmentDetails: installmentDetails
             });
+
             clearCart();
             setModalOpen(false);
         } catch (err) {
@@ -270,19 +288,24 @@ const Cart = () => {
                 </div>
             </div>
             { modalType === 'single-reservation' ? (
-                <Modal label='Reservation' isOpen={ modalOpen } onClose={ () => setModalOpen(false) }>
-                    <div className={ styles['modal-infos'] }>
-                        <h3>{ selectedItem && selectedItem['label'] }</h3>
+                <Modal
+                    label={ `Reserve ${ selectedItem['label'] }` }
+                    isOpen={ modalOpen && modalType === 'single-reservation' }
+                    onClose={ () => setModalOpen(false) }
+                >
+                    <div style={{ alignItems: 'flex-start' }} className={ styles['modal-infos'] }>
+                        <h3>{ selectedItem['label'] }</h3>
                         <span>
-                            <p>Fill out the form below to reserve <strong>{ selectedItem && selectedItem['label'] }</strong></p>
-                            {stockInfo[selectedItem?.product_id] !== undefined && (
-                                <p>Stock Available: <strong>{stockInfo[selectedItem.product_id]}</strong></p>
-                            )}
+                            <p>Fill out the form below to reserve <strong>{ selectedItem['label'] }</strong></p>
+                            <p>Stock Available: <strong>{ selectedItem['stock_quantity'] }</strong></p>
                         </span>
                     </div>
+
                     <div className={ styles['inputs-container'] }>
                         <div className={ styles['input-wrapper'] }>
-                            <label>Preferred Date</label>
+                            <label htmlFor="preferred_date">
+                                Preferred Date
+                            </label>
                             <InputField
                                 hint='Your preferred date...'
                                 type='date'
@@ -291,33 +314,106 @@ const Cart = () => {
                                 isSubmittable={ false }
                             />
                         </div>
+
                         <div className={ styles['input-wrapper'] }>
-                            <label>Notes (Optional)</label>
+                            <label htmlFor="notes">
+                                Notes (Optional)
+                            </label>
                             <textarea
                                 placeholder="Additional information..."
                                 value={ reserveNotes }
-                                onChange={ event => setReserveNotes(event['target']['value']) }
-                            />
+                                onChange={ (e) => setReserveNotes(e.target.value) }
+                            ></textarea>
                         </div>
+
+                        <div className={ styles['input-wrapper'] }>
+                            <label>Payment Method</label>
+                            <div className={ styles['modal-payment'] }>
+                                <label className={ styles['modal-payment-option'] }>
+                                    <input
+                                        type="radio"
+                                        name="paymentMethod"
+                                        value="cash"
+                                        checked={paymentMethod === 'cash'}
+                                        onChange={() => setPaymentMethod('cash')}
+                                    />
+                                    <p>Cash Payment</p>
+                                </label>
+                                <label className={ styles['modal-payment-option'] }>
+                                    <input
+                                        type="radio"
+                                        name="paymentMethod"
+                                        value="cash_installment"
+                                        checked={paymentMethod === 'cash_installment'}
+                                        onChange={() => setPaymentMethod('cash_installment')}
+                                    />
+                                    <p>Cash Installment</p>
+                                </label>
+                            </div>
+                        </div>
+
+                        {paymentMethod === 'cash_installment' && (
+                            <>
+                                <div className={ styles['divider'] } style={{ marginTop: '1rem' }}></div>
+                                <h3 style={{ fontWeight: '600', fontSize: '1rem', color: 'var(--tg-primary)', marginBottom: '1rem' }} >Installment Details</h3>
+
+                                <div className={ styles['input-wrapper'] }>
+                                    <label htmlFor="installment_amount">
+                                        Installment Amount (₱)
+                                    </label>
+                                    <InputField
+                                        hint='Enter amount (e.g., 1000)'
+                                        type='number'
+                                        value={ installmentAmount }
+                                        onChange={ (e) => setInstallmentAmount(e.target.value) }
+                                        isSubmittable={ false }
+                                    />
+                                    <span style={{ fontSize: '0.875rem' }} className={styles['modal-info']}>
+                                        Total price: ₱{parseFloat(selectedItem['price']).toLocaleString('en-PH', {
+                                            minimumFractionDigits: 2,
+                                            maximumFractionDigits: 2
+                                        })}
+                                    </span>
+                                </div>
+
+                                <div className={ styles['input-wrapper'] }>
+                                    <label htmlFor="installment_date">
+                                        Payment Date
+                                    </label>
+                                    <InputField
+                                        hint='Payment date...'
+                                        type='date'
+                                        value={ installmentPaymentDate }
+                                        onChange={ (e) => setInstallmentPaymentDate(e.target.value) }
+                                        isSubmittable={ false }
+                                    />
+                                </div>
+
+                                <div className={ styles['input-wrapper'] }>
+                                    <label htmlFor="installment_notes">
+                                        Additional Notes (Optional)
+                                    </label>
+                                    <textarea
+                                        placeholder="Additional information about your installment..."
+                                        value={ installmentNotes }
+                                        onChange={ (e) => setInstallmentNotes(e.target.value) }
+                                    ></textarea>
+                                </div>
+                            </>
+                        )}
                     </div>
+
                     <div className={ styles['modal-ctas'] }>
-                        <Button
-                            label='Confirm Reservation'
-                            type='primary'
-                            action={ () => {
-                                handleSingleReservation();
-                                setModalType('');
-                                setModalOpen(false);
-                            }}
-                            disabled={ !reservePreferredDate }
+                        <Button 
+                            type="secondary" 
+                            label="Cancel" 
+                            action={ () => setModalOpen(false) } 
                         />
-                        <Button
-                            label='Cancel'
-                            type='secondary'
-                            action={ () => {
-                                setModalType('');
-                                setModalOpen(false);
-                            }}
+                        <Button 
+                            type="primary" 
+                            label={paymentMethod === 'cash_installment' ? "Submit Installment Request" : "Reserve"}
+                            action={ handleSingleReservation }
+                            disabled={!reservePreferredDate || (paymentMethod === 'cash_installment' && !installmentAmount)}
                         />
                     </div>
                 </Modal>
@@ -368,20 +464,26 @@ const Cart = () => {
                     </div>
                 </Modal>
             ) : modalType === 'batch-reservation' ? (
-                <Modal label='Batch Reservation' isOpen={ modalOpen } onClose={ () => setModalOpen(false) }>
-                    <div className={ styles['modal-infos'] }>
-                        <h3>Batch Reservation</h3>
-                        <span>
-                            <p>Fill out the form below to reserve all items in your cart</p>
-                            <p><strong>Total:</strong> ₱{ total.toLocaleString('en-PH', {
-                                minimumFractionDigits: 2,
-                                maximumFractionDigits: 2
-                            }) }</p>
-                        </span>
-                    </div>
+                <Modal
+                    label='Reserve by Batch'
+                    isOpen={ modalOpen && modalType === 'batch-reservation' }
+                    onClose={ () => setModalOpen(false) }
+                >
+                    <div style={{ alignItems: 'flex-start' }} className={ styles['modal-infos'] }>
+                        <p style={{ position: 'sticky', top: '0', padding: '0.25rem', backgroundColor: 'var(--bg-outline)', borderRadius: '0.125rem' }}>Fill out the form below to reserve the following products:</p>
+                        { cartItems.map(cartItem => (
+                            <span>
+                                <h3>{ cartItem['label'] }</h3>
+                                <p>Stock Available: <strong>{ cartItem['stock_quantity'] }</strong></p>
+                            </span>
+                        ))}
+
+                    </div><p style={{ fontSize: '0.875rem' }} className={ styles['modal-info'] }>Fill out the form below to reserve by batch</p>
                     <div className={ styles['inputs-container'] }>
                         <div className={ styles['input-wrapper'] }>
-                            <label>Preferred Date</label>
+                            <label htmlFor="preferred_date">
+                                Preferred Date
+                            </label>
                             <InputField
                                 hint='Your preferred date...'
                                 type='date'
@@ -390,26 +492,106 @@ const Cart = () => {
                                 isSubmittable={ false }
                             />
                         </div>
+
                         <div className={ styles['input-wrapper'] }>
-                            <label>Notes (Optional)</label>
+                            <label htmlFor="notes">
+                                Notes (Optional)
+                            </label>
                             <textarea
                                 placeholder="Additional information..."
                                 value={ reserveNotes }
-                                onChange={ event => setReserveNotes(event['target']['value']) }
-                            />
+                                onChange={ (e) => setReserveNotes(e.target.value) }
+                            ></textarea>
                         </div>
+
+                        <div className={ styles['input-wrapper'] }>
+                            <label>Payment Method</label>
+                            <div className={ styles['modal-payment'] }>
+                                <label className={ styles['modal-payment-option'] }>
+                                    <input
+                                        type="radio"
+                                        name="paymentMethod"
+                                        value="cash"
+                                        checked={paymentMethod === 'cash'}
+                                        onChange={() => setPaymentMethod('cash')}
+                                    />
+                                    <p>Cash Payment</p>
+                                </label>
+                                <label className={ styles['modal-payment-option'] }>
+                                    <input
+                                        type="radio"
+                                        name="paymentMethod"
+                                        value="cash_installment"
+                                        checked={paymentMethod === 'cash_installment'}
+                                        onChange={() => setPaymentMethod('cash_installment')}
+                                    />
+                                    <p>Cash Installment</p>
+                                </label>
+                            </div>
+                        </div>
+
+                        {paymentMethod === 'cash_installment' && (
+                            <>
+                                <div className={ styles['divider'] } style={{ marginTop: '1rem' }}></div>
+                                <h3 style={{ fontWeight: '600', fontSize: '1rem', color: 'var(--tg-primary)', marginBottom: '1rem' }} >Installment Details</h3>
+
+                                <div className={ styles['input-wrapper'] }>
+                                    <label htmlFor="installment_amount">
+                                        Installment Amount (₱)
+                                    </label>
+                                    <InputField
+                                        hint='Enter amount (e.g., 1000)'
+                                        type='number'
+                                        value={ installmentAmount }
+                                        onChange={ (e) => setInstallmentAmount(e.target.value) }
+                                        isSubmittable={ false }
+                                    />
+                                    <span style={{ fontSize: '0.875rem' }} className={styles['modal-info']}>
+                                        Total price: ₱{ parseFloat(total).toLocaleString('en-PH', {
+                                            minimumFractionDigits: 2,
+                                            maximumFractionDigits: 2
+                                        })}
+                                    </span>
+                                </div>
+
+                                <div className={ styles['input-wrapper'] }>
+                                    <label htmlFor="installment_date">
+                                        Payment Date
+                                    </label>
+                                    <InputField
+                                        hint='Payment date...'
+                                        type='date'
+                                        value={ installmentPaymentDate }
+                                        onChange={ (e) => setInstallmentPaymentDate(e.target.value) }
+                                        isSubmittable={ false }
+                                    />
+                                </div>
+
+                                <div className={ styles['input-wrapper'] }>
+                                    <label htmlFor="installment_notes">
+                                        Additional Notes (Optional)
+                                    </label>
+                                    <textarea
+                                        placeholder="Additional information about your installment..."
+                                        value={ installmentNotes }
+                                        onChange={ (e) => setInstallmentNotes(e.target.value) }
+                                    ></textarea>
+                                </div>
+                            </>
+                        )}
                     </div>
+
                     <div className={ styles['modal-ctas'] }>
-                        <Button
-                            label='Confirm Reservation'
-                            type='primary'
-                            action={ handleBatchReservation }
-                            disabled={ !reservePreferredDate }
+                        <Button 
+                            type="secondary" 
+                            label="Cancel" 
+                            action={ () => setModalOpen(false) } 
                         />
-                        <Button
-                            label='Cancel'
-                            type='secondary'
-                            action={ () => setModalOpen(false) }
+                        <Button 
+                            type="primary" 
+                            label={paymentMethod === 'cash_installment' ? "Submit Installment Request" : "Reserve"}
+                            action={ handleBatchReservation }
+                            disabled={!reservePreferredDate || (paymentMethod === 'cash_installment' && !installmentAmount)}
                         />
                     </div>
                 </Modal>
