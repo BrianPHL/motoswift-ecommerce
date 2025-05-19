@@ -1,13 +1,14 @@
 import { useContext, useState, useRef, useEffect } from "react";
-import { useAuth, useToast } from '@contexts';
+import { useAuth, useToast, useProducts } from '@contexts';
 import ReservationContext from "./context";
 
 export const ReservationProvider = ({ children }) => {
-    const [  reservationItems, setReservationItems ] = useState([]);
-    const [  loading, setLoading ] = useState(false);
-    const [  recentReservations, setRecentReservations ] = useState([]);
-    const [  pendingReservationsCount, setPendingReservationsCount ] = useState(0);
+    const [ reservationItems, setReservationItems ] = useState([]);
+    const [ loading, setLoading ] = useState(false);
+    const [ recentReservations, setRecentReservations ] = useState([]);
+    const [ pendingReservationsCount, setPendingReservationsCount ] = useState(0);
     const { user } = useAuth();
+    const { refreshProducts } = useProducts();
     const { showToast } = useToast();
     const reservationCounter = useRef(1);
 
@@ -102,7 +103,7 @@ export const ReservationProvider = ({ children }) => {
             }
             
             await fetchReservations();
-            showToast("Reservation added successfully!", "success");
+            refreshProducts();
             
             return { success: true, reservation_id: data.reservation_id };
         } catch (err) {
@@ -123,7 +124,10 @@ export const ReservationProvider = ({ children }) => {
             const response = await fetch(`/api/reservations/${reservation_id}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ status: 'cancelled' })
+                body: JSON.stringify({
+                    status: 'cancelled',
+                    admin_id: user['account_id']
+                })
             });
             
             if (!response.ok) {
@@ -140,6 +144,8 @@ export const ReservationProvider = ({ children }) => {
             );
             
             showToast("Reservation cancelled successfully!", "success");
+            refreshProducts();
+
         } catch (err) {
             console.error("Failed to cancel reservation:", err);
             showToast(`Failed to cancel reservation: ${err.message}`, "error");
@@ -175,7 +181,9 @@ export const ReservationProvider = ({ children }) => {
             }
 
             showToast("Reservation deleted successfully!", "success");
+            refreshProducts();
             return true;
+            
         } catch (err) {
             console.error("Failed to delete reservation:", err);
             showToast(`Failed to delete reservation: ${err.message}`, "error");
