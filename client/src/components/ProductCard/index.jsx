@@ -52,7 +52,6 @@ const ProductCard = ({ product_id, category, subcategory, image_url, label, pric
         }
         
         try {
-            console.log(productQuantity)
             await addToCart({ product_id, category, subcategory, image_url, label, price, stock_quantity, quantity: productQuantity });
             showToast(`Successfully added ${ label } to your cart!`, 'success');
         } catch (err) {
