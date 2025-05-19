@@ -6,12 +6,14 @@ import { useAuth, useCart, useReservation, useToast } from '@contexts';
 
 const ProductCard = ({ product_id, category, subcategory, image_url, label, price, stock_quantity = 0 }) => {
     
-    if (!product_id || !category || !subcategory || !image_url || !label || !price) return null;
-    
     const [ modalOpen, setModalOpen ] = useState(false);
     const [ modalType, setModalType ] = useState('');
     const [ reservePreferredDate, setReservePreferredDate ] = useState('');
     const [ reserveNotes, setReserveNotes ] = useState('');
+    const [ paymentMethod, setPaymentMethod ] = useState('cash');
+    const [ installmentAmount, setInstallmentAmount ] = useState('');
+    const [ installmentPaymentDate, setInstallmentPaymentDate ] = useState('');
+    const [ installmentNotes, setInstallmentNotes ] = useState('');
     const [ productQuantity, setProductQuantity ] = useState(1);
     const [ isOutOfStock, setIsOutOfStock ] = useState(false);
     const [ isLowStock, setIsLowStock ] = useState(false);
@@ -20,7 +22,6 @@ const ProductCard = ({ product_id, category, subcategory, image_url, label, pric
     const { user } = useAuth();
     const { showToast } = useToast();
     const navigate = useNavigate();
-
     const formattedPrice = parseFloat(price).toLocaleString('en-PH', {
         minimumFractionDigits: 2,
         maximumFractionDigits: 2
@@ -28,7 +29,7 @@ const ProductCard = ({ product_id, category, subcategory, image_url, label, pric
 
     const requireAuth = (action) => {
         if (!user) {
-            showToast('You must be signed in to perform this action!', 'error')
+            showToast('You must be signed in to perform this action!', 'error');
             return;
         }
         action();
@@ -41,37 +42,66 @@ const ProductCard = ({ product_id, category, subcategory, image_url, label, pric
         }
         
         try {
-            await addToCart({ product_id, category, subcategory, image_url, label, price, stock_quantity, quantity: productQuantity });
+            await addToCart({
+                product_id, category, subcategory, image_url, label, 
+                price, stock_quantity, quantity: productQuantity
+            });
             showToast(`Successfully added ${ label } to your cart!`, 'success');
+            setModalOpen(false);
         } catch (err) {
-            showToast(`Uh oh! An error occured during the addition of ${ label } to your cart! Please try again later.`, 'error');
+            showToast(`Uh oh! An error occurred during the addition of ${ label } to your cart! Please try again later.`, 'error');
         }
     };
 
     const handleAddToReservations = async () => {
-
         if (isOutOfStock) {
             showToast(`Sorry, ${label} is currently out of stock.`, 'error');
             return;
         }
         
         try {
+            const product = { 
+                product_id, category, subcategory, image_url, 
+                label, price, quantity: productQuantity
+            };
+            
+            let installmentDetails = null;
+            if (paymentMethod === 'cash_installment') {
+                if (!installmentAmount) {
+                    showToast('Please enter an installment amount', 'error');
+                    return;
+                }
+                
+                installmentDetails = {
+                    amount: parseFloat(installmentAmount),
+                    payment_date: installmentPaymentDate || new Date(),
+                    notes: installmentNotes
+                };
+            }
+            
             await addToReservations({
-                product: { product_id, category, subcategory, image_url, label, price, quantity: productQuantity },
+                product,
                 preferredDate: reservePreferredDate,
-                notes: reserveNotes
+                notes: reserveNotes,
+                paymentMethod,
+                installmentDetails
             });
-            showToast(`Successfully added ${ label } to your reservations!`, 'success');
+            
             setReservePreferredDate('');
             setReserveNotes('');
+            setPaymentMethod('cash');
+            setInstallmentAmount('');
+            setInstallmentPaymentDate('');
+            setInstallmentNotes('');
+            setModalOpen(false);
         } catch (err) {
-            showToast(`Uh oh! An error occured during the reservation of ${ label }! Please try again later. ${ err }`, 'error');
+            showToast(`Uh oh! An error occurred during the reservation of ${ label }! Please try again later.`, 'error');
         }
     };
 
     useEffect(() => {
         setIsOutOfStock(stock_quantity <= 0);
-        setIsLowStock(stock_quantity);
+        setIsLowStock(stock_quantity > 0 && stock_quantity <= 5);
     }, [stock_quantity]);
 
     return (
@@ -117,39 +147,28 @@ const ProductCard = ({ product_id, category, subcategory, image_url, label, pric
                         iconPosition='left'
                         externalStyles={ styles['reserve'] }
                         disabled={isOutOfStock}
-                        action={
-                            () => { 
-                                requireAuth(() => {
-                                    if (isOutOfStock) {
-                                        showToast(`Sorry, ${label} is currently out of stock.`, 'error');
-                                        return;
-                                    }
-                                    setModalType('reservation');
-                                    setModalOpen(true);
-                                })
-                            } 
-                        }
+                        action={() => {
+                            requireAuth(() => {
+                                setModalType('reservation');
+                                setModalOpen(true);
+                            });
+                        }}
                     />
                     <Button
                         type='icon-outlined'
                         icon='fa-solid fa-cart-plus'         
                         externalStyles={ styles['cart'] }
                         disabled={isOutOfStock}
-                        action={
-                            () => { 
-                                requireAuth(() => {
-                                    if (isOutOfStock) {
-                                        showToast(`Sorry, ${label} is currently out of stock.`, 'error');
-                                        return;
-                                    }
-                                    setModalType('cart');
-                                    setModalOpen(true);
-                                })
-                            } 
-                        }
+                        action={() => {
+                            requireAuth(() => {
+                                setModalType('cart');
+                                setModalOpen(true);
+                            });
+                        }}
                     />
                 </div>
             </div>
+
             <Modal
                 label={ `Add ${ label } to Cart` }
                 isOpen={ modalOpen && modalType === 'cart' }
@@ -198,6 +217,7 @@ const ProductCard = ({ product_id, category, subcategory, image_url, label, pric
                     />
                 </div>
             </Modal>
+
             <Modal
                 label={ `Reserve ${ label }` }
                 isOpen={ modalOpen && modalType === 'reservation' }
@@ -210,6 +230,7 @@ const ProductCard = ({ product_id, category, subcategory, image_url, label, pric
                         <p>Stock Available: <strong>{stock_quantity}</strong></p>
                     </span>
                 </div>
+
                 <div className={ styles['inputs-container'] }>
                     <div className={ styles['input-wrapper'] }>
                         <label htmlFor="preferred_date">
@@ -223,6 +244,7 @@ const ProductCard = ({ product_id, category, subcategory, image_url, label, pric
                             isSubmittable={ false }
                         />
                     </div>
+
                     <div className={ styles['input-wrapper'] }>
                         <label htmlFor="notes">
                             Notes (Optional)
@@ -233,7 +255,81 @@ const ProductCard = ({ product_id, category, subcategory, image_url, label, pric
                             onChange={ (e) => setReserveNotes(e.target.value) }
                         ></textarea>
                     </div>
+
+                    <div className={ styles['input-wrapper'] }>
+                        <label>Payment Method</label>
+                        <div className={ styles['modal-payment'] }>
+                            <label className={ styles['modal-payment-option'] }>
+                                <input
+                                    type="radio"
+                                    name="paymentMethod"
+                                    value="cash"
+                                    checked={paymentMethod === 'cash'}
+                                    onChange={() => setPaymentMethod('cash')}
+                                />
+                                <p>Cash Payment</p>
+                            </label>
+                            <label className={ styles['modal-payment-option'] }>
+                                <input
+                                    type="radio"
+                                    name="paymentMethod"
+                                    value="cash_installment"
+                                    checked={paymentMethod === 'cash_installment'}
+                                    onChange={() => setPaymentMethod('cash_installment')}
+                                />
+                                <p>Cash Installment</p>
+                            </label>
+                        </div>
+                    </div>
+
+                    {paymentMethod === 'cash_installment' && (
+                        <>
+                            <div className={ styles['divider'] } style={{ marginTop: '1rem' }}></div>
+                            <h3 style={{ fontWeight: '600', fontSize: '1rem', color: 'var(--tg-primary)', marginBottom: '1rem' }} >Installment Details</h3>
+                            
+                            <div className={ styles['input-wrapper'] }>
+                                <label htmlFor="installment_amount">
+                                    Installment Amount (₱)
+                                </label>
+                                <InputField
+                                    hint='Enter amount (e.g., 1000)'
+                                    type='number'
+                                    value={ installmentAmount }
+                                    onChange={ (e) => setInstallmentAmount(e.target.value) }
+                                    isSubmittable={ false }
+                                />
+                                <span style={{ fontSize: '0.875rem' }} className={styles['modal-info']}>
+                                    Total price: ₱{formattedPrice}
+                                </span>
+                            </div>
+                            
+                            <div className={ styles['input-wrapper'] }>
+                                <label htmlFor="installment_date">
+                                    Payment Date
+                                </label>
+                                <InputField
+                                    hint='Payment date...'
+                                    type='date'
+                                    value={ installmentPaymentDate }
+                                    onChange={ (e) => setInstallmentPaymentDate(e.target.value) }
+                                    isSubmittable={ false }
+                                />
+                            </div>
+                            
+                            <div className={ styles['input-wrapper'] }>
+                                <label htmlFor="installment_notes">
+                                    Additional Notes (Optional)
+                                </label>
+                                <textarea
+                                    placeholder="Additional information about your installment..."
+                                    value={ installmentNotes }
+                                    onChange={ (e) => setInstallmentNotes(e.target.value) }
+                                ></textarea>
+                            </div>
+                        </>
+                    )}
                 </div>
+
                 <div className={ styles['modal-ctas'] }>
                     <Button 
                         type="secondary" 
@@ -242,12 +338,9 @@ const ProductCard = ({ product_id, category, subcategory, image_url, label, pric
                     />
                     <Button 
                         type="primary" 
-                        label="Reserve" 
-                        action={ () => { 
-                            handleAddToReservations(); 
-                            setModalOpen(false);
-                        }}
-                        disabled={ !reservePreferredDate }
+                        label={paymentMethod === 'cash_installment' ? "Submit Installment Request" : "Reserve"}
+                        action={handleAddToReservations}
+                        disabled={!reservePreferredDate || (paymentMethod === 'cash_installment' && !installmentAmount)}
                     />
                 </div>
             </Modal>
@@ -256,4 +349,3 @@ const ProductCard = ({ product_id, category, subcategory, image_url, label, pric
 };
 
 export default ProductCard;
-

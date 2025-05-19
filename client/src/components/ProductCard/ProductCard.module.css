@@ -145,6 +145,28 @@
     color: var(--tg-secondary);
 }
 
+.modal-payment {
+    flex-direction: row;
+    border-radius: 0.25rem;
+    align-items: flex-start;
+    display: flex;
+    padding: 1rem;
+    border: 1px solid var(--bg-outline);
+    align-self: stretch;
+    gap: 1rem;
+}
+
+.modal-payment-option {
+    align-items: center;
+    display: flex;
+    gap: 0.5rem;
+    & > p {
+        font-weight: 500;
+        font-size: 0.875rem;
+        color: var(--tg-secondary);
+    }
+}
+
 .modal-ctas {
     justify-content: flex-end;
     align-self: stretch;
