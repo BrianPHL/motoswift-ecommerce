@@ -57,6 +57,6 @@
 .input-button {
     padding: 0.75rem;
     &:hover {
-        background-color: var(--bg-outline);
+        background-color: var(--bg-hover);
     }
 }

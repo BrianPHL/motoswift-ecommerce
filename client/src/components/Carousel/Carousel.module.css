@@ -1,6 +1,7 @@
 @import url('../../index.css');
 
 .carousel {
+    background-color: var(--bg-secondary);
     border-radius: 0.5rem;
     position: relative;
     overflow: hidden;

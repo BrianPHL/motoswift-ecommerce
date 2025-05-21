@@ -26,7 +26,7 @@
         width: 100%;
         color: var(--tg-primary);
         &:hover {
-            background-color: var(--bg-outline);
+            background-color: var(--bg-hover);
             cursor: pointer;
             color: var(--accent-base);
         }

@@ -114,7 +114,7 @@
         border-bottom: 1px solid var(--bg-outline);
     }
     &:hover {
-        background-color: var(--bg-outline);
+        background-color: var(--bg-hover);
     }
 }
 

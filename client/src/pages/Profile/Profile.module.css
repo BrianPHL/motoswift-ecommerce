@@ -302,7 +302,7 @@
         width: 6rem;
     }
     &:hover {
-        background-color: var(--bg-outline);
+        background-color: var(--bg-hover);
         border: 1px solid var(--accent-base);
         cursor: pointer;
         i { color: var(--accent-base); }
@@ -425,7 +425,7 @@
 }
 
 .action-warn:hover:not(:disabled) {
-    background-color: var(--bg-outline);
+    background-color: var(--bg-hover);
     color: var(--error-foreground);
 }
 

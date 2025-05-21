@@ -26,7 +26,7 @@
     display: block;
     color: var(--tg-primary);
     &:hover {
-        background-color: var(--bg-outline);
+        background-color: var(--bg-hover);
         cursor: pointer;
         color: var(--accent-base);
     }
@@ -37,12 +37,12 @@
 }
 
 .anchor-nested-active {
-    background-color: var(--bg-outline);
+    background-color: var(--bg-hover);
     color: var(--accent-base);
 }
 
 .dropdown-active {
-    background-color: var(--bg-outline);
+    background-color: var(--bg-hover);
     color: var(--accent-base);
 }
 

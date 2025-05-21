@@ -20,14 +20,14 @@
     width: 100%;
     color: var(--tg-primary);
     &:hover {
-        background-color: var(--bg-outline);
+        background-color: var(--bg-hover);
         cursor: pointer;
         color: var(--accent-base);
     }
 }
 
 .header-active {
-    background-color: var(--bg-outline) !important;
+    background-color: var(--bg-hover) !important;
     color: var(--accent-base);
 }
 
