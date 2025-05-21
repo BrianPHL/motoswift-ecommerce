@@ -23,7 +23,7 @@ const Header = () => {
                 <div className={ styles['left'] }>
                     <Logo />
                     <Anchor
-                        label="About us"
+                        label="About"
                         link="/about-us"
                         isNested={ false }
                         isActive={ pathname === '/about-us' }
@@ -93,44 +93,46 @@ const Header = () => {
                             icon={ theme === 'light' ? 'fa-solid fa-moon' : 'fa-solid fa-sun' }
                         />
                     </div>
-                    { user && user['role'] === 'customer' ? (
-                        <Button
-                            id='account-desktop-dropdown'
-                            type='secondary'
-                            label={ user['first_name'] }
-                            dropdownPosition='right'
-                            options={[
-                                {
-                                    label: 'Profile',
-                                    action: () => { navigate('/profile') },
-                                },
-                                {
-                                    label: 'Logout',
-                                    action: handleLogout,
-                                },
-                            ]}
-                        />
-                    ) : user && user['role'] === 'admin' ? (
-                        <Button
-                            id='account-desktop-dropdown'
-                            type='secondary'
-                            label={ user['first_name'] }
-                            dropdownPosition='right'
-                            options={[
-                                {
-                                    label: 'Profile',
-                                    action: () => { navigate('/profile') },
-                                },
-                                {
-                                    label: 'Admin',
-                                    action: () => { navigate('/admin') },
-                                },
-                                {
-                                    label: 'Logout',
-                                    action: handleLogout,
-                                },
-                            ]}
-                        />
+                    { user ? (
+                        user['role'] === 'customer' ? (
+                            <Button
+                                id='account-desktop-dropdown'
+                                type='secondary'
+                                label={` ${ user['first_name'] } (${ user['role'] }) `}
+                                dropdownPosition='right'
+                                options={[
+                                    {
+                                        label: 'Profile',
+                                        action: () => { navigate('/profile') },
+                                    },
+                                    {
+                                        label: 'Logout',
+                                        action: handleLogout,
+                                    },
+                                ]}
+                            />
+                        ) : user && user['role'] === 'admin' ? (
+                            <Button
+                                id='account-desktop-dropdown'
+                                type='secondary'
+                                label={` ${ user['first_name'] } (${ user['role'] }) `}
+                                dropdownPosition='right'
+                                options={[
+                                    {
+                                        label: 'Profile',
+                                        action: () => { navigate('/profile') },
+                                    },
+                                    {
+                                        label: 'Admin',
+                                        action: () => { navigate('/admin') },
+                                    },
+                                    {
+                                        label: 'Logout',
+                                        action: handleLogout,
+                                    },
+                                ]}
+                            />
+                        ) : null
                     ) : (
                         <Button
                             type='secondary'
@@ -151,7 +153,7 @@ const Header = () => {
                         <Button
                             id='account-mobile-dropdown'
                             type='secondary'
-                            label={ user['first_name'] }
+                            label={` ${ user['first_name'] } (${ user['role'] }) `}
                             dropdownPosition='right'
                             options={[
                                 {
@@ -168,7 +170,7 @@ const Header = () => {
                         <Button
                             id='account-mobile-dropdown-2'
                             type='secondary'
-                            label={ user['first_name'] }
+                            label={` ${ user['first_name'] } (${ user['role'] }) `}
                             dropdownPosition='right'
                             options={[
                                 {
@@ -263,7 +265,7 @@ const Header = () => {
                             <Button
                                 id='account-mobile-dropdown-213'
                                 type='secondary'
-                                label={ user['first_name'] }
+                                label={` ${ user['first_name'] } (${ user['role'] }) `}
                                 dropdownPosition='right'
                                 options={[
                                     {
@@ -280,7 +282,7 @@ const Header = () => {
                             <Button
                                 id='account-mobile-dropdown-21241'
                                 type='secondary'
-                                label={ user['first_name'] }
+                                label={` ${ user['first_name'] } (${ user['role'] }) `}
                                 dropdownPosition='right'
                                 options={[
                                     {
@@ -375,7 +377,7 @@ const Header = () => {
                     </span>
                     <span style={{ display: 'contents' }} onClick={ () => setDrawerOpen(false) }>
                         <Anchor
-                            label="About us"
+                            label="About"
                             link="/about-us"
                             isNested={ true }
                             isActive={ pathname === '/about-us' }
@@ -404,7 +406,28 @@ const Header = () => {
                 <div className={ styles['mobile-cta'] }>
                     { user ? (
                         <div className={ styles['profile-display'] }>
-                            <h3>{ user['first_name'] } </h3>
+                            <div className={ styles['profile-display-container'] }>
+                                <img
+                                    src={user?.image_url 
+                                        ? `https://res.cloudinary.com/dfvy7i4uc/image/upload/${user['image_url']}` 
+                                        : "https://static.vecteezy.com/system/resources/thumbnails/004/511/281/small_2x/default-avatar-photo-placeholder-profile-picture-vector.jpg"} 
+                                    alt={` ${ user['first_name'] + ' ' + user['last_name'] }'s profile avatar `} 
+                                />
+                                <span>
+                                    <span>
+                                        <h3>{ user['first_name'] + ' ' + user['last_name'] } </h3>
+                                        <h4>{ user['role'] }</h4>
+                                    </span>
+                                    <Button
+                                        type='icon'
+                                        icon='fa-solid fa-square-arrow-up-right'
+                                        action= { () => {
+                                            navigate('/profile')
+                                            setDrawerOpen(false)
+                                        }}
+                                    />
+                                </span>
+                            </div>
                             <Button
                                 type='icon'
                                 icon='fa-solid fa-right-from-bracket'

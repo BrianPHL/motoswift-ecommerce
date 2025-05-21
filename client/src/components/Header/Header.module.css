@@ -99,17 +99,37 @@
 .profile-display {
     justify-content: space-between;
     border-radius: 0.5rem;
+    align-items: center;
     padding: 1rem;
     display: flex;
     border: 1px solid var(--bg-outline);
     width: 100%;
-    & > h3 {
+}
+
+.profile-display-container {
+    display: flex;
+    gap: 1rem;
+    & > img {
+        border-radius: 4rem;
+        border: 1px solid var(--bg-outline);
+        height: 4rem;
+        width: 4rem;
+    }
+    & > span {
+        flex-direction: row;
+        align-items: center;
+        display: flex;
+        gap: 1rem;
+    }
+    & > span > span > h3 {
         font-weight: 600;
-        font-size: 1rem;
+        font-size: 1.25rem;
         color: var(--tg-primary);
     }
-    & > i {
-        color: var(--tg-disabled);
+    & > span > span > h4 {
+        font-weight: 600;
+        font-size: 0.875rem;
+        color: var(--tg-secondary);
     }
 }
 
@@ -170,19 +190,19 @@
     width: 100%;
 }
 
-@media only screen and (max-width: 1475px) {
+@media only screen and (max-width: 1575px) {
 
     .desktop-header { padding: 2rem 8rem; }
 
 }
 
-@media only screen and (max-width: 1220px) {
+@media only screen and (max-width: 1320px) {
 
     .desktop-header { padding: 2rem 4rem; }
 
 }
 
-@media only screen and (max-width: 1090px) {
+@media only screen and (max-width: 1192px) {
 
     .desktop-header { display: none; }
     .drawer { display: flex; }
@@ -190,7 +210,7 @@
 
 }
 
-@media only screen and (min-width: 1090px) {
+@media only screen and (min-width: 1192px) {
 
     .desktop-header { display: flex; }
     .drawer { display: none; }
