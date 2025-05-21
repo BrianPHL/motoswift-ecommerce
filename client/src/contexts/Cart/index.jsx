@@ -57,6 +57,7 @@ export const CartProvider = ({ children }) => {
                 if (exists) {
                     return previous.map(cartItem =>
                         cartItem['product_id'] === item['product_id'] ? { ...cartItem, quantity: cartItem['quantity'] + 1 } : cartItem
+                        cartItem['product_id'] === item['product_id'] ? { ...cartItem, quantity: cartItem['quantity'] + item['quantity'] } : cartItem
                     );
                 };
                 return [...previous, { ...item, quantity: 1 }];
