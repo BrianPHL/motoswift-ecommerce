@@ -56,11 +56,10 @@ export const CartProvider = ({ children }) => {
                 const exists = previous.find(cartItem => cartItem['product_id'] === item['product_id']);
                 if (exists) {
                     return previous.map(cartItem =>
-                        cartItem['product_id'] === item['product_id'] ? { ...cartItem, quantity: cartItem['quantity'] + 1 } : cartItem
                         cartItem['product_id'] === item['product_id'] ? { ...cartItem, quantity: cartItem['quantity'] + item['quantity'] } : cartItem
                     );
                 };
-                return [...previous, { ...item, quantity: 1 }];
+                return [...previous, { ...item, quantity: item['quantity'] }];
             });
 
             await fetch('/api/carts/', {
@@ -69,7 +68,7 @@ export const CartProvider = ({ children }) => {
                 body: JSON.stringify({
                     account_id: user['account_id'],
                     product_id: item['product_id'],
-                    quantity: item['quantity'] || 1
+                    quantity: item['quantity']
                 })
             });
 
