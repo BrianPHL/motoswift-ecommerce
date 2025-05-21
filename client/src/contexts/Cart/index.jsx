@@ -43,15 +43,6 @@ export const CartProvider = ({ children }) => {
         try {
             setLoading(true);
 
-            const stockResponse = await fetch(`/api/stocks/${item.product_id}/stock`);
-            if (stockResponse.ok) {
-                const stockData = await stockResponse.json();
-                if (stockData.stock_quantity <= 0) {
-                    showToast(`Sorry, ${item.label} is currently out of stock.`, 'error');
-                    return;
-                }
-            }
-
             setCartItems(previous => {
                 const exists = previous.find(cartItem => cartItem['product_id'] === item['product_id']);
                 if (exists) {
