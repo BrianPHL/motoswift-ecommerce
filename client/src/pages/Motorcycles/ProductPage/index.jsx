@@ -72,7 +72,7 @@ const ProductPage = () => {
             });
             showToast(`Successfully added ${ product['label'] } to your cart!`, 'success');
         } catch (err) {
-            showToast(`Uh oh! An error occured during the addition of ${ product['label'] } to your cart! Please try again later.`, 'error');
+            showToast(`Uh oh! An error occurred during the addition of ${ product['label'] } to your cart! Please try again later. ${ err }`, 'error');
         }
     };
 
@@ -97,7 +97,7 @@ const ProductPage = () => {
             });
             showToast(`Successfully reserved ${ product['label'] }!`, 'success');
         } catch (err) {
-            showToast(`Uh oh! An error occured during the reservation of ${ product['label'] }! Please try again later.`, 'error');
+            showToast(`Uh oh! An error occured during the reservation of ${ product['label'] }! Please try again later. ${ err }`, 'error');
         }
     };
 

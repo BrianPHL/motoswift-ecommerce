@@ -54,7 +54,7 @@ const ProductCard = ({ product_id, category, subcategory, image_url, label, pric
             showToast(`Successfully added ${ label } to your cart!`, 'success');
             setModalOpen(false);
         } catch (err) {
-            showToast(`Uh oh! An error occurred during the addition of ${ label } to your cart! Please try again later.`, 'error');
+            showToast(`Uh oh! An error occurred during the addition of ${ label } to your cart! Please try again later. ${ err }`, 'error');
         }
     };
 
@@ -100,7 +100,7 @@ const ProductCard = ({ product_id, category, subcategory, image_url, label, pric
             setInstallmentNotes('');
             setModalOpen(false);
         } catch (err) {
-            showToast(`Uh oh! An error occurred during the reservation of ${ label }! Please try again later.`, 'error');
+            showToast(`Uh oh! An error occurred during the addition of ${ label } to your cart! Please try again later. ${ err }`, 'error');
         }
     };
 

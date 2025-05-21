@@ -72,7 +72,7 @@ const ProductPage = () => {
             });
             showToast(`Successfully added ${ product['label'] } to your cart!`, 'success');
         } catch (err) {
-            showToast(`Uh oh! An error occured during the addition of ${ product['label'] } to your cart! Please try again later.`, 'error');
+            showToast(`Uh oh! An error occured during the addition of ${ product['label'] } to your cart! Please try again later. ${ err }`, 'error');
         }
     };
 
@@ -97,7 +97,7 @@ const ProductPage = () => {
             });
             showToast(`Successfully reserved ${ product['label'] }!`, 'success');
         } catch (err) {
-            showToast(`Uh oh! An error occured during the reservation of ${ product['label'] }! Please try again later.`, 'error');
+            showToast(`Uh oh! An error occured during the reservation of ${ product['label'] }! Please try again later. ${ err }`, 'error');
         }
     };
 
@@ -327,10 +327,12 @@ const ProductPage = () => {
                 </Modal>
             ) : modalType === 'cart' ? (
                 <Modal
-                    label={ `Add ${ label } to Cart` }
+                    label={ `Add ${ product['label'] } to Cart` }
                     isOpen={ modalOpen && modalType === 'cart' }
                     onClose={ () => setModalOpen(false) }
                 >
+                    <h3 className={ styles['modal-info'] }>Are you sure you want to add this product to your cart?</h3>
+                
                     <div style={{ alignItems: 'flex-start' }} className={ styles['modal-infos'] }>
                         <h3>{ product['label'] }</h3>
                         <p>Stock Available: <strong>{ product['stock_quantity'] }</strong></p>
