@@ -331,12 +331,10 @@ const ProductPage = () => {
                     onClose={ () => setModalOpen(false) }
                 >
                     <div style={{ alignItems: 'flex-start' }} className={ styles['modal-infos'] }>
-                        <h3>{ label }</h3>
-                        <span>
-                            <p>Are you sure you want to add <strong>{ label }</strong> to your cart?</p>
-                            <p style={{ marginTop: '1rem' }}>Stock Available: <strong>{stock_quantity}</strong></p>
-                        </span>
+                        <h3>{ product['label'] }</h3>
+                        <p>Stock Available: <strong>{ product['stock_quantity'] }</strong></p>
                     </div>
+                
                     <div className={ styles['modal-infos'] } style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                         
                         <span style={{ display: 'flex', gap: '1rem' }}>
@@ -350,7 +348,7 @@ const ProductPage = () => {
                                 type='icon-outlined'
                                 icon='fa-solid fa-plus'
                                 action={ () => setProductQuantity(prevQuantity => prevQuantity + 1) }
-                                disabled={ productQuantity >= stock_quantity }
+                                disabled={ productQuantity >= product['stock_quantity'] }
                             />
                         </span>
                 

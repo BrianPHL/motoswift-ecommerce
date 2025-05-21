@@ -174,13 +174,13 @@ const ProductCard = ({ product_id, category, subcategory, image_url, label, pric
                 isOpen={ modalOpen && modalType === 'cart' }
                 onClose={ () => setModalOpen(false) }
             >
+                <h3 className={ styles['modal-info'] }>Are you sure you want to add this product to your cart?</h3>
+
                 <div style={{ alignItems: 'flex-start' }} className={ styles['modal-infos'] }>
                     <h3>{ label }</h3>
-                    <span>
-                        <p>Are you sure you want to add <strong>{ label }</strong> to your cart?</p>
-                        <p style={{ marginTop: '1rem' }}>Stock Available: <strong>{stock_quantity}</strong></p>
-                    </span>
+                    <p>Stock Available: <strong>{stock_quantity}</strong></p>
                 </div>
+
                 <div className={ styles['modal-infos'] } style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                     
                     <span style={{ display: 'flex', gap: '1rem' }}>
@@ -217,7 +217,6 @@ const ProductCard = ({ product_id, category, subcategory, image_url, label, pric
                     />
                 </div>
             </Modal>
-
             <Modal
                 label={ `Reserve ${ label }` }
                 isOpen={ modalOpen && modalType === 'reservation' }
