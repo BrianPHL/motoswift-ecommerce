@@ -376,19 +376,19 @@
 
 }
 
-@media only screen and (max-width: 1475px) {
+@media only screen and (max-width: 1575px) {
 
     .wrapper { padding: 12rem 8rem 6rem 8rem; }
 
 }
 
-@media only screen and (max-width: 1220px) {
+@media only screen and (max-width: 1320px) {
 
     .wrapper { padding: 8rem 4rem 4rem 4rem; }
 
 }
 
-@media only screen and (max-width: 1090px) {
+@media only screen and (max-width: 1192px) {
 
     .wrapper { padding: 14rem 2rem 2rem 2rem; }
 
