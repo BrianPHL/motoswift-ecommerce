@@ -72,11 +72,6 @@ const ProductCard = ({ product_id, category, subcategory, image_url, label, pric
             
             let installmentDetails = null;
             if (paymentMethod === 'cash_installment') {
-                if (!installmentAmount) {
-                    showToast('Please enter an installment amount', 'error');
-                    return;
-                }
-                
                 installmentDetails = {
                     amount: parseFloat(installmentAmount),
                     payment_date: installmentPaymentDate || new Date(),
