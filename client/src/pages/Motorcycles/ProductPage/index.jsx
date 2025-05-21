@@ -12,7 +12,7 @@ const ProductPage = () => {
     const [ modalOpen, setModalOpen ] = useState(false);
     const [ modalType, setModalType ] = useState('');
     const [ productQuantity, setProductQuantity ] = useState(1);
-    const [ paymentMethod, setPaymentMethod ] = useState('');
+    const [ paymentMethod, setPaymentMethod ] = useState('cash');
     const [ installmentAmount, setInstallmentAmount ] = useState('');
     const [ installmentPaymentDate, setInstallmentPaymentDate ] = useState('');
     const [ installmentNotes, setInstallmentNotes ] = useState('');
@@ -96,6 +96,7 @@ const ProductPage = () => {
                 notes: reserveNotes
             });
             showToast(`Successfully reserved ${ product['label'] }!`, 'success');
+            clearReservationForm();
         } catch (err) {
             showToast(`Uh oh! An error occured during the reservation of ${ product['label'] }! Please try again later. ${ err }`, 'error');
         }
@@ -114,6 +115,15 @@ const ProductPage = () => {
                 </div>
             </div>
         );
+    };
+
+    const clearReservationForm = () => {
+        setReservePreferredDate('');
+        setReserveNotes('');
+        setPaymentMethod('cash');
+        setInstallmentAmount('');
+        setInstallmentPaymentDate('');
+        setInstallmentNotes('');
     };
 
     return (
@@ -315,7 +325,10 @@ const ProductPage = () => {
                         <Button 
                             type="secondary" 
                             label="Cancel" 
-                            action={ () => setModalOpen(false) } 
+                            action={ () => {
+                                clearReservationForm()
+                                setModalOpen(false)
+                            }} 
                         />
                         <Button 
                             type="primary" 

@@ -87,16 +87,21 @@ const ProductCard = ({ product_id, category, subcategory, image_url, label, pric
                 installmentDetails
             });
             
-            setReservePreferredDate('');
-            setReserveNotes('');
-            setPaymentMethod('cash');
-            setInstallmentAmount('');
-            setInstallmentPaymentDate('');
-            setInstallmentNotes('');
             setModalOpen(false);
+            clearReservationForm();
+
         } catch (err) {
             showToast(`Uh oh! An error occurred during the addition of ${ label } to your cart! Please try again later. ${ err }`, 'error');
         }
+    };
+
+    const clearReservationForm = () => {
+        setReservePreferredDate('');
+        setReserveNotes('');
+        setPaymentMethod('cash');
+        setInstallmentAmount('');
+        setInstallmentPaymentDate('');
+        setInstallmentNotes('');
     };
 
     useEffect(() => {
@@ -333,7 +338,10 @@ const ProductCard = ({ product_id, category, subcategory, image_url, label, pric
                     <Button 
                         type="secondary" 
                         label="Cancel" 
-                        action={ () => setModalOpen(false) } 
+                        action={ () => {
+                            clearReservationForm() 
+                            setModalOpen(false)
+                        }}
                     />
                     <Button 
                         type="primary" 

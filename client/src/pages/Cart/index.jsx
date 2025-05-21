@@ -82,6 +82,7 @@ const Cart = () => {
                 notes: reserveNotes
             });
             removeFromCart(selectedItem['product_id']);
+            clearReservationForm();
             setModalOpen(false);
         } catch (err) {
             showToast(`Error: ${err.message}`, 'error');
@@ -125,10 +126,20 @@ const Cart = () => {
             });
 
             clearCart();
+            clearReservationForm();
             setModalOpen(false);
         } catch (err) {
             showToast(`Error: ${err.message}`, 'error');
         }
+    };
+
+    const clearReservationForm = () => {
+        setReservePreferredDate('');
+        setReserveNotes('');
+        setPaymentMethod('cash');
+        setInstallmentAmount('');
+        setInstallmentPaymentDate('');
+        setInstallmentNotes('');
     };
 
     return (
@@ -405,7 +416,10 @@ const Cart = () => {
                         <Button 
                             type="secondary" 
                             label="Cancel" 
-                            action={ () => setModalOpen(false) } 
+                            action={ () => {
+                                clearReservationForm()
+                                setModalOpen(false)
+                            }} 
                         />
                         <Button 
                             type="primary" 
@@ -583,7 +597,10 @@ const Cart = () => {
                         <Button 
                             type="secondary" 
                             label="Cancel" 
-                            action={ () => setModalOpen(false) } 
+                            action={ () => {
+                                clearReservationForm();
+                                setModalOpen(false)
+                            }} 
                         />
                         <Button 
                             type="primary" 
