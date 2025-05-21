@@ -18,8 +18,6 @@ const Cart = () => {
     const { addToReservations } = useReservation();
     const { showToast } = useToast();
     const navigate = useNavigate();
-    
-    console.log(cartItems[0]);
 
     const [stockInfo, setStockInfo] = useState({});
 

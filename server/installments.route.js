@@ -4,7 +4,6 @@ import express from 'express';
 const router = express.Router();
 
 router.get('/pending', async (req, res) => {
-    console.log("tite")
     try {
         const [rows] = await pool.query(`
             SELECT i.*, r.preferred_date, a.first_name, a.last_name, a.email

@@ -29,12 +29,9 @@ const AdminInstallments = () => {
 
         try {
             setLoading(true);
-            
-            console.log('negar')
+
             const response = await fetch('/api/installments/pending');
             const data = await response.json();
-
-            console.log("data?", data)
             
             if (!response.ok) {
                 throw new Error('Failed to fetch installment requests');
