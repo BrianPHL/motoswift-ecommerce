@@ -42,9 +42,14 @@ const ProductCard = ({ product_id, category, subcategory, image_url, label, pric
         }
         
         try {
-            await addToCart({
-                product_id, category, subcategory, image_url, label, 
-                price, stock_quantity, quantity: productQuantity
+            await addToCart({ 
+                product_id: product_id, 
+                category: category, 
+                subcategory: subcategory, 
+                image_url: image_url, 
+                label: label, 
+                price: price,
+                quantity: productQuantity
             });
             showToast(`Successfully added ${ label } to your cart!`, 'success');
             setModalOpen(false);

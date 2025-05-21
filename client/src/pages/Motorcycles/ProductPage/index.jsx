@@ -63,11 +63,12 @@ const ProductPage = () => {
         try {
             await addToCart({ 
                 product_id: product['product_id'], 
-                category: product['category'], 
-                subcategory: product['subcategory'], 
-                image_url: product['image_url'], 
-                label: product['label'], 
-                price: product['price'] 
+                category: product['category'],
+                subcategory: product['subcategory'],
+                image_url: product['image_url'],
+                label: product['label'],
+                price: product['price'],
+                quantity: productQuantity
             });
             showToast(`Successfully added ${ product['label'] } to your cart!`, 'success');
         } catch (err) {
