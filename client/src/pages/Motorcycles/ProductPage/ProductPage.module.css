@@ -48,9 +48,14 @@
 }
 
 .product-image {
+    place-content: center;
     border-radius: 0.5rem;
     padding: 2rem;
+    display: grid;
     border: 1px solid var(--bg-outline);
+    & > img {
+        width: 32rem;
+    }
 }
 
 .product-details {
