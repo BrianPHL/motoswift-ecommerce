@@ -6,6 +6,7 @@ export { default as Cart } from "./Cart";
 export { default as Reservations } from "./Reservations";
 export { default as Profile } from "./Profile";
 export { default as NotFound } from "./NotFound";
+export { default as AuthCallback } from "./AuthCallback";
 
 export * from './Motorcycles';
 export * from './PartsAndAccessories';

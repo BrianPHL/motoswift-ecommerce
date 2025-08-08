@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useLocation, BrowserRouter as Router, Routes, Route } from 'react-router';
 import { Header, Footer } from '@components';
 import { ProtectedRoute } from '@routes';
-import { Home, SignIn, SignUp, AboutUs, Reservations, Cart, Profile, NotFound } from '@pages';
+import { Home, SignIn, SignUp, AboutUs, Reservations, Cart, Profile, NotFound, AuthCallback } from '@pages';
 import { Store as MotorcyclesStore, ProductPage as MotorcyclesProductPage } from '@pages/Motorcycles';
 import { Store as PartsAndAccessoriesStore, ProductPage as PartsAndAccessoriesProductPage } from '@pages/PartsAndAccessories';
 import { AdminLayout, AdminDashboard, AdminProducts, AdminReservations, AdminStocks, AdminInstallments } from '@pages/Admin';
@@ -39,6 +39,7 @@ const App = () => {
     		<Routes>
     			
 				<Route path="/" element={ <Home /> } />
+      			<Route path="/auth/callback/google" element={<AuthCallback />} />
     			<Route path="/about-us" element={ <AboutUs /> } />
     			<Route path="/motorcycles" element={ <MotorcyclesStore /> } />
     			<Route path="/motorcycles/:product_id" element={ <MotorcyclesProductPage /> } />

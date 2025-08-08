@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Anchor, Button, InputField, ReturnButton } from '@components';
+import { Anchor, Button, InputField, ReturnButton, GoogleLoginButton } from '@components';
 import styles from './SignIn.module.css';
 import { useAuth, useToast } from '@contexts';
 import { useNavigate } from 'react-router';
@@ -85,6 +85,7 @@ const SignIn = () => {
                         <p>Don't have an account yet? <Anchor label="Sign up" link="/sign-up" isNested={ false }/></p>
                     </div>
                 </form>
+                <GoogleLoginButton></GoogleLoginButton>
                 <div className={ styles['banner'] }></div>
             </div>
         </div>
