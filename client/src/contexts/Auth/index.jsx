@@ -1,6 +1,4 @@
 import { useContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router";
-import { createAuthClient } from "better-auth/client";
 import AuthContext from "./context";
 
 export const AuthProvider = ({ children }) => {
@@ -10,9 +8,7 @@ export const AuthProvider = ({ children }) => {
     const [ isUpdatingAvatar, setIsUpdatingAvatar ] = useState(false);
     const [ isRemovingAvatar, setIsRemovingAvatar ] = useState(false);
     const [ userCount, setUserCount ] = useState(0);
-    const authClient = createAuthClient({ baseUrl: "http://localhost:5173/auth" });
-    const navigate = useNavigate();
-
+    
     useEffect(() => {
         const loadUserFromStorage = () => {
             try {
@@ -32,25 +28,6 @@ export const AuthProvider = ({ children }) => {
 
         loadUserFromStorage();
     }, []);
-
-    const signInWithGoogle = async () => {
-        try {
-            await authClient.signIn.social({ provider: "google" });
-        } catch (err) {
-          console.error("Google sign-in failed", err);
-        }
-    };
-
-    const handleCallback = async () => {
-        try {
-            const session = await authClient.handleCallback();
-            localStorage.setItem("token", session.token);
-            navigate('/')
-        } catch (err) {
-            console.error("Callback handling failed: ", err);
-            navigate("/login");
-        }
-    };
 
     const login = async ({ email, password }) => {
         try {
@@ -324,8 +301,6 @@ export const AuthProvider = ({ children }) => {
             updatePersonalInfo,
             updateAddress,
             updatePassword,
-            signInWithGoogle,
-            handleCallback
         }}>
             { children }
         </AuthContext.Provider>

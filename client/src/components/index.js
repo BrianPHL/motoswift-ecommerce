@@ -13,4 +13,3 @@ export { default as ReturnButton } from "./ReturnButton";
 export { default as Modal } from "./Modal";
 export { default as Toast } from "./Toast";
 export { default as Carousel } from "./Carousel";
-export { default as GoogleLoginButton } from "./GoogleLoginButton";

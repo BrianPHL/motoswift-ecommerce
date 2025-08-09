@@ -1,7 +1,5 @@
 import cors from 'cors';
 import express from "express";
-import session from "express-session";
-import { toNodeHandler } from "better-auth/node";
 import dotenv from "dotenv";
 import path from "path";
 import { fileURLToPath } from 'url';
@@ -11,7 +9,6 @@ import cartsRouter from './carts.route.js';
 import reservationsRouter from './reservations.route.js';
 import installmentsRouter from './installments.route.js';
 import stocksRouter from './stocks.route.js';
-import auth from "./auth.service.js";
 
 dotenv.config();
 
@@ -29,17 +26,6 @@ app.use(cors({
   	credentials: true,
   	allowedHeaders: ['Content-Type', 'Authorization']
 }));
-app.use(session({
-    secret: process.env.SESSION_SECRET || "your-default-session-secret",
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-        secure: false,
-        httpOnly: true,
-        sameSite: "lax"
-    }
-}));
-app.all("/api/auth/*splat", toNodeHandler(auth));
 app.use(express.json());
 app.use('/api/accounts', accountsRouter);
 app.use('/api/products', productsRouter);
