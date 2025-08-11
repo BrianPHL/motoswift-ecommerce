@@ -11,8 +11,8 @@ router.get('/history', async (req, res) => {
                    p.category,
                    a.first_name, a.last_name
             FROM stocks_history sh
-            JOIN products p ON sh.product_id = p.product_id
-            JOIN accounts a ON sh.admin_id = a.account_id
+            JOIN products p ON sh.product_id = p.id
+            JOIN accounts a ON sh.admin_id = a.id
             ORDER BY sh.created_at DESC
             LIMIT 100
         `);
@@ -59,7 +59,7 @@ router.get('/status-count', async (req, res) => {
 router.get('/:product_id/stock', async (req, res) => {
     try {
         const [rows] = await pool.query(
-            'SELECT stock_quantity FROM products WHERE product_id = ?',
+            'SELECT stock_quantity FROM products WHERE id = ?',
             [req.params.product_id]
         );
         
@@ -83,7 +83,7 @@ router.post('/add', async (req, res) => {
         const { product_id, quantity_change, new_threshold, notes, admin_id } = req.body;
         
         const [currentProduct] = await connection.query(
-            'SELECT stock_quantity, stock_threshold FROM products WHERE product_id = ?',
+            'SELECT stock_quantity, stock_threshold FROM products WHERE id = ?',
             [product_id]
         );
         
@@ -106,7 +106,7 @@ router.post('/add', async (req, res) => {
                     ELSE 'in_stock'
                 END,
                 modified_at = NOW()
-            WHERE product_id = ?
+            WHERE id = ?
             `,
             [
                 newQuantity, 
