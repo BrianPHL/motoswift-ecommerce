@@ -40,8 +40,8 @@ router.get('/:account_id', async (req, res) => {
 				`
 					SELECT reservation_item.*, product.label, product.price, product.category, product.subcategory, product.image_url
 					FROM reservation_products reservation_item
-					JOIN products product ON reservation_item.product_id = product.product_id
-					WHERE reservation_item.reservation_id = ?
+					JOIN products product ON reservation_item.product_id = product.id
+					WHERE reservation_item.id = ?
 				`,
 				[ reservations[i]['reservation_id'] ]
 			)
@@ -67,8 +67,8 @@ router.get('/:reservation_id/products', async (req, res) => {
 		const [rows] = await pool.query(`
 			SELECT rp.*, p.label, p.price, p.category, p.subcategory, p.image_url
 			FROM reservation_products rp
-			JOIN products p ON rp.product_id = p.product_id
-			WHERE rp.reservation_id = ?
+			JOIN products p ON rp.product_id = p.id
+			WHERE rp.id = ?
 		`, [req.params.reservation_id]);
 		
 		res.json(rows);
@@ -90,7 +90,7 @@ router.put('/:reservation_id', async (req, res) => {
         	const reservationId = req.params.reservation_id;
 
         	const [currentReservation] = await connection.query(
-        	    `SELECT status FROM reservations WHERE reservation_id = ?`,
+        	    `SELECT status FROM reservations WHERE id = ?`,
         	    [reservationId]
         	);
 	
@@ -104,7 +104,7 @@ router.put('/:reservation_id', async (req, res) => {
         	await connection.query(`
         		UPDATE reservations
         		SET status = ?, notes = IFNULL(?, notes), modified_at = NOW()
-        		WHERE reservation_id = ?
+        		WHERE id = ?
         	`, [status, '', reservationId]);
 
         	if (status === 'cancelled' && previousStatus === 'pending') {
@@ -112,13 +112,13 @@ router.put('/:reservation_id', async (req, res) => {
         		const [reservationProducts] = await connection.query(`
         		    SELECT product_id, quantity
         		    FROM reservation_products
-        		    WHERE reservation_id = ?
+        		    WHERE id = ?
         		`, [reservationId]);
 			
         		for (const product of reservationProducts) {
 			
                 		const [currentStock] = await connection.query(
-                			`SELECT stock_quantity FROM products WHERE product_id = ?`,
+                			`SELECT stock_quantity FROM products WHERE id = ?`,
                 			[product.product_id]
                 		);
                 
@@ -128,7 +128,7 @@ router.put('/:reservation_id', async (req, res) => {
 				    UPDATE products 
 				    SET stock_quantity = stock_quantity + ?,
 				            modified_at = NOW()
-				    WHERE product_id = ?
+				    WHERE id = ?
 				`, [product.quantity, product.product_id]);
 				
 				await connection.query(`
@@ -176,7 +176,7 @@ router.put('/:reservation_id/reactivate', async (req, res) => {
         const reservationId = req.params.reservation_id;
 
         const [currentReservation] = await connection.query(
-            `SELECT status FROM reservations WHERE reservation_id = ?`,
+            `SELECT status FROM reservations WHERE id = ?`,
             [reservationId]
         );	
         if (currentReservation.length === 0) {
@@ -188,25 +188,22 @@ router.put('/:reservation_id/reactivate', async (req, res) => {
             return res.status(400).json({ error: 'Only cancelled reservations can be reactivated' });
         }
         
-        // Check if there's an installment record for this reservation
         const [installments] = await connection.query(
-            `SELECT * FROM installments WHERE reservation_id = ?`,
+            `SELECT * FROM installments WHERE id = ?`,
             [reservationId]
         );
         
-        // Determine the proper status based on whether there's an installment
         const newStatus = installments.length > 0 ? 'pending_approval' : 'pending';
 
-        // Rest of the stock checking logic
         const [reservationProducts] = await connection.query(`
             SELECT product_id, quantity
             FROM reservation_products
-            WHERE reservation_id = ?
+            WHERE id = ?
         `, [reservationId]);
     
         for (const product of reservationProducts) {
             const [stockCheck] = await connection.query(
-                `SELECT stock_quantity FROM products WHERE product_id = ?`,
+                `SELECT stock_quantity FROM products WHERE id = ?`,
                 [product.product_id]
             );
         
@@ -218,12 +215,11 @@ router.put('/:reservation_id/reactivate', async (req, res) => {
             }
         }
 
-        // Only update product stock if it's NOT a cash installment (pending_approval)
         if (newStatus === 'pending') {
             for (const product of reservationProducts) {
                 // Stock update logic
                 const [currentStock] = await connection.query(
-                    `SELECT stock_quantity FROM products WHERE product_id = ?`,
+                    `SELECT stock_quantity FROM products WHERE id = ?`,
                     [product.product_id]
                 );
             
@@ -232,7 +228,7 @@ router.put('/:reservation_id/reactivate', async (req, res) => {
                 await connection.query(`
                     UPDATE products 
                     SET stock_quantity = stock_quantity - ?, modified_at = NOW()
-                    WHERE product_id = ?
+                    WHERE id = ?
                 `, [product.quantity, product.product_id]);
 
                 // Stock history entries
@@ -264,7 +260,7 @@ router.put('/:reservation_id/reactivate', async (req, res) => {
         await connection.query(`
             UPDATE reservations
             SET status = ?, modified_at = NOW()
-            WHERE reservation_id = ?
+            WHERE id = ?
         `, [newStatus, reservationId]);
 
         await connection.commit();
@@ -302,7 +298,7 @@ router.post('/', async (req, res) => {
                 const quantity = product.quantity || 1;
                 
                 const [stockCheck] = await connection.query(
-                    'SELECT stock_quantity FROM products WHERE product_id = ?', 
+                    'SELECT stock_quantity FROM products WHERE id = ?', 
                     [product.product_id]
                 );
                 
@@ -314,7 +310,7 @@ router.post('/', async (req, res) => {
                 }
                 
                 await connection.query(`
-                    INSERT INTO reservation_products (reservation_id, product_id, quantity)
+                    INSERT INTO reservation_products (id, product_id, quantity)
                     VALUES (?, ?, ?)
                 `, [reservationId, product.product_id, quantity]);
                 
@@ -323,11 +319,11 @@ router.post('/', async (req, res) => {
                     await connection.query(`
                         UPDATE products 
                         SET stock_quantity = stock_quantity - ?, modified_at = NOW()
-                        WHERE product_id = ?
+                        WHERE id = ?
                     `, [quantity, product.product_id]);
                     
                     const [updatedProduct] = await connection.query(
-                        'SELECT stock_quantity FROM products WHERE product_id = ?',
+                        'SELECT stock_quantity FROM products WHERE id = ?',
                         [product.product_id]
                     );
                     
@@ -413,7 +409,7 @@ router.delete('/:reservation_id', async (req, res) => {
         }
 
         const [reservationCheck] = await connection.query(
-            `SELECT status FROM reservations WHERE reservation_id = ?`,
+            `SELECT status FROM reservations WHERE id = ?`,
             [reservation_id]
         );
 
@@ -424,13 +420,13 @@ router.delete('/:reservation_id', async (req, res) => {
 
         if (reservationCheck[0].status === 'pending') {
             const [reservationProducts] = await connection.query(
-                `SELECT product_id, quantity FROM reservation_products WHERE reservation_id = ?`,
+                `SELECT product_id, quantity FROM reservation_products WHERE id = ?`,
                 [reservation_id]
             );
 
             for (const product of reservationProducts) {
                 const [currentStock] = await connection.query(
-                    `SELECT stock_quantity FROM products WHERE product_id = ?`,
+                    `SELECT stock_quantity FROM products WHERE id = ?`,
                     [product.product_id]
                 );
 
@@ -440,7 +436,7 @@ router.delete('/:reservation_id', async (req, res) => {
                     UPDATE products 
                     SET stock_quantity = stock_quantity + ?,
                         modified_at = NOW()
-                    WHERE product_id = ?
+                    WHERE id = ?
                 `, [product.quantity, product.product_id]);
                 
                 await connection.query(`
@@ -468,12 +464,12 @@ router.delete('/:reservation_id', async (req, res) => {
         }
         
         await connection.query(
-            `DELETE FROM reservation_products WHERE reservation_id = ?`,
+            `DELETE FROM reservation_products WHERE id = ?`,
             [reservation_id]
         );
         
         await connection.query(
-            `DELETE FROM reservations WHERE reservation_id = ?`,
+            `DELETE FROM reservations WHERE id = ?`,
             [reservation_id]
         );
 
