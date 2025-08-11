@@ -97,9 +97,9 @@ router.put('/:account_id/personal-info', async (req, res) => {
         if (email) {
             const [ existingEmail ] = await pool.query(
                 `
-                    SELECT account_id
+                    SELECT id
                     FROM accounts 
-                    WHERE email = ? AND account_id != ?
+                    WHERE email = ? AND id != ?
                 `,
                 [email, account_id]
             );
@@ -115,7 +115,7 @@ router.put('/:account_id/personal-info', async (req, res) => {
             `
                 UPDATE accounts 
                 SET first_name = ?, last_name = ?, email = ?, contact_number = ?
-                WHERE account_id = ?
+                WHERE id = ?
             `,
             [first_name, last_name, email, contact_number, account_id]
         );
@@ -128,7 +128,7 @@ router.put('/:account_id/personal-info', async (req, res) => {
             `
                 SELECT *
                 FROM accounts
-                WHERE account_id = ?
+                WHERE id = ?
             `,
             [account_id]
         );
@@ -149,7 +149,7 @@ router.put('/:account_id/address', async (req, res) => {
             `
                 UPDATE accounts 
                 SET address = ?, modified_at = CURRENT_TIMESTAMP
-                WHERE account_id = ?
+                WHERE id = ?
             `,
             [address, account_id]
         );
@@ -162,7 +162,7 @@ router.put('/:account_id/address', async (req, res) => {
             `
                 SELECT *
                 FROM accounts
-                WHERE account_id = ?
+                WHERE id = ?
             `,
             [account_id]
         );
@@ -184,7 +184,7 @@ router.put('/:account_id/password', async (req, res) => {
             `
                 UPDATE accounts 
                 SET password = ?
-                WHERE account_id = ?
+                WHERE id = ?
             `,
             [password, account_id]
         );
@@ -212,8 +212,8 @@ router.delete('/:account_id', async (req, res) => {
         await connection.query(
             `
                 DELETE rp FROM reservation_products rp
-                JOIN reservations r ON rp.reservation_id = r.reservation_id
-                WHERE r.account_id = ?
+                JOIN reservations r ON rp.id = r.id
+                WHERE r.id = ?
             `,
             [account_id]
         );
@@ -222,7 +222,7 @@ router.delete('/:account_id', async (req, res) => {
             `
                 DELETE
                 FROM reservations
-                WHERE account_id = ?
+                WHERE id = ?
             `,
             [account_id]
         );
@@ -231,8 +231,8 @@ router.delete('/:account_id', async (req, res) => {
             `
                 DELETE
                 FROM carts
-                WHERE account_id = ?
-            `,
+                WHERE id = ?
+            `
             [account_id]
         );
 
@@ -240,7 +240,7 @@ router.delete('/:account_id', async (req, res) => {
             `
                 SELECT image_url 
                 FROM accounts
-                WHERE account_id = ?
+                WHERE id = ?
             `,
             [account_id]
         );
@@ -249,7 +249,7 @@ router.delete('/:account_id', async (req, res) => {
             `
                 DELETE
                 FROM accounts
-                WHERE account_id = ?
+                WHERE id = ?
             `,
             [account_id]
         );
@@ -286,7 +286,7 @@ router.post('/:account_id/avatar', upload.single('avatar'), async (req, res) => 
         await pool.query(
             `
                 UPDATE accounts SET image_url = ?
-                WHERE account_id = ?
+                WHERE id = ?
             `,
             [ result['public_id'], account_id ]
         );
@@ -315,7 +315,7 @@ router.delete('/:account_id/avatar', async (req, res) => {
         const [ accounts ] = await pool.query(
             `
                 SELECT image_url FROM accounts
-                WHERE account_id = ?
+                WHERE id = ?
             `,
             [ account_id ]
         );
@@ -333,7 +333,7 @@ router.delete('/:account_id/avatar', async (req, res) => {
         await pool.query(
             `
                 UPDATE accounts SET image_url = NULL
-                WHERE account_id = ?
+                WHERE id = ?
             `,
             [ account_id ]
         );
