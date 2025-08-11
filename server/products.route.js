@@ -60,7 +60,7 @@ router.put('/:product_id', async (req, res) => {
             `
                 UPDATE products
                 SET label = ?, price = ?, category = ?, subcategory = ?, description = ?, image_url = ?
-                WHERE product_id = ?
+                WHERE id = ?
             `,
             [ label, price, category, subcategory, description || null, image_url, product_id ]
         );
@@ -118,7 +118,7 @@ router.delete('/:product_id', async (req, res) => {
             `
                 SELECT image_url
                 FROM products
-                WHERE product_id = ?
+                WHERE id = ?
             `,
             [product_id]
         );
@@ -139,7 +139,7 @@ router.delete('/:product_id', async (req, res) => {
             `
                 DELETE
                 FROM products
-                WHERE product_id = ?
+                WHERE id = ?
             `,
             [product_id]
         );
