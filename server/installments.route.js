@@ -71,7 +71,7 @@ router.put('/:installment_id', async (req, res) => {
             `SELECT i.*, r.status as reservation_status, r.account_id 
              FROM installments i
              JOIN reservations r ON i.reservation_id = r.reservation_id
-             WHERE i.installment_id = ?`,
+             WHERE i.id = ?`,
             [installment_id]
         );
         
@@ -90,7 +90,7 @@ router.put('/:installment_id', async (req, res) => {
         await connection.query(
             `UPDATE installments 
              SET status = ?, admin_id = ?, notes = IFNULL(?, notes), processed_at = NOW() 
-             WHERE installment_id = ?`,
+             WHERE id = ?`,
             [status, admin_id, notes, installment_id]
         );
         
