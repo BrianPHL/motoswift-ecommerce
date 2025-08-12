@@ -1,6 +1,14 @@
 import { betterAuth } from "better-auth";
+import nodemailer from 'nodemailer';
 import pool from "./db.js";
 
+export const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        user: process.env.GOOGLE_APP_EMAIL_USER,
+        pass: process.env.GOOGLE_APP_EMAIL_PASS
+    }
+})
 export const auth = betterAuth({
     database: pool,
     secret: process.env.BETTER_AUTH_SECRET,
