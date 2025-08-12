@@ -1,111 +1,245 @@
 import { useContext, useEffect, useState } from "react";
+import { performOperationWithTimeout, apiRequest, extractAccountData, TIMEOUTS } from '@utils';
+import { useOAuth } from "@hooks";
 import AuthContext from "./context";
 
 export const AuthProvider = ({ children }) => {
 
     const [ user, setUser ] = useState(null);
+    // ! CRITICAL CRITICAL CRITICAL CRITICAL CRITICAL
+    const [ temporaryUser, setTemporaryUser ] = useState(null); // TODO: Continue this. This was made to alleviate the user already logged in before verifying OTP problem.
     const [ isInitializing, setIsInitializing ] = useState(true);
     const [ isUpdatingAvatar, setIsUpdatingAvatar ] = useState(false);
     const [ isRemovingAvatar, setIsRemovingAvatar ] = useState(false);
     const [ userCount, setUserCount ] = useState(0);
+    const { signOut, getSession } = useOAuth();
     
     useEffect(() => {
-        const loadUserFromStorage = () => {
+        const initializeAuth = async () => {
+
             try {
                 const storedUser = localStorage.getItem('user');
                 if (storedUser) {
                     const parsedUser = JSON.parse(storedUser);
                     setUser(parsedUser);
+                    setIsInitializing(false);
+                    return;
+                }
+                
+                const session = await getSession();
+                
+                if (!session?.user) {
+                    
+                    await new Promise(resolve => setTimeout(resolve, 1000));
+
+                    const delayedSession = await getSession();
+                    const user = delayedSession?.user || delayedSession?.data?.user;
+
+                    if (user) {
+
+                        // const syncResponse = await fetch('/api/oauth/sync', {
+                        //     method: 'POST',
+                        //     headers: { 'Content-Type': 'application/json' },
+                        //     body: JSON.stringify({
+                        //         oauth_user_id: user.id,
+                        //         email: user.email,
+                        //         name: user.name,
+                        //         image: user.image,
+                        //         email_verified: delayedSession.data.user.email_verified || false
+                        //     })
+                        // });
+
+                        const syncResponse = await apiRequest('/api/oauth/sync', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ 
+                                oauth_user_id: user.id,
+                                email: user.email,
+                                name: user.name,
+                                image: user.image,
+                                email_verified: delayedSession.data.user.email_verified || false
+                            })
+                        }, TIMEOUTS.OAUTH_API);
+                        
+                        if (syncResponse.success) {
+
+                            const account = extractAccountData(syncResponse);
+                            
+                            console.log("Sync data received:", syncResponse);
+                            console.log("Sync data account:", account);
+                        
+                            const unifiedUser = {
+                                ...account,
+                                id: account.id,
+                                auth_provider: 'google',
+                                oauth_user: user,
+                                role: account.role || 'customer',
+                                first_name: account.first_name,
+                                last_name: account.last_name,
+                                email: account.email,
+                                image_url: account.image_url || user.image
+                            };
+
+                        
+                            localStorage.setItem('user', JSON.stringify(unifiedUser));
+                            setUser(unifiedUser);
+                            setIsInitializing(false);
+                            return;
+
+                        } else {
+                            console.log("Sync failed with error:", syncResponse);
+                        }
+                    }
+                }
+
+                if (session?.user) {
+
+                    const user = session?.user || session?.data?.user;
+                    // const syncResponse = await fetch('/api/oauth/sync', {
+                    //     method: 'POST',
+                    //     headers: { 'Content-Type': 'application/json' },
+                    //     body: JSON.stringify({
+                    //         oauth_user_id: user.id,
+                    //         email: session.email,
+                    //         name: session.name,
+                    //         image: session.image,
+                    //         email_verified: session.email_verified || false
+                    //     })
+                    // });
+
+                    const syncResponse = await apiRequest('/api/oauth/sync', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ 
+                            oauth_user_id: user.id,
+                            email: user.email,
+                            name: user.name,
+                            image: user.image,
+                            email_verified: delayedSession.data.user.email_verified || false
+                        })
+                    }, TIMEOUTS.OAUTH_API);
+
+                    if (syncResponse.success) {
+
+                        const account = extractAccountData(syncResponse);
+                        
+                        console.log("Sync data received:", syncResponse);
+                        console.log("Sync data account:", account);
+                    
+                        const unifiedUser = {
+                            ...account,
+                            id: account.id,
+                            auth_provider: 'google',
+                            oauth_user: user,
+                            role: account.role || 'customer',
+                            first_name: account.first_name,
+                            last_name: account.last_name,
+                            email: account.email,
+                            image_url: account.image_url || user.image
+                        };
+                    
+                        localStorage.setItem('user', JSON.stringify(unifiedUser));
+                        setUser(unifiedUser);
+                        setIsInitializing(false);
+                        return;
+
+                    } else {
+                        console.log("Sync failed with error:", syncResponse);
+                    }
+                } else {
+                    console.log("No Better Auth session found");
                 }
             } catch (err) {
-                console.error('Failed to load user from storage:', err);
-                
-                localStorage.removeItem('user');
+                console.error('Auth initialization error:', err);
             } finally {
                 setIsInitializing(false);
             }
         };
 
-        loadUserFromStorage();
+        initializeAuth();
     }, []);
 
-    const login = async ({ email, password }) => {
+    const login = async ({ email, password }) => { // TODO: Add email verification OTP
+
         try {
-            const response = await fetch('/api/accounts/login', {
+
+            const data = await apiRequest('/api/accounts/login', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ email, password })
-            });
-            const data = await response.json();
+            }, TIMEOUTS.AUTH_API);
 
-            if (response['ok']) {
-                localStorage.setItem('user', JSON.stringify(data));
-                setUser(data);
-                return { user: data };
-            } else {
-                return { error: data['error'] };
+            if (data.user) {
+                setUser(data.user);
+                showToast(`Welcome back, ${data.user.first_name}!`, 'success');
             }
+            return data;
         } catch (err) {
             console.error('/login route error: ', err);
-            return { error: 'Server error. Please try again. ' + err };
+            return { error: err.message };
         }
+
     };
 
     const create = async({ firstName, lastName, email, address, contactNumber, password }) => {
+        
         try {
-            const response = await fetch('/api/accounts/create', {
+        
+            const data = await apiRequest('/api/accounts/create', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ firstName, lastName, email, address, contactNumber, password })
-            });
-            const data = await response.json();
+            }, TIMEOUTS.AUTH_API);
 
-            if (response['ok']) {
-                return null;
-            } else {
-                return { error: data['error'] };
+            if (data.user) {
+                setUser(data.user);
+                showToast(`Account created successfully! Welcome, ${data.user.first_name}!`, 'success');
             }
+            return data;
+        
         } catch (err) {
             console.error('/create route error: ', err);
-            return { error: 'Server error. Please try again. ' + err };
+            return { error: err.message };
         }
-    }
 
-    const logout = () => {
-        localStorage.removeItem('user');
-        setUser(null);
-    }
+    };
+
+    const logout = async () => {
+        try {
+            if (user?.auth_provider === 'google' && user?.oauth_user) {
+                await signOut();
+            }
+            
+            localStorage.removeItem('user');
+            setUser(null);
+        } catch (err) {
+            console.error('Logout error:', err);
+            localStorage.removeItem('user');
+            setUser(null);
+        }
+    };
 
     const updatePersonalInfo = async (personalInfo) => {
-
-        if (!user) return { error: 'User not logged in' };
-
+        
         try {
-            setIsInitializing(true);
-
-            const response = await fetch(`/api/accounts/${user.account_id}/personal-info`, {
+        
+            const data = await apiRequest(`/api/accounts/${user.id}/personal-info`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(personalInfo)
-            });
+            }, TIMEOUTS.FILE_UPLOAD_API);
 
-            const data = await response.json();
-
-            if (!response.ok) {
-                throw new Error(data.error || 'Failed to update personal information');
+            if (data.user) {
+                setUser(data.user);
+                showToast('Personal information updated successfully!', 'success');
             }
-
-            const updatedUser = { ...data };
-            setUser(updatedUser);
-            localStorage.setItem('user', JSON.stringify(updatedUser));
-
-            return { success: true };
+            return data;
+        
         } catch (err) {
-            console.error("Failed to update personal info:", err);
+            console.error('Error updating personal info:', err);
             return { error: err.message };
-        } finally {
-            setIsInitializing(false);
         }
+
     };
 
     const updateAddress = async (address) => {
@@ -221,7 +355,7 @@ export const AuthProvider = ({ children }) => {
             setUser(updatedUser);
             localStorage.setItem('user', JSON.stringify(updatedUser));
 
-            return { success: true, image_url: data['image_url'] };
+            return data;
 
         } catch (err) {
             console.error("Failed to update avatar:", err);
@@ -238,7 +372,7 @@ export const AuthProvider = ({ children }) => {
 
             setIsRemovingAvatar(true);
 
-            const response = await fetch(`/api/accounts/${ user['account_id'] }/avatar`, {
+            const response = await fetch(`/api/accounts/${ user['id'] }/avatar`, {
                 method: 'DELETE',
                 headers: { 'Content-Type': 'application/json' }
             });
@@ -289,10 +423,12 @@ export const AuthProvider = ({ children }) => {
             user,
             userCount,
             fetchUserCount,
-            isLoading: isInitializing, 
+            isLoading: isInitializing,
             isUpdatingAvatar,
             isRemovingAvatar,
-            login, 
+            showOTPModal,
+            setShowOTPModal,
+            login,
             logout, 
             create, 
             remove,

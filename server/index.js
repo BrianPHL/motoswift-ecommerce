@@ -4,7 +4,8 @@ import dotenv from "dotenv";
 import path from "path";
 import { fileURLToPath } from 'url';
 import { toNodeHandler, fromNodeHeaders } from 'better-auth/node';
-import auth from './auth.service.js';
+import { auth } from './auth.js';
+import oauthRouter from './oauth.route.js';
 import accountsRouter from './accounts.route.js';
 import productsRouter from './products.route.js';
 import cartsRouter from './carts.route.js';
@@ -27,21 +28,16 @@ app.use(cors({
   	methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   	credentials: true,
 }));
+
 app.all("/api/auth/*splat", toNodeHandler(auth));
 app.use(express.json());
+app.use('/api/oauth', oauthRouter);
 app.use('/api/accounts', accountsRouter);
 app.use('/api/products', productsRouter);
 app.use('/api/carts', cartsRouter);
 app.use('/api/reservations', reservationsRouter);
 app.use('/api/installments', installmentsRouter);
 app.use('/api/stocks', stocksRouter);
-
-app.get("/api/me", async (req, res) => {
- 	const session = await auth.api.getSession({
-      headers: fromNodeHeaders(req.headers),
-    });
-	return res.json(session);
-});
 
 app.use(express.static(path.join(__dirname, '../client/dist')));
 

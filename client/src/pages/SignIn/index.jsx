@@ -82,10 +82,11 @@ const SignIn = () => {
                             action={ handleSignIn }
                             disabled={ !email || !password }
                         />
+                        or
+                        <GoogleLoginButton />
                         <p>Don't have an account yet? <Anchor label="Sign up" link="/sign-up" isNested={ false }/></p>
                     </div>
                 </form>
-                <GoogleLoginButton />
                 <div className={ styles['banner'] }></div>
             </div>
         </div>
