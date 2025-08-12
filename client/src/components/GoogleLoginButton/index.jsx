@@ -1,25 +1,37 @@
-import { createAuthClient } from 'better-auth/react';
+import { useOAuth } from '@hooks';
 import { Button } from '@components';
 
-const authClient = createAuthClient({
-    baseURL: 'http://localhost:3000/api/auth'
-});
+const GoogleLoginButton = ({ callbackURL, onSuccess, onError, ...props }) => {
 
-const GoogleLoginButton = () => {
+    const { signInWithGoogle } = useOAuth();
+    const handleGoogleLogin = async () => {
+
+        try {
+
+            await signInWithGoogle(callbackURL);
+ 
+        } catch (err) {
+            console.error("Google sign-in error: ", err);
+            onError?.(err.message);
+        }
+
+    };
 
     return (
         <Button
             type='secondary'
             label='Sign in with Google'
-            action={ async () => {
-                await authClient.signIn.social({
-                    provider: "google",
-                    callbackURL: "http://localhost:5173/"
-                });
-            }}
+            action={ handleGoogleLogin }
+            { ...props }
         />
     );
 
 }
+
+GoogleLoginButton.defaultProps = {
+    callbackURL: 'http://localhost:5173',
+    onSuccess: () => {},
+    onError: (error) => console.error('Google sign-in failed: ', error)
+};
 
 export default GoogleLoginButton;
