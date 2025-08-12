@@ -12,6 +12,7 @@ export const AuthProvider = ({ children }) => {
     const [ isUpdatingAvatar, setIsUpdatingAvatar ] = useState(false);
     const [ isRemovingAvatar, setIsRemovingAvatar ] = useState(false);
     const [ userCount, setUserCount ] = useState(0);
+    const [ showOTPModal, setShowOTPModal ] = useState(false);
     const { signOut, getSession } = useOAuth();
     
     useEffect(() => {
@@ -80,6 +81,10 @@ export const AuthProvider = ({ children }) => {
                                 image_url: account.image_url || user.image
                             };
 
+                            if (unifiedUser && !unifiedUser.email_verified) {
+                                console.log("SHOULD BE SHOWING OTP MODAL NOW")
+                                setShowOTPModal(true);
+                            }
                         
                             localStorage.setItem('user', JSON.stringify(unifiedUser));
                             setUser(unifiedUser);
@@ -137,6 +142,10 @@ export const AuthProvider = ({ children }) => {
                             email: account.email,
                             image_url: account.image_url || user.image
                         };
+                        if (unifiedUser && !unifiedUser.email_verified) {
+                            console.log("SHOULD BE SHOWING OTP MODAL NOW")
+                            setShowOTPModal(true);
+                        }
                     
                         localStorage.setItem('user', JSON.stringify(unifiedUser));
                         setUser(unifiedUser);
@@ -248,7 +257,7 @@ export const AuthProvider = ({ children }) => {
         try {
             setIsInitializing(true);
 
-            const response = await fetch(`/api/accounts/${user.account_id}/address`, {
+            const response = await fetch(`/api/accounts/${user.id}/address`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ address })
@@ -280,7 +289,7 @@ export const AuthProvider = ({ children }) => {
         try {
             setIsInitializing(true);
 
-            const response = await fetch(`/api/accounts/${user.account_id}/password`, {
+            const response = await fetch(`/api/accounts/${user.id}/password`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ password })
@@ -301,7 +310,7 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
-    const remove = async (account_id) => {
+    const remove = async (id) => {
         
         if (!user) return { error: 'User not logged in' };
 
@@ -309,7 +318,7 @@ export const AuthProvider = ({ children }) => {
 
             setIsInitializing(true);
 
-            const response = await fetch(`/api/accounts/${account_id}`, {
+            const response = await fetch(`/api/accounts/${id}`, {
                 method: 'DELETE',
                 headers: { 'Content-Type': 'application/json' }
             });
@@ -340,10 +349,10 @@ export const AuthProvider = ({ children }) => {
             const formData = new FormData();
             formData.append('avatar', file);
 
-            const response = await fetch(`/api/accounts/${ user['account_id'] }/avatar`, {
+            const response = await fetchWithTimeout(`/api/accounts/${user['id']}/avatar`, {
                 method: 'POST',
-                body: formData,
-            });
+                body: formData
+            }, TIMEOUTS.FILE_UPLOAD_API);
 
             const data = await response.json();
 

@@ -14,3 +14,4 @@ export { default as Modal } from "./Modal";
 export { default as Toast } from "./Toast";
 export { default as Carousel } from "./Carousel";
 export { default as GoogleLoginButton } from "./GoogleLoginButton";
+export { default as OTPModal } from "./OTPModal";

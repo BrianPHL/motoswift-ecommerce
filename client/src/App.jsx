@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { useLocation, BrowserRouter as Router, Routes, Route } from 'react-router';
-import { Header, Footer } from '@components';
+import { Header, Footer, OTPModal } from '@components';
+import { useAuth } from '@contexts';
 import { ProtectedRoute } from '@routes';
 import { Home, SignIn, SignUp, AboutUs, Reservations, Cart, Profile, NotFound } from '@pages';
 import { Store as MotorcyclesStore, ProductPage as MotorcyclesProductPage } from '@pages/Motorcycles';
@@ -26,6 +27,7 @@ const PAGE_TITLES = {
 
 const App = () => {
 
+	const { user, showOTPModal, setShowOTPModal } = useAuth();
 	const location = useLocation();	
 	
 	useEffect(() => {
@@ -90,6 +92,14 @@ const App = () => {
 				<Route path="*" element={ <NotFound /> } />
 
     		</Routes>
+
+            <OTPModal
+                isOpen={showOTPModal && user?.auth_provider === 'google' && !user?.email_verified}
+                userEmail={user?.email}
+                onClose={ () => setShowOTPModal(false) }
+                onSuccess={ () => window.location.reload() }
+            />
+
     		<Footer />
     	</>
   	);
