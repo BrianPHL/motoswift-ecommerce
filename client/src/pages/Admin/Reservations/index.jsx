@@ -125,32 +125,37 @@ const Reservations = () => {
     };
 
     const handleViewReservation = async (reservation) => {
+
+        setSelectedReservation(reservation);
+        setModalType('view');
+        setIsModalOpen(true);
+        loadReservationProducts(reservation.reservation_id);
+
+    };
+
+    const loadReservationProducts = async (reservationId) => {
+        
         try {
-            
-            setSelectedReservation(reservation);
-            setModalType('view');
-            setIsModalOpen(true);
+            const response = await fetch(`/api/reservations/${reservation.reservation_id}/products`);
 
-            try {
-                const response = await fetch(`/api/reservations/${reservation.reservation_id}/products`);
-
-                if (!response.ok) {
-                    throw new Error('Failed to fetch reservation products');
-                }
-
-                const productsData = await response.json();
-
-                setSelectedReservation(prev => ({
-                    ...prev,
-                    products: productsData
-                }));
-            } catch (err) {
-                console.error("Error fetching products:", err);
-                showToast("Could not load reservation products", "error");
+            if (!response.ok) {
+                throw new Error('Failed to fetch reservation products');
             }
+            const productsData = await response.json();
+           
+            setSelectedReservation(prev => ({
+                ...prev,
+                products: productsData
+            }));
         } catch (error) {
-            showToast(`Error: ${error.message}`, 'error');
+            console.error("Error fetching reservation products:", error);
+            showToast(`Could not load reservation products ${ error }`, "error");
+            setSelectedReservation(prev => ({
+                ...prev,
+                products: []
+            }));
         }
+
     };
 
     const handleUpdateStatus = (reservation, newStatus) => {
