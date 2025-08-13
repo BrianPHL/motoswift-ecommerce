@@ -43,7 +43,9 @@ router.post('/login', async (req, res) => {
     try {
 
 		const [ rows ] = await pool.query(
-            'SELECT * FROM accounts WHERE email = ? AND password = ?',
+            `
+                SELECT * FROM accounts WHERE email = ? AND password = ?
+            `,
             [ email, password ]
         );
 
