@@ -48,8 +48,8 @@ export const apiRequest = async (url, options = {}, timeout = TIMEOUTS.STANDARD_
                 error: "The request is taking longer than expected. Please check your connection and try again."
             }
         };
+        return { success: false, error: err.message };
     };
-    return { success: false, error: err.message };
 
 };
 
