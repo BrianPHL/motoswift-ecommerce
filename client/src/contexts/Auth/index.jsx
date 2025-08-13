@@ -38,18 +38,6 @@ export const AuthProvider = ({ children }) => {
 
                     if (user) {
 
-                        // const syncResponse = await fetch('/api/oauth/sync', {
-                        //     method: 'POST',
-                        //     headers: { 'Content-Type': 'application/json' },
-                        //     body: JSON.stringify({
-                        //         oauth_user_id: user.id,
-                        //         email: user.email,
-                        //         name: user.name,
-                        //         image: user.image,
-                        //         email_verified: delayedSession.data.user.email_verified || false
-                        //     })
-                        // });
-
                         const syncResponse = await apiRequest('/api/oauth/sync', {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },
@@ -100,17 +88,6 @@ export const AuthProvider = ({ children }) => {
                 if (session?.user) {
 
                     const user = session?.user || session?.data?.user;
-                    // const syncResponse = await fetch('/api/oauth/sync', {
-                    //     method: 'POST',
-                    //     headers: { 'Content-Type': 'application/json' },
-                    //     body: JSON.stringify({
-                    //         oauth_user_id: user.id,
-                    //         email: session.email,
-                    //         name: session.name,
-                    //         image: session.image,
-                    //         email_verified: session.email_verified || false
-                    //     })
-                    // });
 
                     const syncResponse = await apiRequest('/api/oauth/sync', {
                         method: 'POST',
