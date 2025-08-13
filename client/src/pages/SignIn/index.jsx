@@ -26,6 +26,7 @@ const SignIn = () => {
             } else {
                 setFormError('');
                 showToast(`Welcome! You\'ve successfully logged in as ${ result['user']['email'] }.`, 'success')
+                showToast(`Welcome! You\'ve successfully logged in as ${ result.data.email }.`, 'success')
                 navigate('/');
             }
         } catch (err) {
