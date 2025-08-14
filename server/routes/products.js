@@ -1,6 +1,6 @@
-import pool from "./db.js";
+import pool from "../apis/db.js";
 import express from 'express';
-import cloudinary from "./cloudinary.js";
+import cloudinary from "../apis/cloudinary.js";
 import multer from 'multer';
 import fs from 'fs';
 

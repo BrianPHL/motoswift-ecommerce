@@ -4,14 +4,14 @@ import dotenv from "dotenv";
 import path from "path";
 import { fileURLToPath } from 'url';
 import { toNodeHandler, fromNodeHeaders } from 'better-auth/node';
-import { auth } from './auth.js';
-import oauthRouter from './oauth.route.js';
-import accountsRouter from './accounts.route.js';
-import productsRouter from './products.route.js';
-import cartsRouter from './carts.route.js';
-import reservationsRouter from './reservations.route.js';
-import installmentsRouter from './installments.route.js';
-import stocksRouter from './stocks.route.js';
+import { auth } from './apis/auth.js';
+import oauthRouter from './routes/oauth.js';
+import accountsRouter from './routes/accounts.js';
+import productsRouter from './routes/products.js';
+import cartsRouter from './routes/carts.js';
+import reservationsRouter from './routes/reservations.js';
+import installmentsRouter from './routes/installments.js';
+import stocksRouter from './routes/stocks.js';
 
 dotenv.config();
 
