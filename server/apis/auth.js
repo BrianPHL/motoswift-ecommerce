@@ -16,6 +16,14 @@ export const auth = betterAuth({
         expiresIn: 60 * 60 * 24 * 7,
         updateAge: 60 * 60 * 24,
     },
+    emailAndPassword: {
+        enabled: true,
+        requireEmailVerification: true
+    },
+    emailVerification: {
+        sendOnSignIn: true,
+        sendOnSignUp: true
+    },
     socialProviders: {
         google: {
             clientId: process.env.GOOGLE_CLIENT_ID,
@@ -30,11 +38,38 @@ export const auth = betterAuth({
         "http://localhost:3000"
     ],
     user: {
-        modelName: "oauth_users",
+        modelName: "accounts",
         fields: {
             emailVerified: "email_verified",
             createdAt: "created_at",
             updatedAt: "updated_at"
+        },
+        additionalFields: {
+            firstName: {
+                type: "string",
+                field: "first_name",
+                required: false
+            },
+            lastName: {
+                type: "string",
+                field: "last_name",
+                required: false
+            },
+            address: {
+                type: "string",
+                field: "address",
+                required: false
+            },
+            contactNumber: {
+                type: "string",
+                field: "contact_number",
+                required: false
+            },
+            role: {
+                type: "string",
+                field: "role",
+                defaultValue: "customer"
+            }
         }
     },
     session: {
