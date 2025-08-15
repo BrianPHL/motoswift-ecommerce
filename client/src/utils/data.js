@@ -1,3 +1,5 @@
+import { ERROR_MESSAGES } from './constants.js';
+
 export const extractAccountData = (response) => {
 
     console.log('[ DEBUG ] IN EXTRACTACCOUNT DATA: ', response.data)
@@ -13,4 +15,21 @@ export const extractAccountData = (response) => {
     }
     return null;
 
+};
+
+export const getErrorMessage = (error) => {
+    if (typeof error === 'string') {
+        return ERROR_MESSAGES[error] || ERROR_MESSAGES.UNKNOWN_ERROR;
+    }
+    
+    if (error?.code) {
+        return ERROR_MESSAGES[error.code] || ERROR_MESSAGES.UNKNOWN_ERROR;
+    }
+    
+    if (error?.message) {
+        const errorCode = error.message.toUpperCase().replace(/\s+/g, '_');
+        return ERROR_MESSAGES[errorCode] || error.message || ERROR_MESSAGES.UNKNOWN_ERROR;
+    }
+    
+    return ERROR_MESSAGES.UNKNOWN_ERROR;
 };

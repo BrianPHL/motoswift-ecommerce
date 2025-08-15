@@ -5,4 +5,4 @@ export * from './data.js';
 
 export { performOperationWithTimeout, TIMEOUTS } from './api.js';
 export { isValidOTP, cleanOTPInput } from './validation.js';
-export { extractAccountData } from './data.js';
+export { extractAccountData, getErrorMessage } from './data.js';
