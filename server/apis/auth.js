@@ -18,11 +18,9 @@ export const auth = betterAuth({
     },
     emailAndPassword: {
         enabled: true,
-        requireEmailVerification: true
-    },
-    emailVerification: {
-        sendOnSignIn: true,
-        sendOnSignUp: true
+        requireEmailVerification: true,
+        minPasswordLength: 1, // TODO: REMOVE ON PRODUCTION
+        maxPasswordLength: 10000 // TODO: REMOVE ON PRODUCTION
     },
     socialProviders: {
         google: {
@@ -42,32 +40,30 @@ export const auth = betterAuth({
         fields: {
             emailVerified: "email_verified",
             createdAt: "created_at",
-            updatedAt: "updated_at"
+            updatedAt: "updated_at",
+            image: "image_url"
         },
         additionalFields: {
-            firstName: {
+            first_name: {
                 type: "string",
-                field: "first_name",
                 required: false
             },
-            lastName: {
+            last_name: {
                 type: "string",
-                field: "last_name",
-                required: false
+                required: false,
             },
             address: {
                 type: "string",
-                field: "address",
-                required: false
+                required: false,
             },
-            contactNumber: {
-                type: "string",
-                field: "contact_number",
-                required: false
+            contact_number: {
+                type: "number",
+                required: false,
             },
             role: {
                 type: "string",
-                field: "role",
+                required: false,
+                input: false,
                 defaultValue: "customer"
             }
         }

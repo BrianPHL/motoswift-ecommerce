@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { performOperationWithTimeout, apiRequest, extractAccountData, TIMEOUTS } from '@utils';
 import { useOAuth } from "@hooks";
+import { useToast } from "@contexts";
 import AuthContext from "./context";
 
 export const AuthProvider = ({ children }) => {
@@ -13,8 +14,9 @@ export const AuthProvider = ({ children }) => {
     const [ isRemovingAvatar, setIsRemovingAvatar ] = useState(false);
     const [ userCount, setUserCount ] = useState(0);
     const [ showOTPModal, setShowOTPModal ] = useState(false);
-    const { signOut, getSession } = useOAuth();
-    
+    const { authClient, signOut, getSession, signInThruEmail, signUpThruEmail } = useOAuth();
+    const { showToast } = useToast();
+
     useEffect(() => {
         const initializeAuth = async () => {
 
@@ -161,30 +163,42 @@ export const AuthProvider = ({ children }) => {
             }
             return data;
         } catch (err) {
-            console.error('/login route error: ', err);
-            return { error: err.message };
+            console.log("ERRRRRRRRRRRRRRRRRRRRRR")
+            console.error('Auth context login function error: ', err);
+            return { error: err };
         }
 
     };
 
-    const create = async({ firstName, lastName, email, address, contactNumber, password }) => {
-        
-        try {
-        
-            const data = await apiRequest('/api/accounts/create', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ firstName, lastName, email, address, contactNumber, password })
-            }, TIMEOUTS.AUTH_API);
+    const create = async(data) => {
 
-            if (data.user) {
-                setUser(data.user);
-                showToast(`Account created successfully! Welcome, ${data.user.first_name}!`, 'success');
+        try {
+
+            const result = await performOperationWithTimeout(
+                await signUpThruEmail(data),
+                TIMEOUTS.AUTH_EXTERNAL
+            );
+
+            if (result?.error) {
+                const errorData = {
+                    code: result?.error?.code,
+                    message: result?.error?.message,
+                    details: result?.error?.details || "No details provided."
+                }
+                console.error("Auth context create function Better Auth API error: ", errorData.code, errorData.message, errorData.details);
+                return { error: errorData };
             }
-            return data;
+
+
+            if (result) {
+                const user = result.data.user;
+                setUser(user);
+                showToast(`Account created successfully! Welcome, ${ user.name }!`, 'success');
+            }
+            return result;
         
         } catch (err) {
-            console.error('/create route error: ', err);
+            console.error('Auth context create function error: ', err);
             return { error: err.message };
         }
 
@@ -250,7 +264,6 @@ export const AuthProvider = ({ children }) => {
             setUser(updatedUser);
             localStorage.setItem('user', JSON.stringify(updatedUser));
 
-            return { success: true };
         } catch (err) {
             console.error("Failed to update address:", err);
             return { error: err.message };

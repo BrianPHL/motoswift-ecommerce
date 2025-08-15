@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router';
 import { Anchor, Button, InputField, ReturnButton, Modal } from '@components';
 import styles from './SignUp.module.css';
 import { useAuth, useToast } from '@contexts';
+import { getErrorMessage } from '@utils';
 
 const SignIn = () => {
     const [ modalOpen, setModalOpen ] = useState(false);
@@ -27,19 +28,34 @@ const SignIn = () => {
     };
     const handleSignUp = async () => {
 
-        try {
-            const result = await create({ firstName, lastName, email, address, contactNumber, password });
+        try { 
+
+            if (password !== confirmPassword) {
+                const errorMessage = getErrorMessage("PASSWORDS_DO_NOT_MATCH");
+                setFormError(errorMessage);
+                return;
+            }
+
+            const result = await create({
+                firstName: firstName,
+                lastName: lastName,
+                email: email,
+                address: address,
+                contactNumber: contactNumber,
+                password: password
+            });
 
             if (result?.error) {
-                setFormError(result['error']);
+                const errorMessage = getErrorMessage(result.error);
+                setFormError(errorMessage);
                 return;
             } else {
                 setFormError('');
-                showToast('Nice! You\'ve successfully created your account! You may now sign in.', 'success')
                 navigate('/sign-in');
             }
         } catch (err) {
-            setFormError('Server error. Please try again. ' + err)
+            setFormError('Server error. Please try again later.')
+            console.error('Sign up page handleSignUp function error: ', err);
         }
 
     };

@@ -20,6 +20,22 @@ const useOAuth = () => {
             
             return result;
         },
+        signUpThruEmail: (data, callbackURL = 'http://localhost:5173/') => {
+
+            const result = authClient.signUp.email({
+                email: data.email,
+                name: `${ data.firstName } ${ data.lastName }`,
+                first_name: data.firstName,
+                last_name: data.lastName,
+                contact_number: data.contactNumber,
+                address: data.address,
+                password: data.password,
+                callbackURL: callbackURL
+            });
+
+            return result;
+
+        },
         signOut: () => authClient.signOut(),
         getSession: () => authClient.getSession(),
         sendVerificationEmail: async () => {
