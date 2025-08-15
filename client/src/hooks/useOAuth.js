@@ -20,6 +20,20 @@ const useOAuth = () => {
             
             return result;
         },
+        signInThruEmail: async (data, callbackURL = 'http://localhost:5173/') => {
+
+            console.log("signInThruEmail DATA: ", data);
+
+            const result = await authClient.signIn.email({
+                email: data.email,
+                password: data.password,
+                rememberMe: false,
+                callbackURL: callbackURL
+            });
+
+            return result;
+
+        },
         signUpThruEmail: (data, callbackURL = 'http://localhost:5173/') => {
 
             const result = authClient.signUp.email({

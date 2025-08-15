@@ -151,17 +151,18 @@ export const AuthProvider = ({ children }) => {
 
         try {
 
-            const data = await apiRequest('/api/accounts/login', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email, password })
-            }, TIMEOUTS.AUTH_API);
+            const result = await performOperationWithTimeout(
+                await signInThruEmail({ email: email, password: password }),
+                TIMEOUTS.AUTH_EXTERNAL
+            );
 
-            if (data.user) {
-                setUser(data.user);
-                showToast(`Welcome back, ${data.user.first_name}!`, 'success');
+            if (result.error) {
+                console.error("Auth context login function error: ", result.error || result.error.message);
+                return;
             }
-            return data;
+            
+            return result.data;
+
         } catch (err) {
             console.log("ERRRRRRRRRRRRRRRRRRRRRR")
             console.error('Auth context login function error: ', err);
