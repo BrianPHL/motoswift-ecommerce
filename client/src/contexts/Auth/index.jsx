@@ -50,7 +50,7 @@ export const AuthProvider = ({ children }) => {
                                 image: user.image,
                                 email_verified: delayedSession.data.user.email_verified || false
                             })
-                        }, TIMEOUTS.OAUTH_API);
+                        }, TIMEOUTS.OAUTH_EXTERNAL);
                         
                         if (syncResponse.success) {
 
@@ -101,7 +101,7 @@ export const AuthProvider = ({ children }) => {
                             image: user.image,
                             email_verified: delayedSession.data.user.email_verified || false
                         })
-                    }, TIMEOUTS.OAUTH_API);
+                    }, TIMEOUTS.OAUTH_EXTERNAL);
 
                     if (syncResponse.success) {
 
