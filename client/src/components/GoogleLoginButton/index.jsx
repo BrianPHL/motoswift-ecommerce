@@ -3,12 +3,12 @@ import { Button } from '@components';
 
 const GoogleLoginButton = ({ callbackURL, onSuccess, onError, ...props }) => {
 
-    const { signInWithGoogle } = useOAuth();
+    const { signInThruGoogleSSO } = useOAuth();
     const handleGoogleLogin = async () => {
 
         try {
 
-            await signInWithGoogle(callbackURL);
+            await signInThruGoogleSSO(callbackURL);
  
         } catch (err) {
             console.error("Google sign-in error: ", err);
