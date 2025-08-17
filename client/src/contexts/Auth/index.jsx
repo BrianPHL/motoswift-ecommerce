@@ -17,135 +17,17 @@ export const AuthProvider = ({ children }) => {
     const { authClient, signOut, getSession, signInThruEmail, signUpThruEmail } = useOAuth();
     const { showToast } = useToast();
 
-    useEffect(() => {
-        const initializeAuth = async () => {
 
-            try {
-                const storedUser = localStorage.getItem('user');
-                if (storedUser) {
-                    const parsedUser = JSON.parse(storedUser);
-                    setUser(parsedUser);
-                    setIsInitializing(false);
-                    return;
-                }
-                
-                const session = await getSession();
-                
-                if (!session?.user) {
+
+
+
+    };
+
+
                     
-                    await new Promise(resolve => setTimeout(resolve, 1000));
-
-                    const delayedSession = await getSession();
-                    const user = delayedSession?.user || delayedSession?.data?.user;
-
-                    if (user) {
-
-                        const syncResponse = await apiRequest('/api/oauth/sync', {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({ 
-                                oauth_user_id: user.id,
-                                email: user.email,
-                                name: user.name,
-                                image: user.image,
-                                email_verified: delayedSession.data.user.email_verified || false
-                            })
-                        }, TIMEOUTS.OAUTH_EXTERNAL);
-                        
-                        if (syncResponse.success) {
-
-                            const account = extractAccountData(syncResponse);
-                            
-                            console.log("Sync data received:", syncResponse);
-                            console.log("Sync data account:", account);
-                        
-                            const unifiedUser = {
-                                ...account,
-                                id: account.id,
-                                auth_provider: 'google',
-                                oauth_user: user,
-                                role: account.role || 'customer',
-                                first_name: account.first_name,
-                                last_name: account.last_name,
-                                email: account.email,
-                                image_url: account.image_url || user.image
-                            };
-
-                            if (unifiedUser && !unifiedUser.email_verified) {
-                                console.log("SHOULD BE SHOWING OTP MODAL NOW")
-                                setShowOTPModal(true);
-                            }
-                        
-                            localStorage.setItem('user', JSON.stringify(unifiedUser));
-                            setUser(unifiedUser);
-                            setIsInitializing(false);
-                            return;
-
-                        } else {
-                            console.log("Sync failed with error:", syncResponse);
-                        }
-                    }
                 }
-
-                if (session?.user) {
-
-                    const user = session?.user || session?.data?.user;
-
-                    const syncResponse = await apiRequest('/api/oauth/sync', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ 
-                            oauth_user_id: user.id,
-                            email: user.email,
-                            name: user.name,
-                            image: user.image,
-                            email_verified: delayedSession.data.user.email_verified || false
-                        })
-                    }, TIMEOUTS.OAUTH_EXTERNAL);
-
-                    if (syncResponse.success) {
-
-                        const account = extractAccountData(syncResponse);
-                        
-                        console.log("Sync data received:", syncResponse);
-                        console.log("Sync data account:", account);
-                    
-                        const unifiedUser = {
-                            ...account,
-                            id: account.id,
-                            auth_provider: 'google',
-                            oauth_user: user,
-                            role: account.role || 'customer',
-                            first_name: account.first_name,
-                            last_name: account.last_name,
-                            email: account.email,
-                            image_url: account.image_url || user.image
-                        };
-                        if (unifiedUser && !unifiedUser.email_verified) {
-                            console.log("SHOULD BE SHOWING OTP MODAL NOW")
-                            setShowOTPModal(true);
-                        }
-                    
-                        localStorage.setItem('user', JSON.stringify(unifiedUser));
-                        setUser(unifiedUser);
-                        setIsInitializing(false);
-                        return;
-
-                    } else {
-                        console.log("Sync failed with error:", syncResponse);
-                    }
-                } else {
-                    console.log("No Better Auth session found");
-                }
-            } catch (err) {
-                console.error('Auth initialization error:', err);
-            } finally {
-                setIsInitializing(false);
             }
-        };
 
-        initializeAuth();
-    }, []);
 
     const login = async ({ email, password }) => { // TODO: Add email verification OTP
 
