@@ -16,16 +16,16 @@
 
 -- Dumping structure for table motoswift.reservation_products
 CREATE TABLE IF NOT EXISTS `reservation_products` (
-  `reservation_id` int NOT NULL,
+  `id` int NOT NULL,
   `product_id` int NOT NULL,
   `quantity` int NOT NULL DEFAULT '1',
-  PRIMARY KEY (`reservation_id`,`product_id`),
+  PRIMARY KEY (`id`,`product_id`) USING BTREE,
   KEY `reservations_products_product_id_fkey` (`product_id`),
-  CONSTRAINT `reservations_products_product_id_fkey` FOREIGN KEY (`product_id`) REFERENCES `products` (`product_id`),
-  CONSTRAINT `reservations_products_reservation_id_fkey` FOREIGN KEY (`reservation_id`) REFERENCES `reservations` (`reservation_id`)
+  CONSTRAINT `reservations_products_product_id_fkey` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`),
+  CONSTRAINT `reservations_products_reservation_id_fkey` FOREIGN KEY (`id`) REFERENCES `reservations` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Data exporting was unselected.
+-- Dumping data for table motoswift.reservation_products: ~0 rows (approximately)
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;

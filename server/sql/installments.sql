@@ -14,25 +14,25 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
--- Dumping structure for table motoswift.stocks_history
-CREATE TABLE IF NOT EXISTS `stocks_history` (
+-- Dumping structure for table motoswift.installments
+CREATE TABLE IF NOT EXISTS `installments` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `product_id` int NOT NULL,
-  `stock_history_type` enum('initial','restock','adjustment','reservation','return') COLLATE utf8mb4_general_ci NOT NULL,
-  `quantity_change` int NOT NULL,
-  `previous_quantity` int NOT NULL,
-  `new_quantity` int NOT NULL,
+  `reservation_id` int NOT NULL,
+  `amount` decimal(10,2) NOT NULL,
+  `payment_date` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `status` enum('pending','completed','rejected') COLLATE utf8mb4_general_ci DEFAULT 'pending',
+  `admin_id` int DEFAULT NULL,
   `notes` text COLLATE utf8mb4_general_ci,
-  `admin_id` int NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT (now()),
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `processed_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
-  KEY `product_id_fkey` (`product_id`),
-  KEY `admin_id_fkey` (`admin_id`),
-  CONSTRAINT `admin_id_fkey` FOREIGN KEY (`admin_id`) REFERENCES `oauth_accounts` (`id`),
-  CONSTRAINT `product_id_fkey` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=70 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  KEY `reservation_id` (`reservation_id`),
+  KEY `admin_id` (`admin_id`),
+  CONSTRAINT `installments_ibfk_1` FOREIGN KEY (`reservation_id`) REFERENCES `reservations` (`id`),
+  CONSTRAINT `installments_ibfk_2` FOREIGN KEY (`admin_id`) REFERENCES `oauth_accounts` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Dumping data for table motoswift.stocks_history: ~0 rows (approximately)
+-- Dumping data for table motoswift.installments: ~0 rows (approximately)
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;

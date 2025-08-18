@@ -14,25 +14,24 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
--- Dumping structure for table motoswift.stocks_history
-CREATE TABLE IF NOT EXISTS `stocks_history` (
+-- Dumping structure for table motoswift.oauth_sessions
+CREATE TABLE IF NOT EXISTS `oauth_sessions` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `product_id` int NOT NULL,
-  `stock_history_type` enum('initial','restock','adjustment','reservation','return') COLLATE utf8mb4_general_ci NOT NULL,
-  `quantity_change` int NOT NULL,
-  `previous_quantity` int NOT NULL,
-  `new_quantity` int NOT NULL,
-  `notes` text COLLATE utf8mb4_general_ci,
-  `admin_id` int NOT NULL,
+  `user_id` int NOT NULL,
+  `token` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `ip_address` varchar(45) COLLATE utf8mb4_general_ci NOT NULL,
+  `user_agent` text COLLATE utf8mb4_general_ci NOT NULL,
+  `expires_at` timestamp NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT (now()),
+  `updated_at` timestamp NOT NULL DEFAULT (now()) ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`) USING BTREE,
-  KEY `product_id_fkey` (`product_id`),
-  KEY `admin_id_fkey` (`admin_id`),
-  CONSTRAINT `admin_id_fkey` FOREIGN KEY (`admin_id`) REFERENCES `oauth_accounts` (`id`),
-  CONSTRAINT `product_id_fkey` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=70 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  UNIQUE KEY `oauth_sessions_token_unique` (`token`) USING BTREE,
+  KEY `oauth_sessions_user_id_fk` (`user_id`) USING BTREE,
+  KEY `oauth_sessions_expires_at_index` (`expires_at`),
+  CONSTRAINT `oath_sessions_user_id_fk` FOREIGN KEY (`user_id`) REFERENCES `oauth_users` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=72 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Dumping data for table motoswift.stocks_history: ~0 rows (approximately)
+-- Dumping data for table motoswift.oauth_sessions: ~0 rows (approximately)
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;

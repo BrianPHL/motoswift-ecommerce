@@ -16,18 +16,19 @@
 
 -- Dumping structure for table motoswift.reservations
 CREATE TABLE IF NOT EXISTS `reservations` (
-  `reservation_id` int NOT NULL AUTO_INCREMENT,
+  `id` int NOT NULL AUTO_INCREMENT,
   `account_id` int NOT NULL,
-  `status` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'pending',
+  `status` enum('pending','pending_approval','rejected','cancelled','completed') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'pending',
   `preferred_date` date NOT NULL,
   `notes` text COLLATE utf8mb4_general_ci,
   `created_at` timestamp NOT NULL DEFAULT (now()),
-  PRIMARY KEY (`reservation_id`) USING BTREE,
+  `modified_at` timestamp NOT NULL DEFAULT (now()) ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`) USING BTREE,
   KEY `reservations_account_id_fkey` (`account_id`),
-  CONSTRAINT `reservations_account_id_fkey` FOREIGN KEY (`account_id`) REFERENCES `accounts` (`account_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  CONSTRAINT `reservations_account_id_fkey` FOREIGN KEY (`account_id`) REFERENCES `oauth_accounts` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Data exporting was unselected.
+-- Dumping data for table motoswift.reservations: ~0 rows (approximately)
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;

@@ -14,25 +14,20 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
--- Dumping structure for table motoswift.stocks_history
-CREATE TABLE IF NOT EXISTS `stocks_history` (
+-- Dumping structure for table motoswift.oauth_verifications
+CREATE TABLE IF NOT EXISTS `oauth_verifications` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `product_id` int NOT NULL,
-  `stock_history_type` enum('initial','restock','adjustment','reservation','return') COLLATE utf8mb4_general_ci NOT NULL,
-  `quantity_change` int NOT NULL,
-  `previous_quantity` int NOT NULL,
-  `new_quantity` int NOT NULL,
-  `notes` text COLLATE utf8mb4_general_ci,
-  `admin_id` int NOT NULL,
+  `identifier` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `value` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `expires_at` timestamp NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT (now()),
+  `updated_at` timestamp NOT NULL DEFAULT (now()) ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`) USING BTREE,
-  KEY `product_id_fkey` (`product_id`),
-  KEY `admin_id_fkey` (`admin_id`),
-  CONSTRAINT `admin_id_fkey` FOREIGN KEY (`admin_id`) REFERENCES `oauth_accounts` (`id`),
-  CONSTRAINT `product_id_fkey` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=70 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  KEY `oauth_verifications_id_index` (`id`),
+  KEY `oauth_verifications_expires_at_index` (`expires_at`)
+) ENGINE=InnoDB AUTO_INCREMENT=155 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Dumping data for table motoswift.stocks_history: ~0 rows (approximately)
+-- Dumping data for table motoswift.oauth_verifications: ~0 rows (approximately)
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
