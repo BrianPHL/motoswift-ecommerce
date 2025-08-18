@@ -3,33 +3,51 @@ import { Anchor, Button, InputField, ReturnButton, GoogleLoginButton } from '@co
 import styles from './SignIn.module.css';
 import { useAuth, useToast } from '@contexts';
 import { useNavigate } from 'react-router';
+import { getErrorMessage } from '@utils';
 
 const SignIn = () => {
     const [ showPassword, setShowPassword ] = useState(false);
+    const [ isLoading, setIsLoading ] = useState(false);
     const [ email, setEmail ] = useState('');
     const [ password, setPassword ] = useState('');
     const [ formError, setFormError ] = useState('');
     const { signIn } = useAuth();
     const { showToast } = useToast();
     const navigate = useNavigate();
-    const handlePasswordToggle = () => {
+
+    const handlePasswordToggle = () =>
         setShowPassword((prev) => !prev);
-    }
-    const handleSignIn = async () => {
+
+    const handleSignIn = async (event) => {
+
+        event?.preventDefault();
+
+        if (isLoading) return;
+
+        setIsLoading(true);
+        setFormError('');
 
         try {
-            const result = await login({ email, password });
+            const result = await signIn({
+                email: email,
+                password: password
+            });
 
             if (result?.error) {
-                setFormError(result['error']);
+                const errorMessage = getErrorMessage(result.error.code === 'INVALID_EMAIL_OR_PASSWORD' ? "INCORRECT_PASSWORD" : result.error);
+                setFormError(errorMessage);
+                setIsLoading(false);
                 return;
             } else {
+                setIsLoading(false);
                 setFormError('');
-                showToast(`Welcome! You\'ve successfully logged in as ${ result.data.email }.`, 'success')
                 navigate('/');
             }
+
         } catch (error) {
-            setFormError('Server error. Please try again. Error: ' + error)
+            setFormError('Server error. Please try again. Error: ' + error);
+            setIsLoading(false);            
+            console.error('Sign up page handleSignIn function error: ', err);
         }
 
     };

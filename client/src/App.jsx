@@ -27,7 +27,7 @@ const PAGE_TITLES = {
 
 const App = () => {
 
-	const { user, showOTPModal, setShowOTPModal } = useAuth();
+	const { user, otpModalData, handleOTPSuccess, hideOTP } = useAuth();
 	const location = useLocation();	
 	
 	useEffect(() => {
@@ -94,10 +94,11 @@ const App = () => {
     		</Routes>
 
             <OTPModal
-                isOpen={showOTPModal && user?.auth_provider === 'google' && !user?.email_verified}
-                userEmail={user?.email}
-                onClose={ () => setShowOTPModal(false) }
-                onSuccess={ () => window.location.reload() }
+				isOpen={ otpModalData.show }
+				onClose={ hideOTP }
+				type={ otpModalData.type }
+				email={ otpModalData.email }
+				onSuccess={ handleOTPSuccess }
             />
 
     		<Footer />

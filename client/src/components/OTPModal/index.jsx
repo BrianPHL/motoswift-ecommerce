@@ -1,123 +1,177 @@
 import styles from './OTPModal.module.css';
 import { Modal, Button } from '@components';
-import { isValidOTP, cleanOTPInput, performOperationWithTimeout, TIMEOUTS } from '@utils';
-import { useState } from 'react';
+import { performOperationWithTimeout, TIMEOUTS } from '@utils';
+import { useAuth } from '@contexts';
+import { useOAuth } from '@hooks';
+import { useState, useRef, useEffect } from 'react';
 
-const OTPModal = ({ isOpen, onClose, userEmail, onSuccess }) => {
-    const [ oneTimePassword, setOneTimePassword ] = useState('');
-    const [ loading, setLoading ] = useState(false);
-    const [ message, setMessage ] = useState('');
+const OTPModal = ({ isOpen, onClose }) => {
+    const { otpModalData, hideOTP, handleOTPSuccess } = useAuth();
+    const { sendVerificationOTP, verifyEmailOTP } = useOAuth();
+    
+    const [otp, setOtp] = useState("");
+    const [loading, setLoading] = useState(false);
+    const [message, setMessage] = useState("");
+    const inputRef = useRef(null);
+
+    useEffect(() => {
+        if (isOpen) {
+            setOtp("");
+            setMessage("");
+            setLoading(false);
+        }
+    }, [isOpen]);
+
+    useEffect(() => {
+        if (isOpen && inputRef.current) {
+            setTimeout(() => inputRef.current.focus(), 100);
+        }
+    }, [isOpen]);
+
+    const handleInput = (e) => {
+        let value = e.target.value.replace(/[^0-9]/g, "").slice(0, 6);
+        setOtp(value);
+        setMessage("");
+
+        // Auto-verify on paste
+        if (value.length === 6 && e.nativeEvent.inputType === "insertFromPaste") {
+            handleVerify(value);
+        }
+    };
 
     const sendOTP = async () => {
-
+        if (!otpModalData?.email) return;
+        
         setLoading(true);
+        setMessage("");
         
         try {
             
-            // const response = await fetch('/api/oauth/send-otp', {
-            //     method: 'POST',
-            //     headers: { 'Content-Type': 'application/json' },
-            //     body: JSON.stringify({ email: userEmail })
-            // });
-
-            const response = await performOperationWithTimeout(
-                fetch('/api/oauth/send-otp', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ email: userEmail })
-                }),
-                TIMEOUTS.EXTERNAL_SERVICE
-            );
+            const result = await sendVerificationOTP(otpModalData.email, otpModalData.type);
             
-            if (response.ok) {
-                setMessage('OTP sent to your email!');
+            if (result.error) {
+                setMessage('Failed to send verification code');
             } else {
-                setMessage('Failed to send OTP');
+                setMessage('Verification code sent!');
             }
         } catch (err) {
-            if (err.message === 'Operation timed out') {
-                setMessage('OTP request timed out. Please try again.');
-            } else {
-                setMessage('Error sending OTP');
-                console.error(err);
-            }
+            console.error('Error sending OTP:', err);
+            setMessage('Error sending verification code');
+        } finally {
+            setLoading(false);
         }
-        setLoading(false);
     };
 
-    const verifyOTP = async () => {
+    const handleVerify = async (otpValue = otp) => {
+        if (otpValue.length !== 6) {
+            setMessage('Please enter a 6-digit code');
+            return;
+        }
 
-        if (!isValidOTP(oneTimePassword)) {
-            setMessage('Please enter 6-digit code');
+        if (!otpModalData?.email) {
+            setMessage('Missing email');
             return;
         }
 
         setLoading(true);
-
+        setMessage("");
+        
         try {
-
-            const response = await performOperationWithTimeout(
-                fetch('/api/oauth/verify-otp', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ email: userEmail, oneTimePassword })
-                }),
-                TIMEOUTS.STANDARD_API
-            );
+            const result = await verifyEmailOTP(otpModalData.email, otpValue);
             
-            if (response.ok) {
-                onSuccess();
-                onClose();
+            if (result.error) {
+                setMessage('Invalid verification code');
+                return;
             } else {
-                setMessage('Invalid OTP code');
-                // setOneTimePassword('');
+                await handleOTPSuccess(result);
             }
+            
         } catch (err) {
-            if (err.message === 'Operation timed out') {
-                setMessage('Verification timed out. Please try again.');
-            } else {
-                setMessage('Error verifying OTP');
-            }
+            console.error('Error verifying OTP:', err);
+            setMessage('Verification failed. Please try again.');
+        } finally {
+            setLoading(false);
         }
+    };
+
+    const handleClose = () => {
+        setOtp("");
+        setMessage("");
         setLoading(false);
+        hideOTP();
     };
 
-    const handleOneTimePasswordChange = (event) => {
-        const cleaned = cleanOTPInput(event.target.value);
-        setOneTimePassword(cleaned);
+    const getTitle = () => {
+        switch (otpModalData?.type) {
+            case 'signin': return 'Email Verification Required';
+            case 'signup': return 'Verify Your Email';
+            case 'forgot-password': return 'Reset Your Password';
+            default: return 'Email Verification';
+        }
     };
 
-    if (!isOpen) return null;
+    const getDescription = () => {
+        switch (otpModalData?.type) {
+            case 'signin': return 'Enter the 6-digit code sent to your email to sign in';
+            case 'signup': return 'Enter the 6-digit code sent to your email to complete registration';
+            case 'forgot-password': return 'Enter the 6-digit code sent to your email to reset password';
+            default: return 'Enter the 6-digit code sent to your email';
+        }
+    };
 
     return (
-        <Modal label="Email Verification" isOpen={isOpen} onClose={onClose}>
+        <Modal label={getTitle()} isOpen={isOpen} onClose={handleClose}>
             <div className={styles.content}>
-                <h3>Verify Your Email</h3>
-                <p>Enter the 6-digit code sent to {userEmail}</p>
+                <h3>{getTitle()}</h3>
+                <p className={styles.description}>{getDescription()}</p>
                 
-                {message && <p className={styles.message}>{message}</p>}
+                {otpModalData?.email && (
+                    <p className={styles.email}>
+                        Code sent to: <strong>{otpModalData.email}</strong>
+                    </p>
+                )}
                 
+                {message && (
+                    <p className={`${styles.message} ${message.includes('sent') ? styles.success : styles.error}`}>
+                        {message}
+                    </p>
+                )}
+
+                <div
+                    className={styles.otpBoxes}
+                    onClick={() => inputRef.current?.focus()}
+                >
+                    {Array.from({ length: 6 }).map((_, i) => (
+                        <span key={i} className={styles.otpBox}>
+                            {otp[i] || ""}
+                        </span>
+                    ))}
+                </div>
+
                 <input
+                    ref={inputRef}
                     type="text"
-                    maxLength="6"
-                    value={ oneTimePassword }
-                    onChange={(e) => setOneTimePassword(e.target.value.replace(/\D/g, ''))}
-                    placeholder="Enter 6-digit code"
-                    className={styles.otpInput}
+                    inputMode="numeric"
+                    autoComplete="one-time-code"
+                    maxLength={6}
+                    value={otp}
+                    onInput={handleInput}
+                    className={styles.otpHidden}
+                    disabled={loading}
                 />
-                
+
                 <div className={styles.buttons}>
                     <Button
-                        label="Send Code"
+                        label="Resend Code"
                         type="secondary"
                         action={sendOTP}
                         disabled={loading}
                     />
                     <Button
-                        label="Verify"
+                        label={loading ? "Verifying..." : "Verify"}
                         type="primary"
-                        action={verifyOTP}
-                        disabled={loading || oneTimePassword.length !== 6}
+                        action={() => handleVerify(otp)}
+                        disabled={otp.length !== 6 || loading}
                     />
                 </div>
             </div>

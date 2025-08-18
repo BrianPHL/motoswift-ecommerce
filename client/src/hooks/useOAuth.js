@@ -26,8 +26,6 @@ const useOAuth = () => {
         },
         signInThruEmail: async (data, callbackURL = 'http://localhost:5173/') => {
 
-            console.log("signInThruEmail DATA: ", data);
-
             const result = await authClient.signIn.email({
                 email: data.email,
                 password: data.password,
@@ -54,23 +52,47 @@ const useOAuth = () => {
             return result;
 
         },
-        signOut: () => authClient.signOut(),
-        getSession: () => authClient.getSession(),
-        sendVerificationEmail: async () => {
-            return await fetch('/api/oauth/send-verification-email', {
-                method: 'POST',
-                credentials: 'include'
+        sendVerificationOTP: async (email, type) => {
+            
+            const result = authClient.emailOtp.sendVerificationOtp({
+                email: email,
+                type: type
             });
+
+            return result;
+
         },
-        
-        resendVerificationEmail: async (email) => {
-            return await fetch('/api/oauth/send-verification-email', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email }),
-                credentials: 'include'
+        sendForgetAndResetPasswordOTP: async (email) => {
+
+            const result = authClient.forgetPassword.emailOtp({
+                email: email
+            })
+
+            return result;
+
+        },
+        resetPassword: (email, otp, password) => {
+            
+            const result = authClient.emailOtp.resetPassword({
+                email: email,
+                otp: otp,
+                password: password
             });
-        }
+
+            return result;
+
+        },
+        verifyEmailOTP: async (email, otp) => {
+
+            const result = await authClient.emailOtp.verifyEmail({
+                email: email,
+                otp: otp
+            });
+            return result;
+            
+        },
+        signOut: () => authClient.signOut(),
+        getSession: () => authClient.getSession()
     };
 
 };

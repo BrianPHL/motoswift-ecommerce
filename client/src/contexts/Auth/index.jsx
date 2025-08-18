@@ -13,47 +13,136 @@ export const AuthProvider = ({ children }) => {
     const [ isUpdatingAvatar, setIsUpdatingAvatar ] = useState(false);
     const [ isRemovingAvatar, setIsRemovingAvatar ] = useState(false);
     const [ userCount, setUserCount ] = useState(0);
-    const [ showOTPModal, setShowOTPModal ] = useState(false);
-    const { authClient, signOut, getSession, signInThruEmail, signUpThruEmail } = useOAuth();
+    const [ otpModalData, setOtpModalData ] = useState({
+        show: false,
+        type: null, // 'email-verification' || 'sign-in' || 'forget-password'
+        email: null,
+        onSuccess: null
+    });
+    const { signOut, getSession, signInThruEmail, signUpThruEmail, sendVerificationOTP } = useOAuth();
     const { showToast } = useToast();
 
+    useEffect(() => {
 
+        const initializeAuthentication = async () => {
 
+            try {
+                const session = await getSession();
 
+                if (session?.data?.user)
+                    setUser(session.data.user);
+
+            } catch (err) {
+                console.error("Auth context initializeAuth function error: ", err);
+            } finally {
+                setIsInitializing(false);
+            }
+
+        };
+        initializeAuthentication();
+
+    }, []);
+
+    const showOTP = async (type, email, callback) => {
+
+        try {
+            await sendVerificationOTP(email, type);
+            setOtpModalData({
+                show: true,
+                type: type,
+                email: email,
+                onSuccess: callback
+            });
+        } catch (err) {
+            showToast('Failed to send verification code', 'error');
+        }
 
     };
 
+    const hideOTP = () => {
+        setOtpModalData({
+            show: false,
+            type: null,
+            email: null,
+            onSuccess: null
+        });
+    };
 
-                    
-                }
-            }
+    const handleOTPSuccess = async (result) => {
 
+        if (otpModalData.onSuccess)
+            await otpModalData.onSuccess(result);
+        
+        hideOTP();
 
-    const login = async ({ email, password }) => { // TODO: Add email verification OTP
+    };
+
+    const signIn = async (data) => {
 
         try {
 
             const result = await performOperationWithTimeout(
-                await signInThruEmail({ email: email, password: password }),
+                signInThruEmail(data),
                 TIMEOUTS.AUTH_EXTERNAL
             );
 
-            if (result.error) {
-                console.error("Auth context login function error: ", result.error || result.error.message);
-                return;
+            if (result?.error) {
+
+                const errorData = {
+                    code: result.error?.code,
+                    message: result.error?.message,
+                    details: result.error?.details || "No details provided."
+                };
+
+                if (errorData.code === 'EMAIL_NOT_VERIFIED') {
+                    await showOTP('email-verification', data.email, async (result) => {
+
+                        if (result.data.user) {
+                            completeSignInProcess(data.email);
+                        }
+
+                    });
+                    return;
+                }
+
+                return { error: errorData };
+
             }
-            
-            return result.data;
+
+            completeSignInProcess(data.email);
+
+            // return result;
 
         } catch (err) {
-            console.log("ERRRRRRRRRRRRRRRRRRRRRR")
-            console.error('Auth context login function error: ', err);
+            console.error('Auth context signIn function error: ', err);
             return { error: err };
         }
 
     };
 
-    const create = async(data) => {
+    const completeSignInProcess = async (email) => {
+
+        try {
+
+            const session = await getSession();
+
+            if (session?.user) {
+
+                setUser(session.user);
+                localStorage.setItem('user', JSON.stringify(session.user));
+                showToast(`Welcome back, ${ session.user.name }!`, 'success');
+                return;
+
+            }
+
+        } catch (err) {
+            console.error('Auth context completeSignInProcess function error: ', err);
+            return { error: err };
+        }
+
+    };
+
+    const signUp = async(data) => {
 
         try {
 
@@ -68,16 +157,13 @@ export const AuthProvider = ({ children }) => {
                     message: result?.error?.message,
                     details: result?.error?.details || "No details provided."
                 }
-                console.error("Auth context create function Better Auth API error: ", errorData.code, errorData.message, errorData.details);
+                console.error("Auth context create function Better Auth API error: ", errorData.code, errorData.message, errorData.details || "No error details provided");
                 return { error: errorData };
             }
 
-
-            if (result) {
-                const user = result.data.user;
-                setUser(user);
-                showToast(`Account created successfully! Welcome, ${ user.name }!`, 'success');
-            }
+            setUser(result.data.user);
+            showToast(`Account created successfully! Welcome, ${ result.data.user.name }!`, 'success');
+            
             return result;
         
         } catch (err) {
@@ -89,14 +175,13 @@ export const AuthProvider = ({ children }) => {
 
     const logout = async () => {
         try {
-            if (user?.auth_provider === 'google' && user?.oauth_user) {
-                await signOut();
-            }
-            
+
+            await signOut();
             localStorage.removeItem('user');
             setUser(null);
+
         } catch (err) {
-            console.error('Logout error:', err);
+            console.error('Auth context logout function error:', err);
             localStorage.removeItem('user');
             setUser(null);
         }
@@ -308,17 +393,17 @@ export const AuthProvider = ({ children }) => {
             isLoading: isInitializing,
             isUpdatingAvatar,
             isRemovingAvatar,
-            showOTPModal,
-            setShowOTPModal,
-            login,
-            logout, 
-            create, 
+            otpModalData,
+            handleOTPSuccess,
+            hideOTP,
+            showOTP,
+            signIn,
+            signUp,
+            logout,
             remove,
+            updatePersonalInfo,
             updateAvatar,
             removeAvatar,
-            updatePersonalInfo,
-            updateAddress,
-            updatePassword,
         }}>
             { children }
         </AuthContext.Provider>
