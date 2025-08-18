@@ -1,7 +1,5 @@
 export const createOTPEmail = (email, otp, type) => {
 
-    console.log("CREATING OTP EMAIL: ", email, otp, type);
-
     const titles = {
         'sign-in': 'Sign In',
         'email-verification': 'Email Verification',

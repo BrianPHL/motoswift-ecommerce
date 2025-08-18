@@ -9,7 +9,7 @@ const SignIn = () => {
     const [ email, setEmail ] = useState('');
     const [ password, setPassword ] = useState('');
     const [ formError, setFormError ] = useState('');
-    const { login } = useAuth();
+    const { signIn } = useAuth();
     const { showToast } = useToast();
     const navigate = useNavigate();
     const handlePasswordToggle = () => {

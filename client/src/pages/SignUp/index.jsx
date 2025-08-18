@@ -17,7 +17,7 @@ const SignIn = () => {
     const [ password, setPassword ] = useState('');
     const [ confirmPassword, setConfirmPassword ] = useState('');
     const [ formError, setFormError ] = useState('');
-    const { create } = useAuth();
+    const { signUp } = useAuth();
     const { showToast } = useToast();
     const navigate = useNavigate();
     const handlePasswordToggle = () => {
@@ -36,7 +36,7 @@ const SignIn = () => {
                 return;
             }
 
-            const result = await create({
+            const result = await signUp({
                 firstName: firstName,
                 lastName: lastName,
                 email: email,
