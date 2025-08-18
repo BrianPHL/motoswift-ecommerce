@@ -1,1 +1,1 @@
-export { storeOTP, verifyOTP, deleteOTP } from './database.js';
+export { createOTPEmail } from './email.js';
