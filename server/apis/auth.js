@@ -35,7 +35,7 @@ export const auth = betterAuth({
     },
     plugins: [
         emailOTP({
-            overrideDefaultEmailVerification: true,
+            overrideDefaultEmailVerification: false,
             otpLength: 6,
             expiresIn: 300,
             allowedAttempts: 3,

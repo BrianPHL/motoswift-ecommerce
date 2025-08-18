@@ -97,9 +97,8 @@ export const AuthProvider = ({ children }) => {
                 if (errorData.code === 'EMAIL_NOT_VERIFIED') {
                     await showOTP('email-verification', data.email, async (result) => {
 
-                        if (result.data.user) {
-                            completeSignInProcess(data.email);
-                        }
+                        if (result.data.user) 
+                            signIn(data);
 
                     });
                     return;
@@ -111,7 +110,7 @@ export const AuthProvider = ({ children }) => {
 
             completeSignInProcess(data.email);
 
-            // return result;
+            return result;
 
         } catch (err) {
             console.error('Auth context signIn function error: ', err);
