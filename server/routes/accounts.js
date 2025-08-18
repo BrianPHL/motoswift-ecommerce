@@ -35,33 +35,6 @@ router.get('/count', async (req, res) => {
     }
 });
 
-
-router.post('/login', async (req, res) => {
-    
-	const { email, password } = req.body;
-
-    try {
-
-		const [ rows ] = await pool.query(
-            `
-                SELECT * FROM accounts WHERE email = ? AND password = ?
-            `,
-            [ email, password ]
-        );
-
-        if (rows.length === 0) return res.status(401).json({ error: 'Invalid username or password. The account might not even exist.' });
-
-        res.json(rows[0]);
-
-	} catch (err) {
-
-        console.error('Login error: ', err)
-		res.status(500).json({ error: err.message });
-
-	}
-
-});
-
 router.put('/:account_id/personal-info', async (req, res) => {
     try {
         const { account_id } = req.params;
