@@ -1,5 +1,6 @@
 import { betterAuth } from "better-auth";
 import { emailOTP } from "better-auth/plugins";
+import { createOTPEmail } from "../utils/email.js";
 import nodemailer from 'nodemailer';
 import pool from "./db.js";
 
@@ -43,11 +44,7 @@ export const auth = betterAuth({
                     from: process.env.GOOGLE_APP_EMAIL_USER,
                     to: email,
                     subject: 'Your Verification Code | Seraphim Luxe',
-                    html: `
-                        <h2>Your verification code is:</h2>
-                        <h1 style="color: #007bff; font-size: 2em; text-align: center; letter-spacing: 0.2em;">${ otp }</h1>
-                        <p>This code expires in 5 minutes.</p>
-                    `
+                    html: createOTPEmail(email, otp, type)
                 });
             }
         })
