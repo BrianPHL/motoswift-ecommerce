@@ -5,7 +5,6 @@ import path from "path";
 import { fileURLToPath } from 'url';
 import { toNodeHandler, fromNodeHeaders } from 'better-auth/node';
 import { auth } from './apis/auth.js';
-import oauthRouter from './routes/oauth.js';
 import accountsRouter from './routes/accounts.js';
 import productsRouter from './routes/products.js';
 import cartsRouter from './routes/carts.js';
@@ -31,7 +30,6 @@ app.use(cors({
 
 app.all("/api/auth/*splat", toNodeHandler(auth));
 app.use(express.json());
-app.use('/api/oauth', oauthRouter);
 app.use('/api/accounts', accountsRouter);
 app.use('/api/products', productsRouter);
 app.use('/api/carts', cartsRouter);
