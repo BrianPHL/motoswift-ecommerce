@@ -1,4 +1,3 @@
-import { generateOTP, createOTPEmail, storeOTP, verifyOTP } from "../utils/index.js";
 import pool from "../apis/db.js";
 import express from 'express';
 import { transporter } from "../apis/auth.js";
