@@ -20,6 +20,7 @@ const useOAuth = () => {
             const result = await authClient.signIn.social({
                 provider: 'google',
                 callbackURL: callbackURL,
+                errorCallbackURL: callbackURL
             });
             
             return result;

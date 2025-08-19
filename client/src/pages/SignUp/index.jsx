@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router';
+import { useState, useEffect } from 'react';
+import { useSearchParams, useNavigate } from 'react-router';
 import { Anchor, Button, InputField, ReturnButton, Modal } from '@components';
 import styles from './SignUp.module.css';
 import { useAuth, useToast } from '@contexts';
@@ -17,9 +17,32 @@ const SignIn = () => {
     const [ password, setPassword ] = useState('');
     const [ confirmPassword, setConfirmPassword ] = useState('');
     const [ formError, setFormError ] = useState('');
+    const [ searchParams ] = useSearchParams();
     const { signUp } = useAuth();
     const { showToast } = useToast();
     const navigate = useNavigate();
+
+    useEffect(() => {
+
+        const handleRedirectErrors = () => {
+
+            const error = searchParams.get('error');
+
+            if (error && error.trim() !== '') {
+                try {
+                    const errorMessage = getErrorMessage(error.toUpperCase());
+                    setFormError(errorMessage);
+                } catch (err) {
+                    console.error('SignUp page handleRedirectErrors function error:', err);
+                    setFormError('An error occurred during sign-up. Please try again.');
+                }
+            }
+
+        };
+        handleRedirectErrors();
+
+    }, [ searchParams ]);
+
     const handlePasswordToggle = () => {
         setShowPassword((prev) => !prev);
     };

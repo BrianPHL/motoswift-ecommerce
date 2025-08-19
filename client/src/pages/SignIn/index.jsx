@@ -1,8 +1,8 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Anchor, Button, InputField, ReturnButton, GoogleLoginButton } from '@components';
+import { useSearchParams, useNavigate } from 'react-router';
 import styles from './SignIn.module.css';
 import { useAuth, useToast } from '@contexts';
-import { useNavigate } from 'react-router';
 import { getErrorMessage } from '@utils';
 
 const SignIn = () => {
@@ -11,9 +11,31 @@ const SignIn = () => {
     const [ email, setEmail ] = useState('');
     const [ password, setPassword ] = useState('');
     const [ formError, setFormError ] = useState('');
+    const [ searchParams ] = useSearchParams();
     const { signIn } = useAuth();
     const { showToast } = useToast();
     const navigate = useNavigate();
+
+    useEffect(() => {
+
+        const handleRedirectErrors = () => {
+
+            const error = searchParams.get('error');
+            
+            if (error && error.trim() !== '') {
+                try {
+                    const errorMessage = getErrorMessage(error.toUpperCase());
+                    setFormError(errorMessage);
+                } catch (err) {
+                    console.error('SignIn page handleRedirectErrors function error: ', err);
+                    setFormError('An error occurred during sign-in. Please try again.');
+                }
+            }
+
+        };
+        handleRedirectErrors();
+
+    }, [ searchParams ]);
 
     const handlePasswordToggle = () =>
         setShowPassword((prev) => !prev);
@@ -100,8 +122,7 @@ const SignIn = () => {
                             action={ handleSignIn }
                             disabled={ !email || !password }
                         />
-                        or
-                        <GoogleLoginButton />
+                        <p>or</p>
                         <GoogleLoginButton callbackURL='http://localhost:5173/sign-in' />
                         <p>Don't have an account yet? <Anchor label="Sign up" link="/sign-up" isNested={ false }/></p>
                     </div>

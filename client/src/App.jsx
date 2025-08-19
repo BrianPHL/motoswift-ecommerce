@@ -47,13 +47,13 @@ const App = () => {
     			<Route path="/parts-and-accessories" element={ <PartsAndAccessoriesStore /> } />
     			<Route path="/parts-and-accessories/:product_id" element={ <PartsAndAccessoriesProductPage /> } />		
 
-				<Route path="/sign-in" element={
+				<Route path="/sign-in/*" element={
 					<ProtectedRoute>
 						<SignIn />
 					</ProtectedRoute>
 				} />
 
-				<Route path="/sign-up" element={
+				<Route path="/sign-up/*" element={
 					<ProtectedRoute>
 						<SignUp />
 					</ProtectedRoute>
