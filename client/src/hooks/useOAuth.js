@@ -15,11 +15,11 @@ const useOAuth = () => {
 
     return {
         authClient,
-        signInThruGoogleSSO: (callbackURL = 'http://localhost:5173/') => {
+        signInThruGoogleSSO: async (callbackURL = 'http://localhost:5173') => {
             
-            const result = authClient.signIn.social({
+            const result = await authClient.signIn.social({
                 provider: 'google',
-                callbackURL
+                callbackURL: callbackURL,
             });
             
             return result;

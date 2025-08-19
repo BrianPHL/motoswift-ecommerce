@@ -19,6 +19,7 @@ export const ERROR_MESSAGES = {
     'EMAIL_NOT_VERIFIED': 'Please verify your email address before signing in.',
     'VERIFICATION_TOKEN_EXPIRED': 'Verification link has expired. Please request a new one.',
     'INVALID_VERIFICATION_TOKEN': 'Invalid verification link. Please request a new one.',
+    'SIGNUP_DISABLED': 'No account associated with the email used in Social Sign-On. Please sign up and try again.',
     
     // Better Auth Session Error Codes
     'SESSION_NOT_FOUND': 'Your session has expired. Please sign in again.',
