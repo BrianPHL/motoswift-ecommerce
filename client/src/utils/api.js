@@ -19,7 +19,7 @@ export const performOperationWithTimeout = async (asyncOperationPromise, timeLim
 
 export const fetchWithTimeout = async (url, options = {}, timeout = TIMEOUTS.STANDARD_API) => {
     return performOperationWithTimeout(
-        fetch(url, options),
+        await fetch(url, options),
         timeout
     );
 };

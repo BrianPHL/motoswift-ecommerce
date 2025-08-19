@@ -82,7 +82,7 @@ export const AuthProvider = ({ children }) => {
         try {
 
             const result = await performOperationWithTimeout(
-                signInThruEmail(data),
+                await signInThruEmail(data),
                 TIMEOUTS.AUTH_EXTERNAL
             );
 
