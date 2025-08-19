@@ -7,8 +7,6 @@ import AuthContext from "./context";
 export const AuthProvider = ({ children }) => {
 
     const [ user, setUser ] = useState(null);
-    // ! CRITICAL CRITICAL CRITICAL CRITICAL CRITICAL
-    const [ temporaryUser, setTemporaryUser ] = useState(null); // TODO: Continue this. This was made to alleviate the user already logged in before verifying OTP problem.
     const [ isInitializing, setIsInitializing ] = useState(true);
     const [ isUpdatingAvatar, setIsUpdatingAvatar ] = useState(false);
     const [ isRemovingAvatar, setIsRemovingAvatar ] = useState(false);
