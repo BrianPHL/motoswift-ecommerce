@@ -158,8 +158,7 @@ export const AuthProvider = ({ children }) => {
                 return { error: errorData };
             }
 
-            setUser(result.data.user);
-            showToast(`Account created successfully! Welcome, ${ result.data.user.name }!`, 'success');
+            showToast(`Account created successfully! You may now sign in.`, 'success');
             
             return result;
         
