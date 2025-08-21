@@ -23,10 +23,14 @@ const OTPModal = ({ isOpen, onClose }) => {
     }, [isOpen]);
 
     useEffect(() => {
-        if (isOpen && inputRef.current) {
-            setTimeout(() => inputRef.current.focus(), 100);
+        if (isOpen && !otpModalData.loading && inputRef.current) {
+            const timeoutId = setTimeout(() => {
+                inputRef.current?.focus();
+            }, 100);
+            
+            return () => clearTimeout(timeoutId);
         }
-    }, [isOpen]);
+    }, [isOpen, otpModalData.loading]);
 
     const handleInput = (e) => {
         let value = e.target.value.replace(/[^0-9]/g, "").slice(0, 6);
@@ -155,8 +159,12 @@ const OTPModal = ({ isOpen, onClose }) => {
                     </p>
                 )}
                 <div
-                    className={styles.otpBoxes}
-                    onClick={() => inputRef.current?.focus()}
+                    className={ styles.otpBoxes }
+                    onClick={ () => {
+                        if (inputRef.current && !loading) {
+                            inputRef.current.focus();
+                        }
+                    }}
                 >
                     { Array.from({ length: 6 }).map((_, i) => (
                         <span key={ i } className={ styles.otpBox }>
