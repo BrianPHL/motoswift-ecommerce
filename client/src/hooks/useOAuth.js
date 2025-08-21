@@ -55,7 +55,7 @@ const useOAuth = () => {
         },
         sendVerificationOTP: async (email, type) => {
             
-            const result = authClient.emailOtp.sendVerificationOtp({
+            const result = await authClient.emailOtp.sendVerificationOtp({
                 email: email,
                 type: type
             });

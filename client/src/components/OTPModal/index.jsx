@@ -9,9 +9,9 @@ const OTPModal = ({ isOpen, onClose }) => {
     const { otpModalData, hideOTP, handleOTPSuccess } = useAuth();
     const { sendVerificationOTP, verifyEmailOTP } = useOAuth();
     
-    const [otp, setOtp] = useState("");
-    const [loading, setLoading] = useState(false);
-    const [message, setMessage] = useState("");
+    const [ otp, setOtp ] = useState("");
+    const [ loading, setLoading ] = useState(false);
+    const [ message, setMessage ] = useState("");
     const inputRef = useRef(null);
 
     useEffect(() => {
@@ -33,21 +33,21 @@ const OTPModal = ({ isOpen, onClose }) => {
         setOtp(value);
         setMessage("");
 
-        // Auto-verify on paste
         if (value.length === 6 && e.nativeEvent.inputType === "insertFromPaste") {
             handleVerify(value);
         }
     };
 
     const sendOTP = async () => {
-        if (!otpModalData?.email) return;
+
+        if (!otpModalData?.data?.email) return;
         
         setLoading(true);
         setMessage("");
         
         try {
             
-            const result = await sendVerificationOTP(otpModalData.email, otpModalData.type);
+            const result = await sendVerificationOTP(otpModalData?.data?.email, otpModalData?.data?.type);
             
             if (result.error) {
                 setMessage('Failed to send verification code');
@@ -55,7 +55,7 @@ const OTPModal = ({ isOpen, onClose }) => {
                 setMessage('Verification code sent!');
             }
         } catch (err) {
-            console.error('Error sending OTP:', err);
+            console.error('OTPModal component sendOTP function error: ', err);
             setMessage('Error sending verification code');
         } finally {
             setLoading(false);
@@ -68,7 +68,7 @@ const OTPModal = ({ isOpen, onClose }) => {
             return;
         }
 
-        if (!otpModalData?.email) {
+        if (!otpModalData?.data?.email) {
             setMessage('Missing email');
             return;
         }
@@ -77,7 +77,7 @@ const OTPModal = ({ isOpen, onClose }) => {
         setMessage("");
         
         try {
-            const result = await verifyEmailOTP(otpModalData.email, otpValue);
+            const result = await verifyEmailOTP(otpModalData?.data?.email, otpValue);
             
             if (result.error) {
                 setMessage('Invalid verification code');
@@ -87,7 +87,7 @@ const OTPModal = ({ isOpen, onClose }) => {
             }
             
         } catch (err) {
-            console.error('Error verifying OTP:', err);
+            console.error('OTPModal component handleVerify function error: ', err);
             setMessage('Verification failed. Please try again.');
         } finally {
             setLoading(false);
@@ -102,7 +102,7 @@ const OTPModal = ({ isOpen, onClose }) => {
     };
 
     const getTitle = () => {
-        switch (otpModalData?.type) {
+        switch (otpModalData?.data?.type) {
             case 'signin': return 'Email Verification Required';
             case 'signup': return 'Verify Your Email';
             case 'forgot-password': return 'Reset Your Password';
@@ -111,7 +111,7 @@ const OTPModal = ({ isOpen, onClose }) => {
     };
 
     const getDescription = () => {
-        switch (otpModalData?.type) {
+        switch (otpModalData?.data?.type) {
             case 'signin': return 'Enter the 6-digit code sent to your email to sign in';
             case 'signup': return 'Enter the 6-digit code sent to your email to complete registration';
             case 'forgot-password': return 'Enter the 6-digit code sent to your email to reset password';
@@ -119,62 +119,85 @@ const OTPModal = ({ isOpen, onClose }) => {
         }
     };
 
-    return (
-        <Modal label={getTitle()} isOpen={isOpen} onClose={handleClose}>
-            <div className={styles.content}>
-                <h3>{getTitle()}</h3>
-                <p className={styles.description}>{getDescription()}</p>
-                
-                {otpModalData?.email && (
-                    <p className={styles.email}>
-                        Code sent to: <strong>{otpModalData.email}</strong>
+    const LoadingPlaceholder = () => {
+        return (
+            <div className={ styles.loadingContainer }>
+                <div className={ styles.loadingSpinner }></div>
+                <h3>Sending verification code...</h3>
+                <p className={ styles.description }>
+                    Please wait while we send a verification code to your email address.
+                </p>
+                {otpModalData?.data?.email && (
+                    <p className={ styles.email }>
+                        Sending to: <strong>{ otpModalData.data.email }</strong>
                     </p>
                 )}
-                
-                {message && (
-                    <p className={`${styles.message} ${message.includes('sent') ? styles.success : styles.error}`}>
-                        {message}
+            </div>
+        );
+    };
+
+    const OTPInput = () => {
+
+        return (
+            <div className={ styles.content }>
+                <h3>{ getTitle() }</h3>
+                <p className={ styles.description }>{ getDescription() }</p>
+
+                { otpModalData?.data?.email && (
+                    <p className={ styles.email }>
+                        Code sent to: <strong>{ otpModalData.email }</strong>
                     </p>
                 )}
 
+                { message && (
+                    <p className={ `${styles.message } ${ message.includes('sent') ? styles.success : styles.error }`}>
+                        { message }
+                    </p>
+                )}
                 <div
                     className={styles.otpBoxes}
                     onClick={() => inputRef.current?.focus()}
                 >
-                    {Array.from({ length: 6 }).map((_, i) => (
-                        <span key={i} className={styles.otpBox}>
+                    { Array.from({ length: 6 }).map((_, i) => (
+                        <span key={ i } className={ styles.otpBox }>
                             {otp[i] || ""}
                         </span>
                     ))}
                 </div>
-
                 <input
-                    ref={inputRef}
+                    ref={ inputRef }
                     type="text"
                     inputMode="numeric"
                     autoComplete="one-time-code"
-                    maxLength={6}
-                    value={otp}
-                    onInput={handleInput}
-                    className={styles.otpHidden}
-                    disabled={loading}
+                    maxLength={ 6 }
+                    value={ otp }
+                    onInput={ handleInput }
+                    className={ styles.otpHidden }
+                    disabled={ loading }
+                    autoFocus={ !loading }
+                    onChange={ () => {} }
                 />
-
-                <div className={styles.buttons}>
+                <div className={ styles.buttons }>
                     <Button
                         label="Resend Code"
                         type="secondary"
-                        action={sendOTP}
-                        disabled={loading}
+                        action={ sendOTP }
+                        disabled={ loading }
                     />
                     <Button
-                        label={loading ? "Verifying..." : "Verify"}
+                        label={ loading ? "Verifying..." : "Verify" }
                         type="primary"
-                        action={() => handleVerify(otp)}
-                        disabled={otp.length !== 6 || loading}
+                        action={ () => handleVerify(otp) }
+                        disabled={ otp.length !== 6 || loading }
                     />
                 </div>
             </div>
+        );
+    }
+
+    return (
+        <Modal label={ getTitle() } isOpen={ isOpen } onClose={ handleClose }>
+            { otpModalData.loading ? <LoadingPlaceholder /> : <OTPInput /> }
         </Modal>
     );
 };

@@ -13,8 +13,11 @@ export const AuthProvider = ({ children }) => {
     const [ userCount, setUserCount ] = useState(0);
     const [ otpModalData, setOtpModalData ] = useState({
         show: false,
-        type: null, // 'email-verification' || 'sign-in' || 'forget-password'
-        email: null,
+        data: {
+            type: null,
+            email: null,
+        },
+        loading: false,
         onSuccess: null
     });
     const { signOut, getSession, signInThruEmail, signUpThruEmail, sendVerificationOTP } = useOAuth();
@@ -44,26 +47,51 @@ export const AuthProvider = ({ children }) => {
     const showOTP = async (type, email, callback) => {
 
         try {
-            await sendVerificationOTP(email, type);
+
             setOtpModalData({
                 show: true,
-                type: type,
-                email: email,
+                data: {
+                    type: type,
+                    email: email,
+                },
+                loading: true,
                 onSuccess: callback
             });
-        } catch (err) {
-            showToast('Failed to send verification code', 'error');
-        }
 
+            await performOperationWithTimeout(
+                await sendVerificationOTP(email, type),
+                TIMEOUTS.AUTH_EXTERNAL
+            );
+
+            setOtpModalData({
+                show: true,
+                data: {
+                    type: type,
+                    email: email,
+                },
+                loading: false,
+                onSuccess: callback
+            });
+
+        } catch (err) {
+            console.error("Auth context showOTP function error: ", err);
+            showToast('An error occured! Failed to send OTP verification code.', 'error');
+            hideOTP();
+        }
     };
 
     const hideOTP = () => {
+
         setOtpModalData({
             show: false,
-            type: null,
-            email: null,
+            data: {
+                type: null,
+                email: null,
+            },
+            loading: false,
             onSuccess: null
         });
+
     };
 
     const handleOTPSuccess = async (result) => {
