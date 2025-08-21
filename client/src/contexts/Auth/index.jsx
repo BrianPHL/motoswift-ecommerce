@@ -1,4 +1,5 @@
 import { useContext, useEffect, useState } from "react";
+import { useNavigate } from "react-router";
 import { performOperationWithTimeout, apiRequest, extractAccountData, TIMEOUTS } from '@utils';
 import { useOAuth } from "@hooks";
 import { useToast } from "@contexts";
@@ -22,6 +23,7 @@ export const AuthProvider = ({ children }) => {
     });
     const { signOut, getSession, signInThruEmail, signUpThruEmail, sendVerificationOTP } = useOAuth();
     const { showToast } = useToast();
+    const navigate = useNavigate();
 
     useEffect(() => {
 
@@ -107,23 +109,24 @@ export const AuthProvider = ({ children }) => {
 
         try {
 
-            const result = await performOperationWithTimeout(
+            
+            const signInThruEmailResult = await performOperationWithTimeout(
                 await signInThruEmail(data),
                 TIMEOUTS.AUTH_EXTERNAL
             );
-
-            if (result?.error) {
+            
+            if (signInThruEmailResult?.error) {
 
                 const errorData = {
-                    code: result.error?.code,
-                    message: result.error?.message,
-                    details: result.error?.details || "No details provided."
+                    code: signInThruEmailResult.error?.code,
+                    message: signInThruEmailResult.error?.message,
+                    details: signInThruEmailResult.error?.details || "No details provided."
                 };
 
                 if (errorData.code === 'EMAIL_NOT_VERIFIED') {
                     await showOTP('email-verification', data.email, async (result) => {
 
-                        if (result.data.user) 
+                        if (signInThruEmailResult.data.user) 
                             signIn(data);
 
                     });
@@ -134,9 +137,9 @@ export const AuthProvider = ({ children }) => {
 
             }
 
-            completeSignInProcess(data.email);
+            completeSignInProcess();
 
-            return result;
+            return signInThruEmailResult;
 
         } catch (err) {
             console.error('Auth context signIn function error: ', err);
@@ -145,20 +148,27 @@ export const AuthProvider = ({ children }) => {
 
     };
 
-    const completeSignInProcess = async (email) => {
+    const completeSignInProcess = async () => {
 
         try {
 
-            const session = await getSession();
-
-            if (session?.user) {
-
-                setUser(session.user);
-                localStorage.setItem('user', JSON.stringify(session.user));
-                showToast(`Welcome back, ${ session.user.name }!`, 'success');
+            const sessionResult = await performOperationWithTimeout(
+                await getSession(),
+                TIMEOUTS.AUTH_EXTERNAL
+            );
+            const sessionUser = sessionResult?.data?.user;
+            
+            if (sessionUser) {
+                
+                setUser(sessionUser);
+                localStorage.setItem('user', JSON.stringify(sessionUser));
+                showToast(`Welcome back, ${ sessionUser.name }!`, 'success');
+                    
                 return;
 
             }
+
+            console.error("Auth contexts completeSignInProcess error: No session found! Logged in user failed to save!");
 
         } catch (err) {
             console.error('Auth context completeSignInProcess function error: ', err);

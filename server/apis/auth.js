@@ -76,7 +76,7 @@ export const auth = betterAuth({
                 required: false,
             },
             contact_number: {
-                type: "number",
+                type: "string",
                 required: false,
             },
             role: {

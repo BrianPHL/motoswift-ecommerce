@@ -50,6 +50,7 @@ const SignIn = () => {
         setFormError('');
 
         try {
+            
             const result = await signIn({
                 email: email,
                 password: password
@@ -63,7 +64,6 @@ const SignIn = () => {
             } else {
                 setIsLoading(false);
                 setFormError('');
-                navigate('/');
             }
 
         } catch (error) {
