@@ -27,83 +27,119 @@ const PAGE_TITLES = {
 
 const App = () => {
 
-	const { user, otpModalData, handleOTPSuccess, hideOTP } = useAuth();
-	const location = useLocation();	
-	
-	useEffect(() => {
-	  document.title = PAGE_TITLES[location.pathname] || PAGE_TITLES["/"];
-	  window.scrollTo(0, 0);
-	}, [ location.pathname ]);
+    const { user, otpModalData, handleOTPSuccess, hideOTP, loading } = useAuth();
+    const location = useLocation();	
+    
+    useEffect(() => {
+      document.title = PAGE_TITLES[location.pathname] || PAGE_TITLES["/"];
+      window.scrollTo(0, 0);
+    }, [ location.pathname ]);
 
-	return (
-		<>
-    		<Header />
-    		<Routes>
-    			
-				<Route path="/" element={ <Home /> } />
-    			<Route path="/about-us" element={ <AboutUs /> } />
-    			<Route path="/motorcycles" element={ <MotorcyclesStore /> } />
-    			<Route path="/motorcycles/:product_id" element={ <MotorcyclesProductPage /> } />
-    			<Route path="/parts-and-accessories" element={ <PartsAndAccessoriesStore /> } />
-    			<Route path="/parts-and-accessories/:product_id" element={ <PartsAndAccessoriesProductPage /> } />		
+    if (loading)
+        return <div>Loading...</div>;
 
-				<Route path="/sign-in/*" element={
-					<ProtectedRoute>
-						<SignIn />
-					</ProtectedRoute>
-				} />
+    return (
+        <>
+            <Header />
+            <Routes>
 
-				<Route path="/sign-up/*" element={
-					<ProtectedRoute>
-						<SignUp />
-					</ProtectedRoute>
-				} />
+                <Route path="/" element={
+                    <ProtectedRoute>
+                        <Home />
+                    </ProtectedRoute>
+                } />
+                
+                <Route path="/about-us" element={
+                    <ProtectedRoute>
+                        <AboutUs />
+                    </ProtectedRoute>
+                } />
+                
+                <Route path="/motorcycles" element={
+                    <ProtectedRoute>
+                        <MotorcyclesStore />
+                    </ProtectedRoute>
+                } />
+                
+                <Route path="/motorcycles/:product_id" element={
+                    <ProtectedRoute>
+                        <MotorcyclesProductPage />
+                    </ProtectedRoute>
+                } />
+                
+                <Route path="/parts-and-accessories" element={
+                    <ProtectedRoute>
+                        <PartsAndAccessoriesStore />
+                    </ProtectedRoute>
+                } />
+                
+                <Route path="/parts-and-accessories/:product_id" element={
+                    <ProtectedRoute>
+                        <PartsAndAccessoriesProductPage />
+                    </ProtectedRoute>
+                } />
 
-				<Route path="/profile" element={
-					<ProtectedRoute>
-						<Profile />
-					</ProtectedRoute>
-				} />
-				
-				<Route path="/reservations" element={
-					<ProtectedRoute>
-						<Reservations />
-					</ProtectedRoute>
-				} />
+                <Route path="/sign-in/*" element={
+                    <ProtectedRoute>
+                        <SignIn />
+                    </ProtectedRoute>
+                } />
 
-    			<Route path="/cart" element={
-					<ProtectedRoute>
-						<Cart />
-					</ProtectedRoute>
-				} />
+                <Route path="/sign-up/*" element={
+                    <ProtectedRoute>
+                        <SignUp />
+                    </ProtectedRoute>
+                } />
 
-				<Route path="/admin" element={
-					<ProtectedRoute>
-						<AdminLayout />
-					</ProtectedRoute>
-				}>
-					<Route index element={<AdminDashboard />} />
-					<Route path="products" element={<AdminProducts />} />
-					<Route path="reservations" element={<AdminReservations />} />
-					<Route path="stocks" element={<AdminStocks />} />
-					<Route path="installments" element={<AdminInstallments />} />
-				</Route>
+                <Route path="/profile" element={
+                    <ProtectedRoute>
+                        <Profile />
+                    </ProtectedRoute>
+                } />
+                
+                <Route path="/reservations" element={
+                    <ProtectedRoute>
+                        <Reservations />
+                    </ProtectedRoute>
+                } />
 
-				<Route path="*" element={ <NotFound /> } />
+                <Route path="/cart" element={
+                    <ProtectedRoute>
+                        <Cart />
+                    </ProtectedRoute>
+                } />
 
-    		</Routes>
+                <Route path="/admin" element={
+                    <ProtectedRoute>
+                        <AdminLayout />
+                    </ProtectedRoute>
+                }>
+                    <Route index element={<AdminDashboard />} />
+                    <Route path="products" element={<AdminProducts />} />
+                    <Route path="reservations" element={<AdminReservations />} />
+                    <Route path="stocks" element={<AdminStocks />} />
+                    <Route path="installments" element={<AdminInstallments />} />
+                </Route>
+
+                <Route path="*" element={
+                    <ProtectedRoute>
+                        <NotFound />
+                    </ProtectedRoute>
+                } />
+
+            </Routes>
 
             <OTPModal
-				isOpen={ otpModalData.show }
-				onClose={ hideOTP }
-				type={ otpModalData.type }
-				email={ otpModalData.email }
-				onSuccess={ handleOTPSuccess }
+                isOpen={ otpModalData.show }
+                onClose={ hideOTP }
+                type={ otpModalData.type }
+                email={ otpModalData.email }
+                onSuccess={ handleOTPSuccess }
             />
 
-    		<Footer />
-    	</>
-  	);
+            <Footer />
+        </>
+      );
 };
 
 export default App;
