@@ -24,8 +24,8 @@ CREATE TABLE IF NOT EXISTS `reservations` (
   `created_at` timestamp NOT NULL DEFAULT (now()),
   `modified_at` timestamp NOT NULL DEFAULT (now()) ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`) USING BTREE,
-  KEY `reservations_account_id_fkey` (`account_id`),
-  CONSTRAINT `reservations_account_id_fkey` FOREIGN KEY (`account_id`) REFERENCES `oauth_accounts` (`id`)
+  KEY `reservations_accounts_id_fkey` (`account_id`),
+  CONSTRAINT `reservations_accounts_id_fkey` FOREIGN KEY (`account_id`) REFERENCES `accounts` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- Dumping data for table motoswift.reservations: ~0 rows (approximately)

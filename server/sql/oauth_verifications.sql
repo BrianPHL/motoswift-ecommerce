@@ -18,14 +18,14 @@
 CREATE TABLE IF NOT EXISTS `oauth_verifications` (
   `id` int NOT NULL AUTO_INCREMENT,
   `identifier` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `value` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `value` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci,
   `expires_at` timestamp NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT (now()),
   `updated_at` timestamp NOT NULL DEFAULT (now()) ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`) USING BTREE,
   KEY `oauth_verifications_id_index` (`id`),
   KEY `oauth_verifications_expires_at_index` (`expires_at`)
-) ENGINE=InnoDB AUTO_INCREMENT=155 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=207 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- Dumping data for table motoswift.oauth_verifications: ~0 rows (approximately)
 

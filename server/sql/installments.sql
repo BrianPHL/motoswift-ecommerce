@@ -26,10 +26,10 @@ CREATE TABLE IF NOT EXISTS `installments` (
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `processed_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
-  KEY `reservation_id` (`reservation_id`),
-  KEY `admin_id` (`admin_id`),
-  CONSTRAINT `installments_ibfk_1` FOREIGN KEY (`reservation_id`) REFERENCES `reservations` (`id`),
-  CONSTRAINT `installments_ibfk_2` FOREIGN KEY (`admin_id`) REFERENCES `oauth_accounts` (`id`)
+  KEY `installments_reservations_id_fkey` (`reservation_id`),
+  KEY `installments_accounts_id_fkey` (`admin_id`),
+  CONSTRAINT `installments_accounts_id_fkey` FOREIGN KEY (`admin_id`) REFERENCES `accounts` (`id`),
+  CONSTRAINT `installments_reservations_id_fkey` FOREIGN KEY (`reservation_id`) REFERENCES `reservations` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- Dumping data for table motoswift.installments: ~0 rows (approximately)

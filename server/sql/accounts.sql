@@ -32,9 +32,7 @@ CREATE TABLE IF NOT EXISTS `accounts` (
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=50 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Dumping data for table motoswift.accounts: ~1 rows (approximately)
-INSERT INTO `accounts` (`id`, `name`, `first_name`, `last_name`, `role`, `email`, `address`, `contact_number`, `image_url`, `email_verified`, `email_verified_at`, `created_at`, `updated_at`) VALUES
-	(49, 'w w', 'w', 'w', 'customer', 'brianpasco1206@gmail.com', 'w', 'w', NULL, 1, NULL, '2025-08-18 08:05:55', '2025-08-18 16:06:26');
+-- Dumping data for table motoswift.accounts: ~0 rows (approximately)
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;

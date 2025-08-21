@@ -28,8 +28,8 @@ CREATE TABLE IF NOT EXISTS `oauth_sessions` (
   UNIQUE KEY `oauth_sessions_token_unique` (`token`) USING BTREE,
   KEY `oauth_sessions_user_id_fk` (`user_id`) USING BTREE,
   KEY `oauth_sessions_expires_at_index` (`expires_at`),
-  CONSTRAINT `oath_sessions_user_id_fk` FOREIGN KEY (`user_id`) REFERENCES `oauth_users` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=72 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  CONSTRAINT `oauth_sessions_accounts_id_fkey` FOREIGN KEY (`user_id`) REFERENCES `accounts` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=115 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- Dumping data for table motoswift.oauth_sessions: ~0 rows (approximately)
 

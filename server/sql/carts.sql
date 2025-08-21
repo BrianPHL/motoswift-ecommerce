@@ -23,10 +23,10 @@ CREATE TABLE IF NOT EXISTS `carts` (
   `created_at` timestamp NOT NULL DEFAULT (now()),
   `modified_at` timestamp NOT NULL DEFAULT (now()) ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`) USING BTREE,
-  KEY `carts_account_id_fkey` (`account_id`),
-  KEY `carts_product_id_fkey` (`product_id`),
-  CONSTRAINT `carts_account_id_fkey` FOREIGN KEY (`account_id`) REFERENCES `oauth_accounts` (`id`),
-  CONSTRAINT `carts_product_id_fkey` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`)
+  KEY `carts_accounts_id_fkey` (`account_id`),
+  KEY `carts_products_id_fkey` (`product_id`),
+  CONSTRAINT `carts_accounts_id_fkey` FOREIGN KEY (`account_id`) REFERENCES `accounts` (`id`),
+  CONSTRAINT `carts_products_id_fkey` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=51 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- Dumping data for table motoswift.carts: ~0 rows (approximately)

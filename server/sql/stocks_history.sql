@@ -26,10 +26,10 @@ CREATE TABLE IF NOT EXISTS `stocks_history` (
   `admin_id` int NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT (now()),
   PRIMARY KEY (`id`) USING BTREE,
-  KEY `product_id_fkey` (`product_id`),
-  KEY `admin_id_fkey` (`admin_id`),
-  CONSTRAINT `admin_id_fkey` FOREIGN KEY (`admin_id`) REFERENCES `oauth_accounts` (`id`),
-  CONSTRAINT `product_id_fkey` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`)
+  KEY `stocks_history_accounts_id_fkey` (`admin_id`),
+  KEY `stocks_history_products_id_fkey` (`product_id`),
+  CONSTRAINT `stocks_history_accounts_id_fkey` FOREIGN KEY (`admin_id`) REFERENCES `accounts` (`id`),
+  CONSTRAINT `stocks_history_products_id_fkey` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=70 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- Dumping data for table motoswift.stocks_history: ~0 rows (approximately)
